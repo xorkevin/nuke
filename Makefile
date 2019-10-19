@@ -8,5 +8,8 @@ build: clean
 clean:
 	rm -rf dist
 
+dev:
+	npm run build-dev
+
 dev-story:
 	npm run storybook
