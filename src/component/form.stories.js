@@ -1,6 +1,7 @@
 import React, {Fragment, useMemo} from 'react';
 import {Form, Input, useForm, fuzzyFilter} from 'component/form';
-import {emailRegex} from 'utility';
+
+const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]+$/;
 
 export default {title: 'Form'};
 

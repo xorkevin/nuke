@@ -2,7 +2,7 @@ import React, {Fragment} from 'react';
 import Grid from 'component/grid';
 import Card from 'component/card';
 import Button from 'component/button';
-import {mountainPreview, thamesPreview} from 'config';
+import {mountainPreview, thamesPreview} from 'example/config';
 
 export default {title: 'Grid'};
 

@@ -2,7 +2,7 @@ import React, {Fragment} from 'react';
 import Container from 'component/container';
 import Card from 'component/card';
 import Button from 'component/button';
-import {mountainPreview} from 'config';
+import {mountainPreview} from 'example/config';
 
 export default {title: 'Container'};
 

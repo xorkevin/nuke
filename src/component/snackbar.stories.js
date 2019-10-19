@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
 import {Provider} from 'react-redux';
-import store from 'store';
-import {SnackbarContainer, useSnackbarView} from 'service/snackbar';
+import store from 'example/store';
+import {SnackbarContainer, useSnackbarView} from 'component/snackbar';
 import Button from 'component/button';
 
 export default {title: 'Snackbar'};

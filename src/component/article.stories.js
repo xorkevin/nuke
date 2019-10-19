@@ -1,7 +1,7 @@
 import React from 'react';
 import Article from 'component/article';
 import Img from 'component/image';
-import {thamesPreview} from 'config';
+import {thamesPreview} from 'example/config';
 
 export default {title: 'Article'};
 

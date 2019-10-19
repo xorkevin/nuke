@@ -7,3 +7,6 @@ build: clean
 
 clean:
 	rm -rf dist
+
+dev-story:
+	npm run storybook

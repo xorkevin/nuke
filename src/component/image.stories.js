@@ -1,7 +1,7 @@
 import React from 'react';
 import Img from 'component/image';
 import Container from 'component/container';
-import {mountainPreview} from 'config';
+import {mountainPreview} from 'example/config';
 
 export default {title: 'Image'};
 
