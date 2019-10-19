@@ -2,6 +2,9 @@
   "name": "@xorkevin/nuke",
   "version": "0.1.0-0",
   "description": "a reactive ui toolkit",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "main": "dist/nuke.js",
   "scripts": {
     "build": "webpack --mode production --progress --color",
