@@ -6,6 +6,7 @@
     "registry": "https://npm.pkg.github.com/"
   },
   "main": "dist/nuke.js",
+  "sideEffects": false,
   "scripts": {
     "build": "webpack --mode production --progress --color",
     "build-dev": "webpack-dev-server --config webpack.example.config.js --mode development -w --hot --progress --color",
