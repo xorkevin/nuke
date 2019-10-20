@@ -1,4 +1,4 @@
-.PHONY: all build clean dev dev-story
+.PHONY: all build clean dev dev-story publish
 
 all: build
 
@@ -13,3 +13,6 @@ dev:
 
 dev-story:
 	npm run storybook
+
+publish: build
+	npm publish
