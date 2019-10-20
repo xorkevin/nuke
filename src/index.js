@@ -16,6 +16,7 @@ import {ListGroup, ListItem} from 'component/listgroup';
 import MainContent from 'component/maincontent';
 import Menu from 'component/menu';
 import {Navbar, Navitem} from 'component/navbar';
+import {usePaginate} from 'component/paginate';
 import Section from 'component/section';
 import {
   Snackbar,
@@ -56,6 +57,7 @@ export {
   Menu,
   Navbar,
   Navitem,
+  usePaginate,
   Section,
   Snackbar,
   useSnackbarState,
