@@ -2,7 +2,7 @@ $button-color-outline: lighten($color-primary-light, 12.5%);
 $button-color-background: lighten($color-text-dark-4, 42%);
 
 button {
-  padding: $button-padding $button-padding-h;
+  padding: 8px 16px;
   background-color: transparent;
   border: 0;
   border-radius: 4px;
@@ -70,11 +70,11 @@ button {
   }
 
   &.raised {
-    box-shadow: $shadow-button;
+    box-shadow: $shadow-box;
     border: 0;
 
     &:hover {
-      box-shadow: $shadow-button-raised;
+      box-shadow: $shadow-box-raised;
       border: 0;
     }
   }

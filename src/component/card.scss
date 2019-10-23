@@ -1,3 +1,6 @@
+$card-padding: 8px;
+$card-padding-h: 20px;
+
 .card {
   box-shadow: $shadow-box;
   border-radius: 4px;
@@ -74,7 +77,6 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
-      color: $color-primary;
       background-color: $white;
 
       h1,
@@ -199,13 +201,13 @@ body.dark {
 
     & > .title-bar {
       & > .title-inner {
-        background-color: $color-primary-dark;
+        background-color: $background-dark-light;
       }
     }
 
     & > .body,
     & > .bar {
-      background-color: $color-primary-dark;
+      background-color: $background-dark-light;
       color: $color-text-light-2;
     }
 
@@ -213,7 +215,7 @@ body.dark {
       &:before {
         background: linear-gradient(
           transparent calc(100% - 1em),
-          rgba($color-primary-dark, 0.7)
+          rgba($background-dark-light, 0.7)
         );
       }
     }

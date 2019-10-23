@@ -15,8 +15,6 @@ $typography-mono-font: 'Hack', monospace;
 $card-sm-size: 256px !default;
 $card-md-size: $card-sm-size * 1.5 !default;
 $card-lg-size: $card-md-size * 1.5 !default;
-$card-padding: 8px !default;
-$card-padding-h: 20px !default;
 
 // ListGroup //
 $listgroup-sm-size: 256px !default;
@@ -33,11 +31,6 @@ $table-vertical-padding: 8px !default;
 $menu-sm-size: 128px !default;
 $menu-md-size: $menu-sm-size * 1.5 !default;
 $menu-lg-size: $menu-md-size * 1.5 !default;
-
-// Button //
-$button-padding: 8px !default;
-$button-padding-h: $button-padding * 2 !default;
-$button-min-width: 48px !default;
 
 // Hero //
 $hero-sm-size: 512px !default;
