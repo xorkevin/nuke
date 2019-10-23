@@ -4,7 +4,7 @@ import {getCookie, setCookie} from 'utility';
 
 // Actions
 
-const TOGGLE_DARK_MODE = Symbol('TOGGLE_DARK_MODE');
+const SET_DARK_MODE = Symbol('SET_DARK_MODE');
 
 const darkModeCookieName = 'dark_mode';
 const darkModeCookieEnabled = 'enabled';
@@ -43,7 +43,7 @@ const initState = () => {
 
 const DarkMode = (state = initState(), action) => {
   switch (action.type) {
-    case TOGGLE_DARK_MODE:
+    case SET_DARK_MODE:
       return Object.assign({}, state, {
         dark: action.dark,
       });
@@ -60,14 +60,20 @@ const useDarkMode = () => {
   const dispatch = useDispatch();
   const store = useStore();
 
-  const toggle = useCallback(() => {
-    const dark = !store.getState().DarkMode.dark;
-    setDarkMode(dark);
-    dispatch({
-      type: TOGGLE_DARK_MODE,
-      dark,
-    });
-  }, [dispatch, store]);
+  const toggle = useCallback(
+    (next) => {
+      let dark = !store.getState().DarkMode.dark;
+      if (typeof next === 'boolean') {
+        dark = next;
+      }
+      setDarkMode(dark);
+      dispatch({
+        type: SET_DARK_MODE,
+        dark,
+      });
+    },
+    [dispatch, store],
+  );
 
   return [useSelector(selectDarkState), toggle];
 };
