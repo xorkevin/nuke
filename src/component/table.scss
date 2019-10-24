@@ -1,5 +1,5 @@
 table {
-  width: 512px;
+  width: $table-width;
   padding: 8px;
 
   &.full-width {
@@ -11,15 +11,15 @@ table {
       border-bottom: 2px solid $color-text-dark-4;
 
       & > th {
-        padding: $table-vertical-padding $table-gutter-padding;
+        padding: $table-padding $table-padding-h;
         text-align: left;
         font-weight: 700;
 
         &:first-child {
-          padding-left: $table-gutter-padding + 8px;
+          padding-left: $table-padding-h + 8px;
         }
         &:last-child {
-          padding-right: $table-gutter-padding + 8px;
+          padding-right: $table-padding-h + 8px;
         }
       }
     }
@@ -30,17 +30,17 @@ table {
       transition: $transition-fast;
 
       &:hover {
-        background-color: $color-primary-transparent;
+        background-color: $color-back-base-light-4;
       }
 
       & > td {
-        padding: $table-vertical-padding $table-gutter-padding;
+        padding: $table-padding $table-padding-h;
 
         &:first-child {
-          padding-left: $table-gutter-padding + 8px;
+          padding-left: $table-padding-h + 8px;
         }
         &:last-child {
-          padding-right: $table-gutter-padding + 8px;
+          padding-right: $table-padding-h + 8px;
         }
       }
     }
@@ -58,7 +58,7 @@ body.dark {
     & > tbody {
       & > tr {
         &:hover {
-          background-color: $color-primary-light-transparent;
+          background-color: $color-back-base-light-4;
         }
       }
     }

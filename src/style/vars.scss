@@ -36,6 +36,11 @@ $grid-lg-breakpoint: $grid-md-breakpoint * 1.5 !default;
 $grid-gutter-padding: 8px !default;
 $grid-vertical-padding: 8px !default;
 
+// Image //
+$image-sm-size: 512px !default;
+$image-md-size: $image-sm-size * 1.5 !default;
+$image-lg-size: $image-md-size * 1.5 !default;
+
 // ListGroup //
 $listgroup-sm-size: 256px !default;
 $listgroup-md-size: $listgroup-sm-size * 1.5 !default;
@@ -61,13 +66,9 @@ $tab-height: 32px !default;
 $tab-margin: 16px !default;
 
 // Table //
-$table-gutter-padding: 8px !default;
-$table-vertical-padding: 8px !default;
-
-// Hero //
-$hero-sm-size: 512px !default;
-$hero-md-size: $hero-sm-size * 1.5 !default;
-$hero-lg-size: $hero-md-size * 1.5 !default;
+$table-width: 512px !default;
+$table-padding: 8px !default;
+$table-padding-h: 8px !default;
 
 // Transitions //
 $transition-normal: 0.125s cubic-bezier(0.4, 0, 0.2, 1);

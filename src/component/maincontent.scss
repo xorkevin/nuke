@@ -9,7 +9,7 @@ main {
   }
 
   @media (max-width: $grid-sm-breakpoint - 1) {
-    min-height: $hero-lg-size * 2 / 3;
+    min-height: $image-lg-size * 2 / 3;
   }
 
   &.with-sidebar {

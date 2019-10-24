@@ -64,22 +64,22 @@
   }
 
   &.sm {
-    height: $hero-sm-size * 2 / 3;
+    height: $image-sm-size * 2 / 3;
   }
 
   &.md {
-    height: $hero-md-size * 2 / 3;
+    height: $image-md-size * 2 / 3;
   }
 
   &.lg {
-    height: $hero-lg-size * 2 / 3;
+    height: $image-lg-size * 2 / 3;
   }
 
   &.full {
     height: 100vh;
 
     @media (max-width: $grid-sm-breakpoint - 1) {
-      height: $hero-lg-size * 2 / 3;
+      height: $image-lg-size * 2 / 3;
     }
   }
 
@@ -96,6 +96,7 @@
   &.light {
     & > .inner > .children {
       color: $color-text-dark-1;
+      text-shadow: none;
     }
   }
 
@@ -110,7 +111,16 @@ body.dark {
   .img {
     &.light {
       & > .inner > .children {
-        color: $color-text-light-1;
+        color: $color-text-dark-1;
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+          color: $color-text-dark-1;
+        }
       }
     }
   }
