@@ -56,28 +56,24 @@ $card-padding-h: 20px;
       h4,
       h5,
       h6 {
-        font-weight: 300;
+        font-weight: 400;
         text-shadow: $shadow-text;
         margin: 0;
       }
 
       button {
         color: $color-text-light-1;
-        margin-top: 0.5rem;
-        margin-bottom: 0.5rem;
       }
     }
   }
 
   & > .title-bar {
-    letter-spacing: 1px;
-
     & > .title-inner {
       padding: $card-padding $card-padding-h;
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
-      background-color: $white;
+      background-color: $color-back-light-1;
 
       h1,
       h2,
@@ -98,7 +94,7 @@ $card-padding-h: 20px;
   & > .body,
   & > .bar {
     padding: $card-padding $card-padding-h;
-    background-color: $white;
+    background-color: $color-back-light-1;
     color: $color-text-dark-1-5;
   }
 
@@ -116,7 +112,7 @@ $card-padding-h: 20px;
       top: 0;
       background: linear-gradient(
         transparent calc(100% - 1em),
-        rgba($white, 0.7)
+        rgba($color-back-light-1, 0.7)
       );
       pointer-events: none;
     }
@@ -201,13 +197,13 @@ body.dark {
 
     & > .title-bar {
       & > .title-inner {
-        background-color: $background-dark-light;
+        background-color: $color-back-base-dark-1;
       }
     }
 
     & > .body,
     & > .bar {
-      background-color: $background-dark-light;
+      background-color: $color-back-base-dark-1;
       color: $color-text-light-2;
     }
 
@@ -215,7 +211,7 @@ body.dark {
       &:before {
         background: linear-gradient(
           transparent calc(100% - 1em),
-          rgba($background-dark-light, 0.7)
+          rgba($color-back-base-dark-1, 0.7)
         );
       }
     }

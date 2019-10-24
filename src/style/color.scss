@@ -13,6 +13,8 @@ $color-back-light-1: rgba($white, 1) !default;
 $color-back-light-4: rgba($white, 0.08) !default;
 $color-back-dark-4: rgba($black, 0.08) !default;
 
+$color-back-base-dark-1: $color-base-dark !default;
+
 $color-primary: #224a7f !default;
 $color-primary-light: lighten($color-primary, 12.5%) !default;
 $color-primary-dark: #222832 !default;
