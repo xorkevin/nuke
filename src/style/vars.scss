@@ -1,8 +1,8 @@
 // Typography //
-$typography-base-font: 'Lato', Arial, Verdana, sans-serif;
+$typography-base-font: 'Lato', Arial, Verdana, sans-serif !default;
 $typography-base-size: 14px !default;
-$typography-article-font: 'Source Serif Pro', Palatino, Georgia, serif;
-$typography-mono-font: 'Hack', monospace;
+$typography-article-font: 'Source Serif Pro', Palatino, Georgia, serif !default;
+$typography-mono-font: 'Hack', monospace !default;
 
 // Button //
 $button-min-width: 96px !default;
@@ -71,6 +71,6 @@ $table-padding: 8px !default;
 $table-padding-h: 8px !default;
 
 // Transitions //
-$transition-normal: 0.125s cubic-bezier(0.4, 0, 0.2, 1);
-$transition-fast: 0.0625s cubic-bezier(0.4, 0, 0.2, 1);
-$transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+$transition-normal: 0.125s cubic-bezier(0.4, 0, 0.2, 1) !default;
+$transition-fast: 0.0625s cubic-bezier(0.4, 0, 0.2, 1) !default;
+$transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1) !default;
