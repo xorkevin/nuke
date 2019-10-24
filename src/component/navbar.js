@@ -54,12 +54,7 @@ const scrollTo = (element) => {
   });
 };
 
-const Navitem = ({home, scroll, children}) => {
-  const className = ['item'];
-  if (home) {
-    className.push('nav-home');
-  }
-
+const Navitem = ({scroll, children}) => {
   const onClickHandler = useMemo(() => {
     if (scroll) {
       return () => {
@@ -70,13 +65,21 @@ const Navitem = ({home, scroll, children}) => {
   }, [scroll]);
 
   return (
-    <div className={className.join(' ')} onClick={onClickHandler}>
+    <div className="item" onClick={onClickHandler}>
       {children}
     </div>
   );
 };
 
-const Navbar = ({sidebar, left, right, hideOnScroll, styletop, children}) => {
+const Navbar = ({
+  sidebar,
+  left,
+  right,
+  hideOnScroll,
+  styletop,
+  accent,
+  children,
+}) => {
   const [top, setTop] = useState(false);
   const [hidden, setHidden] = useState(false);
 
@@ -150,6 +153,9 @@ const Navbar = ({sidebar, left, right, hideOnScroll, styletop, children}) => {
   }
   if (styletop && top) {
     k.push('top');
+  }
+  if (accent) {
+    k.push('accent');
   }
 
   return (

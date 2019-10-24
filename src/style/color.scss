@@ -2,6 +2,8 @@
 $black: #000000;
 $white: #ffffff;
 
+$color-body-background: #fdfdfd !default;
+
 $color-base: #224a7f !default;
 
 $color-base-light: lighten($color-base, 12.5%) !default;
@@ -14,6 +16,7 @@ $color-accent-light: lighten($color-accent, 12.5%) !default;
 $color-back-light-1: rgba($white, 1) !default;
 $color-back-light-3: rgba($white, 0.12) !default;
 $color-back-light-4: rgba($white, 0.08) !default;
+$color-back-light-transparent: rgba($white, 0) !default;
 
 $color-back-dark-1: rgba($black, 0.87) !default;
 $color-back-dark-3: rgba($black, 0.12) !default;

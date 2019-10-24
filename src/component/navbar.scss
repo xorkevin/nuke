@@ -18,14 +18,17 @@ nav,
   text-transform: uppercase;
   box-shadow: $shadow-box-2;
   z-index: 64;
-  border-top: 4px solid $color-primary;
+
+  &.accent {
+    border-top: 4px solid $color-base;
+  }
 
   &.hidden {
     transform: translateY(-100%);
   }
 
   &.top {
-    background-color: $background-full-transparent;
+    background-color: $color-back-light-transparent;
     box-shadow: none;
 
     & > .nav-container > .container > .element > .item {
@@ -74,17 +77,17 @@ nav,
             padding: 16px;
 
             &.active {
-              color: saturate($color-primary, 12%);
+              color: $color-base;
             }
           }
 
           &:hover {
-            color: saturate($color-primary, 12%);
+            color: $color-base;
             cursor: pointer;
           }
 
           &:active {
-            color: saturate($color-primary, 12%);
+            color: $color-base;
           }
         }
       }
@@ -113,7 +116,7 @@ nav,
           width: 100%;
 
           & > .item {
-            height: $nav-width * 7 / 8;
+            height: $nav-width;
             width: 100%;
 
             & > * {
@@ -123,15 +126,6 @@ nav,
 
             .fa {
               font-size: 1.5rem;
-            }
-
-            &.nav-home {
-              color: $color-text-light-1;
-              background-color: $color-primary;
-
-              & > .active {
-                color: $color-text-light-1;
-              }
             }
           }
         }
@@ -143,25 +137,25 @@ nav,
 body.dark {
   nav,
   .nav {
-    background-color: $color-primary-dark;
+    background-color: $color-back-base-dark-2;
     border-color: $color-accent;
 
     &.top {
-      background-color: $background-dark-transparent;
+      background-color: $color-back-base-dark-4;
 
       & > .nav-container > .container > .element > .item {
         & > * {
           &.active {
-            background-color: $background-dark-transparent;
+            background-color: $color-back-base-dark-4;
           }
         }
 
         &:hover {
-          background-color: $background-dark-transparent;
+          background-color: $color-back-base-dark-4;
         }
 
         &:active {
-          background-color: $background-dark-transparent;
+          background-color: $color-back-base-dark-4;
         }
       }
     }
@@ -172,27 +166,18 @@ body.dark {
       & > * {
         &.active {
           color: $color-text-light-1;
-          background-color: darken($color-primary-dark, 6.25%);
+          background-color: darken($color-back-base-dark-4, 12.5%);
         }
       }
 
       &:hover {
         color: $color-text-light-1;
-        background-color: darken($color-primary-dark, 6.25%);
+        background-color: darken($color-back-base-dark-4, 12.5%);
       }
 
       &:active {
         color: $color-text-light-1;
-        background-color: darken($color-primary-dark, 6.25%);
-      }
-    }
-
-    &.sidebar > .nav-container > .container > .element > .item.nav-home {
-      color: $color-accent;
-      background-color: unset;
-
-      & > .active {
-        color: $color-accent;
+        background-color: darken($color-back-base-dark-4, 12.5%);
       }
     }
   }

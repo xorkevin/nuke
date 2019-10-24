@@ -6,7 +6,7 @@
   width: 100%;
   left: 0;
   bottom: 0;
-  padding: 16px;
+  padding: $snackbar-padding;
   z-index: 128;
   transition: $transition-normal;
   pointer-events: none;
@@ -23,16 +23,8 @@
     max-width: 100%;
     padding: 16px;
     border-radius: 4px;
-    background-color: $color-grey-900;
+    background-color: $color-back-dark-1;
     color: $color-text-light-1-5;
     pointer-events: auto;
-  }
-}
-
-body.dark {
-  .snackbar {
-    .inner {
-      background-color: $color-grey-800;
-    }
   }
 }

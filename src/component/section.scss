@@ -1,5 +1,5 @@
 section {
-  margin: 64px auto;
+  margin: $section-margin auto;
 
   & > .section-header,
   & > .container > .section-header {
@@ -21,7 +21,7 @@ section {
       & > * {
         margin: 0;
         padding: 0 16px;
-        background-color: $background;
+        background-color: $color-body-background;
         display: inline-block;
         position: relative;
         z-index: 1;
@@ -50,7 +50,7 @@ section {
       & > .section-header,
       & > .container > .section-header {
         & > * {
-          background-color: $white;
+          background-color: $color-back-light-1;
         }
       }
     }
@@ -68,7 +68,7 @@ body.dark {
       & > .section-header,
       & > .container > .section-header {
         & > * {
-          background-color: $background-dark;
+          background-color: $color-back-base-dark-1;
         }
 
         &:before {
@@ -84,7 +84,7 @@ body.dark {
         & > .section-header,
         & > .container > .section-header {
           & > * {
-            background-color: $color-primary-dark;
+            background-color: $color-back-base-dark-2;
           }
         }
       }

@@ -53,6 +53,53 @@ export const plain = () => (
   />
 );
 
+export const accent = () => (
+  <Navbar
+    hideOnScroll
+    accent
+    left={
+      <Fragment>
+        <Navitem>
+          <div>Home</div>
+        </Navitem>
+        <Navitem>
+          <div>Typography</div>
+        </Navitem>
+        <Navitem>
+          <div>Form</div>
+        </Navitem>
+        <Navitem>
+          <div>Cards</div>
+        </Navitem>
+      </Fragment>
+    }
+    right={
+      <Fragment>
+        <Navitem>
+          <Menu
+            icon={
+              <Fragment>
+                <FaIcon icon="cog" /> Settings
+              </Fragment>
+            }
+            size="md"
+            fixed
+            align="right"
+            position="bottom"
+          >
+            <span>
+              <FaIcon icon="bolt" /> Dark Mode
+            </span>
+            <Anchor ext href="https://github.com/xorkevin">
+              <FaIcon icon="github" /> xorkevin
+            </Anchor>
+          </Menu>
+        </Navitem>
+      </Fragment>
+    }
+  />
+);
+
 export const transparent = () => (
   <Navbar
     hideOnScroll
@@ -105,7 +152,7 @@ export const sidebar = () => (
     sidebar
     left={
       <Fragment>
-        <Navitem home>
+        <Navitem>
           <div>
             <FaIcon icon="home" />
             <small>Home</small>

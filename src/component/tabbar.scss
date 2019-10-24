@@ -9,7 +9,7 @@
   border-bottom: 1px solid $color-text-dark-4;
   width: 100%;
   height: $tab-height;
-  margin-bottom: 16px;
+  margin-bottom: $tab-margin;
 
   & > .container {
     height: 100%;
@@ -39,19 +39,19 @@
         border-bottom: 2px solid transparent;
 
         &.active {
-          color: saturate($color-primary, 12%);
-          border-color: saturate($color-primary, 12%);
+          color: $color-base;
+          border-color: $color-base;
         }
 
         &:hover {
-          color: saturate($color-primary, 12%);
+          color: $color-base-light;
           cursor: pointer;
-          border-color: saturate($color-primary, 12%);
+          border-color: $color-base-light;
         }
 
         &:active {
-          color: saturate($color-primary, 12%);
-          border-color: saturate($color-primary, 12%);
+          color: $color-base;
+          border-color: $color-base;
         }
       }
 

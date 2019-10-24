@@ -36,7 +36,7 @@ const App = () => {
         styletop={styletoppaths.has(pathname)}
         left={
           <Fragment>
-            <Navitem home scroll>
+            <Navitem scroll>
               <NavLink exact to="/">
                 Home
               </NavLink>

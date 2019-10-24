@@ -11,6 +11,7 @@ const Card = ({
   preview,
   imgHeight,
   imgWidth,
+  accent,
   titleBar,
   title,
   children,
@@ -45,6 +46,9 @@ const Card = ({
   let titleclass = 'title';
   if (titleBar) {
     titleclass = 'title-bar';
+  }
+
+  if (accent) {
     k.push('accent');
   }
 

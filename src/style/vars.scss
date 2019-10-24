@@ -46,6 +46,20 @@ $menu-sm-size: 128px !default;
 $menu-md-size: $menu-sm-size * 1.5 !default;
 $menu-lg-size: $menu-md-size * 1.5 !default;
 
+// Nav //
+$nav-height: 64px !default;
+$nav-width: 64px !default;
+
+// Section //
+$section-margin: $nav-height !default;
+
+// Snackbar //
+$snackbar-padding: 16px !default;
+
+// Tab //
+$tab-height: 32px !default;
+$tab-margin: 16px !default;
+
 // Table //
 $table-gutter-padding: 8px !default;
 $table-vertical-padding: 8px !default;
@@ -54,13 +68,6 @@ $table-vertical-padding: 8px !default;
 $hero-sm-size: 512px !default;
 $hero-md-size: $hero-sm-size * 1.5 !default;
 $hero-lg-size: $hero-md-size * 1.5 !default;
-
-// Nav //
-$nav-height: 64px !default;
-$nav-width: 64px !default;
-
-// Tab //
-$tab-height: 32px !default;
 
 // Transitions //
 $transition-normal: 0.125s cubic-bezier(0.4, 0, 0.2, 1);

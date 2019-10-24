@@ -1,4 +1,5 @@
 import React, {Fragment} from 'react';
+import Section from 'component/section';
 import Card from 'component/card';
 import Button from 'component/button';
 import FaIcon from 'component/faicon';
@@ -23,13 +24,15 @@ export const plain = () => (
     }
     bar={<Button>View</Button>}
   >
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer fringilla
-      aliquet condimentum. Nunc facilisis orci dui, sit amet dictum massa porta
-      at. Mauris augue nisi, scelerisque ac suscipit sit amet, egestas ut risus.
-      In hac habitasse platea dictumst. Vivamus nibh enim, dignissim quis
-      consequat at, sagittis in magna.
-    </p>
+    <Section subsection sectionTitle="Hello, World">
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
+        fringilla aliquet condimentum. Nunc facilisis orci dui, sit amet dictum
+        massa porta at. Mauris augue nisi, scelerisque ac suscipit sit amet,
+        egestas ut risus. In hac habitasse platea dictumst. Vivamus nibh enim,
+        dignissim quis consequat at, sagittis in magna.
+      </p>
+    </Section>
   </Card>
 );
 
@@ -108,6 +111,30 @@ export const textTitle = () => (
   <Card
     size="md"
     restrictWidth
+    titleBar
+    title={
+      <Fragment>
+        <h3>Vivamus nibh enim</h3>
+        <Button label="favorite">
+          <FaIcon icon="heart" />
+        </Button>
+      </Fragment>
+    }
+    bar={<Button>Share</Button>}
+  >
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer fringilla
+    aliquet condimentum. Nunc facilisis orci dui, sit amet dictum massa porta
+    at. Mauris augue nisi, scelerisque ac suscipit sit amet, egestas ut risus.
+    In hac habitasse platea dictumst. Vivamus nibh enim, dignissim quis
+    consequat at, sagittis in magna.
+  </Card>
+);
+
+export const accent = () => (
+  <Card
+    size="md"
+    restrictWidth
+    accent
     titleBar
     title={
       <Fragment>
