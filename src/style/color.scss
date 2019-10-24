@@ -5,7 +5,6 @@ $white: #ffffff;
 $color-base: #224a7f !default;
 
 $color-base-light: lighten($color-base, 12.5%) !default;
-$color-base-light-4: rgba(desaturate($color-base, 12.5%), 0.12) !default;
 
 $color-base-dark: #222832 !default;
 
@@ -20,8 +19,12 @@ $color-back-dark-1: rgba($black, 0.87) !default;
 $color-back-dark-3: rgba($black, 0.12) !default;
 $color-back-dark-4: rgba($black, 0.08) !default;
 
-$color-back-base-dark-1: lighten($color-base-dark, 3.125%) !default;
+$color-back-base-light-4: rgba(desaturate($color-base, 12.5%), 0.12) !default;
+
+$color-back-base-dark-1: darken($color-base-dark, 6.25%) !default;
 $color-back-base-dark-2: $color-base-dark !default;
+$color-back-base-dark-3: lighten($color-base-dark, 3.125%) !default;
+$color-back-base-dark-4: rgba($color-back-base-dark-3, 0.5) !default;
 
 $color-primary: #224a7f !default;
 $color-primary-light: lighten($color-primary, 12.5%) !default;

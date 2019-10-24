@@ -8,6 +8,11 @@ $typography-mono-font: 'Hack', monospace;
 $button-min-width: 96px !default;
 $button-margin: 8px !default;
 
+// Card //
+$card-sm-size: 256px !default;
+$card-md-size: $card-sm-size * 1.5 !default;
+$card-lg-size: $card-md-size * 1.5 !default;
+
 // Container //
 $container-padding: 8px !default;
 
@@ -31,26 +36,19 @@ $grid-lg-breakpoint: $grid-md-breakpoint * 1.5 !default;
 $grid-gutter-padding: 8px !default;
 $grid-vertical-padding: 8px !default;
 
-// Card //
-$card-sm-size: 256px !default;
-$card-md-size: $card-sm-size * 1.5 !default;
-$card-lg-size: $card-md-size * 1.5 !default;
-
 // ListGroup //
 $listgroup-sm-size: 256px !default;
 $listgroup-md-size: $listgroup-sm-size * 1.5 !default;
 $listgroup-lg-size: $listgroup-md-size * 1.5 !default;
-$listgroup-padding: 8px !default;
-$listgroup-padding-h: 20px !default;
-
-// Table //
-$table-gutter-padding: 8px !default;
-$table-vertical-padding: 8px !default;
 
 // Menu //
 $menu-sm-size: 128px !default;
 $menu-md-size: $menu-sm-size * 1.5 !default;
 $menu-lg-size: $menu-md-size * 1.5 !default;
+
+// Table //
+$table-gutter-padding: 8px !default;
+$table-vertical-padding: 8px !default;
 
 // Hero //
 $hero-sm-size: 512px !default;
