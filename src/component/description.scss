@@ -2,7 +2,7 @@ dl.description-item {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 4px 0;
+  margin: $description-margin 0;
   width: 100%;
 
   & > * {
@@ -12,13 +12,13 @@ dl.description-item {
 
   & > dt.label {
     display: block;
-    width: 25%;
+    width: $description-label-width;
     text-align: right;
     font-weight: 700;
   }
 
   & > dd.item {
     display: block;
-    width: 75%;
+    width: $description-item-width;
   }
 }

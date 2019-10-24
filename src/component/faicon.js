@@ -1,15 +1,6 @@
 import React from 'react';
 
 const FaIcon = ({border, icon}) => {
-  if (border) {
-    return (
-      <span className="faicon border">
-        <span className="inner">
-          <i className={'fa fa-fw fa-' + icon} />
-        </span>
-      </span>
-    );
-  }
   return <i className={'fa fa-fw fa-' + icon} />;
 };
 

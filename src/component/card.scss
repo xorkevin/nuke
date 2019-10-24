@@ -197,13 +197,13 @@ body.dark {
 
     & > .title-bar {
       & > .title-inner {
-        background-color: $color-back-base-dark-1;
+        background-color: $color-back-base-dark-2;
       }
     }
 
     & > .body,
     & > .bar {
-      background-color: $color-back-base-dark-1;
+      background-color: $color-back-base-dark-2;
       color: $color-text-light-2;
     }
 
@@ -211,7 +211,7 @@ body.dark {
       &:before {
         background: linear-gradient(
           transparent calc(100% - 1em),
-          rgba($color-back-base-dark-1, 0.7)
+          rgba($color-back-base-dark-2, 0.7)
         );
       }
     }

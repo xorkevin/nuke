@@ -8,6 +8,22 @@ $typography-mono-font: 'Hack', monospace;
 $button-min-width: 96px !default;
 $button-margin: 8px !default;
 
+// Container //
+$container-padding: 8px !default;
+
+// Description //
+$description-margin: 4px !default;
+$description-label-width: 25% !default;
+$description-item-width: 75% !default;
+
+// Footer //
+$footer-padding-top: 64px !default;
+$footer-padding-bottom: 128px !default;
+
+// Form //
+$form-input-width: 256px !default;
+$form-input-width-wide: $form-input-width * 2 !default;
+
 // Grid //
 $grid-sm-breakpoint: 512px * 1.5 !default;
 $grid-md-breakpoint: $grid-sm-breakpoint * 1.5 !default;

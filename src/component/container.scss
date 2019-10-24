@@ -3,7 +3,7 @@
   margin: auto;
 
   &.padded {
-    padding: 8px;
+    padding: $container-padding;
   }
 
   @media (min-width: $grid-sm-breakpoint) {

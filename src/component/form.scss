@@ -6,11 +6,11 @@ textarea {
 
 .input {
   position: relative;
-  width: 256px;
+  width: $form-input-width;
   padding: 20px 0;
 
   &.wide {
-    width: 512px;
+    width: $form-input-width-wide;
   }
 
   &.full-width {
@@ -77,7 +77,7 @@ textarea {
     &:focus,
     &:not(:placeholder-shown) {
       & + label {
-        color: $color-primary;
+        color: $color-base;
         font-size: 0.75em;
         top: 4px;
       }
@@ -100,7 +100,7 @@ textarea {
       left: calc(50% - 8px);
       visibility: hidden;
       transition: $transition-normal;
-      background-color: $color-primary;
+      background-color: $color-base;
     }
 
     &:focus + label:after {
@@ -196,7 +196,7 @@ textarea {
       border-radius: 1.5em;
       padding: 2px;
       position: relative;
-      background-color: $color-text-dark-4;
+      background-color: $color-back-dark-4;
       transition: $transition-normal;
 
       &:after {
@@ -208,7 +208,7 @@ textarea {
         position: relative;
         top: 0;
         left: 0;
-        background-color: $white;
+        background-color: $color-back-light-1;
         transition: $transition-normal;
       }
 
@@ -293,7 +293,7 @@ textarea {
     z-index: 1;
     border-radius: 4px;
     font-size: 0.85rem;
-    background-color: $white;
+    background-color: $color-back-light-1;
     box-shadow: $shadow-box;
 
     & > * {
@@ -309,8 +309,8 @@ textarea {
 
       &.selected,
       &:hover {
-        color: $color-primary;
-        background-color: $color-primary-transparent;
+        color: $color-base;
+        background-color: $color-base-light-4;
       }
     }
   }
@@ -392,10 +392,10 @@ body.dark {
 
     &.toggle {
       & > input {
-        background-color: $color-text-light-4;
+        background-color: $color-back-light-4;
 
         &:after {
-          background-color: $white;
+          background-color: $color-text-light-1;
         }
 
         &:checked {
@@ -441,7 +441,7 @@ body.dark {
 
   .input-options {
     & > .options-container {
-      background-color: lighten($color-primary-dark, 6.25%);
+      background-color: $color-back-base-dark-1;
 
       & > * {
         color: $color-text-light-1-5;
@@ -449,7 +449,7 @@ body.dark {
         &.selected,
         &:hover {
           color: $color-accent;
-          background-color: lighten($color-primary-dark, 3.125%);
+          background-color: $color-back-base-dark-2;
         }
       }
     }
