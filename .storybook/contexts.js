@@ -1,14 +1,14 @@
 import 'fork-awesome/css/fork-awesome.min.css';
 import 'main.scss';
 
-import React, {Fragment} from 'react';
+import React, {Fragment, useCallback} from 'react';
 import {Provider} from 'react-redux';
 
 import store from 'example/store';
 import {useDarkMode} from 'component/darkmode';
 import MainContent from 'component/maincontent';
 import Section from 'component/section';
-import Button from 'component/button';
+import {Input} from 'component/form';
 import FaIcon from 'component/faicon';
 import Anchor from 'component/anchor';
 
@@ -22,6 +22,13 @@ const Main = ({children}) => {
 
 const App = ({children}) => {
   const [dark, toggleDark] = useDarkMode();
+  const toggleMode = useCallback(
+    (_name, value) => {
+      toggleDark(value);
+    },
+    [toggleDark],
+  );
+
   return (
     <div>
       <MainContent>
@@ -29,7 +36,13 @@ const App = ({children}) => {
           {children}
         </Section>
       </MainContent>
-      <Button onClick={toggleDark}>{dark ? 'Dark' : 'Light'} Mode</Button>
+      <Input
+        toggle
+        type="checkbox"
+        onChange={toggleDark}
+        value={dark}
+        label={dark ? 'Dark' : 'Light'}
+      />
       <Anchor ext href="https://github.com/xorkevin">
         <FaIcon icon="github" /> xorkevin
       </Anchor>
