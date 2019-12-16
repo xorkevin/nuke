@@ -58,6 +58,7 @@
     "redux-thunk": "^2.3.0",
     "sass-loader": "^8.0.0",
     "terser-webpack-plugin": "^2.3.0",
+    "typeface-merriweather": "0.0.72",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.9.0",

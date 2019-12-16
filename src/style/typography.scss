@@ -31,18 +31,6 @@ body {
     }
   }
 
-  @media (min-width: $grid-sm-breakpoint) and (max-width: $grid-md-breakpoint - 1px) {
-    font-size: $typography-base-size;
-  }
-
-  @media (min-width: $grid-md-breakpoint) and (max-width: $grid-lg-breakpoint - 1px) {
-    font-size: $typography-base-size;
-  }
-
-  @media (min-width: $grid-lg-breakpoint) {
-    font-size: $typography-base-size * 8 / 7;
-  }
-
   h1,
   h2,
   h3,
