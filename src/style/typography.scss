@@ -5,7 +5,7 @@ html,
 body {
   font-size: $typography-base-size;
   font-family: $typography-base-font;
-  line-height: 1.5;
+  line-height: $typography-line-height;
   letter-spacing: normal;
   font-weight: 400;
   color: $color-text-dark-1;

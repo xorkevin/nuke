@@ -52,7 +52,7 @@ article,
 
   p {
     font-family: $typography-article-font;
-    line-height: 1.8;
+    line-height: $typography-article-line-height;
     margin-top: 2rem;
     margin-bottom: 2rem;
   }
