@@ -69,9 +69,12 @@ article,
   ul,
   ol {
     font-family: $typography-article-font;
+    line-height: $typography-article-line-height;
     list-style-position: outside;
     padding-left: 64px;
     padding-right: 32px;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
   }
 
   .title {
