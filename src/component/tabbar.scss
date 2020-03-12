@@ -2,7 +2,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: $transition-normal transform;
   font-family: $typography-base-font;
   font-size: 0.84rem;
   letter-spacing: 1px;
@@ -28,7 +27,7 @@
 
       & > * {
         color: $color-text-dark-2;
-        transition: $transition-normal;
+        transition: color $transition-normal, border-color $transition-normal;
         white-space: nowrap;
         max-width: 100%;
         height: 100%;

@@ -30,7 +30,7 @@
       display: block;
       width: 100%;
       padding: 8px 16px;
-      transition: $transition-normal;
+      transition: background-color $transition-normal, color $transition-normal;
       color: $color-text-dark-1;
       text-decoration: unset;
 
@@ -46,8 +46,8 @@
 
       &:hover {
         cursor: pointer;
-        color: $color-base;
         background-color: $color-back-base-light-4;
+        color: $color-base;
       }
     }
   }

@@ -22,7 +22,7 @@ $tooltip-arrow-border: 8px solid $color-grey-900;
     pointer-events: none;
     opacity: 0;
     visibility: hidden;
-    transition: $transition-normal;
+    transition: opacity $transition-normal;
     z-index: 64;
 
     &:before {

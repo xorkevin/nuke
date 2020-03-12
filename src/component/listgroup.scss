@@ -2,7 +2,7 @@ $listgroup-border: 1px solid $color-text-dark-4;
 .listgroup {
   & > .item {
     width: 100%;
-    transition: $transition-normal;
+    transition: background-color $transition-normal;
     border-left: $listgroup-border;
     border-right: $listgroup-border;
 

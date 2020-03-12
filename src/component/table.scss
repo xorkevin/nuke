@@ -27,7 +27,7 @@ table {
 
   & > tbody {
     & > tr {
-      transition: $transition-fast;
+      transition: background-color $transition-fast;
 
       &:hover {
         background-color: $color-back-base-light-4;

@@ -8,11 +8,11 @@
   bottom: 0;
   padding: $snackbar-padding;
   z-index: 128;
-  transition: $transition-normal;
   pointer-events: none;
 
   &.hidden {
     transform: translateY(100%);
+    transition: transform $transition-normal;
   }
 
   .inner {
