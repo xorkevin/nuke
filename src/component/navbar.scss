@@ -16,6 +16,8 @@ nav,
   text-transform: uppercase;
   box-shadow: $shadow-box-2;
   z-index: 64;
+  transition: transform $transition-normal, background-color $transition-slow,
+    box-shadow $transition-slow;
 
   &.accent {
     border-top: 4px solid $color-base;
@@ -23,13 +25,11 @@ nav,
 
   &.hidden {
     transform: translateY(-100%);
-    transition: transform $transition-normal;
   }
 
   &.top {
     background-color: $color-back-light-transparent;
     box-shadow: none;
-    transition: background-color $transition-slow, box-shadow $transition-slow;
 
     & > .nav-container > .container > .element > .item {
       color: $color-text-dark-1;

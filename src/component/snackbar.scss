@@ -9,10 +9,10 @@
   padding: $snackbar-padding;
   z-index: 128;
   pointer-events: none;
+  transition: transform $transition-normal;
 
   &.hidden {
     transform: translateY(100%);
-    transition: transform $transition-normal;
   }
 
   .inner {
