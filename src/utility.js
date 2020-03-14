@@ -22,28 +22,4 @@ const randomID = (len = 8) => {
   return idarr.join('');
 };
 
-const COOKIE = {
-  prev: false,
-  map: new Map(),
-};
-
-const getCookie = (key) => {
-  const cookies = document.cookie;
-  if (cookies === COOKIE.prev) {
-    return COOKIE.map.get(key);
-  }
-  const map = new Map(
-    cookies.split(';').map((value) => {
-      return value.trim().split('=');
-    }),
-  );
-  COOKIE.prev = cookies;
-  COOKIE.map = map;
-  return map.get(key);
-};
-
-const setCookie = (key, value, path = '/', age = 31536000) => {
-  document.cookie = `${key}=${value};path=${path};max-age=${age}`;
-};
-
-export {formatStr, randomID, getCookie, setCookie};
+export {formatStr, randomID};

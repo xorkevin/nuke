@@ -1,28 +1,36 @@
 import {useCallback} from 'react';
 import {useSelector, useDispatch, useStore} from 'react-redux';
-import {getCookie, setCookie} from 'utility';
 
 // Actions
 
+const darkModeKeyName = 'dark_mode';
+const darkModeValueEnabled = 'enabled';
+const darkModeValueDisabled = 'disabled';
+
+const storeDarkMode = (dark) => {
+  localStorage.setItem(darkModeKeyName, dark);
+};
+
+const retrieveDarkMode = () => {
+  return localStorage.getItem(darkModeKeyName);
+};
+
 const SET_DARK_MODE = Symbol('SET_DARK_MODE');
 
-const darkModeCookieName = 'dark_mode';
-const darkModeCookieEnabled = 'enabled';
-const darkModeCookieDisabled = 'disabled';
 const darkModeClassName = 'dark';
 
 const setDarkMode = (dark) => {
   if (dark) {
-    setCookie(darkModeCookieName, darkModeCookieEnabled);
+    storeDarkMode(darkModeValueEnabled);
     document.body.classList.add(darkModeClassName);
   } else {
-    setCookie(darkModeCookieName, darkModeCookieDisabled);
+    storeDarkMode(darkModeValueDisabled);
     document.body.classList.remove(darkModeClassName);
   }
 };
 
 const checkDarkMode = () => {
-  return getCookie(darkModeCookieName) === darkModeCookieEnabled;
+  return retrieveDarkMode() === darkModeValueEnabled;
 };
 
 // Reducer
