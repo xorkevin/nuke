@@ -1,6 +1,6 @@
 {
   "name": "@xorkevin/nuke",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "a reactive ui toolkit",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
@@ -27,9 +27,9 @@
     "@babel/core": "^7.8.7",
     "@babel/preset-env": "^7.8.7",
     "@babel/preset-react": "^7.8.3",
-    "@storybook/addon-contexts": "^5.3.14",
-    "@storybook/react": "^5.3.14",
-    "@storybook/theming": "^5.3.14",
+    "@storybook/addon-contexts": "^5.3.17",
+    "@storybook/react": "^5.3.17",
+    "@storybook/theming": "^5.3.17",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.0.6",
     "copy-webpack-plugin": "^5.1.1",
