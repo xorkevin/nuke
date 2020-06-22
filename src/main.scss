@@ -3,8 +3,10 @@
 @import 'style/normalize';
 @import 'style/typography';
 
-@import 'component/article';
-@import 'component/button';
+@import 'component/anchor/style';
+@import 'component/article/style';
+@import 'component/button/style';
+/*
 @import 'component/card';
 @import 'component/chip';
 @import 'component/comment';
@@ -23,3 +25,4 @@
 @import 'component/tabbar';
 @import 'component/table';
 @import 'component/tooltip';
+*/

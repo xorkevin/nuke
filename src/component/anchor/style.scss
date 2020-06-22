@@ -1,0 +1,19 @@
+a {
+  color: unset;
+  text-decoration: unset;
+  cursor: pointer;
+}
+
+/* text */
+
+a.text {
+  color: $color-primary-3;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+body.dark a.text {
+  color: $color-accent-light;
+}

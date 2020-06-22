@@ -19,7 +19,6 @@ body {
 }
 
 input:not([type='radio']):not([type='checkbox']),
-button,
 submit {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -52,8 +51,4 @@ table {
 
 .text-unset {
   text-align: unset;
-}
-
-:root {
-  background-color: $color-back-base-dark-1;
 }

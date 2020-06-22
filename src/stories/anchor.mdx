@@ -1,0 +1,31 @@
+import {Meta, Story, Preview} from '@storybook/addon-docs/blocks';
+import Anchor from 'component/anchor';
+import AnchorText from 'component/anchor/text';
+
+<Meta title="Anchor" component={Anchor} />
+
+# Anchor
+
+`Anchor` is used to create links.
+
+<Preview>
+  <Story name="anchor">
+    <Anchor href="#">This is an unstyled link.</Anchor>
+  </Story>
+</Preview>
+
+The `ext` boolean prop may be used for external links.
+
+<Preview>
+  <Story name="anchor ext">
+    <Anchor ext href="https://xorkevin.com">https://xorkevin.com</Anchor>
+  </Story>
+</Preview>
+
+The variant `anchor/text` is used to create styled links for text.
+
+<Preview>
+  <Story name="anchor text">
+    <div>This is a link for <AnchorText href="#">some text</AnchorText>.</div>
+  </Story>
+</Preview>

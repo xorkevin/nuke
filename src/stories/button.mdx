@@ -1,0 +1,53 @@
+import {Meta, Story, Preview} from '@storybook/addon-docs/blocks';
+import {action} from '@storybook/addon-actions';
+import Button from 'component/button';
+import ButtonPrimary from 'component/button/primary';
+import ButtonSecondary from 'component/button/secondary';
+import ButtonTertiary from 'component/button/tertiary';
+
+<Meta title="Button" component={Button} />
+
+# Button
+
+`Button` is used to create buttons.
+
+<Preview>
+  <Story name="button">
+    <Button onClick={action('button-click')}>Click me</Button>
+  </Story>
+</Preview>
+
+`Button` may have a fixed width for consistent UI.
+
+<Preview>
+  <Story name="button fixedwidth">
+    <div>
+      <Button fixedWidth>Click</Button>
+      <Button fixedWidth>me</Button>
+    </div>
+  </Story>
+</Preview>
+
+Use the variant `button/primary` for primary actions.
+
+<Preview>
+  <Story name="button primary">
+    <ButtonPrimary>Click me</ButtonPrimary>
+  </Story>
+</Preview>
+
+Use the variant `button/secondary` for secondary actions.
+
+<Preview>
+  <Story name="button secondary">
+    <ButtonSecondary>Click me</ButtonSecondary>
+  </Story>
+</Preview>
+
+Use the variant `button/tertiary` for tertiary actions.
+
+<Preview>
+  <Story name="button tertiary">
+    <ButtonTertiary>Click me</ButtonTertiary>
+  </Story>
+</Preview>
