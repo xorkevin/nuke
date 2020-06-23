@@ -22,13 +22,13 @@ $color-back-dark-1: rgba($black, 0.87) !default;
 $color-back-dark-2: rgba($black, 0.6) !default;
 $color-back-dark-3: rgba($black, 0.1) !default;
 
-$color-primary: #224a7f !default;
+$color-primary: #0d47a1 !default;
 
 $color-primary-1: lighten($color-primary, 25%) !default;
 $color-primary-2: lighten($color-primary, 12.5%) !default;
 $color-primary-3: $color-primary !default;
 
-$color-primary-dark: #363c44 !default;
+$color-primary-dark: #29313d !default;
 
 $color-primary-dark-1: $color-primary-dark !default;
 $color-primary-dark-2: darken($color-primary-dark, 12.5%) !default;
