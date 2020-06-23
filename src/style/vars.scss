@@ -2,11 +2,13 @@
 $typography-base-font: 'Inter', Roboto, Arial, sans-serif !default;
 $typography-base-size: 14px !default;
 $typography-line-height: 1.5 !default;
-$typography-article-font: 'Merriweather', Georgia, Palatino, serif !default;
-$typography-article-size: 16px !default;
-$typography-article-width: 48rem !default;
-$typography-article-line-height: 2 !default;
 $typography-mono-font: 'Hack', monospace !default;
+
+// Article //
+$article-font: 'Merriweather', Georgia, Palatino, serif !default;
+$article-font-size: 16px !default;
+$article-width: 48rem !default;
+$article-line-height: 2 !default;
 
 // Button //
 $button-min-width: 96px !default;

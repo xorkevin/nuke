@@ -20,6 +20,17 @@ import {thamesPreview} from 'example/config';
   </Story>
 </Preview>
 
+`Img` may be supplied a `height/width` ratio instead of a preview placeholder.
+
+<Preview>
+  <Story name="img ratio">
+    <Img
+      src="/static/thames.jpg"
+      ratio={1080/1920}
+    />
+  </Story>
+</Preview>
+
 `Img` may have children.
 
 <Preview>

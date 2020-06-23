@@ -12,6 +12,8 @@ export const plain = () => (
     author={{
       name: 'Kevin Wang',
       bio: 'Tech evangelist and web dev. Experiences decision fatigue daily.',
+      img: '/static/thames.jpg',
+      imgpreview: thamesPreview,
     }}
     time={Date.now() - 86400000}
     tags={['list', 'of', 'tags']}
@@ -28,58 +30,30 @@ export const plain = () => (
       libero neque vehicula mauris, eu laoreet nunc ligula convallis nulla.
       Aliquam felis elit, fermentum ac felis sagittis, porttitor placerat odio.
     </p>
+    <h2>Consectetur adipiscing elit</h2>
     <p>
       Ut consectetur est lectus, sed maximus libero malesuada ut. Proin aliquet,
       sapien et pretium feugiat, dui diam posuere diam, ut tempor elit purus
       quis metus.
     </p>
     <Img
-      className="outset"
-      imgWidth={1920}
-      imgHeight={1080}
+      className="fullwidth"
+      src="/static/thames.jpg"
       preview={thamesPreview}
-      src="https://xorkevin.github.io/stratosphere/assets/thames.jpg"
     />
+    <Img className="outset" src="/static/thames.jpg" preview={thamesPreview} />
     <div className="caption">Hello, World</div>
-    <Img
-      imgWidth={1920}
-      imgHeight={1080}
-      preview={thamesPreview}
-      src="https://xorkevin.github.io/stratosphere/assets/thames.jpg"
-    />
-    <Img
-      className="inset"
-      imgWidth={1920}
-      imgHeight={1080}
-      preview={thamesPreview}
-      src="https://xorkevin.github.io/stratosphere/assets/thames.jpg"
-    />
+    <Img src="/static/thames.jpg" preview={thamesPreview} />
+    <Img className="inset" src="/static/thames.jpg" preview={thamesPreview} />
     <Img
       className="inset-half"
-      imgWidth={1920}
-      imgHeight={1080}
+      src="/static/thames.jpg"
       preview={thamesPreview}
-      src="https://xorkevin.github.io/stratosphere/assets/thames.jpg"
     />
     <div className="contentrow outset">
-      <Img
-        imgWidth={1920}
-        imgHeight={1080}
-        preview={thamesPreview}
-        src="https://xorkevin.github.io/stratosphere/assets/thames.jpg"
-      />
-      <Img
-        imgWidth={1920}
-        imgHeight={1080}
-        preview={thamesPreview}
-        src="https://xorkevin.github.io/stratosphere/assets/thames.jpg"
-      />
-      <Img
-        imgWidth={1920}
-        imgHeight={1080}
-        preview={thamesPreview}
-        src="https://xorkevin.github.io/stratosphere/assets/thames.jpg"
-      />
+      <Img src="/static/thames.jpg" preview={thamesPreview} />
+      <Img src="/static/thames.jpg" preview={thamesPreview} />
+      <Img src="/static/thames.jpg" preview={thamesPreview} />
     </div>
     <p>
       Nulla facilisi. Phasellus blandit interdum est, in pellentesque nunc
@@ -89,6 +63,21 @@ export const plain = () => (
       non arcu. Suspendisse sodales massa vitae dolor vestibulum, lacinia congue
       enim hendrerit.
     </p>
+    <h2>
+      Integer fringilla <small>small text</small>
+    </h2>
+    <h3>
+      Aliquet condimentum <small>small text</small>
+    </h3>
+    <h4>
+      Nunc facilisis <small>small text</small>
+    </h4>
+    <h5>
+      Orci dui sit amet <small>small text</small>
+    </h5>
+    <h6>
+      Dictum massa porta at <small>small text</small>
+    </h6>
     <pre>
       This is some example preformatted text that is extremely long and might
       take more than one line.
@@ -99,6 +88,12 @@ export const plain = () => (
       gravida fermentum est. Nam non justo accumsan arcu volutpat ullamcorper
       sit amet nec mi.
     </p>
+    <ol>
+      <li>Here is a list</li>
+      <li>of several items</li>
+      <li>to showcase</li>
+      <li>formatting.</li>
+    </ol>
     <p>
       Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
       inceptos himenaeos. Integer a sagittis nibh, sit amet posuere sapien.

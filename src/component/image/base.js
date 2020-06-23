@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useCallback, useRef} from 'react';
 
 const getImg = (src) => {
-  return new Promise(function(resolve, reject) {
+  return new Promise((resolve, reject) => {
     const img = new Image();
     img.onload = () => {
       resolve(img);
@@ -71,7 +71,7 @@ const getImgPercentage = (img) => {
   return (h / w).toFixed(4) * 100 + '%';
 };
 
-const Img = ({className, src, preview, size, dark, light, children}) => {
+const Img = ({className, src, preview, ratio, size, dark, light, children}) => {
   const [imgsrc, setImgsrc] = useState(null);
   const imgref = useRef(null);
   const intersectCb = useCallback(async () => {
@@ -95,15 +95,21 @@ const Img = ({className, src, preview, size, dark, light, children}) => {
     k.push(className);
   }
 
-  const j = {};
   if (img) {
     k.push('loaded');
-    if (!size) {
+  }
+
+  const j = {};
+  if (!size) {
+    if (img) {
       j.paddingBottom = getImgPercentage(img);
-    }
-  } else if (previewImg) {
-    if (!size) {
+    } else if (previewImg) {
       j.paddingBottom = getImgPercentage(previewImg);
+    } else if (ratio) {
+      j.paddingBottom = ratio.toFixed(4) * 100 + '%';
+    } else {
+      // guess a placeholder space
+      j.paddingBottom = '50%';
     }
   }
 

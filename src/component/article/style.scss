@@ -1,5 +1,5 @@
 article {
-  font-size: $typography-article-size;
+  font-size: $article-font-size;
   font-family: $typography-base-font;
   width: 100%;
 
@@ -10,25 +10,22 @@ article {
   }
 
   & > * {
-    max-width: 100%;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    margin-left: auto;
-    margin-right: auto;
-    width: $typography-article-width;
     display: block;
+    margin: $article-font-size auto;
+    width: $article-width;
+    max-width: 100%;
   }
 
   & > *.inset-half {
-    width: 20rem;
+    width: $article-width/2;
   }
 
   & > *.inset {
-    width: 32rem;
+    width: $article-width * 2/3;
   }
 
   & > *.outset {
-    width: 64rem;
+    width: $article-width * 4/3;
   }
 
   & > *.fullwidth {
@@ -36,29 +33,18 @@ article {
   }
 
   .info {
-    font-size: 1rem;
-    color: $color-text-dark-2;
-
-    time {
-      font-size: 0.85rem;
-    }
-
-    &.small,
-    .small {
-      font-size: 0.85rem;
-    }
+    font-size: $article-font-size * 0.875;
   }
 
   p {
-    font-family: $typography-article-font;
-    line-height: $typography-article-line-height;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+    margin: $article-font-size * 2 auto;
+    font-family: $article-font;
+    line-height: $article-line-height;
   }
 
   code,
   pre {
-    font-size: 1rem;
+    font-size: $article-font-size * 0.875;
   }
 
   pre {
@@ -67,29 +53,26 @@ article {
 
   ul,
   ol {
-    font-family: $typography-article-font;
-    line-height: $typography-article-line-height;
+    font-family: $article-font;
+    line-height: $article-line-height;
     list-style-position: outside;
     padding-left: 64px;
     padding-right: 32px;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+    margin: $article-font-size * 2 auto;
   }
 
   .title {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin: $article-font-size * 0.5 auto;
   }
 
   .subtitle {
     color: $color-text-dark-2;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin: $article-font-size * 0.25 auto;
   }
 
   .caption {
-    font-family: $typography-article-font;
-    font-size: 1rem;
+    font-family: $article-font;
+    font-size: $article-font-size * 0.875;
     text-align: center;
   }
 
@@ -116,38 +99,30 @@ article {
   .info,
   pre,
   p {
-    padding-left: 8px;
-    padding-right: 8px;
+    padding: 0 8px;
   }
 
   .author {
-    max-width: 100%;
-    width: 24rem;
     display: flex;
     align-items: center;
+    width: $article-width/2;
+    max-width: 100%;
 
     & > .image {
-      & > img {
-        object-fit: cover;
-        width: 6rem;
-        height: 6rem;
-        padding: 4px;
-      }
-
-      &.round {
-        & > img {
-          border-radius: 50%;
-        }
-      }
+      width: $article-width/8;
+      height: $article-width/8;
+      max-width: 100%;
+      padding: 4px;
+      flex-shrink: 0;
     }
 
     & > .description {
       & > .name {
-        margin-top: 1rem;
-        margin-bottom: 0.5rem;
+        margin-top: $article-font-size * 0.25;
+        margin-bottom: $article-font-size * 0.25;
       }
       & > .bio {
-        font-size: 1rem;
+        font-size: $article-font-size * 0.875;
         padding-left: 8px;
         padding-right: 8px;
       }
@@ -157,10 +132,6 @@ article {
 
 .dark article {
   .subtitle {
-    color: $color-text-light-2;
-  }
-
-  .info {
     color: $color-text-light-2;
   }
 }

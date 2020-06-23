@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useMemo} from 'react';
 import {formatStr} from 'utility';
-import Tooltip from 'component/tooltip';
+import Tooltip from '../tooltip';
 
 const Formatter = () => {
   if (Intl && Intl.DateTimeFormat) {

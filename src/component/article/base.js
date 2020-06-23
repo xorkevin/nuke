@@ -1,6 +1,7 @@
 import React from 'react';
-import Chip from 'component/chip';
-import Time from 'component/time';
+import Chip from '../chip';
+import Time from '../time';
+import ImgCircle from '../image/circle';
 
 const Article = ({title, subtitle, author, time, tags, children}) => {
   return (
@@ -17,9 +18,15 @@ const Article = ({title, subtitle, author, time, tags, children}) => {
       <hr />
       <div>
         <div className="author">
-          <div className="image round">
-            <img src="https://xorkevin.github.io/stratosphere/assets/thames.jpg" />
-          </div>
+          {author.img && (
+            <div className="image">
+              <ImgCircle
+                src={author.img}
+                preview={author.imgpreview}
+                size="fill"
+              />
+            </div>
+          )}
           <div className="description">
             <h4 className="name">{author.name}</h4>
             <div className="bio">{author.bio}</div>
