@@ -1,5 +1,7 @@
 import {Meta, Story, Preview} from '@storybook/addon-docs/blocks';
 import Img from 'component/image';
+import ImgRounded from 'component/image/rounded';
+import ImgCircle from 'component/image/circle';
 import Container from 'component/container';
 import {thamesPreview} from 'example/config';
 
@@ -34,6 +36,15 @@ import {thamesPreview} from 'example/config';
       <Img
         src="/static/thames.jpg"
         preview={thamesPreview}
+        dark
+      >
+        <Container padded>
+          <h2>Thames</h2>
+        </Container>
+      </Img>
+      <Img
+        src="/static/thames.jpg"
+        preview={thamesPreview}
         light
       >
         <Container padded>
@@ -56,6 +67,27 @@ import {thamesPreview} from 'example/config';
       />
       <div style={{height: '256px'}}>
         <Img
+          src="/static/thames.jpg"
+          preview={thamesPreview}
+          size="fill"
+        />
+      </div>
+    </div>
+  </Story>
+</Preview>
+
+The `image/rounded` and `image/circle` variants create rounded and circular
+images respectively.
+
+<Preview>
+  <Story name="img variants">
+    <div>
+      <ImgRounded
+        src="/static/thames.jpg"
+        preview={thamesPreview}
+      />
+      <div style={{width: '256px', height: '256px'}}>
+        <ImgCircle
           src="/static/thames.jpg"
           preview={thamesPreview}
           size="fill"

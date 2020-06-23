@@ -38,7 +38,6 @@
       width: 100%;
       z-index: 2;
       overflow: hidden;
-      color: $color-text-light-1;
     }
   }
 
@@ -63,19 +62,23 @@
     height: 100%;
   }
 
-  &.light > .inner > .children {
+  &.light {
     color: $color-text-dark-1;
+  }
+
+  &.dark {
+    color: $color-text-light-1;
   }
 }
 
 /* rounded */
 
-img.rounded {
+.img.rounded {
   border-radius: 4px;
 }
 
 /* circle */
 
-img.circle {
+.img.circle {
   border-radius: 50%;
 }
