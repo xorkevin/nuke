@@ -1,40 +1,50 @@
-import React, {Fragment} from 'react';
-import Section from 'component/section';
+import {Meta, Story, Preview} from '@storybook/addon-docs/blocks';
 import Card from 'component/card';
+import Container from 'component/container';
+import Img from 'component/image';
+import Section from 'component/section';
 import Button from 'component/button';
 import FaIcon from 'component/faicon';
 import Description from 'component/description';
-import {mountainPreview} from 'example/config';
+import {thamesPreview} from 'example/config';
 
-export default {title: 'Card'};
+<Meta title="Card" component={Card} />
 
-export const plain = () => (
-  <Card
-    size="md"
-    restrictHeight
-    background="https://xorkevin.github.io/stratosphere/assets/mountain.jpg"
-    preview={mountainPreview}
-    title={
-      <Fragment>
-        <h3>Dolor sit amet</h3>
-        <Button label="favorite">
-          <FaIcon icon="heart" />
-        </Button>
-      </Fragment>
-    }
-    bar={<Button>View</Button>}
-  >
-    <Section subsection sectionTitle="Hello, World">
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
-        fringilla aliquet condimentum. Nunc facilisis orci dui, sit amet dictum
-        massa porta at. Mauris augue nisi, scelerisque ac suscipit sit amet,
-        egestas ut risus. In hac habitasse platea dictumst. Vivamus nibh enim,
-        dignissim quis consequat at, sagittis in magna.
-      </p>
-    </Section>
-  </Card>
-);
+# Card
+
+`Card` is used to display content on an elevated surface.
+
+<Preview>
+  <Story name="card">
+    <Card
+      height="md"
+      restrictHeight
+      title={
+        <Img className="dark" size="fill" src="/static/thames.jpg" preview={thamesPreview}>
+          <Container padded>
+            <h3>Dolor sit amet</h3>
+            <Button label="favorite">
+              <FaIcon icon="heart" />
+            </Button>
+          </Container>
+        </Img>
+      }
+      bar={<Button>View</Button>}
+    >
+      <Container padded>
+        <Section subsection title="Hello, World">
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
+            fringilla aliquet condimentum. Nunc facilisis orci dui, sit amet dictum
+            massa porta at. Mauris augue nisi, scelerisque ac suscipit sit amet,
+            egestas ut risus. In hac habitasse platea dictumst. Vivamus nibh enim,
+            dignissim quis consequat at, sagittis in magna.
+          </p>
+        </Section>
+      </Container>
+    </Card>
+  </Story>
+</Preview>
 
 export const lg = () => (
   <Card

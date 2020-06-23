@@ -1,15 +1,6 @@
 import React from 'react';
-import Container from 'component/container';
 
-const Section = ({
-  id,
-  container,
-  padded,
-  narrow,
-  sectionTitle,
-  subsection,
-  children,
-}) => {
+const Section = ({id, title, subsection, children}) => {
   const k = [];
   let headingClass = 'h1';
   if (subsection) {
@@ -19,22 +10,11 @@ const Section = ({
 
   let titleElement = false;
 
-  if (sectionTitle) {
+  if (title) {
     titleElement = (
       <div className="section-header">
-        {React.createElement(headingClass, {}, sectionTitle)}
+        {React.createElement(headingClass, {}, title)}
       </div>
-    );
-  }
-
-  if (container) {
-    return (
-      <section id={id} className={k.join(' ')}>
-        <Container padded={padded} narrow={narrow}>
-          {titleElement}
-          {children}
-        </Container>
-      </section>
     );
   }
 

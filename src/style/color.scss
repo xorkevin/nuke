@@ -48,10 +48,8 @@ $color-valid-light: #5bc38c !default;
 $color-invalid: #a72222 !default;
 $color-invalid-light: #f15656 !default;
 
-$shadow-box: 0 2px 4px 0 $color-text-dark-3, 0 2px 8px 0 $color-text-dark-3;
-$shadow-box-2: 0 1px 2px 0 $color-text-dark-3, 0 1px 4px 0 $color-text-dark-3;
-$shadow-box-raised: 0 4px 8px 0 lighten($color-text-dark-3, 12.5%),
-  0 4px 16px 0 lighten($color-text-dark-3, 12.5%);
-$shadow-text: 0 2px 16px $color-text-dark-3, 0 2px 8px $color-text-dark-3,
-  0 2px 4px $color-text-dark-3;
-$shadow-box-blur: 0 0 4px -1px $color-text-dark-3, 0 0 8px 0 $color-text-dark-3;
+@mixin shadow-box($dp) {
+  box-shadow: 0 $dp $dp * 1.25 $dp * 0.125 $color-back-dark-3,
+    0 $dp * 0.375 $dp * 1.75 $dp * 0.25 $color-back-dark-3,
+    0 $dp * 0.5 $dp * 0.625 -$dp * 0.375 $color-back-dark-3;
+}

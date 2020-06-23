@@ -71,7 +71,7 @@ const getImgPercentage = (img) => {
   return (h / w).toFixed(4) * 100 + '%';
 };
 
-const Img = ({className, src, preview, ratio, size, dark, light, children}) => {
+const Img = ({className, src, preview, ratio, size, children}) => {
   const [imgsrc, setImgsrc] = useState(null);
   const imgref = useRef(null);
   const intersectCb = useCallback(async () => {
@@ -85,11 +85,6 @@ const Img = ({className, src, preview, ratio, size, dark, light, children}) => {
   if (ImgSizeSet.has(size)) {
     k.push('sized');
     k.push(size);
-  }
-  if (dark) {
-    k.push('dark');
-  } else if (light) {
-    k.push('light');
   }
   if (className) {
     k.push(className);
