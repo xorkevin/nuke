@@ -5,7 +5,6 @@ const Container = ({padded, narrow, children}) => {
   if (padded) {
     k.push('padded');
   }
-
   if (narrow) {
     k.push('narrow');
   }

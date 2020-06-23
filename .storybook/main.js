@@ -1,6 +1,7 @@
 const createCompiler = require('@storybook/addon-docs/mdx-compiler-plugin');
 const path = require('path');
 const ExtractTextPlugin = require('mini-css-extract-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   stories: ['../src/stories/**/*.(js|mdx)'],
@@ -58,6 +59,14 @@ module.exports = {
         },
       ],
     });
+
+    config.plugins.push(
+      new CopyPlugin([
+        {
+          from: 'example/public',
+        },
+      ]),
+    );
 
     return config;
   },

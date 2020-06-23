@@ -4,15 +4,6 @@ $white: #ffffff;
 
 $color-body-background: #fdfdfd !default;
 
-$color-primary: #224a7f !default;
-
-$color-primary-1: lighten($color-primary, 25%) !default;
-$color-primary-2: lighten($color-primary, 12.5%) !default;
-$color-primary-3: $color-primary !default;
-
-$color-accent: #ffb74d !default;
-$color-accent-light: lighten($color-accent, 12.5%) !default;
-
 $color-text-dark-1: rgba($black, 0.87) !default; // primary
 $color-text-dark-1-5: rgba($black, 0.75) !default; // primary
 $color-text-dark-2: rgba($black, 0.54) !default; // secondary
@@ -38,6 +29,16 @@ $color-back-dark-1-5: rgba($black, 0.75) !default;
 $color-back-dark-2: rgba($black, 0.54) !default;
 $color-back-dark-3: rgba($black, 0.12) !default;
 $color-back-dark-4: rgba($black, 0.08) !default;
+
+$color-primary: #224a7f !default;
+
+$color-primary-1: lighten($color-primary, 25%) !default;
+$color-primary-2: lighten($color-primary, 12.5%) !default;
+$color-primary-3: $color-primary !default;
+$color-primary-4: darken($color-primary, 12.5%) !default;
+
+$color-accent: #ffb74d !default;
+$color-accent-light: lighten($color-accent, 12.5%) !default;
 
 //$color-back-base-light-4: rgba(desaturate($color-base, 12.5%), 0.12) !default;
 

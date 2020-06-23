@@ -1,0 +1,31 @@
+import {Meta, Story, Preview} from '@storybook/addon-docs/blocks';
+import Chip from 'component/chip';
+import ChipPrimary from 'component/chip/primary';
+
+<Meta title="Chip" component={Chip} />
+
+# Chip
+
+`Chip` is used to display metadata.
+
+<Preview>
+  <Story name="chip">
+    <div>
+      <Chip>here</Chip>
+      <Chip>are</Chip>
+      <Chip>some chips</Chip>
+    </div>
+  </Story>
+</Preview>
+
+Use the `chip/primary` variant to display important metadata.
+
+<Preview>
+  <Story name="chip primary">
+    <div>
+      <ChipPrimary>here</ChipPrimary>
+      <ChipPrimary>are</ChipPrimary>
+      <ChipPrimary>some chips</ChipPrimary>
+    </div>
+  </Story>
+</Preview>

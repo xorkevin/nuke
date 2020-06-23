@@ -1,0 +1,66 @@
+import {Meta, Story, Preview} from '@storybook/addon-docs/blocks';
+import Img from 'component/image';
+import Container from 'component/container';
+import {thamesPreview} from 'example/config';
+
+<Meta title="Img" component={Img} />
+
+# Img
+
+`Img` is an enhanced `<img />` element with lazy loading.
+
+<Preview>
+  <Story name="img">
+    <Img
+      src="/static/thames.jpg"
+      preview={thamesPreview}
+    />
+  </Story>
+</Preview>
+
+`Img` may have children.
+
+<Preview>
+  <Story name="img children">
+    <div>
+      <Img
+        src="/static/thames.jpg"
+        preview={thamesPreview}
+      >
+        <Container padded>
+          <h2>Thames</h2>
+        </Container>
+      </Img>
+      <Img
+        src="/static/thames.jpg"
+        preview={thamesPreview}
+        light
+      >
+        <Container padded>
+          <h2>Thames</h2>
+        </Container>
+      </Img>
+    </div>
+  </Story>
+</Preview>
+
+`Img` may be sized `full`, or `fill`.
+
+<Preview>
+  <Story name="img size">
+    <div>
+      <Img
+        src="/static/thames.jpg"
+        preview={thamesPreview}
+        size="full"
+      />
+      <div style={{height: '256px'}}>
+        <Img
+          src="/static/thames.jpg"
+          preview={thamesPreview}
+          size="fill"
+        />
+      </div>
+    </div>
+  </Story>
+</Preview>

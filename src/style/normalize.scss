@@ -10,12 +10,6 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background-color: $color-body-background;
-
-  &.dark {
-    background-color: $color-back-base-dark-1;
-    color: $color-text-light-1-5;
-  }
 }
 
 input:not([type='radio']):not([type='checkbox']),

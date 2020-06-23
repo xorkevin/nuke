@@ -8,7 +8,7 @@ export const contexts = [
   {
     icon: 'box',
     title: 'Themes',
-    components: ['body'],
+    components: ['div'],
     params: [
       {name: 'Light', props: {className: 'storybook-view light'}},
       {name: 'Dark', props: {className: 'storybook-view dark'}},

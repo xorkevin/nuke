@@ -1,0 +1,23 @@
+.chip {
+  display: inline-block;
+  padding: 0 0.75em;
+  margin: 0 0.25em;
+  background-color: $color-back-dark-3;
+  border-radius: 0.25em;
+}
+
+.dark .chip {
+  background-color: $color-back-light-3;
+}
+
+/* primary */
+
+.chip.primary {
+  background-color: $color-primary-2;
+  color: $color-text-light-1;
+}
+
+.dark .chip.primary {
+  background-color: $color-primary-2;
+  color: $color-text-light-1;
+}

@@ -1,23 +1,15 @@
-$tooltip-arrow-border: 8px solid $color-grey-900;
+$tooltip-arrow-border: 8px solid $black;
 
-.tooltip-parent {
+.tooltip {
   position: relative;
 
-  &.inline {
-    display: inline-block;
-  }
-
-  &.block {
-    display: block;
-  }
-
-  & > .tooltip {
+  & > .text {
     position: absolute;
-    white-space: nowrap;
-    background-color: $color-grey-900;
-    color: $color-text-light-1;
     padding: 4px 8px;
     border-radius: 4px;
+    white-space: nowrap;
+    background-color: $black;
+    color: $color-text-light-1;
     font-size: 0.75rem;
     pointer-events: none;
     opacity: 0;
@@ -91,19 +83,19 @@ $tooltip-arrow-border: 8px solid $color-grey-900;
   }
 
   &:hover {
-    & > .tooltip {
+    & > .text {
       opacity: 1;
       visibility: visible;
     }
   }
 }
 
-$tooltip-arrow-border-dark: 8px solid $color-grey-50;
+$tooltip-arrow-border-dark: 8px solid $white;
 
-body.dark {
-  .tooltip-parent {
-    & > .tooltip {
-      background-color: $color-grey-50;
+.dark {
+  .tooltip {
+    & > .text {
+      background-color: $white;
       color: $black;
 
       &.left {

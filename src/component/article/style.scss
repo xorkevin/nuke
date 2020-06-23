@@ -1,5 +1,4 @@
-article,
-.article {
+article {
   font-size: $typography-article-size;
   font-family: $typography-base-font;
   width: 100%;
@@ -156,15 +155,12 @@ article,
   }
 }
 
-body.dark {
-  article,
-  .article {
-    .subtitle {
-      color: $color-text-light-2;
-    }
+.dark article {
+  .subtitle {
+    color: $color-text-light-2;
+  }
 
-    .info {
-      color: $color-text-light-2;
-    }
+  .info {
+    color: $color-text-light-2;
   }
 }

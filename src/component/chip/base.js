@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Chip = ({primary, children}) => {
+const Chip = ({className, children}) => {
   const k = ['chip'];
-  if (primary) {
-    k.push('primary');
+  if (className) {
+    k.push(className);
   }
 
   return <span className={k.join(' ')}>{children}</span>;

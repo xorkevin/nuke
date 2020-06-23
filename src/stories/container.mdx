@@ -1,0 +1,47 @@
+import {Meta, Story, Preview} from '@storybook/addon-docs/blocks';
+import Container from 'component/container';
+
+<Meta title="Container" component={Container} />
+
+# Container
+
+`Container` is used to constrain its contents to a maximum width. The red
+borders below show the width of the `Container` parent.
+
+export const text = (
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer fringilla
+      aliquet condimentum. Nunc facilisis orci dui, sit amet dictum massa porta
+      at. Mauris augue nisi, scelerisque ac suscipit sit amet, egestas ut risus.
+      In hac habitasse platea dictumst. Vivamus nibh enim, dignissim quis
+      consequat at, sagittis in magna.
+    </p>
+);
+
+<Preview>
+  <Story name="container">
+    <div style={{border: '1px solid red'}}>
+      <Container>{text}</Container>
+    </div>
+  </Story>
+</Preview>
+
+The `Container` may be padded with the `padded` prop.
+
+<Preview>
+  <Story name="container padded">
+    <div style={{border: '1px solid red'}}>
+      <Container padded>{text}</Container>
+    </div>
+  </Story>
+</Preview>
+
+The width of the `Container` may be restricted further with the `narrow` prop.
+
+<Preview>
+  <Story name="container narrow">
+    <div style={{border: '1px solid red'}}>
+      <Container narrow>{text}</Container>
+    </div>
+  </Story>
+</Preview>
