@@ -1,12 +1,10 @@
 import React from 'react';
+import Container from '../container';
 
 const cardSizeSet = new Set(['sm', 'md', 'lg']);
 
-const Card = ({padded, center, width, height, title, children, bar}) => {
+const Card = ({center, width, height, title, children, bar}) => {
   const k = ['card'];
-  if (padded) {
-    k.push('padded');
-  }
   if (center) {
     k.push('center');
   }
@@ -21,7 +19,11 @@ const Card = ({padded, center, width, height, title, children, bar}) => {
     <div className={k.join(' ')}>
       {title && <div className="title">{title}</div>}
       <div className="body">{children}</div>
-      {bar && <div className="bar">{bar}</div>}
+      {bar && (
+        <Container className="bar" padded>
+          {bar}
+        </Container>
+      )}
     </div>
   );
 };
