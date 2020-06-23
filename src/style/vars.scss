@@ -21,7 +21,6 @@ $card-lg-size: $card-md-size * 1.5 !default;
 $container-padding: 8px !default;
 
 // Description //
-$description-margin: 4px !default;
 $description-label-width: 25% !default;
 $description-item-width: 75% !default;
 
@@ -41,9 +40,7 @@ $grid-gutter-padding: 8px !default;
 $grid-vertical-padding: 8px !default;
 
 // Image //
-$image-sm-size: 512px !default;
-$image-md-size: $image-sm-size * 1.5 !default;
-$image-lg-size: $image-md-size * 1.5 !default;
+$image-mobile-size: 1024px !default;
 
 // ListGroup //
 $listgroup-sm-size: 256px !default;

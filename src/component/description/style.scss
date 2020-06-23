@@ -1,23 +1,24 @@
-dl.description-item {
+dl {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: $description-margin 0;
+  margin: 4px 0;
   width: 100%;
 
-  & > * {
+  & > dt,
+  & > dd {
     padding-left: 8px;
     padding-right: 8px;
   }
 
-  & > dt.label {
+  & > dt {
     display: block;
     width: $description-label-width;
     text-align: right;
     font-weight: 700;
   }
 
-  & > dd.item {
+  & > dd {
     display: block;
     width: $description-item-width;
   }

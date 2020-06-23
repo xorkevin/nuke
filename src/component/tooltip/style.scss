@@ -9,8 +9,8 @@ $tooltip-arrow-border: 8px solid $black;
     border-radius: 4px;
     white-space: nowrap;
     background-color: $black;
-    color: $color-text-light-1;
-    font-size: 0.75rem;
+    color: $white;
+    font-size: 0.85rem;
     pointer-events: none;
     opacity: 0;
     visibility: hidden;
@@ -92,34 +92,32 @@ $tooltip-arrow-border: 8px solid $black;
 
 $tooltip-arrow-border-dark: 8px solid $white;
 
-.dark {
-  .tooltip {
-    & > .text {
-      background-color: $white;
-      color: $black;
+.dark .tooltip {
+  & > .text {
+    background-color: $white;
+    color: $black;
 
-      &.left {
-        &:before {
-          border-left: $tooltip-arrow-border-dark;
-        }
+    &.left {
+      &:before {
+        border-left: $tooltip-arrow-border-dark;
       }
+    }
 
-      &.right {
-        &:before {
-          border-right: $tooltip-arrow-border-dark;
-        }
+    &.right {
+      &:before {
+        border-right: $tooltip-arrow-border-dark;
       }
+    }
 
-      &.top {
-        &:before {
-          border-top: $tooltip-arrow-border-dark;
-        }
+    &.top {
+      &:before {
+        border-top: $tooltip-arrow-border-dark;
       }
+    }
 
-      &.bottom {
-        &:before {
-          border-bottom: $tooltip-arrow-border-dark;
-        }
+    &.bottom {
+      &:before {
+        border-bottom: $tooltip-arrow-border-dark;
       }
     }
   }

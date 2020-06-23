@@ -5,8 +5,8 @@ body {
 }
 
 .dark {
-  background-color: $color-back-base-dark-1;
-  color: $color-text-light-1-5;
+  background-color: $color-primary-dark-3;
+  color: $color-text-light-1;
 }
 
 html,
@@ -19,17 +19,8 @@ body {
   overflow-wrap: break-word;
 
   &.dark {
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      color: $color-text-light-1;
-    }
-
     hr {
-      background-color: $color-text-light-4;
+      background-color: $color-text-light-3;
     }
   }
 
@@ -113,6 +104,6 @@ body {
     display: block;
     height: 1px;
     border: none;
-    background-color: $color-text-dark-4;
+    background-color: $color-text-dark-3;
   }
 }

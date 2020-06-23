@@ -5,59 +5,53 @@ $white: #ffffff;
 $color-body-background: #fdfdfd !default;
 
 $color-text-dark-1: rgba($black, 0.87) !default; // primary
-$color-text-dark-1-5: rgba($black, 0.75) !default; // primary
-$color-text-dark-2: rgba($black, 0.54) !default; // secondary
+$color-text-dark-2: rgba($black, 0.6) !default; // secondary
 $color-text-dark-3: rgba($black, 0.38) !default; // disabled/hint/icons
-$color-text-dark-4: rgba($black, 0.12) !default; // dividers
 
-$color-text-light-1: rgba($white, 1) !default; // primary
-$color-text-light-1-5: rgba($white, 0.9) !default; // primary
-$color-text-light-2: rgba($white, 0.7) !default; // secondary
-$color-text-light-3: rgba($white, 0.5) !default; // disabled/hint/icons
-$color-text-light-4: rgba($white, 0.12) !default; // dividers
+$color-text-light-1: rgba($white, 0.87) !default; // primary
+$color-text-light-2: rgba($white, 0.6) !default; // secondary
+$color-text-light-3: rgba($white, 0.38) !default; // disabled/hint/icons
 
 $color-back-transparent: rgba($white, 0) !default;
 
-$color-back-light-1: rgba($white, 1) !default;
-$color-back-light-1-5: rgba($white, 0.97) !default;
-$color-back-light-2: rgba($white, 0.9) !default;
-$color-back-light-3: rgba($white, 0.12) !default;
-$color-back-light-4: rgba($white, 0.08) !default;
+$color-back-light-1: rgba($white, 0.87) !default;
+$color-back-light-2: rgba($white, 0.6) !default;
+$color-back-light-3: rgba($white, 0.2) !default;
 
 $color-back-dark-1: rgba($black, 0.87) !default;
-$color-back-dark-1-5: rgba($black, 0.75) !default;
-$color-back-dark-2: rgba($black, 0.54) !default;
-$color-back-dark-3: rgba($black, 0.12) !default;
-$color-back-dark-4: rgba($black, 0.08) !default;
+$color-back-dark-2: rgba($black, 0.6) !default;
+$color-back-dark-3: rgba($black, 0.1) !default;
 
 $color-primary: #224a7f !default;
 
 $color-primary-1: lighten($color-primary, 25%) !default;
 $color-primary-2: lighten($color-primary, 12.5%) !default;
 $color-primary-3: $color-primary !default;
-$color-primary-4: darken($color-primary, 12.5%) !default;
+
+$color-primary-dark: #363c44 !default;
+
+$color-primary-dark-1: $color-primary-dark !default;
+$color-primary-dark-2: darken($color-primary-dark, 12.5%) !default;
+$color-primary-dark-3: $black !default;
+
+$color-back-primary: desaturate($color-primary, 12.5%) !default;
+
+$color-back-primary-1: rgba($color-back-primary, 0.87) !default;
+$color-back-primary-2: rgba($color-back-primary, 0.6) !default;
+$color-back-primary-3: rgba($color-back-primary, 0.1) !default;
 
 $color-accent: #ffb74d !default;
 $color-accent-light: lighten($color-accent, 12.5%) !default;
-
-//$color-back-base-light-4: rgba(desaturate($color-base, 12.5%), 0.12) !default;
-
-$color-base-dark: #222832 !default;
-
-$color-back-base-dark-1: darken($color-base-dark, 6.25%) !default;
-$color-back-base-dark-2: $color-base-dark !default;
-$color-back-base-dark-3: lighten($color-base-dark, 3.125%) !default;
-$color-back-base-dark-4: rgba($color-back-base-dark-3, 0.5) !default;
 
 $color-valid: #308457 !default;
 $color-valid-light: #5bc38c !default;
 $color-invalid: #a72222 !default;
 $color-invalid-light: #f15656 !default;
 
-$shadow-box: 0 2px 4px 0 $color-text-dark-4, 0 2px 8px 0 $color-text-dark-4;
-$shadow-box-2: 0 1px 2px 0 $color-text-dark-4, 0 1px 4px 0 $color-text-dark-4;
-$shadow-box-raised: 0 4px 8px 0 lighten($color-text-dark-4, 12.5%),
-  0 4px 16px 0 lighten($color-text-dark-4, 12.5%);
-$shadow-text: 0 2px 16px $color-text-dark-4, 0 2px 8px $color-text-dark-4,
-  0 2px 4px $color-text-dark-4;
-$shadow-box-blur: 0 0 4px -1px $color-text-dark-4, 0 0 8px 0 $color-text-dark-4;
+$shadow-box: 0 2px 4px 0 $color-text-dark-3, 0 2px 8px 0 $color-text-dark-3;
+$shadow-box-2: 0 1px 2px 0 $color-text-dark-3, 0 1px 4px 0 $color-text-dark-3;
+$shadow-box-raised: 0 4px 8px 0 lighten($color-text-dark-3, 12.5%),
+  0 4px 16px 0 lighten($color-text-dark-3, 12.5%);
+$shadow-text: 0 2px 16px $color-text-dark-3, 0 2px 8px $color-text-dark-3,
+  0 2px 4px $color-text-dark-3;
+$shadow-box-blur: 0 0 4px -1px $color-text-dark-3, 0 0 8px 0 $color-text-dark-3;

@@ -54,7 +54,7 @@
     height: 100vh;
 
     @media (max-width: $grid-sm-breakpoint - 1) {
-      height: $image-lg-size * 2 / 3;
+      height: $image-mobile-size;
     }
   }
 
