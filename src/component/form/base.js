@@ -569,4 +569,4 @@ const fuzzyFilter = (count, options, map, search = '') => {
   return matches;
 };
 
-export {Input, useForm, fuzzyFilter, Form, Input as default};
+export {Input as default, Input, Form, useForm, fuzzyFilter};
