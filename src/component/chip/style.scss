@@ -17,7 +17,16 @@
   color: $color-text-light-1;
 }
 
-.dark .chip.primary {
-  background-color: $color-primary-2;
+/* success */
+
+.chip.success {
+  background-color: $color-success;
+  color: $color-text-light-1;
+}
+
+/* danger */
+
+.chip.danger {
+  background-color: $color-danger;
   color: $color-text-light-1;
 }

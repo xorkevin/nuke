@@ -43,10 +43,10 @@ $color-back-primary-3: rgba($color-back-primary, 0.125) !default;
 $color-accent: #ffb74d !default;
 $color-accent-light: lighten($color-accent, 12.5%) !default;
 
-$color-valid: #308457 !default;
-$color-valid-light: #5bc38c !default;
-$color-invalid: #a72222 !default;
-$color-invalid-light: #f15656 !default;
+$color-success: #388e3c !default;
+$color-success-light: lighten($color-success, 12.5%) !default;
+$color-danger: #c62828 !default;
+$color-danger-light: lighten($color-danger, 12.5%) !default;
 
 @mixin shadow-box($dp) {
   box-shadow: 0 $dp $dp * 1.25 $dp * 0.125 $color-back-dark-3,

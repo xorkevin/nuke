@@ -38,6 +38,18 @@ Using the `strict` prop negates padding.
   </Story>
 </Preview>
 
+Using the `fill` prop expands the grid to take up all the space of its parent.
+
+<Preview>
+  <Story name="grid fill">
+    <div style={{height: '1024px'}}>
+      <Grid fill cjustify="flex-end">
+        {boxes}
+      </Grid>
+    </div>
+  </Story>
+</Preview>
+
 The `nowrap` prop prevents wrapping.
 
 <Preview>

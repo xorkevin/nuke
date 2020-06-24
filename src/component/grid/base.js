@@ -22,6 +22,7 @@ const gridAlignSet = new Set(['flex-start', 'center', 'flex-end', 'stretch']);
 const Grid = ({
   className,
   strict,
+  fill,
   nowrap,
   direction,
   justify,
@@ -32,6 +33,9 @@ const Grid = ({
   const k = ['grid'];
   if (strict) {
     k.push('strict');
+  }
+  if (fill) {
+    k.push('fill');
   }
   if (nowrap) {
     k.push('nowrap');

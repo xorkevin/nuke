@@ -1,6 +1,8 @@
 import {Meta, Story, Preview} from '@storybook/addon-docs/blocks';
 import Chip from 'component/chip';
 import ChipPrimary from 'component/chip/primary';
+import ChipSuccess from 'component/chip/success';
+import ChipDanger from 'component/chip/danger';
 
 <Meta title="Chip" component={Chip} />
 
@@ -26,6 +28,31 @@ Use the `chip/primary` variant to display important metadata.
       <ChipPrimary>here</ChipPrimary>
       <ChipPrimary>are</ChipPrimary>
       <ChipPrimary>some chips</ChipPrimary>
+    </div>
+  </Story>
+</Preview>
+
+Use the `chip/success` variant to display success information.
+
+<Preview>
+  <Story name="chip success">
+    <div>
+      <ChipSuccess>here</ChipSuccess>
+      <ChipSuccess>are</ChipSuccess>
+      <ChipSuccess>some chips</ChipSuccess>
+    </div>
+  </Story>
+</Preview>
+
+Use the `chip/danger` variant to display information that requires the user's
+immediate attention.
+
+<Preview>
+  <Story name="chip danger">
+    <div>
+      <ChipDanger>here</ChipDanger>
+      <ChipDanger>are</ChipDanger>
+      <ChipDanger>some chips</ChipDanger>
     </div>
   </Story>
 </Preview>

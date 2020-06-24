@@ -4,6 +4,7 @@ import Button from 'component/button';
 import ButtonPrimary from 'component/button/primary';
 import ButtonSecondary from 'component/button/secondary';
 import ButtonTertiary from 'component/button/tertiary';
+import ButtonDanger from 'component/button/danger';
 
 <Meta title="Button" component={Button} />
 
@@ -17,7 +18,17 @@ import ButtonTertiary from 'component/button/tertiary';
   </Story>
 </Preview>
 
-`Button` may have a fixed width for consistent UI.
+`Button` may span the full width of its parent.
+
+<Preview>
+  <Story name="button fullwidth">
+    <div>
+      <Button fullWidth>Click me</Button>
+    </div>
+  </Story>
+</Preview>
+
+`Button` may have a fixed width.
 
 <Preview>
   <Story name="button fixedwidth">
@@ -49,5 +60,14 @@ Use the variant `button/tertiary` for tertiary actions.
 <Preview>
   <Story name="button tertiary">
     <ButtonTertiary>Click me</ButtonTertiary>
+  </Story>
+</Preview>
+
+Use the variant `button/danger` for actions that the user should be cautious
+towards.
+
+<Preview>
+  <Story name="button danger">
+    <ButtonDanger>Click me</ButtonDanger>
   </Story>
 </Preview>

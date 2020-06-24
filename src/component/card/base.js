@@ -3,7 +3,7 @@ import Container from '../container';
 
 const cardSizeSet = new Set(['sm', 'md', 'lg']);
 
-const Card = ({center, width, height, title, children, bar}) => {
+const Card = ({center, width, height, title, bar, children}) => {
   const k = ['card'];
   if (center) {
     k.push('center');

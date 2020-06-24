@@ -1,7 +1,17 @@
 import React from 'react';
 
-const Button = ({className, fixedWidth, label, onClick, children}) => {
+const Button = ({
+  className,
+  fullWidth,
+  fixedWidth,
+  label,
+  onClick,
+  children,
+}) => {
   const j = [];
+  if (fullWidth) {
+    j.push('full-width');
+  }
   if (fixedWidth) {
     j.push('fixed-width');
   }

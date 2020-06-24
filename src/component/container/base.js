@@ -1,7 +1,10 @@
 import React from 'react';
 
-const Container = ({className, padded, narrow, children}) => {
+const Container = ({className, fill, padded, narrow, children}) => {
   const k = ['container'];
+  if (fill) {
+    k.push('fill');
+  }
   if (padded) {
     k.push('padded');
   }

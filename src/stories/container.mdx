@@ -26,6 +26,16 @@ export const text = (
   </Story>
 </Preview>
 
+Using the `fill` prop expands the container to take up all the space of its parent.
+
+<Preview>
+  <Story name="container fill">
+    <div style={{height: '256px'}}>
+      <Container fill>{text}</Container>
+    </div>
+  </Story>
+</Preview>
+
 The `Container` may be padded with the `padded` prop.
 
 <Preview>

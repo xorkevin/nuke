@@ -1,6 +1,7 @@
 import {Meta, Story, Preview} from '@storybook/addon-docs/blocks';
 import Card from 'component/card';
 import Container from 'component/container';
+import {Grid, Column} from 'component/grid';
 import Img from 'component/image';
 import Section from 'component/section';
 import Button from 'component/button';
@@ -21,11 +22,17 @@ import {thamesPreview} from 'example/config';
       restrictHeight
       title={
         <Img className="card-border dark" size="fill" src="/static/thames.jpg" preview={thamesPreview}>
-          <Container padded>
-            <h3>Dolor sit amet</h3>
-            <Button label="favorite">
-              <FaIcon icon="heart" />
-            </Button>
+          <Container fill padded>
+            <Grid fill justify="space-between" cjustify="flex-end" align="center">
+              <Column>
+                <h3>Dolor sit amet</h3>
+              </Column>
+              <Column>
+                <Button label="favorite">
+                  <FaIcon icon="heart" />
+                </Button>
+              </Column>
+            </Grid>
           </Container>
         </Img>
       }
@@ -46,120 +53,136 @@ import {thamesPreview} from 'example/config';
   </Story>
 </Preview>
 
-export const lg = () => (
-  <Card
-    size="lg"
-    square
-    background="https://xorkevin.github.io/stratosphere/assets/climb.jpg"
-    title={
-      <Fragment>
-        <h3>Vivamus nibh enim</h3>
-        <Button label="favorite">
-          <FaIcon icon="heart" />
-        </Button>
-      </Fragment>
-    }
-    bar={<Button>Share</Button>}
-  >
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer fringilla
-    aliquet condimentum. Nunc facilisis orci dui, sit amet dictum massa porta
-    at. Mauris augue nisi, scelerisque ac suscipit sit amet, egestas ut risus.
-    In hac habitasse platea dictumst. Vivamus nibh enim, dignissim quis
-    consequat at, sagittis in magna.
-    <Description label="Project" item="Nuke" />
-    <Description label="Language" item="Javascript" />
-  </Card>
-);
+`Card` may be sized and/or centered.
 
-export const md = () => (
-  <Card
-    size="md"
-    square
-    background="https://xorkevin.github.io/stratosphere/assets/flower.jpg"
-    title={
-      <Fragment>
-        <h3>Vivamus nibh enim</h3>
-        <Button label="favorite">
-          <FaIcon icon="heart" />
-        </Button>
-      </Fragment>
-    }
-    bar={<Button>Share</Button>}
-  >
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer fringilla
-    aliquet condimentum. Nunc facilisis orci dui, sit amet dictum massa porta
-    at. Mauris augue nisi, scelerisque ac suscipit sit amet, egestas ut risus.
-    In hac habitasse platea dictumst. Vivamus nibh enim, dignissim quis
-    consequat at, sagittis in magna.
-  </Card>
-);
+<Preview>
+  <Story name="card size">
+    <div>
+      <Card
+        height="lg"
+        width="lg"
+        title={
+          <Img className="card-border dark" size="fill" src="/static/thames.jpg" preview={thamesPreview}>
+            <Container fill padded>
+              <Grid fill justify="space-between" cjustify="flex-end" align="center">
+                <Column>
+                  <h3>Vivamus nibh enim</h3>
+                </Column>
+                <Column>
+                  <Button label="favorite">
+                    <FaIcon icon="heart" />
+                  </Button>
+                </Column>
+              </Grid>
+            </Container>
+          </Img>
+        }
+        bar={<Button>Share</Button>}
+      >
+        <Container padded>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer fringilla
+          aliquet condimentum. Nunc facilisis orci dui, sit amet dictum massa porta
+          at. Mauris augue nisi, scelerisque ac suscipit sit amet, egestas ut risus.
+          In hac habitasse platea dictumst. Vivamus nibh enim, dignissim quis
+          consequat at, sagittis in magna.
+          <Description label="Project" item="Nuke" />
+          <Description label="Language" item="Javascript" />
+        </Container>
+      </Card>
+      <Card
+        height="md"
+        width="md"
+        title={
+          <Img className="card-border dark" size="fill" src="/static/thames.jpg" preview={thamesPreview}>
+            <Container fill padded>
+              <Grid fill justify="space-between" cjustify="flex-end" align="center">
+                <Column>
+                  <h3>Vivamus nibh enim</h3>
+                </Column>
+                <Column>
+                  <Button label="favorite">
+                    <FaIcon icon="heart" />
+                  </Button>
+                </Column>
+              </Grid>
+            </Container>
+          </Img>
+        }
+        bar={<Button>Share</Button>}
+      >
+        <Container padded>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer fringilla
+          aliquet condimentum. Nunc facilisis orci dui, sit amet dictum massa porta
+          at. Mauris augue nisi, scelerisque ac suscipit sit amet, egestas ut risus.
+          In hac habitasse platea dictumst. Vivamus nibh enim, dignissim quis
+          consequat at, sagittis in magna.
+        </Container>
+      </Card>
+      <Card
+        center
+        height="sm"
+        width="sm"
+        title={
+          <Img className="card-border dark" size="fill" src="/static/thames.jpg" preview={thamesPreview}>
+            <Container fill padded>
+              <Grid fill justify="space-between" cjustify="flex-end" align="center">
+                <Column>
+                  <h3>Vivamus nibh enim</h3>
+                </Column>
+                <Column>
+                  <Button label="favorite">
+                    <FaIcon icon="heart" />
+                  </Button>
+                </Column>
+              </Grid>
+            </Container>
+          </Img>
+        }
+        bar={<Button>Share</Button>}
+      >
+        <Container padded>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer fringilla
+          aliquet condimentum. Nunc facilisis orci dui, sit amet dictum massa porta
+          at. Mauris augue nisi, scelerisque ac suscipit sit amet, egestas ut risus.
+          In hac habitasse platea dictumst. Vivamus nibh enim, dignissim quis
+          consequat at, sagittis in magna.
+        </Container>
+      </Card>
+    </div>
+  </Story>
+</Preview>
 
-export const sm = () => (
-  <Card
-    size="sm"
-    square
-    background="https://xorkevin.github.io/stratosphere/assets/underground.jpg"
-    title={
-      <Fragment>
-        <h3>Vivamus nibh enim</h3>
-        <Button label="favorite">
-          <FaIcon icon="heart" />
-        </Button>
-      </Fragment>
-    }
-    bar={<Button>Share</Button>}
-  >
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer fringilla
-    aliquet condimentum. Nunc facilisis orci dui, sit amet dictum massa porta
-    at. Mauris augue nisi, scelerisque ac suscipit sit amet, egestas ut risus.
-    In hac habitasse platea dictumst. Vivamus nibh enim, dignissim quis
-    consequat at, sagittis in magna.
-  </Card>
-);
+`Card` need not have a media element.
 
-export const textTitle = () => (
-  <Card
-    size="md"
-    restrictWidth
-    titleBar
-    title={
-      <Fragment>
-        <h3>Vivamus nibh enim</h3>
-        <Button label="favorite">
-          <FaIcon icon="heart" />
-        </Button>
-      </Fragment>
-    }
-    bar={<Button>Share</Button>}
-  >
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer fringilla
-    aliquet condimentum. Nunc facilisis orci dui, sit amet dictum massa porta
-    at. Mauris augue nisi, scelerisque ac suscipit sit amet, egestas ut risus.
-    In hac habitasse platea dictumst. Vivamus nibh enim, dignissim quis
-    consequat at, sagittis in magna.
-  </Card>
-);
-
-export const accent = () => (
-  <Card
-    size="md"
-    restrictWidth
-    accent
-    titleBar
-    title={
-      <Fragment>
-        <h3>Vivamus nibh enim</h3>
-        <Button label="favorite">
-          <FaIcon icon="heart" />
-        </Button>
-      </Fragment>
-    }
-    bar={<Button>Share</Button>}
-  >
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer fringilla
-    aliquet condimentum. Nunc facilisis orci dui, sit amet dictum massa porta
-    at. Mauris augue nisi, scelerisque ac suscipit sit amet, egestas ut risus.
-    In hac habitasse platea dictumst. Vivamus nibh enim, dignissim quis
-    consequat at, sagittis in magna.
-  </Card>
-);
+<Preview>
+  <Story name="card text">
+    <Card
+      size="md"
+      restrictWidth
+      titleBar
+      title={
+        <Container fill padded>
+          <Grid fill justify="space-between" cjustify="flex-end" align="center">
+            <Column>
+              <h3>Vivamus nibh enim</h3>
+            </Column>
+            <Column>
+              <Button label="favorite">
+                <FaIcon icon="heart" />
+              </Button>
+            </Column>
+          </Grid>
+        </Container>
+      }
+      bar={<Button>Share</Button>}
+    >
+      <Container padded>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer fringilla
+        aliquet condimentum. Nunc facilisis orci dui, sit amet dictum massa porta
+        at. Mauris augue nisi, scelerisque ac suscipit sit amet, egestas ut risus.
+        In hac habitasse platea dictumst. Vivamus nibh enim, dignissim quis
+        consequat at, sagittis in magna.
+      </Container>
+    </Card>
+  </Story>
+</Preview>

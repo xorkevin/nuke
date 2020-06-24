@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import Container from 'component/container';
-import Time from 'component/time';
+import Container from '../container';
+import Time from '../time';
 
 const Comment = ({depth, username, score, time, content, children}) => {
   const [hidden, setHidden] = useState(false);
@@ -126,4 +126,4 @@ const CommentSection = ({children}) => {
   );
 };
 
-export {Comment, CommentSection, CommentSection as default};
+export {CommentSection as default, Comment, CommentSection};
