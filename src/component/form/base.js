@@ -17,7 +17,7 @@ const FormContext = React.createContext();
 const Form = ({
   formState,
   onChange,
-  onEnter,
+  onSubmit,
   errCheck,
   validCheck,
   children,
@@ -26,19 +26,131 @@ const Form = ({
     if (errCheck) {
       return errCheck(formState);
     }
-    return undefined;
+    return {};
   }, [errCheck, formState]);
   let valid = useMemo(() => {
     if (validCheck) {
       return validCheck(formState);
     }
-    return undefined;
+    return {};
   }, [validCheck, formState]);
   return (
-    <FormContext.Provider value={{formState, onChange, onEnter, error, valid}}>
+    <FormContext.Provider value={{formState, onChange, onSubmit, error, valid}}>
       {children}
     </FormContext.Provider>
   );
+};
+
+const Field = ({
+  render,
+  type,
+  name,
+  value,
+  onChange,
+  onSubmit,
+  error,
+  valid,
+  label,
+  placeholder,
+  info,
+  wide,
+  fullWidth,
+  noctx,
+}) => {
+  const fieldid = useMemo(randomID, []);
+
+  const ctx = useContext(FormContext);
+  if (!noctx && ctx) {
+    if (ctx.formState) {
+      value = ctx.formState[name];
+    }
+    if (ctx.onChange) {
+      onChange = ctx.onChange;
+    }
+    if (ctx.onSubmit) {
+      onSubmit = ctx.onSubmit;
+    }
+    if (ctx.error) {
+      error = ctx.error[name];
+    }
+    if (ctx.valid) {
+      valid = ctx.valid[name];
+    }
+  }
+
+  const changeFunc = useMemo(() => {
+    if (!onChange) {
+      return () => {};
+    }
+    return onChange;
+  }, [onChange]);
+  const submitFunc = useMemo(() => {
+    if (!onSubmit) {
+      return () => {};
+    }
+    return onSubmit;
+  }, [onSubmit]);
+
+  // used for default input
+  const handleChange = useCallback(
+    (e) => {
+      changeFunc(name, e.target.value);
+    },
+    [name, changeFunc],
+  );
+  const handleSubmit = useCallback(
+    (e) => {
+      if (e.key === 'Enter') {
+        submitFunc();
+      }
+    },
+    [submitFunc],
+  );
+
+  const k = ['formfield'];
+  if (fullWidth) {
+    k.push('full-width');
+  } else if (wide) {
+    k.push('wide');
+  }
+
+  let inp = null;
+  if (render) {
+    inp = render({
+      fieldid,
+      type,
+      name,
+      value,
+      onChange: changeFunc,
+      onSubmit: submitFunc,
+      error,
+      valid,
+      label,
+      placeholder,
+      info,
+    });
+  } else {
+    inp = (
+      <Fragment>
+        {label && (
+          <label className="normal" htmlFor={fieldid}>
+            {label}
+          </label>
+        )}
+        <input
+          className="normal"
+          id={fieldid}
+          type={type}
+          name={name}
+          value={value}
+          onChange={handleChange}
+          onKeyDown={handleSubmit}
+          placeholder={placeholder}
+        />
+      </Fragment>
+    );
+  }
+  return <div className={k.join(' ')}>{inp}</div>;
 };
 
 const OptionsContainer = ({align, position, fixed, reference, children}) => {
@@ -569,4 +681,4 @@ const fuzzyFilter = (count, options, map, search = '') => {
   return matches;
 };
 
-export {Input as default, Input, Form, useForm, fuzzyFilter};
+export {Field as default, Field, Input, Form, useForm, fuzzyFilter};

@@ -1,11 +1,11 @@
 import React, {Fragment, useMemo} from 'react';
-import {Form, Input, useForm, fuzzyFilter} from 'component/form';
+import {Field, Input, Form, useForm, fuzzyFilter} from 'component/form';
 
 const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]+$/;
 
 export default {title: 'Form'};
 
-export const plain = () => <Input label="Name" name="name" />;
+export const plain = () => <Field label="Name" name="name" />;
 
 export const wide = () => <Input wide label="Name" name="name" />;
 
