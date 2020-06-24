@@ -8,10 +8,11 @@ body {
 .light {
   color: $color-text-dark-1;
 }
-
 .dark {
-  background-color: $color-primary-dark-3;
   color: $color-text-light-1;
+}
+.dark-background {
+  background-color: $color-primary-dark-3;
 }
 
 /* fonts */
@@ -85,4 +86,20 @@ hr {
 
 .dark hr {
   background-color: $color-back-light-3;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-unset {
+  text-align: unset;
 }

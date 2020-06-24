@@ -1,22 +1,12 @@
 footer {
   background-color: $color-back-dark-1;
-  color: $color-text-light-2;
   padding: $footer-padding-top 0 $footer-padding-bottom;
 
   ul {
     list-style: none;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    color: $color-text-light-1;
-  }
-
-  .title {
+  .footer-header {
     margin-top: 0;
   }
 

@@ -31,3 +31,11 @@ a.secondary {
 .dark a.secondary {
   color: $color-text-light-2;
 }
+
+/* no-color */
+
+a.no-color {
+  &:hover {
+    text-decoration: underline;
+  }
+}

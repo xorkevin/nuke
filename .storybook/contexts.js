@@ -11,7 +11,7 @@ export const contexts = [
     components: ['div'],
     params: [
       {name: 'Light', props: {className: 'storybook-view light'}},
-      {name: 'Dark', props: {className: 'storybook-view dark'}},
+      {name: 'Dark', props: {className: 'storybook-view dark dark-background'}},
     ],
     options: {
       deep: true,
