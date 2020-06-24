@@ -63,6 +63,7 @@ const Column = ({
   sm,
   md,
   lg,
+  fullWidth,
   align,
   order,
   basis,
@@ -82,6 +83,9 @@ const Column = ({
   }
   if (lg) {
     k.push(switchSize('lg', lg));
+  }
+  if (fullWidth) {
+    k.push('full-width');
   }
   if (gridAlignSet.has(align)) {
     k.push('align-' + align);

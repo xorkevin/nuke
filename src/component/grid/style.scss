@@ -77,9 +77,12 @@
   }
 
   & > .col {
-    width: 100%;
     max-width: 100%;
     padding: $grid-padding;
+
+    &.full-width {
+      width: 100%;
+    }
 
     @include col-list(24, 'xs');
 

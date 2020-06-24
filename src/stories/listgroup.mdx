@@ -1,7 +1,8 @@
 import {Meta, Story, Preview} from '@storybook/addon-docs/blocks';
 import {ListGroup, ListItem} from 'component/listgroup';
-import Grid, {Column} from 'component/grid';
+import {Grid, Column} from 'component/grid';
 import Chip from 'component/chip';
+import ChipPrimary from 'component/chip/primary';
 import Time from 'component/time';
 
 <Meta title="ListGroup" component={ListGroup} />
@@ -68,28 +69,42 @@ A `ListGroup` may be sized `sm`, `md`, or `lg`.
   </Story>
 </Preview>
 
-export const badge = () => (
-  <ListGroup size="sm">
-    <ListItem>
-      <div>
-        <h5>Inbox</h5>
-        <Chip primary>16</Chip>
-      </div>
-    </ListItem>
-    <ListItem>
-      <div>
-        <h5>Sent</h5>
-        <Chip primary>8</Chip>
-      </div>
-    </ListItem>
-    <ListItem>
-      <div>
-        <h5>Trash</h5>
-        <Chip primary>2</Chip>
-      </div>
-    </ListItem>
-  </ListGroup>
-);
+<Preview>
+  <Story name="listgroup badge">
+    <ListGroup size="sm">
+      <ListItem>
+        <Grid justify="space-between" align="center">
+          <Column>
+            <h5>Inbox</h5>
+          </Column>
+          <Column>
+            <ChipPrimary>16</ChipPrimary>
+          </Column>
+        </Grid>
+      </ListItem>
+      <ListItem>
+        <Grid justify="space-between" align="center">
+          <Column>
+            <h5>Sent</h5>
+          </Column>
+          <Column>
+            <ChipPrimary>8</ChipPrimary>
+          </Column>
+        </Grid>
+      </ListItem>
+      <ListItem>
+        <Grid justify="space-between" align="center">
+          <Column>
+            <h5>Trash</h5>
+          </Column>
+          <Column>
+            <ChipPrimary>2</ChipPrimary>
+          </Column>
+        </Grid>
+      </ListItem>
+    </ListGroup>
+  </Story>
+</Preview>
 
 export const title = () => (
   <ListGroup size="lg">
