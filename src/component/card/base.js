@@ -20,9 +20,9 @@ const Card = ({center, width, height, title, children, bar}) => {
       {title && <div className="title">{title}</div>}
       <div className="body">{children}</div>
       {bar && (
-        <Container className="bar" padded>
-          {bar}
-        </Container>
+        <div className="bar">
+          <Container padded>{bar}</Container>
+        </div>
       )}
     </div>
   );

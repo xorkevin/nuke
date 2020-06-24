@@ -38,8 +38,7 @@ $form-input-width-wide: $form-input-width * 2 !default;
 $grid-sm-breakpoint: 512px * 1.5 !default;
 $grid-md-breakpoint: $grid-sm-breakpoint * 1.5 !default;
 $grid-lg-breakpoint: $grid-md-breakpoint * 1.5 !default;
-$grid-gutter-padding: 8px !default;
-$grid-vertical-padding: 8px !default;
+$grid-padding: 8px !default;
 
 // Image //
 $image-mobile-size: 1024px !default;

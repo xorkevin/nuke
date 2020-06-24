@@ -1,0 +1,51 @@
+import {Meta, Story, Preview} from '@storybook/addon-docs/blocks';
+import {Fragment} from 'react';
+import {Grid, Column} from 'component/grid';
+
+<Meta title="Grid" component={Grid} />
+
+# Grid
+
+`Grid` displays a grid of elements. The grid is 24 units wide.
+
+export const boxes = (
+  <Fragment>
+    <Column md={8} sm={12}><div style={{height: '256px', border: '1px solid red'}}></div></Column>
+    <Column md={8} sm={12}><div style={{height: '128px', border: '1px solid red'}}></div></Column>
+    <Column md={8} sm={12}><div style={{height: '256px', border: '1px solid red'}}></div></Column>
+    <Column md={8} sm={12}><div style={{height: '128px', border: '1px solid red'}}></div></Column>
+    <Column md={8} sm={12}><div style={{height: '256px', border: '1px solid red'}}></div></Column>
+    <Column md={8} sm={12}><div style={{height: '128px', border: '1px solid red'}}></div></Column>
+    <Column md={8} sm={12}><div style={{height: '128px', border: '1px solid red'}}></div></Column>
+  </Fragment>
+);
+
+<Preview>
+  <Story name="grid">
+    <Grid>
+      {boxes}
+    </Grid>
+  </Story>
+</Preview>
+
+Using the `strict` prop negates padding.
+
+<Preview>
+  <Story name="grid strict">
+    <Grid strict>
+      {boxes}
+    </Grid>
+  </Story>
+</Preview>
+
+export const verticalCenter = () => (
+  <Grid map verticalCenter md={8} sm={12}>
+    {cards}
+  </Grid>
+);
+
+export const horizontalCenter = () => (
+  <Grid map horizontalCenter md={8} sm={12}>
+    {cards}
+  </Grid>
+);

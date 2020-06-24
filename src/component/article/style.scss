@@ -3,12 +3,6 @@ article {
   font-family: $typography-base-font;
   width: 100%;
 
-  &:before {
-    content: '';
-    display: table;
-    clear: both;
-  }
-
   & > * {
     display: block;
     margin: $article-font-size auto;
@@ -103,8 +97,6 @@ article {
   }
 
   .author {
-    display: flex;
-    align-items: center;
     width: $article-width/2;
     max-width: 100%;
 
@@ -113,7 +105,6 @@ article {
       height: $article-width/8;
       max-width: 100%;
       padding: 4px;
-      flex-shrink: 0;
     }
 
     & > .description {
@@ -122,9 +113,9 @@ article {
         margin-bottom: $article-font-size * 0.25;
       }
       & > .bio {
-        font-size: $article-font-size * 0.875;
         padding-left: 8px;
         padding-right: 8px;
+        font-size: $article-font-size * 0.875;
       }
     }
   }

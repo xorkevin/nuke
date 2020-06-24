@@ -31,7 +31,7 @@ $color-primary-3: $color-primary !default;
 $color-primary-dark: #29313d !default;
 
 $color-primary-dark-1: $color-primary-dark !default;
-$color-primary-dark-2: darken($color-primary-dark, 12.5%) !default;
+$color-primary-dark-2: darken($color-primary-dark, 6.25%) !default;
 $color-primary-dark-3: $black !default;
 
 $color-back-primary: desaturate($color-primary, 12.5%) !default;
