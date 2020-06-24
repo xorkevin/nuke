@@ -17,3 +17,17 @@ a.text {
 .dark a.text {
   color: $color-accent-light;
 }
+
+/* secondary */
+
+a.secondary {
+  color: $color-text-dark-2;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.dark a.secondary {
+  color: $color-text-light-2;
+}

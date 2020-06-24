@@ -1,126 +1,105 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {Fragment, useState, useEffect, useCallback} from 'react';
 import Container from '../container';
+import Anchor from '../anchor/text';
+import AS from '../anchor/secondary';
+import Button from '../button/small';
 import Time from '../time';
 
-const Comment = ({depth, username, score, time, content, children}) => {
+const Comment = ({
+  depth,
+  id,
+  username,
+  score,
+  time,
+  content,
+  childComments,
+}) => {
   const [hidden, setHidden] = useState(false);
-  const k = ['comment'];
-  if (hidden) {
-    k.push('hidden');
-  }
   const toggleHidden = useCallback(() => setHidden((h) => !h), [setHidden]);
 
   return (
-    <div className={k.join(' ')}>
+    <div className="comment">
       <div className="inner">
         <div className="info">
           <span className="data hide">
-            <a className="no-color" onClick={toggleHidden}>
-              [{hidden && '+'}
-              {!hidden && '-'}]
-            </a>
+            <Button onClick={toggleHidden}>
+              [{(hidden && <span>+</span>) || <span>&minus;</span>}]
+            </Button>
           </span>
-          <span className="username">
-            <a>{username}</a>
+          <span className="data username">
+            <Anchor>{username}</Anchor>
           </span>
-          <span className="data score">{score} points</span>
-          <span className="data time">
-            <Time value={time} />
+          <span className="data">
+            <span>{score} points</span> <Time value={time} />
           </span>
         </div>
-        <div className="content">{content}</div>
-        <div className="options">
-          <span>
-            <a className="no-color">link</a>
-          </span>
-          <span>
-            <a className="no-color">source</a>
-          </span>
-          <span>
-            <a className="no-color">reply</a>
-          </span>
-          <span>
-            <a className="no-color">report</a>
-          </span>
-        </div>
+        {!hidden && (
+          <Fragment>
+            <div className="content">{content}</div>
+            <div className="options">
+              <span>
+                <AS>link</AS>
+              </span>
+              <span>
+                <AS>source</AS>
+              </span>
+              <span>
+                <AS>reply</AS>
+              </span>
+              <span>
+                <AS>report</AS>
+              </span>
+            </div>
+          </Fragment>
+        )}
       </div>
-      {!hidden && children && (
+      {!hidden && Array.isArray(childComments) && (
         <div className="children">
-          {depth > 0 &&
-            React.Children.map(children, (child) => {
-              return React.cloneElement(child, {
-                depth: depth - 1,
-              });
-            })}
-          {depth <= 0 && (
+          {(depth > 0 &&
+            childComments.map(
+              ({id, username, score, time, content, children}) => (
+                <Comment
+                  key={id}
+                  depth={depth - 1}
+                  id={id}
+                  username={username}
+                  score={score}
+                  time={time}
+                  content={content}
+                  childComments={children}
+                />
+              ),
+            )) || (
             <span>
-              <a className="no-color">continue &gt;</a>
+              <Anchor>continue &gt;</Anchor>
             </span>
           )}
-          {!depth && typeof depth !== 'number' && children}
         </div>
       )}
     </div>
   );
 };
 
-const WIDTH = {
-  sm: 768,
-};
-WIDTH.md = WIDTH.sm * 1.5;
-WIDTH.xs = WIDTH.sm / 2;
+const DEPTH = 12;
 
-const DEPTH = {
-  xxs: 4,
-  xs: 6,
-  sm: 8,
-  md: 12,
-};
-
-const widthToDepth = (width) => {
-  if (width > WIDTH.md) {
-    return DEPTH.md;
-  } else if (width > WIDTH.sm) {
-    return DEPTH.sm;
-  } else if (width > WIDTH.xs) {
-    return DEPTH.xs;
-  }
-  return DEPTH.xxs;
-};
-
-const CommentSection = ({children}) => {
-  const [depth, setDepth] = useState(widthToDepth(window.innerWidth));
-
-  useEffect(() => {
-    let running = null;
-    const handler = () => {
-      if (!running) {
-        running = window.requestAnimationFrame(() => {
-          setDepth(widthToDepth(window.innerWidth));
-          running = null;
-        });
-      }
-    };
-    window.addEventListener('resize', handler);
-    return () => {
-      window.removeEventListener('resize', handler);
-      if (running) {
-        window.cancelAnimationFrame(running);
-      }
-    };
-  }, []);
-
+const CommentSection = ({comments}) => {
   return (
     <Container padded narrow>
       <h5>Comments</h5>
       <div className="comment-section">
-        {children &&
-          React.Children.map(children, (child) => {
-            return React.cloneElement(child, {
-              depth: depth - 1,
-            });
-          })}
-        {!children && <span>No comments</span>}
+        {(Array.isArray(comments) &&
+          comments.map(({id, username, score, time, content, children}) => (
+            <Comment
+              key={id}
+              depth={DEPTH - 1}
+              id={id}
+              username={username}
+              score={score}
+              time={time}
+              content={content}
+              childComments={children}
+            />
+          ))) || <span>No comments</span>}
       </div>
     </Container>
   );
