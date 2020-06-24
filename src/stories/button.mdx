@@ -5,6 +5,7 @@ import ButtonPrimary from 'component/button/primary';
 import ButtonSecondary from 'component/button/secondary';
 import ButtonTertiary from 'component/button/tertiary';
 import ButtonDanger from 'component/button/danger';
+import ButtonSmall from 'component/button/small';
 
 <Meta title="Button" component={Button} />
 
@@ -69,5 +70,13 @@ towards.
 <Preview>
   <Story name="button danger">
     <ButtonDanger>Click me</ButtonDanger>
+  </Story>
+</Preview>
+
+Use the variant `button/small` for a less intrusive button.
+
+<Preview>
+  <Story name="button small">
+    <ButtonSmall>Click me</ButtonSmall>
   </Story>
 </Preview>

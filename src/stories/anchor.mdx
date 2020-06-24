@@ -1,6 +1,8 @@
 import {Meta, Story, Preview} from '@storybook/addon-docs/blocks';
 import Anchor from 'component/anchor';
 import AnchorText from 'component/anchor/text';
+import AnchorSecondary from 'component/anchor/secondary';
+import AnchorNoColor from 'component/anchor/nocolor';
 
 <Meta title="Anchor" component={Anchor} />
 
@@ -10,7 +12,7 @@ import AnchorText from 'component/anchor/text';
 
 <Preview>
   <Story name="anchor">
-    <Anchor href="#">This is an unstyled link.</Anchor>
+    <Anchor>This is an unstyled link.</Anchor>
   </Story>
 </Preview>
 
@@ -26,6 +28,23 @@ The variant `anchor/text` is used to create styled links for text.
 
 <Preview>
   <Story name="anchor text">
-    <div>This is a link for <AnchorText href="#">some text</AnchorText>.</div>
+    <div>This is a link for <AnchorText>some text</AnchorText>.</div>
+  </Story>
+</Preview>
+
+The variant `anchor/secondary` is used to create a more subdued text link.
+
+<Preview>
+  <Story name="anchor secondary">
+    <div>This is a link for <AnchorSecondary>some text</AnchorSecondary>.</div>
+  </Story>
+</Preview>
+
+The variant `anchor/nocolor` is used to create a text link that inherits its
+color.
+
+<Preview>
+  <Story name="anchor nocolor">
+    <div>This is a link for <AnchorNoColor>some text</AnchorNoColor>.</div>
   </Story>
 </Preview>
