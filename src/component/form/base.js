@@ -43,6 +43,7 @@ const Form = ({
 };
 
 const Field = ({
+  className,
   render,
   type,
   name,
@@ -122,11 +123,16 @@ const Field = ({
     k.push('error');
   }
 
+  if (className) {
+    k.push(className);
+  }
+
   const hintClass = ['hint'];
 
   const displayValid = valid && typeof valid !== 'boolean';
   const displayErr = error && typeof error !== 'boolean';
   if (displayValid) {
+    hintClass.push('valid');
   } else if (displayErr) {
     hintClass.push('error');
   }
@@ -140,8 +146,6 @@ const Field = ({
       value,
       onChange: changeFunc,
       onSubmit: submitFunc,
-      error,
-      valid,
       label,
       placeholder,
       hint,
@@ -161,16 +165,71 @@ const Field = ({
           onKeyDown={handleSubmit}
           placeholder={placeholder}
         />
-        <Grid strict justify="space-between" className={hintClass.join(' ')}>
-          <Column className="left">
-            {(displayValid && valid) || (displayErr && error) || hint}
-          </Column>
-          {hintRight && <Column className="right">{hintRight}</Column>}
-        </Grid>
       </Fragment>
     );
   }
-  return <div className={k.join(' ')}>{inp}</div>;
+  return (
+    <div className={k.join(' ')}>
+      {inp}
+      <Grid strict justify="space-between" className={hintClass.join(' ')}>
+        <Column className="left">
+          {(displayValid && valid) || (displayErr && error) || hint}
+        </Column>
+        {hintRight && <Column className="right">{hintRight}</Column>}
+      </Grid>
+    </div>
+  );
+};
+
+const renderTextarea = ({
+  fieldid,
+  name,
+  value,
+  onChange,
+  onSubmit,
+  label,
+  placeholder,
+}) => {
+  const handleChange = useCallback(
+    (e) => {
+      onChange(name, e.target.value);
+    },
+    [name, onChange],
+  );
+  const handleSubmit = useCallback(
+    (e) => {
+      if (e.key === 'Enter') {
+        onSubmit();
+      }
+    },
+    [onSubmit],
+  );
+
+  return (
+    <Fragment>
+      {label && <label htmlFor={fieldid}>{label}</label>}
+      <textarea
+        id={fieldid}
+        name={name}
+        value={value}
+        onChange={handleChange}
+        onKeyDown={handleSubmit}
+        placeholder={placeholder}
+      />
+    </Fragment>
+  );
+};
+
+const FieldTextarea = (props) => {
+  const j = ['textarea'];
+  if (props.className) {
+    j.push(props.className);
+  }
+  const k = Object.assign({}, props, {
+    className: j.join(' '),
+    render: renderTextarea,
+  });
+  return <Field {...k} />;
 };
 
 const OptionsContainer = ({align, position, fixed, reference, children}) => {
@@ -701,4 +760,12 @@ const fuzzyFilter = (count, options, map, search = '') => {
   return matches;
 };
 
-export {Field as default, Field, Input, Form, useForm, fuzzyFilter};
+export {
+  Field as default,
+  Field,
+  FieldTextarea,
+  Input,
+  Form,
+  useForm,
+  fuzzyFilter,
+};

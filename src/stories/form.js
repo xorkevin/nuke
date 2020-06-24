@@ -1,5 +1,12 @@
 import React, {Fragment, useMemo} from 'react';
-import {Field, Input, Form, useForm, fuzzyFilter} from 'component/form';
+import {
+  Field,
+  FieldTextarea,
+  Input,
+  Form,
+  useForm,
+  fuzzyFilter,
+} from 'component/form';
 
 const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]+$/;
 
@@ -17,7 +24,7 @@ export const hint = () => (
 
 const phoneRegex = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
 const imageSetType = new Set(['image/png', 'image/jpeg']);
-const formErrCheck = ({email, phone, password, confirm_password}) => {
+const formErrCheck = ({email, phone, password, confirm_password, bio}) => {
   const err = {};
   if (email.length > 0 && !emailRegex.test(email)) {
     Object.assign(err, {email: 'Must be a valid email'});
@@ -31,9 +38,12 @@ const formErrCheck = ({email, phone, password, confirm_password}) => {
   if (confirm_password.length > 0 && confirm_password !== password) {
     Object.assign(err, {confirm_password: 'Passwords must match'});
   }
+  if (bio.length > 128) {
+    Object.assign(err, {bio: 'Max length exceeded'});
+  }
   return err;
 };
-const formValidCheck = ({email, phone, password, confirm_password}) => {
+const formValidCheck = ({email, phone, password, confirm_password, bio}) => {
   const valid = {};
   if (emailRegex.test(email)) {
     Object.assign(valid, {email: true});
@@ -47,6 +57,9 @@ const formValidCheck = ({email, phone, password, confirm_password}) => {
   if (password.length > 0 && confirm_password === password) {
     Object.assign(valid, {confirm_password: 'Passwords match!'});
   }
+  if (bio.length > 0 && bio.length <= 128) {
+    Object.assign(valid, {bio: true});
+  }
   return valid;
 };
 
@@ -56,6 +69,7 @@ export const validation = () => {
     phone: '',
     password: '',
     confirm_password: '',
+    bio: '',
   });
   return (
     <Form
@@ -76,13 +90,16 @@ export const validation = () => {
         }
       />
       <Field label="Confirm password" type="password" name="confirm_password" />
+      <FieldTextarea
+        label="Bio"
+        name="bio"
+        hint="Tell us about yourself"
+        hintRight={`${formState.bio.length}/128`}
+        wide
+      />
     </Form>
   );
 };
-
-export const textarea = () => (
-  <Input textarea label="Bio" name="bio" info="Tell us about yourself" />
-);
 
 export const checkbox = () => (
   <Fragment>
