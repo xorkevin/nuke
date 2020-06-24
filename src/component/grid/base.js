@@ -1,5 +1,12 @@
 import React from 'react';
 
+const gridDirectionSet = new Set([
+  'row',
+  'row-reverse',
+  'column',
+  'column-reverse',
+]);
+
 const gridJustifySet = new Set([
   'flex-start',
   'center',
@@ -15,8 +22,8 @@ const gridAlignSet = new Set(['flex-start', 'center', 'flex-end', 'stretch']);
 const Grid = ({
   className,
   strict,
-  column,
   nowrap,
+  direction,
   justify,
   cjustify,
   align,
@@ -26,11 +33,11 @@ const Grid = ({
   if (strict) {
     k.push('strict');
   }
-  if (column) {
-    k.push('column');
-  }
   if (nowrap) {
     k.push('nowrap');
+  }
+  if (gridDirectionSet.has(direction)) {
+    k.push('direction-' + direction);
   }
   if (gridJustifySet.has(justify)) {
     k.push('justify-' + justify);

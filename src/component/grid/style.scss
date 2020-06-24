@@ -9,7 +9,6 @@
 .grid {
   width: 100%;
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
 
   &.column {
@@ -17,6 +16,19 @@
   }
   &.nowrap {
     flex-wrap: nowrap;
+  }
+
+  &.direction-row {
+    flex-direction: row;
+  }
+  &.direction-row-reverse {
+    flex-direction: row-reverse;
+  }
+  &.direction-column {
+    flex-direction: column;
+  }
+  &.direction-column-reverse {
+    flex-direction: column-reverse;
   }
 
   &.justify-flex-start {

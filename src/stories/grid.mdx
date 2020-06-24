@@ -38,14 +38,52 @@ Using the `strict` prop negates padding.
   </Story>
 </Preview>
 
-export const verticalCenter = () => (
-  <Grid map verticalCenter md={8} sm={12}>
-    {cards}
-  </Grid>
-);
+The `nowrap` prop prevents wrapping.
 
-export const horizontalCenter = () => (
-  <Grid map horizontalCenter md={8} sm={12}>
-    {cards}
-  </Grid>
-);
+<Preview>
+  <Story name="grid nowrap">
+    <Grid nowrap>
+      {boxes}
+    </Grid>
+  </Story>
+</Preview>
+
+The `direction` prop may be used to determine in what direction items are displayed.
+
+<Preview>
+  <Story name="grid direction">
+    <Grid direction="column-reverse">
+      {boxes}
+    </Grid>
+  </Story>
+</Preview>
+
+The `justify` prop may be used to manage remanining space on the major axis.
+
+<Preview>
+  <Story name="grid justify">
+    <Grid justify="center">
+      {boxes}
+    </Grid>
+  </Story>
+</Preview>
+
+The `cjustify` prop may be used to manage remanining space on the minor axis.
+
+<Preview>
+  <Story name="grid cjustify">
+    <Grid cjustify="center">
+      {boxes}
+    </Grid>
+  </Story>
+</Preview>
+
+The `align` prop may be used to align items on the minor axis.
+
+<Preview>
+  <Story name="grid align">
+    <Grid align="center">
+      {boxes}
+    </Grid>
+  </Story>
+</Preview>

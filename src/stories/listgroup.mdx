@@ -69,6 +69,8 @@ A `ListGroup` may be sized `sm`, `md`, or `lg`.
   </Story>
 </Preview>
 
+`ListGroup` is unopinionated about what it displays.
+
 <Preview>
   <Story name="listgroup badge">
     <ListGroup size="sm">
@@ -106,53 +108,55 @@ A `ListGroup` may be sized `sm`, `md`, or `lg`.
   </Story>
 </Preview>
 
-export const title = () => (
-  <ListGroup size="lg">
-    <ListItem>
-      <Grid>
-        <Column md={20}>
-          <h3>Lorem ipsum</h3>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
-            fringilla aliquet condimentum. Nunc facilisis orci dui, sit amet
-            dictum massa porta at. Mauris augue nisi, scelerisque ac suscipit
-            sit amet, egestas ut risus.
-          </p>
-        </Column>
-        <Column md={4}>
-          <Time value={Date.now() - 86400000} />
-        </Column>
-      </Grid>
-    </ListItem>
-    <ListItem>
-      <Grid>
-        <Column md={20}>
-          <h3>Dolor sit amet</h3>
-          <p>
-            In hac habitasse platea dictumst. Vivamus nibh enim, dignissim quis
-            consequat at, sagittis in magna.
-          </p>
-        </Column>
-        <Column md={4}>
-          <Time value={Date.now() - 86400000} />
-        </Column>
-      </Grid>
-    </ListItem>
-    <ListItem>
-      <Grid>
-        <Column md={20}>
-          <h3>Consectetur adipiscing elit</h3>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
-            fringilla aliquet condimentum. Nunc facilisis orci dui, sit amet
-            dictum massa porta at. Mauris augue nisi, scelerisque ac suscipit
-            sit amet, egestas ut risus.
-          </p>
-        </Column>
-        <Column md={4}>
-          <Time value={Date.now() - 3 * 86400000} />
-        </Column>
-      </Grid>
-    </ListItem>
-  </ListGroup>
-);
+<Preview>
+  <Story name="listgroup grid">
+    <ListGroup size="lg">
+      <ListItem>
+        <Grid align="center">
+          <Column md={20}>
+            <h3>Lorem ipsum</h3>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
+              fringilla aliquet condimentum. Nunc facilisis orci dui, sit amet
+              dictum massa porta at. Mauris augue nisi, scelerisque ac suscipit
+              sit amet, egestas ut risus.
+            </p>
+          </Column>
+          <Column md={4}>
+            <Time value={Date.now() - 86400000} />
+          </Column>
+        </Grid>
+      </ListItem>
+      <ListItem>
+        <Grid align="center">
+          <Column md={20}>
+            <h3>Dolor sit amet</h3>
+            <p>
+              In hac habitasse platea dictumst. Vivamus nibh enim, dignissim quis
+              consequat at, sagittis in magna.
+            </p>
+          </Column>
+          <Column md={4}>
+            <Time value={Date.now() - 86400000} />
+          </Column>
+        </Grid>
+      </ListItem>
+      <ListItem>
+        <Grid align="center">
+          <Column md={20}>
+            <h3>Consectetur adipiscing elit</h3>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
+              fringilla aliquet condimentum. Nunc facilisis orci dui, sit amet
+              dictum massa porta at. Mauris augue nisi, scelerisque ac suscipit
+              sit amet, egestas ut risus.
+            </p>
+          </Column>
+          <Column md={4}>
+            <Time value={Date.now() - 3 * 86400000} />
+          </Column>
+        </Grid>
+      </ListItem>
+    </ListGroup>
+  </Story>
+</Preview>
