@@ -7,12 +7,12 @@ export default {title: 'Form'};
 
 export const plain = () => <Field label="Name" name="name" />;
 
-export const wide = () => <Input wide label="Name" name="name" />;
+export const wide = () => <Field wide label="Name" name="name" />;
 
-export const fullWidth = () => <Input fullWidth label="Name" name="name" />;
+export const fullWidth = () => <Field fullWidth label="Name" name="name" />;
 
-export const info = () => (
-  <Input label="Tagline" name="tagline" info="What describes you?" />
+export const hint = () => (
+  <Field label="Hint" name="tagline" hint="What describes you?" />
 );
 
 export const textarea = () => (

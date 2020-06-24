@@ -4,7 +4,7 @@ input:not([type='radio']):not([type='checkbox']) {
   appearance: none;
   border: none;
   color: unset;
-  font-size: 1em;
+  font-size: unset;
   font-family: unset;
   line-height: 2;
   cursor: text;
@@ -13,6 +13,7 @@ input:not([type='radio']):not([type='checkbox']) {
 .formfield {
   width: $form-width;
   max-width: 100%;
+  padding: 8px;
 
   &.wide {
     width: $form-width-wide;
@@ -25,22 +26,66 @@ input:not([type='radio']):not([type='checkbox']) {
 
 /* normal */
 
-.formfield > label.normal {
-  display: block;
-  width: 100%;
-  padding: 8px;
+.formfield.normal {
+  & > label {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    color: $color-text-dark-2;
+    font-weight: 700;
+    transition: color $transition-normal;
+  }
+
+  & > input {
+    display: block;
+    width: 100%;
+    height: 3em;
+    padding: 1px 8px;
+    border-radius: 4px;
+    border: 1px solid $color-back-dark-3;
+    box-shadow: inset 0 1px 2px 0 $color-back-dark-3, 0 0 0 2px transparent;
+    transition: border-color $transition-normal, box-shadow $transition-normal;
+  }
+
+  & > .hint {
+    font-size: 0.85rem;
+    padding: 4px 8px;
+    color: $color-text-dark-2;
+  }
+
+  &:focus-within {
+    & > input {
+      border-color: $color-back-primary;
+      box-shadow: inset 0 1px 1px 0 $color-back-dark-3,
+        0 0 0 2px $color-back-primary-2;
+    }
+  }
 }
 
-.formfield > input.normal {
-  display: block;
-  width: 100%;
-  padding: 12px;
-  border-radius: 4px;
-  border: 2px solid $color-back-dark-3;
-  transition: border-color $transition-normal;
+.dark .formfield.normal {
+  & > label {
+    color: $color-text-light-2;
+  }
 
-  &:focus {
-    border-color: $color-primary-3;
+  & > input {
+    border-color: $color-back-light-3;
+    box-shadow: inset 0 1px 2px 0 $color-back-light-3, 0 0 0 2px transparent;
+  }
+
+  & > .hint {
+    color: $color-text-light-2;
+  }
+
+  &:focus-within {
+    & > label {
+      color: $color-text-light-1;
+    }
+
+    & > input {
+      border-color: $color-back-primary;
+      box-shadow: inset 0 1px 1px 0 $color-back-light-3,
+        0 0 0 2px $color-back-primary-2;
+    }
   }
 }
 

@@ -9,7 +9,7 @@ $color-text-dark-2: rgba($black, 0.625) !default; // secondary
 $color-text-dark-3: rgba($black, 0.375) !default; // disabled/hint/icons
 
 $color-text-light-1: rgba($white, 0.9375) !default; // primary
-$color-text-light-2: rgba($white, 0.625) !default; // secondary
+$color-text-light-2: rgba($white, 0.75) !default; // secondary
 $color-text-light-3: rgba($white, 0.375) !default; // disabled/hint/icons
 
 $color-back-transparent: rgba($white, 0) !default;
@@ -34,11 +34,11 @@ $color-primary-dark-1: $color-primary-dark !default;
 $color-primary-dark-2: darken($color-primary-dark, 6.25%) !default;
 $color-primary-dark-3: $black !default;
 
-$color-back-primary: desaturate($color-primary, 12.5%) !default;
+$color-back-primary: lighten($color-primary, 12.5%) !default;
 
 $color-back-primary-1: rgba($color-back-primary, 0.9375) !default;
-$color-back-primary-2: rgba($color-back-primary, 0.625) !default;
-$color-back-primary-3: rgba($color-back-primary, 0.125) !default;
+$color-back-primary-2: rgba($color-back-primary, 0.5) !default;
+$color-back-primary-3: rgba($color-back-primary, 0.0625) !default;
 
 $color-accent: #ffb74d !default;
 $color-accent-light: lighten($color-accent, 12.5%) !default;

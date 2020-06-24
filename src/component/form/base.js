@@ -52,7 +52,7 @@ const Field = ({
   valid,
   label,
   placeholder,
-  info,
+  hint,
   wide,
   fullWidth,
   noctx,
@@ -127,18 +127,14 @@ const Field = ({
       valid,
       label,
       placeholder,
-      info,
+      hint,
     });
   } else {
+    k.push('normal');
     inp = (
       <Fragment>
-        {label && (
-          <label className="normal" htmlFor={fieldid}>
-            {label}
-          </label>
-        )}
+        {label && <label htmlFor={fieldid}>{label}</label>}
         <input
-          className="normal"
           id={fieldid}
           type={type}
           name={name}
@@ -147,6 +143,7 @@ const Field = ({
           onKeyDown={handleSubmit}
           placeholder={placeholder}
         />
+        {hint && <div className="hint">{hint}</div>}
       </Fragment>
     );
   }
