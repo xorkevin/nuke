@@ -9,8 +9,9 @@ import React, {
 } from 'react';
 import ReactDOM from 'react-dom';
 import {randomID} from 'utility';
-import Chip from 'component/chip';
-import FaIcon from 'component/faicon';
+import {Grid, Column} from '../grid';
+import Chip from '../chip';
+import FaIcon from '../faicon';
 
 const FormContext = React.createContext();
 
@@ -53,6 +54,7 @@ const Field = ({
   label,
   placeholder,
   hint,
+  hintRight,
   wide,
   fullWidth,
   noctx,
@@ -114,6 +116,21 @@ const Field = ({
     k.push('wide');
   }
 
+  if (valid) {
+    k.push('valid');
+  } else if (error) {
+    k.push('error');
+  }
+
+  const hintClass = ['hint'];
+
+  const displayValid = valid && typeof valid !== 'boolean';
+  const displayErr = error && typeof error !== 'boolean';
+  if (displayValid) {
+  } else if (displayErr) {
+    hintClass.push('error');
+  }
+
   let inp = null;
   if (render) {
     inp = render({
@@ -128,6 +145,7 @@ const Field = ({
       label,
       placeholder,
       hint,
+      hintRight,
     });
   } else {
     k.push('normal');
@@ -143,7 +161,12 @@ const Field = ({
           onKeyDown={handleSubmit}
           placeholder={placeholder}
         />
-        {hint && <div className="hint">{hint}</div>}
+        <Grid strict justify="space-between" className={hintClass.join(' ')}>
+          <Column className="left">
+            {(displayValid && valid) || (displayErr && error) || hint}
+          </Column>
+          {hintRight && <Column className="right">{hintRight}</Column>}
+        </Grid>
       </Fragment>
     );
   }

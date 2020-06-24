@@ -15,16 +15,12 @@ export const hint = () => (
   <Field label="Hint" name="tagline" hint="What describes you?" />
 );
 
-export const textarea = () => (
-  <Input textarea label="Bio" name="bio" info="Tell us about yourself" />
-);
-
 const phoneRegex = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
 const imageSetType = new Set(['image/png', 'image/jpeg']);
 const formErrCheck = ({email, phone, password, confirm_password}) => {
   const err = {};
   if (email.length > 0 && !emailRegex.test(email)) {
-    Object.assign(err, {email: true});
+    Object.assign(err, {email: 'Must be a valid email'});
   }
   if (phone.length > 0 && !phoneRegex.test(phone)) {
     Object.assign(err, {phone: true});
@@ -33,7 +29,7 @@ const formErrCheck = ({email, phone, password, confirm_password}) => {
     Object.assign(err, {password: true});
   }
   if (confirm_password.length > 0 && confirm_password !== password) {
-    Object.assign(err, {confirm_password: 'Must match password'});
+    Object.assign(err, {confirm_password: 'Passwords must match'});
   }
   return err;
 };
@@ -49,7 +45,7 @@ const formValidCheck = ({email, phone, password, confirm_password}) => {
     Object.assign(valid, {password: true});
   }
   if (password.length > 0 && confirm_password === password) {
-    Object.assign(valid, {confirm_password: true});
+    Object.assign(valid, {confirm_password: 'Passwords match!'});
   }
   return valid;
 };
@@ -68,18 +64,25 @@ export const validation = () => {
       errCheck={formErrCheck}
       validCheck={formValidCheck}
     >
-      <Input label="Email" name="email" info="name@example.com" />
-      <Input label="Phone" name="phone" info="xxx-xxx-xxxx" />
-      <Input
+      <Field label="Email" name="email" placeholder="name@example.com" />
+      <Field label="Phone" name="phone" placeholder="xxx-xxx-xxxx" />
+      <Field
         label="Password"
         type="password"
         name="password"
-        info="Must be at least 10 chars"
+        hint="Must be at least 10 chars"
+        hintRight={
+          formState.password.length > 0 ? formState.password.length : ''
+        }
       />
-      <Input label="Confirm password" type="password" name="confirm_password" />
+      <Field label="Confirm password" type="password" name="confirm_password" />
     </Form>
   );
 };
+
+export const textarea = () => (
+  <Input textarea label="Bio" name="bio" info="Tell us about yourself" />
+);
 
 export const checkbox = () => (
   <Fragment>
