@@ -1,5 +1,6 @@
 import React from 'react';
 import Article from 'component/article';
+import {Grid, Column} from 'component/grid';
 import Img from 'component/image';
 import {thamesPreview} from 'example/config';
 
@@ -50,11 +51,25 @@ export const plain = () => (
       src="/static/thames.jpg"
       preview={thamesPreview}
     />
-    <div className="contentrow outset">
-      <Img src="/static/thames.jpg" preview={thamesPreview} />
-      <Img src="/static/thames.jpg" preview={thamesPreview} />
-      <Img src="/static/thames.jpg" preview={thamesPreview} />
-    </div>
+    <Grid className="outset" nowrap>
+      <Column>
+        <Img src="/static/thames.jpg" preview={thamesPreview} />
+      </Column>
+      <Column>
+        <Img src="/static/thames.jpg" preview={thamesPreview} />
+      </Column>
+    </Grid>
+    <Grid className="outset-double" nowrap>
+      <Column>
+        <Img src="/static/thames.jpg" preview={thamesPreview} />
+      </Column>
+      <Column>
+        <Img src="/static/thames.jpg" preview={thamesPreview} />
+      </Column>
+      <Column>
+        <Img src="/static/thames.jpg" preview={thamesPreview} />
+      </Column>
+    </Grid>
     <p>
       Nulla facilisi. Phasellus blandit interdum est, in pellentesque nunc
       fermentum et. Proin nibh risus, sollicitudin ac urna sed, aliquet

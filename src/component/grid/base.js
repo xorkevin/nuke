@@ -99,13 +99,9 @@ const Column = ({
   }
   if (grow) {
     j.flexGrow = grow;
-  } else {
-    j.flexGrow = '0';
   }
   if (shrink) {
     j.flexShrink = shrink;
-  } else {
-    j.flexShrink = '0';
   }
 
   return (

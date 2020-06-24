@@ -22,6 +22,10 @@ article {
     width: $article-width * 4/3;
   }
 
+  & > *.outset-double {
+    width: $article-width * 2;
+  }
+
   & > *.fullwidth {
     width: 100%;
   }
@@ -68,20 +72,6 @@ article {
     font-family: $article-font;
     font-size: $article-font-size * 0.875;
     text-align: center;
-  }
-
-  .contentrow {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    & > * {
-      display: block;
-      flex-basis: 0;
-      flex-grow: 1;
-      flex-shrink: 1;
-      padding: 4px;
-    }
   }
 
   h1,

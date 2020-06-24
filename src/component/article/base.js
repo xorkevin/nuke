@@ -20,7 +20,7 @@ const Article = ({title, subtitle, author, time, tags, children}) => {
       <div>
         <Grid className="author" strict nowrap align="center">
           {author.img && (
-            <Column className="image">
+            <Column className="image" shrink="0">
               <ImgCircle
                 src={author.img}
                 preview={author.imgpreview}
@@ -28,7 +28,7 @@ const Article = ({title, subtitle, author, time, tags, children}) => {
               />
             </Column>
           )}
-          <Column className="description" shrink="1">
+          <Column className="description">
             <h4 className="name">{author.name}</h4>
             <div className="bio">{author.bio}</div>
           </Column>
