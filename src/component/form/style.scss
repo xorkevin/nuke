@@ -73,11 +73,9 @@ textarea {
 
   & > .hint {
     color: $color-text-light-2;
-  }
 
-  &:focus-within {
-    & > label {
-      color: $color-text-light-1;
+    &.error {
+      color: $color-danger-light;
     }
   }
 }
@@ -119,6 +117,14 @@ textarea {
   & > input {
     border-color: $color-back-light-3;
     box-shadow: inset 0 1px 2px 0 $color-back-light-3, 0 0 0 2px transparent;
+  }
+
+  &.error > input {
+    border-color: $color-danger-light;
+  }
+
+  &.valid > input {
+    border-color: $color-success-light;
   }
 
   &:focus-within {
@@ -167,6 +173,14 @@ textarea {
   & > textarea {
     border-color: $color-back-light-3;
     box-shadow: inset 0 1px 2px 0 $color-back-light-3, 0 0 0 2px transparent;
+  }
+
+  &.error > textarea {
+    border-color: $color-danger-light;
+  }
+
+  &.valid > textarea {
+    border-color: $color-success-light;
   }
 
   &:focus-within {
