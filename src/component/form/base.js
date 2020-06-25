@@ -10,6 +10,8 @@ import React, {
 import ReactDOM from 'react-dom';
 import {randomID} from 'utility';
 import {Grid, Column} from '../grid';
+import {ListGroup, ListItem} from '../listgroup';
+import ButtonSmall from '../button/small';
 import Chip from '../chip';
 import FaIcon from '../faicon';
 
@@ -62,6 +64,7 @@ const Field = ({
   wide,
   fullWidth,
   noctx,
+  children,
 }) => {
   const fieldid = useMemo(randomID, []);
 
@@ -155,6 +158,7 @@ const Field = ({
       options,
       label,
       placeholder,
+      children,
     });
   } else {
     k.push('normal');
@@ -412,22 +416,38 @@ const FieldRadio = (props) => {
   return <Field {...k} />;
 };
 
-const renderFile = ({accept, capture}) => ({
+const renderFile = ({accept, capture, multiple}) => ({
   fieldid,
   name,
   onChange,
   onSubmit,
   label,
+  children,
 }) => {
+  const [files, setFiles] = useState([]);
   const handleChange = useCallback(
     (e) => {
-      if (e.target.files.length < 1) {
-        onChange(name, undefined);
-      } else {
-        onChange(name, e.target.files[0]);
+      const k = e.target.files;
+      if (!multiple) {
+        if (k.length < 1) {
+          return;
+        }
+        const next = k[0];
+        setFiles([{key: randomID(), file: k[0]}]);
+        onChange(name, next);
+        return;
       }
+      const next = files.slice(0);
+      for (let i = 0; i < k.length; i++) {
+        next.push({key: randomID(), file: k[i]});
+      }
+      setFiles(next);
+      onChange(
+        name,
+        next.map((i) => i.file),
+      );
     },
-    [name, onChange],
+    [name, files, setFiles, multiple, onChange],
   );
   const handleSubmit = useCallback(
     (e) => {
@@ -439,7 +459,8 @@ const renderFile = ({accept, capture}) => ({
   );
   return (
     <Fragment>
-      {label && <label htmlFor={fieldid}>{label}</label>}
+      {label && <div className="label">{label}</div>}
+      <label htmlFor={fieldid}>{children}</label>
       <input
         id={fieldid}
         type="file"
@@ -448,14 +469,29 @@ const renderFile = ({accept, capture}) => ({
         onKeyDown={handleSubmit}
         accept={accept}
         capture={capture}
+        multiple={multiple}
       />
+      {files.length > 0 && (
+        <ListGroup className="filelist">
+          {files.map((i) => (
+            <ListItem key={i.key}>
+              <Grid justify="space-between">
+                <Column>{i.file.name}</Column>
+                <Column>
+                  <ButtonSmall>&times;</ButtonSmall>
+                </Column>
+              </Grid>
+            </ListItem>
+          ))}
+        </ListGroup>
+      )}
     </Fragment>
   );
 };
 
 const FieldFile = (props) => {
-  const {accept, capture} = props;
-  const render = useMemo(() => renderFile({accept, capture}), [
+  const {accept, capture, multiple} = props;
+  const render = useMemo(() => renderFile({accept, capture, multiple}), [
     accept,
     capture,
   ]);

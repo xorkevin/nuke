@@ -7,8 +7,6 @@ button {
   }
 
   padding: 8px 16px;
-  margin-left: $button-margin;
-  margin-right: $button-margin;
   max-width: 100%;
 
   text-align: center;
@@ -155,7 +153,6 @@ button.danger {
 /* small */
 button.small {
   padding: 2px 4px;
-  margin: 0;
   border: 0;
   color: $color-text-dark-2;
 

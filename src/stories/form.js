@@ -12,6 +12,8 @@ import {
   useForm,
   fuzzyFilter,
 } from 'component/form';
+import Button from 'component/button';
+import FaIcon from 'component/faicon';
 
 const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]+$/;
 
@@ -66,6 +68,13 @@ const formValidCheck = ({email, phone, password, confirm_password, bio}) => {
     Object.assign(valid, {bio: true});
   }
   return valid;
+};
+
+const fileStringReplacer = (k, v) => {
+  if (v instanceof File) {
+    return `FILE:${v.name}`;
+  }
+  return v;
 };
 
 export const validation = () => {
@@ -147,10 +156,16 @@ export const validation = () => {
       <FieldFile
         label="File"
         type="file"
-        name="fileval"
+        name="file"
         hint="Choose an image"
         accept="image/png, image/jpeg"
-      />
+        fullWidth
+      >
+        <Button>
+          <FaIcon icon="cloud-upload" /> Upload
+        </Button>
+      </FieldFile>
+      <pre>{JSON.stringify(formState, fileStringReplacer, '  ')}</pre>
     </Form>
   );
 };

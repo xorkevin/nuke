@@ -290,8 +290,7 @@ textarea {
 
 /* file */
 .formfield.file {
-  & > label {
-    display: block;
+  & > .label {
     width: 100%;
     padding: 0 8px 4px;
     color: $color-text-dark-2;
@@ -299,13 +298,26 @@ textarea {
     transition: $transition-normal;
   }
 
-  & > input[type='file'] {
+  & > label {
+    display: inline-block;
     cursor: pointer;
+
+    & > * {
+      pointer-events: none;
+    }
+  }
+
+  & > input[type='file'] {
+    display: none;
+  }
+
+  & > .filelist {
+    margin: 8px 0;
   }
 }
 
 .dark .formfield.file {
-  & > label {
+  & > .label {
     color: $color-text-light-2;
   }
 }
