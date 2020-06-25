@@ -242,9 +242,6 @@ const renderCheckbox = ({
   onSubmit,
   option,
   label,
-  placeholder,
-  hint,
-  hintRight,
 }) => {
   const checked = Array.isArray(value) && new Set(value).has(option);
   const handleChange = useCallback(
@@ -291,6 +288,69 @@ const FieldCheckbox = (props) => {
   const k = Object.assign({}, props, {
     className: j.join(' '),
     render: renderCheckbox,
+  });
+  return <Field {...k} />;
+};
+
+const renderToggle = ({
+  fieldid,
+  name,
+  value,
+  onChange,
+  onSubmit,
+  option,
+  label,
+}) => {
+  const handleChange = useCallback(
+    (e) => {
+      onChange(name, e.target.checked);
+    },
+    [name, onChange],
+  );
+  const handleSubmit = useCallback(
+    (e) => {
+      if (e.key === 'Enter') {
+        onSubmit();
+      }
+    },
+    [onSubmit],
+  );
+  return (
+    <Fragment>
+      <input
+        id={fieldid}
+        type="checkbox"
+        name={name}
+        value={option}
+        checked={value}
+        onChange={handleChange}
+        onKeyDown={handleSubmit}
+      />
+      {label && <label htmlFor={fieldid}>{label}</label>}
+    </Fragment>
+  );
+};
+
+const FieldToggle = (props) => {
+  const j = ['toggle'];
+  if (props.className) {
+    j.push(props.className);
+  }
+  const k = Object.assign({}, props, {
+    className: j.join(' '),
+    render: renderToggle,
+  });
+  return <Field {...k} />;
+};
+
+const FieldSwitch = (props) => {
+  const j = ['toggle switch'];
+  if (props.className) {
+    j.push(props.className);
+  }
+  const k = Object.assign({}, props, {
+    className: j.join(' '),
+    render: renderToggle,
   });
   return <Field {...k} />;
 };
@@ -828,6 +888,8 @@ export {
   Field,
   FieldTextarea,
   FieldCheckbox,
+  FieldToggle,
+  FieldSwitch,
   Input,
   Form,
   useForm,

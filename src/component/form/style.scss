@@ -217,6 +217,71 @@ textarea {
   }
 }
 
+/* toggle */
+.formfield.toggle {
+  & > input[type='checkbox'] {
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+
+  & > label {
+    vertical-align: middle;
+  }
+}
+
+/* switch */
+.formfield.switch {
+  & > input[type='checkbox'] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    outline: none;
+    display: inline-block;
+    width: 3em;
+    height: 1.5em;
+    border-radius: 1.5em;
+    padding: 2px;
+    position: relative;
+    background-color: $color-back-dark-3;
+    transition: $transition-normal;
+
+    &:after {
+      content: '';
+      display: block;
+      width: 50%;
+      height: 100%;
+      border-radius: 50%;
+      position: relative;
+      top: 0;
+      left: 0;
+      background-color: $color-back-light-1;
+      transition: $transition-normal;
+    }
+
+    &:checked {
+      background-color: $color-success-light;
+
+      &:after {
+        left: 50%;
+      }
+    }
+  }
+}
+
+.dark .formfield.switch {
+  & > input[type='checkbox'] {
+    background-color: $color-back-light-3;
+
+    &:after {
+      background-color: $color-text-light-1;
+    }
+
+    &:checked {
+      background-color: $color-success-light;
+    }
+  }
+}
+
 .input {
   position: relative;
   width: $form-width;

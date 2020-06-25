@@ -3,6 +3,8 @@ import {
   Field,
   FieldTextarea,
   FieldCheckbox,
+  FieldToggle,
+  FieldSwitch,
   Input,
   Form,
   useForm,
@@ -71,6 +73,8 @@ export const validation = () => {
     password: '',
     confirm_password: '',
     bio: '',
+    checkbox: [],
+    toggle: false,
   });
   return (
     <Form
@@ -79,56 +83,48 @@ export const validation = () => {
       errCheck={formErrCheck}
       validCheck={formValidCheck}
     >
-      <Field label="Email" name="email" placeholder="name@example.com" />
-      <Field label="Phone" name="phone" placeholder="xxx-xxx-xxxx" />
+      <Field name="email" label="Email" placeholder="name@example.com" />
+      <Field name="phone" label="Phone" placeholder="xxx-xxx-xxxx" />
       <Field
-        label="Password"
-        type="password"
         name="password"
+        type="password"
+        label="Password"
         hint="Must be at least 10 chars"
         hintRight={
           formState.password.length > 0 ? formState.password.length : ''
         }
       />
-      <Field label="Confirm password" type="password" name="confirm_password" />
+      <Field name="confirm_password" type="password" label="Confirm password" />
       <FieldTextarea
-        label="Bio"
         name="bio"
+        label="Bio"
         hint="Tell us about yourself"
         hintRight={`${formState.bio.length}/128`}
         wide
       />
       <FieldCheckbox
-        label="Check me"
         name="checkbox"
         option="checked1"
+        label="Check me"
         hint="This is a checkbox"
       />
       <FieldCheckbox
-        label="Check me"
         name="checkbox"
         option="checked1"
+        label="Check me"
         hint="This is a checkbox"
       />
       <FieldCheckbox
-        label="Check me"
         name="checkbox"
         option="checked2"
+        label="Check me"
         hint="This is a checkbox"
       />
+      <FieldToggle name="toggle" label="Toggle me" />
+      <FieldSwitch name="toggle" label="Toggle me" />
     </Form>
   );
 };
-
-export const toggle = () => (
-  <Input
-    label="Toggle me"
-    info="This is a toggle"
-    type="checkbox"
-    toggle
-    name="toggle"
-  />
-);
 
 export const radio = () => {
   const [formState, updateForm] = useForm({
