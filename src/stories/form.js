@@ -6,6 +6,7 @@ import {
   FieldToggle,
   FieldSwitch,
   FieldRadio,
+  FieldFile,
   Input,
   Form,
   useForm,
@@ -77,6 +78,7 @@ export const validation = () => {
     checkbox: [],
     toggle: false,
     radio: '',
+    file: undefined,
   });
   return (
     <Form
@@ -141,6 +143,13 @@ export const validation = () => {
         option="three"
         label="Radio three"
         hint="Radio button"
+      />
+      <FieldFile
+        label="File"
+        type="file"
+        name="fileval"
+        accept="image/png, image/jpeg"
+        hint="Choose an image"
       />
     </Form>
   );

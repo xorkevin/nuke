@@ -13,6 +13,10 @@ input:not([type='radio']):not([type='checkbox']) {
   cursor: text;
 }
 
+input {
+  outline: none;
+}
+
 textarea {
   background: transparent;
   border: none;
@@ -208,7 +212,6 @@ textarea {
 /* checkbox */
 .formfield.checkbox {
   & > input[type='checkbox'] {
-    outline: none;
     vertical-align: middle;
     margin-right: 8px;
   }
@@ -221,7 +224,6 @@ textarea {
 /* toggle */
 .formfield.toggle {
   & > input[type='checkbox'] {
-    outline: none;
     vertical-align: middle;
     margin-right: 8px;
   }
@@ -286,13 +288,34 @@ textarea {
 /* radio */
 .formfield.radio {
   & > input[type='radio'] {
-    outline: none;
     vertical-align: middle;
     margin-right: 8px;
   }
 
   & > label {
     vertical-align: middle;
+  }
+}
+
+/* file */
+.formfield.file {
+  & > label {
+    display: block;
+    width: 100%;
+    padding: 0 8px 4px;
+    color: $color-text-dark-2;
+    font-weight: 700;
+    transition: $transition-normal;
+  }
+
+  & > input[type='file'] {
+    cursor: pointer;
+  }
+}
+
+.dark .formfield.file {
+  & > label {
+    color: $color-text-light-2;
   }
 }
 

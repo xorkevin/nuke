@@ -409,6 +409,51 @@ const FieldRadio = (props) => {
   return <Field {...k} />;
 };
 
+const renderFile = ({fieldid, name, onChange, onSubmit, label}) => {
+  const handleChange = useCallback(
+    (e) => {
+      if (e.target.files.length < 1) {
+        onChange(name, undefined);
+      } else {
+        onChange(name, e.target.files[0]);
+      }
+    },
+    [name, onChange],
+  );
+  const handleSubmit = useCallback(
+    (e) => {
+      if (e.key === 'Enter') {
+        onSubmit();
+      }
+    },
+    [onSubmit],
+  );
+  return (
+    <Fragment>
+      {label && <label htmlFor={fieldid}>{label}</label>}
+      <input
+        id={fieldid}
+        type="file"
+        name={name}
+        onChange={handleChange}
+        onKeyDown={handleSubmit}
+      />
+    </Fragment>
+  );
+};
+
+const FieldFile = (props) => {
+  const j = ['file'];
+  if (props.className) {
+    j.push(props.className);
+  }
+  const k = Object.assign({}, props, {
+    className: j.join(' '),
+    render: renderFile,
+  });
+  return <Field {...k} />;
+};
+
 const OptionsContainer = ({align, position, fixed, reference, children}) => {
   const [bounds, setBounds] = useState(
     reference.current.getBoundingClientRect(),
@@ -945,6 +990,7 @@ export {
   FieldToggle,
   FieldSwitch,
   FieldRadio,
+  FieldFile,
   Input,
   Form,
   useForm,
