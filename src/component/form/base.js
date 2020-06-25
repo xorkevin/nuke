@@ -416,6 +416,24 @@ const FieldRadio = (props) => {
   return <Field {...k} />;
 };
 
+const FileFieldItem = ({index, file, handleDelete}) => {
+  const onClick = useCallback(() => {
+    handleDelete(index);
+  }, [index, handleDelete]);
+  return (
+    <ListItem>
+      <Grid justify="space-between" align="center">
+        <Column>{file.name}</Column>
+        <Column>
+          <ButtonSmall label="remove file" onClick={onClick}>
+            &times;
+          </ButtonSmall>
+        </Column>
+      </Grid>
+    </ListItem>
+  );
+};
+
 const renderFile = ({accept, capture, multiple}) => ({
   fieldid,
   name,
@@ -425,6 +443,23 @@ const renderFile = ({accept, capture, multiple}) => ({
   children,
 }) => {
   const [files, setFiles] = useState([]);
+  const handleDelete = useCallback(
+    (index) => {
+      if (!multiple) {
+        setFiles([]);
+        onChange(name, undefined);
+        return;
+      }
+      const next = files.slice(0);
+      next.splice(index, 1);
+      setFiles(next);
+      onChange(
+        name,
+        next.map((i) => i.file),
+      );
+    },
+    [name, files, setFiles, multiple],
+  );
   const handleChange = useCallback(
     (e) => {
       const k = e.target.files;
@@ -473,15 +508,13 @@ const renderFile = ({accept, capture, multiple}) => ({
       />
       {files.length > 0 && (
         <ListGroup className="filelist">
-          {files.map((i) => (
-            <ListItem key={i.key}>
-              <Grid justify="space-between">
-                <Column>{i.file.name}</Column>
-                <Column>
-                  <ButtonSmall>&times;</ButtonSmall>
-                </Column>
-              </Grid>
-            </ListItem>
+          {files.map((i, index) => (
+            <FileFieldItem
+              key={i.key}
+              index={index}
+              file={i.file}
+              handleDelete={handleDelete}
+            />
           ))}
         </ListGroup>
       )}

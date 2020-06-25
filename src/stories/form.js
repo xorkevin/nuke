@@ -88,6 +88,7 @@ export const validation = () => {
     toggle: false,
     radio: '',
     file: undefined,
+    filemulti: [],
   });
   return (
     <Form
@@ -165,6 +166,20 @@ export const validation = () => {
           <FaIcon icon="cloud-upload" /> Upload
         </Button>
       </FieldFile>
+      <FieldFile
+        label="Multiple files"
+        type="file"
+        name="filemulti"
+        hint="Choose images"
+        accept="image/png, image/jpeg"
+        multiple
+        fullWidth
+      >
+        <Button>
+          <FaIcon icon="cloud-upload" /> Upload
+        </Button>
+      </FieldFile>
+      <h3>Form state</h3>
       <pre>{JSON.stringify(formState, fileStringReplacer, '  ')}</pre>
     </Form>
   );
