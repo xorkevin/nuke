@@ -58,6 +58,7 @@ const Field = ({
   placeholder,
   hint,
   hintRight,
+  nohint,
   wide,
   fullWidth,
   noctx,
@@ -130,7 +131,9 @@ const Field = ({
   }
 
   const hintClass = ['hint'];
-
+  if (nohint) {
+    hintClass.push('no-hint');
+  }
   const displayValid = valid && typeof valid !== 'boolean';
   const displayErr = error && typeof error !== 'boolean';
   if (displayValid) {
@@ -409,7 +412,13 @@ const FieldRadio = (props) => {
   return <Field {...k} />;
 };
 
-const renderFile = ({fieldid, name, onChange, onSubmit, label}) => {
+const renderFile = ({accept, capture}) => ({
+  fieldid,
+  name,
+  onChange,
+  onSubmit,
+  label,
+}) => {
   const handleChange = useCallback(
     (e) => {
       if (e.target.files.length < 1) {
@@ -437,19 +446,26 @@ const renderFile = ({fieldid, name, onChange, onSubmit, label}) => {
         name={name}
         onChange={handleChange}
         onKeyDown={handleSubmit}
+        accept={accept}
+        capture={capture}
       />
     </Fragment>
   );
 };
 
 const FieldFile = (props) => {
+  const {accept, capture} = props;
+  const render = useMemo(() => renderFile({accept, capture}), [
+    accept,
+    capture,
+  ]);
   const j = ['file'];
   if (props.className) {
     j.push(props.className);
   }
   const k = Object.assign({}, props, {
     className: j.join(' '),
-    render: renderFile,
+    render,
   });
   return <Field {...k} />;
 };

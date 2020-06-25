@@ -124,8 +124,8 @@ export const validation = () => {
         label="Check me"
         hint="This is a checkbox"
       />
-      <FieldToggle name="toggle" label="Toggle me" />
-      <FieldSwitch name="toggle" label="Toggle me" />
+      <FieldToggle name="toggle" label="Toggle me" nohint />
+      <FieldSwitch name="toggle" label="Toggle me" nohint />
       <FieldRadio
         name="radio"
         option="one"
@@ -148,8 +148,8 @@ export const validation = () => {
         label="File"
         type="file"
         name="fileval"
-        accept="image/png, image/jpeg"
         hint="Choose an image"
+        accept="image/png, image/jpeg"
       />
     </Form>
   );
