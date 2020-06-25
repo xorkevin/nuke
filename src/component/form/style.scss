@@ -208,6 +208,7 @@ textarea {
 /* checkbox */
 .formfield.checkbox {
   & > input[type='checkbox'] {
+    outline: none;
     vertical-align: middle;
     margin-right: 8px;
   }
@@ -220,6 +221,7 @@ textarea {
 /* toggle */
 .formfield.toggle {
   & > input[type='checkbox'] {
+    outline: none;
     vertical-align: middle;
     margin-right: 8px;
   }
@@ -230,12 +232,11 @@ textarea {
 }
 
 /* switch */
-.formfield.switch {
+.formfield.toggle.switch {
   & > input[type='checkbox'] {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    outline: none;
     display: inline-block;
     width: 3em;
     height: 1.5em;
@@ -285,6 +286,7 @@ textarea {
 /* radio */
 .formfield.radio {
   & > input[type='radio'] {
+    outline: none;
     vertical-align: middle;
     margin-right: 8px;
   }
