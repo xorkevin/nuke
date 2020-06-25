@@ -39,15 +39,6 @@ textarea {
 }
 
 .formfield {
-  & > label {
-    display: block;
-    width: 100%;
-    padding: 0 8px 4px;
-    color: $color-text-dark-2;
-    font-weight: 700;
-    transition: $transition-normal;
-  }
-
   & > .hint {
     font-size: 0.85rem;
     padding: 4px 8px 0;
@@ -67,10 +58,6 @@ textarea {
 }
 
 .dark .formfield {
-  & > label {
-    color: $color-text-light-2;
-  }
-
   & > .hint {
     color: $color-text-light-2;
 
@@ -83,6 +70,15 @@ textarea {
 /* normal */
 
 .formfield.normal {
+  & > label {
+    display: block;
+    width: 100%;
+    padding: 0 8px 4px;
+    color: $color-text-dark-2;
+    font-weight: 700;
+    transition: $transition-normal;
+  }
+
   & > input {
     display: block;
     width: 100%;
@@ -114,6 +110,10 @@ textarea {
 }
 
 .dark .formfield.normal {
+  & > label {
+    color: $color-text-light-2;
+  }
+
   & > input {
     border-color: $color-back-light-3;
     box-shadow: inset 0 1px 2px 0 $color-back-light-3, 0 0 0 2px transparent;
@@ -139,6 +139,15 @@ textarea {
 /* textarea */
 
 .formfield.textarea {
+  & > label {
+    display: block;
+    width: 100%;
+    padding: 0 8px 4px;
+    color: $color-text-dark-2;
+    font-weight: 700;
+    transition: $transition-normal;
+  }
+
   & > textarea {
     display: block;
     width: 100%;
@@ -170,6 +179,10 @@ textarea {
 }
 
 .dark .formfield.textarea {
+  & > label {
+    color: $color-text-light-2;
+  }
+
   & > textarea {
     border-color: $color-back-light-3;
     box-shadow: inset 0 1px 2px 0 $color-back-light-3, 0 0 0 2px transparent;
@@ -189,6 +202,18 @@ textarea {
       box-shadow: inset 0 1px 1px 0 $color-back-light-3,
         0 0 0 2px $color-back-primary-2;
     }
+  }
+}
+
+/* checkbox */
+.formfield.checkbox {
+  & > input[type='checkbox'] {
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+
+  & > label {
+    vertical-align: middle;
   }
 }
 

@@ -2,6 +2,7 @@ import React, {Fragment, useMemo} from 'react';
 import {
   Field,
   FieldTextarea,
+  FieldCheckbox,
   Input,
   Form,
   useForm,
@@ -97,34 +98,27 @@ export const validation = () => {
         hintRight={`${formState.bio.length}/128`}
         wide
       />
+      <FieldCheckbox
+        label="Check me"
+        name="checkbox"
+        option="checked1"
+        hint="This is a checkbox"
+      />
+      <FieldCheckbox
+        label="Check me"
+        name="checkbox"
+        option="checked1"
+        hint="This is a checkbox"
+      />
+      <FieldCheckbox
+        label="Check me"
+        name="checkbox"
+        option="checked2"
+        hint="This is a checkbox"
+      />
     </Form>
   );
 };
-
-export const checkbox = () => (
-  <Fragment>
-    <Input
-      label="Check me"
-      info="This is a checkbox"
-      type="checkbox"
-      name="checkbox"
-    />
-    <Input
-      label="Check me"
-      info="This is a checkbox"
-      type="checkbox"
-      name="checkbox2"
-      error="checkbox error"
-    />
-    <Input
-      label="Check me"
-      info="This is a checkbox"
-      type="checkbox"
-      name="checkbox3"
-      valid
-    />
-  </Fragment>
-);
 
 export const toggle = () => (
   <Input

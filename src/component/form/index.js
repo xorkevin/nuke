@@ -1,8 +1,17 @@
-import {Field, FieldTextarea, Input, Form, useForm, fuzzyFilter} from './base';
+import {
+  Field,
+  FieldTextarea,
+  FieldCheckbox,
+  Input,
+  Form,
+  useForm,
+  fuzzyFilter,
+} from './base';
 export {
   Field as default,
   Field,
   FieldTextarea,
+  FieldCheckbox,
   Input,
   Form,
   useForm,

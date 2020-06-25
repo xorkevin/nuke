@@ -52,6 +52,8 @@ const Field = ({
   onSubmit,
   error,
   valid,
+  option,
+  options,
   label,
   placeholder,
   hint,
@@ -146,10 +148,10 @@ const Field = ({
       value,
       onChange: changeFunc,
       onSubmit: submitFunc,
+      option,
+      options,
       label,
       placeholder,
-      hint,
-      hintRight,
     });
   } else {
     k.push('normal');
@@ -228,6 +230,67 @@ const FieldTextarea = (props) => {
   const k = Object.assign({}, props, {
     className: j.join(' '),
     render: renderTextarea,
+  });
+  return <Field {...k} />;
+};
+
+const renderCheckbox = ({
+  fieldid,
+  name,
+  value,
+  onChange,
+  onSubmit,
+  option,
+  label,
+  placeholder,
+  hint,
+  hintRight,
+}) => {
+  const checked = Array.isArray(value) && new Set(value).has(option);
+  const handleChange = useCallback(
+    (e) => {
+      const v = new Set(value);
+      if (e.target.checked) {
+        v.add(option);
+      } else {
+        v.delete(option);
+      }
+      onChange(name, Array.from(v).sort());
+    },
+    [name, value, option, onChange],
+  );
+  const handleSubmit = useCallback(
+    (e) => {
+      if (e.key === 'Enter') {
+        onSubmit();
+      }
+    },
+    [onSubmit],
+  );
+  return (
+    <Fragment>
+      <input
+        id={fieldid}
+        type="checkbox"
+        name={name}
+        value={option}
+        checked={checked}
+        onChange={handleChange}
+        onKeyDown={handleSubmit}
+      />
+      {label && <label htmlFor={fieldid}>{label}</label>}
+    </Fragment>
+  );
+};
+
+const FieldCheckbox = (props) => {
+  const j = ['checkbox'];
+  if (props.className) {
+    j.push(props.className);
+  }
+  const k = Object.assign({}, props, {
+    className: j.join(' '),
+    render: renderCheckbox,
   });
   return <Field {...k} />;
 };
@@ -764,6 +827,7 @@ export {
   Field as default,
   Field,
   FieldTextarea,
+  FieldCheckbox,
   Input,
   Form,
   useForm,
