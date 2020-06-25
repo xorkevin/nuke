@@ -282,6 +282,18 @@ textarea {
   }
 }
 
+/* radio */
+.formfield.radio {
+  & > input[type='radio'] {
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+
+  & > label {
+    vertical-align: middle;
+  }
+}
+
 .input {
   position: relative;
   width: $form-width;

@@ -355,6 +355,60 @@ const FieldSwitch = (props) => {
   return <Field {...k} />;
 };
 
+const renderRadio = ({
+  fieldid,
+  name,
+  value,
+  onChange,
+  onSubmit,
+  option,
+  label,
+}) => {
+  const checked = value === option;
+  const handleChange = useCallback(
+    (e) => {
+      if (e.target.checked) {
+        onChange(name, option);
+      }
+    },
+    [name, option, onChange],
+  );
+  const handleSubmit = useCallback(
+    (e) => {
+      if (e.key === 'Enter') {
+        onSubmit();
+      }
+    },
+    [onSubmit],
+  );
+  return (
+    <Fragment>
+      <input
+        id={fieldid}
+        type="radio"
+        name={name}
+        value={option}
+        checked={checked}
+        onChange={handleChange}
+        onKeyDown={handleSubmit}
+      />
+      {label && <label htmlFor={fieldid}>{label}</label>}
+    </Fragment>
+  );
+};
+
+const FieldRadio = (props) => {
+  const j = ['radio'];
+  if (props.className) {
+    j.push(props.className);
+  }
+  const k = Object.assign({}, props, {
+    className: j.join(' '),
+    render: renderRadio,
+  });
+  return <Field {...k} />;
+};
+
 const OptionsContainer = ({align, position, fixed, reference, children}) => {
   const [bounds, setBounds] = useState(
     reference.current.getBoundingClientRect(),
@@ -890,6 +944,7 @@ export {
   FieldCheckbox,
   FieldToggle,
   FieldSwitch,
+  FieldRadio,
   Input,
   Form,
   useForm,

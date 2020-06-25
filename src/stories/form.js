@@ -5,6 +5,7 @@ import {
   FieldCheckbox,
   FieldToggle,
   FieldSwitch,
+  FieldRadio,
   Input,
   Form,
   useForm,
@@ -75,6 +76,7 @@ export const validation = () => {
     bio: '',
     checkbox: [],
     toggle: false,
+    radio: '',
   });
   return (
     <Form
@@ -122,50 +124,23 @@ export const validation = () => {
       />
       <FieldToggle name="toggle" label="Toggle me" />
       <FieldSwitch name="toggle" label="Toggle me" />
-    </Form>
-  );
-};
-
-export const radio = () => {
-  const [formState, updateForm] = useForm({
-    name: '',
-    email: '',
-    phone: '',
-    tagline: '',
-    password: '',
-    confirm_password: '',
-    checkbox: false,
-    checkbox2: false,
-    toggle: false,
-    radioval: false,
-    fileval: undefined,
-    lang: '200',
-    tool: '',
-    tool2: [],
-  });
-
-  return (
-    <Form formState={formState} onChange={updateForm}>
-      <Input
+      <FieldRadio
+        name="radio"
+        option="one"
         label="Radio one"
-        info="Radio button"
-        type="radio"
-        name="radioval"
-        value="one"
+        hint="Radio button"
       />
-      <Input
+      <FieldRadio
+        name="radio"
+        option="two"
         label="Radio two"
-        info="Radio button"
-        type="radio"
-        name="radioval"
-        value="two"
+        hint="Radio button"
       />
-      <Input
+      <FieldRadio
+        name="radio"
+        option="three"
         label="Radio three"
-        info="Radio button"
-        type="radio"
-        name="radioval"
-        value="three"
+        hint="Radio button"
       />
     </Form>
   );
