@@ -7,6 +7,7 @@ import {
   FieldSwitch,
   FieldRadio,
   FieldFile,
+  FieldSelect,
   Input,
   Form,
   useForm,
@@ -89,6 +90,7 @@ export const validation = () => {
     radio: '',
     file: undefined,
     filemulti: [],
+    lang: '',
   });
   return (
     <Form
@@ -155,9 +157,8 @@ export const validation = () => {
         hint="Radio button"
       />
       <FieldFile
-        label="File"
-        type="file"
         name="file"
+        label="File"
         hint="Choose an image"
         accept="image/png, image/jpeg"
         fullWidth
@@ -167,9 +168,8 @@ export const validation = () => {
         </Button>
       </FieldFile>
       <FieldFile
-        label="Multiple files"
-        type="file"
         name="filemulti"
+        label="Multiple files"
         hint="Choose images"
         accept="image/png, image/jpeg"
         multiple
@@ -179,36 +179,26 @@ export const validation = () => {
           <FaIcon icon="cloud-upload" /> Upload
         </Button>
       </FieldFile>
+      <FieldSelect
+        name="lang"
+        label="Language"
+        hint="Your favorite language"
+        options={[
+          {display: 'Rust', value: 'rs'},
+          {display: 'Go', value: 'go'},
+          {display: 'Javascript', value: 'js'},
+          {display: 'Python', value: 'py'},
+          {display: 'Erlang', value: 'erl'},
+        ]}
+      />
       <h3>Form state</h3>
       <pre>{JSON.stringify(formState, fileStringReplacer, '  ')}</pre>
     </Form>
   );
 };
 
-export const file = () => (
-  <Input
-    label="File"
-    type="file"
-    name="fileval"
-    accept="image/png, image/jpeg"
-    info="Choose an image"
-  />
-);
-
 export const dropdown = () => (
   <Fragment>
-    <Input
-      label="Language"
-      info="Your favorite language"
-      dropdown={[
-        {text: 'Rust', value: '100'},
-        {text: 'Go', value: '200'},
-        {text: 'Javascript', value: '300'},
-        {text: 'Python', value: '400'},
-        {text: 'Prolog', value: '500'},
-      ]}
-      name="lang"
-    />
     <Input
       label="Language"
       info="Your favorite language"

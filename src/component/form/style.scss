@@ -1,7 +1,8 @@
 /* normalize */
 input,
-textarea {
-  outline: none;
+textarea,
+select,
+option {
   font-size: unset;
   font-family: unset;
   line-height: $typography-line-height;
@@ -67,6 +68,7 @@ textarea {
     -moz-appearance: none;
     appearance: none;
     background: transparent;
+    outline: none;
     color: unset;
     cursor: text;
 
@@ -140,6 +142,7 @@ textarea {
 
   & > textarea {
     background: transparent;
+    outline: none;
     color: unset;
     cursor: text;
 
@@ -319,6 +322,73 @@ textarea {
 .dark .formfield.file {
   & > .label {
     color: $color-text-light-2;
+  }
+}
+
+/* select */
+.formfield.select {
+  position: relative;
+
+  & > label {
+    display: block;
+    width: 100%;
+    padding: 0 8px 4px;
+    color: $color-text-dark-2;
+    font-weight: 700;
+    transition: $transition-normal;
+  }
+
+  & > select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: transparent;
+    color: unset;
+
+    display: block;
+    width: 100%;
+    height: 3em;
+    padding: 1px 8px;
+    border-radius: 4px;
+    border: 1px solid $color-text-dark-1;
+    box-shadow: 0 0 0 2px transparent;
+    transition: $transition-normal;
+
+    & ~ .arrow {
+      content: '';
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 6px 6px 0 6px;
+      border-color: transparent;
+      border-top-color: $color-back-dark-2;
+      pointer-events: none;
+    }
+
+    & > option {
+      -moz-appearance: none;
+      -webkit-appearance: none;
+      appearance: none;
+      color: $color-text-dark-1;
+    }
+  }
+}
+
+.dark .formfield.select {
+  & > label {
+    color: $color-text-light-2;
+  }
+
+  & > select {
+    border-color: $color-text-light-1;
+
+    & ~ .arrow {
+      border-top-color: $color-back-light-2;
+    }
   }
 }
 

@@ -539,6 +539,61 @@ const FieldFile = (props) => {
   return <Field {...k} />;
 };
 
+const renderSelect = ({
+  fieldid,
+  name,
+  value,
+  onChange,
+  onSubmit,
+  options,
+  label,
+}) => {
+  const handleChange = useCallback(
+    (e) => {
+      onChange(name, e.target.value);
+    },
+    [name, onChange],
+  );
+  const handleSubmit = useCallback(
+    (e) => {
+      if (e.key === 'Enter') {
+        onSubmit();
+      }
+    },
+    [onSubmit],
+  );
+  return (
+    <Fragment>
+      {label && <label htmlFor={fieldid}>{label}</label>}
+      <select
+        id={fieldid}
+        value={value}
+        onChange={handleChange}
+        onKeyDown={handleSubmit}
+      >
+        {options.map((i) => (
+          <option key={i.display} value={i.value}>
+            {i.display}
+          </option>
+        ))}
+      </select>
+      <div className="arrow"></div>
+    </Fragment>
+  );
+};
+
+const FieldSelect = (props) => {
+  const j = ['select'];
+  if (props.className) {
+    j.push(props.className);
+  }
+  const k = Object.assign({}, props, {
+    className: j.join(' '),
+    render: renderSelect,
+  });
+  return <Field {...k} />;
+};
+
 const OptionsContainer = ({align, position, fixed, reference, children}) => {
   const [bounds, setBounds] = useState(
     reference.current.getBoundingClientRect(),
@@ -1076,6 +1131,7 @@ export {
   FieldSwitch,
   FieldRadio,
   FieldFile,
+  FieldSelect,
   Input,
   Form,
   useForm,
