@@ -3,6 +3,37 @@
   width: 0;
   height: 0;
   z-index: 128;
+
+  & > .popover {
+    position: absolute;
+    background-color: $white;
+    z-index: 1;
+    @include shadow-box(16px);
+
+    &.bottom {
+      top: 0;
+      left: 0;
+      transform: translateX(-50%);
+    }
+
+    &.top {
+      bottom: 0;
+      left: 0;
+      transform: translateX(-50%);
+    }
+
+    &.left {
+      top: 0;
+      right: 0;
+      transform: translateY(-50%);
+    }
+
+    &.right {
+      top: 0;
+      left: 0;
+      transform: translateY(-50%);
+    }
+  }
 }
 
 .debug-popover {

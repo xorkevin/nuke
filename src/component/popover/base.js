@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {Fragment, useState, useEffect, useRef} from 'react';
 import ReactDOM from 'react-dom';
 
 const preventDefault = (e) => {
@@ -10,31 +10,75 @@ const getViewBounds = () => ({
   height: window.innerHeight,
 });
 
-const Popover = ({className, position, anchor, close, children}) => {
-  const [bounds, setBounds] = useState(
-    anchor.current
-      ? anchor.current.getBoundingClientRect()
-      : {
-          width: 0,
-          right: 0,
-          left: 0,
-          top: 0,
-          bottom: 0,
-        },
-  );
+const positionSet = new Set(['top', 'left', 'right', 'bottom']);
+
+const calcDefaultLocation = (position, padding, anchorBounds) => {
+  switch (position) {
+    case 'top':
+      return {
+        top: anchorBounds.top - padding,
+        left: anchorBounds.left + anchorBounds.width / 2,
+      };
+    case 'left':
+      return {
+        top: anchorBounds.top + anchorBounds.height / 2,
+        left: anchorBounds.left - padding,
+      };
+    case 'right':
+      return {
+        top: anchorBounds.top + anchorBounds.height / 2,
+        left: anchorBounds.right + padding,
+      };
+    default:
+      return {
+        top: anchorBounds.bottom + padding,
+        left: anchorBounds.left + anchorBounds.width / 2,
+      };
+  }
+};
+
+const calcLocationStyle = (
+  position,
+  padding,
+  anchorBounds,
+  popoverBounds,
+  viewBounds,
+) => {
+  const s = calcDefaultLocation(position, padding, anchorBounds);
+  if (!popoverBounds) {
+    return s;
+  }
+  return s;
+};
+
+const Popover = ({
+  className,
+  position,
+  padding = 8,
+  close,
+  anchor,
+  children,
+}) => {
+  const popover = useRef(null);
+  const [anchorBounds, setAnchorBounds] = useState(null);
+  const [popoverBounds, setPopoverBounds] = useState(null);
   const [viewBounds, setViewBounds] = useState(getViewBounds());
 
   useEffect(() => {
-    if (!anchor.current) {
-      return;
-    }
-
     let running = null;
     const handler = () => {
       if (!running) {
         running = window.requestAnimationFrame(() => {
-          setBounds(anchor.current.getBoundingClientRect());
-          setViewBounds(getViewBounds());
+          const ab = anchor.current
+            ? anchor.current.getBoundingClientRect()
+            : null;
+          const pb = popover.current
+            ? popover.current.getBoundingClientRect()
+            : null;
+          const vb = getViewBounds();
+          setAnchorBounds(ab);
+          setPopoverBounds(pb);
+          setViewBounds(vb);
           running = null;
         });
       }
@@ -55,33 +99,38 @@ const Popover = ({className, position, anchor, close, children}) => {
         window.cancelAnimationFrame(running);
       }
     };
-  }, [anchor, close, setBounds, setViewBounds]);
+  }, [
+    anchor,
+    popover,
+    setAnchorBounds,
+    setPopoverBounds,
+    setViewBounds,
+    close,
+  ]);
 
-  const k = ['popover-root'];
-  let top = 0;
-  let left = 0;
-  if (position === 'top') {
-    k.push('top');
-    top = bounds.top;
-    left = bounds.left + bounds.width / 2;
-  } else if (position === 'left') {
-    k.push('left');
-    top = bounds.top + bounds.height / 2;
-    left = bounds.left;
-  } else if (position === 'right') {
-    k.push('right');
-    top = bounds.top + bounds.height / 2;
-    left = bounds.right;
-  } else {
-    k.push('bottom');
-    top = bounds.bottom;
-    left = bounds.left + bounds.width / 2;
+  if (!anchorBounds) {
+    return null;
   }
 
+  const k = ['popover'];
+  if (positionSet.has(position)) {
+    k.push(position);
+  } else {
+    k.push('bottom');
+  }
+  if (className) {
+    k.push(className);
+  }
+  const s = calcLocationStyle(
+    position,
+    padding,
+    anchorBounds,
+    popoverBounds,
+    viewBounds,
+  );
   return ReactDOM.createPortal(
-    <div className={k.join(' ')} style={{top, left}}>
-      <div className="popover">{children}</div>
-      <div className="triangle" />
+    <div className="popover-root" style={s}>
+      <div className={k.join(' ')}>{children}</div>
     </div>,
     document.body,
   );
