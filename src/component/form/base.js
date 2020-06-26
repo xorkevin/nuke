@@ -44,6 +44,29 @@ const Form = ({
   );
 };
 
+const renderNormal = ({
+  fieldid,
+  type,
+  name,
+  value,
+  onChange,
+  onKeyDown,
+  placeholder,
+}) => {
+  return (
+    <input
+      className="normal"
+      id={fieldid}
+      type={type}
+      name={name}
+      value={value}
+      onChange={onChange}
+      onKeyDown={onKeyDown}
+      placeholder={placeholder}
+    />
+  );
+};
+
 const Field = ({
   className,
   render,
@@ -165,15 +188,15 @@ const Field = ({
     inp = (
       <Fragment>
         {label && <label htmlFor={fieldid}>{label}</label>}
-        <input
-          id={fieldid}
-          type={type}
-          name={name}
-          value={value}
-          onChange={handleChange}
-          onKeyDown={handleSubmit}
-          placeholder={placeholder}
-        />
+        {renderNormal({
+          fieldid,
+          type,
+          name,
+          value,
+          onChange: handleChange,
+          onKeyDown: handleSubmit,
+          placeholder,
+        })}
       </Fragment>
     );
   }
@@ -590,6 +613,81 @@ const FieldSelect = (props) => {
   const k = Object.assign({}, props, {
     className: j.join(' '),
     render: renderSelect,
+  });
+  return <Field {...k} />;
+};
+
+const matchChars = (from, to) => {
+  let j = 0;
+  for (let i = 0; i < from.length; i++) {
+    while (j < to.length && to[j] !== from[i]) {
+      j++;
+    }
+    if (j >= to.length) {
+      return false;
+    }
+    j++;
+  }
+  return true;
+};
+
+const fuzzyFilter = (count, options, map, search = '') => {
+  const s = search.toLowerCase();
+  const matches = [];
+  for (let i = 0; i < options.length && matches.length < count; i++) {
+    const k = options[i];
+    if (matchChars(s, map(k).toLowerCase())) {
+      matches.push(k);
+    }
+  }
+  return matches;
+};
+
+const renderSuggest = ({
+  fieldid,
+  type,
+  name,
+  value,
+  onChange,
+  options,
+  label,
+  placeholder,
+}) => {
+  const handleChange = useCallback(
+    (e) => {
+      onChange(name, e.target.value);
+    },
+    [name, onChange],
+  );
+  const onKeyDown = useCallback((e) => {
+    if (e.key === 'Enter') {
+      console.log('enter hit');
+    }
+  }, []);
+  return (
+    <Fragment>
+      {label && <label htmlFor={fieldid}>{label}</label>}
+      {renderNormal({
+        fieldid,
+        type,
+        name,
+        value,
+        onChange: handleChange,
+        onKeyDown,
+        placeholder,
+      })}
+    </Fragment>
+  );
+};
+
+const FieldSuggest = (props) => {
+  const j = ['suggest'];
+  if (props.className) {
+    j.push(props.className);
+  }
+  const k = Object.assign({}, props, {
+    className: j.join(' '),
+    render: renderSuggest,
   });
   return <Field {...k} />;
 };
@@ -1096,32 +1194,6 @@ const useForm = (initState = {}) => {
   return [formState, updateForm];
 };
 
-const matchChars = (from, to) => {
-  let j = 0;
-  for (let i = 0; i < from.length; i++) {
-    while (j < to.length && to[j] !== from[i]) {
-      j++;
-    }
-    if (j >= to.length) {
-      return false;
-    }
-    j++;
-  }
-  return true;
-};
-
-const fuzzyFilter = (count, options, map, search = '') => {
-  const s = search.toLowerCase();
-  const matches = [];
-  for (let i = 0; i < options.length && matches.length < count; i++) {
-    const k = options[i];
-    if (matchChars(s, map(k).toLowerCase())) {
-      matches.push(k);
-    }
-  }
-  return matches;
-};
-
 export {
   Field as default,
   Field,
@@ -1132,6 +1204,7 @@ export {
   FieldRadio,
   FieldFile,
   FieldSelect,
+  FieldSuggest,
   Input,
   Form,
   useForm,

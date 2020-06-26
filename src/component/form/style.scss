@@ -52,18 +52,8 @@ option {
 }
 
 /* normal */
-
-.formfield.normal {
-  & > label {
-    display: block;
-    width: 100%;
-    padding: 0 8px 4px;
-    color: $color-text-dark-2;
-    font-weight: 700;
-    transition: $transition-normal;
-  }
-
-  & > input {
+.formfield {
+  & > input.normal {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -82,18 +72,18 @@ option {
     transition: $transition-normal;
   }
 
-  &.error > input {
+  &.error > input.normal {
     border-color: $color-danger-light;
   }
 
-  &.valid > input {
+  &.valid > input.normal {
     border-color: $color-success-light;
   }
 
   &:focus-within,
   &.error:focus-within,
   &.valid:focus-within {
-    & > input {
+    & > input.normal {
       border-color: $color-back-primary;
       box-shadow: inset 0 1px 1px 0 $color-back-dark-3,
         0 0 0 2px $color-back-primary-2;
@@ -101,26 +91,22 @@ option {
   }
 }
 
-.dark .formfield.normal {
-  & > label {
-    color: $color-text-light-2;
-  }
-
-  & > input {
+.dark .formfield {
+  & > input.normal {
     border-color: $color-back-light-3;
     box-shadow: inset 0 1px 2px 0 $color-back-light-3, 0 0 0 2px transparent;
   }
 
-  &.error > input {
+  &.error > input.normal {
     border-color: $color-danger-light;
   }
 
-  &.valid > input {
+  &.valid > input.normal {
     border-color: $color-success-light;
   }
 
   &:focus-within {
-    & > input {
+    & > input.normal {
       border-color: $color-back-primary;
       box-shadow: inset 0 1px 1px 0 $color-back-light-3,
         0 0 0 2px $color-back-primary-2;
@@ -128,8 +114,24 @@ option {
   }
 }
 
-/* textarea */
+.formfield.normal {
+  & > label {
+    display: block;
+    width: 100%;
+    padding: 0 8px 4px;
+    color: $color-text-dark-2;
+    font-weight: 700;
+    transition: $transition-normal;
+  }
+}
 
+.dark .formfield.normal {
+  & > label {
+    color: $color-text-light-2;
+  }
+}
+
+/* textarea */
 .formfield.textarea {
   & > label {
     display: block;
@@ -389,6 +391,24 @@ option {
     & ~ .arrow {
       border-top-color: $color-back-light-2;
     }
+  }
+}
+
+/* suggest */
+.formfield.suggest {
+  & > label {
+    display: block;
+    width: 100%;
+    padding: 0 8px 4px;
+    color: $color-text-dark-2;
+    font-weight: 700;
+    transition: $transition-normal;
+  }
+}
+
+.dark .formfield.suggest {
+  & > label {
+    color: $color-text-light-2;
   }
 }
 

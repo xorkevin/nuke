@@ -8,6 +8,7 @@ import {
   FieldRadio,
   FieldFile,
   FieldSelect,
+  FieldSuggest,
   Input,
   Form,
   useForm,
@@ -78,6 +79,56 @@ const fileStringReplacer = (k, v) => {
   return v;
 };
 
+const languageOpts = [
+  {display: 'Rust', value: 'rs'},
+  {display: 'Go', value: 'go'},
+  {display: 'Javascript', value: 'js'},
+  {display: 'Python', value: 'py'},
+  {display: 'Erlang', value: 'erl'},
+];
+
+const unixToolOpts = [
+  {value: 'man'},
+  {value: 'ls'},
+  {value: 'pwd'},
+  {value: 'cd'},
+  {value: 'cat'},
+  {value: 'echo'},
+  {value: 'tee'},
+  {value: 'head'},
+  {value: 'tail'},
+  {value: 'less'},
+  {value: 'more'},
+  {value: 'tr'},
+  {value: 'cut'},
+  {value: 'awk'},
+  {value: 'sed'},
+  {value: 'sort'},
+  {value: 'grep'},
+  {value: 'wc'},
+  {value: 'bc'},
+  {value: 'diff'},
+  {value: 'patch'},
+  {value: 'chmod'},
+  {value: 'chown'},
+  {value: 'cp'},
+  {value: 'mv'},
+  {value: 'rm'},
+  {value: 'ln'},
+  {value: 'date'},
+  {value: 'df'},
+  {value: 'du'},
+  {value: 'find'},
+  {value: 'xargs'},
+  {value: 'ed'},
+  {value: 'vi'},
+  {value: 'vim'},
+  {value: 'nvim'},
+  {value: 'emacs'},
+  {value: 'nano'},
+  {value: 'tar'},
+];
+
 export const validation = () => {
   const [formState, updateForm] = useForm({
     email: '',
@@ -91,6 +142,7 @@ export const validation = () => {
     file: undefined,
     filemulti: [],
     lang: '',
+    unixtool: '',
   });
   return (
     <Form
@@ -183,92 +235,19 @@ export const validation = () => {
         name="lang"
         label="Language"
         hint="Your favorite language"
-        options={[
-          {display: 'Rust', value: 'rs'},
-          {display: 'Go', value: 'go'},
-          {display: 'Javascript', value: 'js'},
-          {display: 'Python', value: 'py'},
-          {display: 'Erlang', value: 'erl'},
-        ]}
+        options={languageOpts}
+      />
+      <FieldSuggest
+        name="unixtool"
+        label="Unix tool"
+        hint="Your favorite unix tool"
+        options={unixToolOpts}
       />
       <h3>Form state</h3>
       <pre>{JSON.stringify(formState, fileStringReplacer, '  ')}</pre>
     </Form>
   );
 };
-
-export const dropdown = () => (
-  <Fragment>
-    <Input
-      label="Language"
-      info="Your favorite language"
-      dropdown={[
-        {text: 'Rust', value: '100'},
-        {text: 'Go', value: '200'},
-        {text: 'Javascript', value: '300'},
-        {text: 'Python', value: '400'},
-        {text: 'Prolog', value: '500'},
-      ]}
-      name="lang2"
-      error="select error"
-    />
-    <Input
-      label="Language"
-      info="Your favorite language"
-      dropdown={[
-        {text: 'Rust', value: '100'},
-        {text: 'Go', value: '200'},
-        {text: 'Javascript', value: '300'},
-        {text: 'Python', value: '400'},
-        {text: 'Prolog', value: '500'},
-      ]}
-      name="lang3"
-      valid
-    />
-  </Fragment>
-);
-
-const Tools = [
-  {value: 'man'},
-  {value: 'ls'},
-  {value: 'pwd'},
-  {value: 'cd'},
-  {value: 'cat'},
-  {value: 'echo'},
-  {value: 'tee'},
-  {value: 'head'},
-  {value: 'tail'},
-  {value: 'less'},
-  {value: 'more'},
-  {value: 'tr'},
-  {value: 'cut'},
-  {value: 'awk'},
-  {value: 'sed'},
-  {value: 'sort'},
-  {value: 'grep'},
-  {value: 'wc'},
-  {value: 'bc'},
-  {value: 'diff'},
-  {value: 'patch'},
-  {value: 'chmod'},
-  {value: 'chown'},
-  {value: 'cp'},
-  {value: 'mv'},
-  {value: 'rm'},
-  {value: 'ln'},
-  {value: 'date'},
-  {value: 'df'},
-  {value: 'du'},
-  {value: 'find'},
-  {value: 'xargs'},
-  {value: 'ed'},
-  {value: 'vi'},
-  {value: 'vim'},
-  {value: 'nvim'},
-  {value: 'emacs'},
-  {value: 'nano'},
-  {value: 'tar'},
-];
 
 const getEditorVal = (i) => i.value;
 
@@ -278,7 +257,7 @@ export const dropdownInput = () => {
   });
 
   const tools = useMemo(
-    () => fuzzyFilter(8, Tools, getEditorVal, formState.tool),
+    () => fuzzyFilter(8, unixToolOpts, getEditorVal, formState.tool),
     [formState.tool],
   );
 
@@ -300,7 +279,7 @@ export const dropdownInputMultiple = () => {
   });
 
   const tools = useMemo(
-    () => fuzzyFilter(8, Tools, getEditorVal, formState._search_tool),
+    () => fuzzyFilter(8, unixToolOpts, getEditorVal, formState._search_tool),
     [formState._search_tool],
   );
 
