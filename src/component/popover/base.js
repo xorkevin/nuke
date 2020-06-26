@@ -1,4 +1,4 @@
-import React, {Fragment, useState, useEffect, useRef} from 'react';
+import React, {Fragment, useState, useEffect, useCallback, useRef} from 'react';
 import ReactDOM from 'react-dom';
 
 const preventDefault = (e) => {
@@ -37,6 +37,8 @@ const calcDefaultLocation = (position, padding, anchorBounds) => {
   }
 };
 
+const viewportPadding = 8;
+
 const calcLocationStyle = (
   position,
   padding,
@@ -47,6 +49,89 @@ const calcLocationStyle = (
   const s = calcDefaultLocation(position, padding, anchorBounds);
   if (!popoverBounds) {
     return s;
+  }
+  switch (position) {
+    case 'top': {
+      const distRight =
+        s.left + popoverBounds.width / 2 + viewportPadding - viewBounds.width;
+      if (distRight > 0) {
+        s.left -= distRight;
+      }
+      const distLeft = s.left - popoverBounds.width / 2 - viewportPadding;
+      if (distLeft < 0) {
+        s.left -= distLeft;
+      }
+      const distBottom = s.top + viewportPadding - viewBounds.height;
+      if (distBottom > 0) {
+        s.top -= distBottom;
+      }
+      const distTop = s.top - popoverBounds.height - viewportPadding;
+      if (distTop < 0) {
+        s.top -= distTop;
+      }
+      break;
+    }
+    case 'left': {
+      const distRight = s.left + viewportPadding - viewBounds.width;
+      if (distRight > 0) {
+        s.left -= distRight;
+      }
+      const distLeft = s.left - popoverBounds.width - viewportPadding;
+      if (distLeft < 0) {
+        s.left -= distLeft;
+      }
+      const distBottom =
+        s.top + popoverBounds.height / 2 + viewportPadding - viewBounds.height;
+      if (distBottom > 0) {
+        s.top -= distBottom;
+      }
+      const distTop = s.top - popoverBounds.height / 2 - viewportPadding;
+      if (distTop < 0) {
+        s.top -= distTop;
+      }
+      break;
+    }
+    case 'right': {
+      const distRight =
+        s.left + popoverBounds.width + viewportPadding - viewBounds.width;
+      if (distRight > 0) {
+        s.left -= distRight;
+      }
+      const distLeft = s.left - viewportPadding;
+      if (distLeft < 0) {
+        s.left -= distLeft;
+      }
+      const distBottom =
+        s.top + popoverBounds.height / 2 + viewportPadding - viewBounds.height;
+      if (distBottom > 0) {
+        s.top -= distBottom;
+      }
+      const distTop = s.top - popoverBounds.height / 2 - viewportPadding;
+      if (distTop < 0) {
+        s.top -= distTop;
+      }
+      break;
+    }
+    default: {
+      const distRight =
+        s.left + popoverBounds.width / 2 + viewportPadding - viewBounds.width;
+      if (distRight > 0) {
+        s.left -= distRight;
+      }
+      const distLeft = s.left - popoverBounds.width / 2 - viewportPadding;
+      if (distLeft < 0) {
+        s.left -= distLeft;
+      }
+      const distBottom =
+        s.top + popoverBounds.height + viewportPadding - viewBounds.height;
+      if (distBottom > 0) {
+        s.top -= distBottom;
+      }
+      const distTop = s.top - viewportPadding;
+      if (distTop < 0) {
+        s.top -= distTop;
+      }
+    }
   }
   return s;
 };
@@ -59,10 +144,19 @@ const Popover = ({
   anchor,
   children,
 }) => {
-  const popover = useRef(null);
   const [anchorBounds, setAnchorBounds] = useState(null);
   const [popoverBounds, setPopoverBounds] = useState(null);
   const [viewBounds, setViewBounds] = useState(getViewBounds());
+  const popoverRef = useCallback(
+    (node) => {
+      if (node !== null) {
+        setPopoverBounds(node.getBoundingClientRect());
+      } else {
+        setPopoverBounds(null);
+      }
+    },
+    [setPopoverBounds],
+  );
 
   useEffect(() => {
     let running = null;
@@ -72,12 +166,8 @@ const Popover = ({
           const ab = anchor.current
             ? anchor.current.getBoundingClientRect()
             : null;
-          const pb = popover.current
-            ? popover.current.getBoundingClientRect()
-            : null;
           const vb = getViewBounds();
           setAnchorBounds(ab);
-          setPopoverBounds(pb);
           setViewBounds(vb);
           running = null;
         });
@@ -99,14 +189,7 @@ const Popover = ({
         window.cancelAnimationFrame(running);
       }
     };
-  }, [
-    anchor,
-    popover,
-    setAnchorBounds,
-    setPopoverBounds,
-    setViewBounds,
-    close,
-  ]);
+  }, [anchor, setAnchorBounds, setPopoverBounds, setViewBounds, close]);
 
   if (!anchorBounds) {
     return null;
@@ -130,7 +213,9 @@ const Popover = ({
   );
   return ReactDOM.createPortal(
     <div className="popover-root" style={s}>
-      <div className={k.join(' ')}>{children}</div>
+      <div className={k.join(' ')} ref={popoverRef}>
+        {children}
+      </div>
     </div>,
     document.body,
   );
