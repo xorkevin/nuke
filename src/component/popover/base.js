@@ -5,25 +5,36 @@ const preventDefault = (e) => {
   e.preventDefault();
 };
 
-const Popover = ({
-  className,
-  align,
-  position,
-  fixed,
-  anchor,
-  close,
-  children,
-}) => {
-  const [bounds, setBounds] = useState(anchor.current.getBoundingClientRect());
-  const [scrollY, setScrollY] = useState(window.scrollY);
+const getViewBounds = () => ({
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const Popover = ({className, position, anchor, close, children}) => {
+  const [bounds, setBounds] = useState(
+    anchor.current
+      ? anchor.current.getBoundingClientRect()
+      : {
+          width: 0,
+          right: 0,
+          left: 0,
+          top: 0,
+          bottom: 0,
+        },
+  );
+  const [viewBounds, setViewBounds] = useState(getViewBounds());
 
   useEffect(() => {
+    if (!anchor.current) {
+      return;
+    }
+
     let running = null;
     const handler = () => {
       if (!running) {
         running = window.requestAnimationFrame(() => {
           setBounds(anchor.current.getBoundingClientRect());
-          setScrollY(window.scrollY);
+          setViewBounds(getViewBounds());
           running = null;
         });
       }
@@ -33,6 +44,7 @@ const Popover = ({
     if (close) {
       window.addEventListener('click', close);
     }
+    handler();
     return () => {
       window.removeEventListener('resize', handler);
       window.removeEventListener('scroll', handler);
@@ -43,38 +55,33 @@ const Popover = ({
         window.cancelAnimationFrame(running);
       }
     };
-  }, [anchor, close, setBounds, setScrollY]);
+  }, [anchor, close, setBounds, setViewBounds]);
 
-  const k = ['popover'];
-  const s = {};
-  const t = {
-    left: bounds.width / 2,
-  };
-  if (align === 'right') {
-    k.push('right');
-    s.left = bounds.right;
-    t.left *= -1;
-  } else {
-    k.push('left');
-    s.left = bounds.left;
-  }
+  const k = ['popover-root'];
+  let top = 0;
+  let left = 0;
   if (position === 'top') {
     k.push('top');
-    s.top = bounds.top;
+    top = bounds.top;
+    left = bounds.left + bounds.width / 2;
+  } else if (position === 'left') {
+    k.push('left');
+    top = bounds.top + bounds.height / 2;
+    left = bounds.left;
+  } else if (position === 'right') {
+    k.push('right');
+    top = bounds.top + bounds.height / 2;
+    left = bounds.right;
   } else {
     k.push('bottom');
-    s.top = bounds.bottom;
-  }
-  if (fixed) {
-    k.push('fixed');
-  } else {
-    s.top += scrollY;
+    top = bounds.bottom;
+    left = bounds.left + bounds.width / 2;
   }
 
   return ReactDOM.createPortal(
-    <div className={k.join(' ')} style={s}>
-      <div className="popover-container">{children}</div>
-      <div className="triangle" style={t} />
+    <div className={k.join(' ')} style={{top, left}}>
+      <div className="popover">{children}</div>
+      <div className="triangle" />
     </div>,
     document.body,
   );

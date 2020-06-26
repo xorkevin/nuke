@@ -1,16 +1,19 @@
-.popover {
-  position: absolute;
+.popover-root {
+  position: fixed;
+  width: 0;
+  height: 0;
+  z-index: 128;
+}
+
+.debug-popover {
+  position: fixed;
   width: 0;
   height: 0;
   z-index: 128;
 
-  &.fixed {
-    position: fixed;
-  }
-
-  & > .popover-container {
+  & > .popover {
     position: absolute;
-    background-color: $color-back-light-1;
+    background-color: $white;
     z-index: 1;
     @include shadow-box(16px);
   }
@@ -30,7 +33,7 @@
       height: 12px;
       left: 50%;
       z-index: 1;
-      background-color: $color-back-light-1;
+      background-color: $white;
     }
   }
 
