@@ -9,6 +9,7 @@ import {
   FieldFile,
   FieldSelect,
   FieldSuggest,
+  FieldMultiSelect,
   Input,
   Form,
   useForm,
@@ -143,6 +144,7 @@ export const validation = () => {
     filemulti: [],
     lang: '',
     unixtool: '',
+    unixtoollist: [],
   });
   return (
     <Form
@@ -243,6 +245,12 @@ export const validation = () => {
         hint="Your favorite unix tool"
         options={unixToolSuggestions}
       />
+      <FieldMultiSelect
+        name="unixtoollist"
+        label="Unix tools"
+        hint="Your favorite unix tools"
+        options={unixToolSuggestions}
+      />
       <h3>Form state</h3>
       <pre>{JSON.stringify(formState, fileStringReplacer, '  ')}</pre>
     </Form>
@@ -292,28 +300,6 @@ const unixToolOpts = [
 ];
 
 const getEditorVal = (i) => i.value;
-
-export const dropdownInput = () => {
-  const [formState, updateForm] = useForm({
-    tool: '',
-  });
-
-  const tools = useMemo(
-    () => fuzzyFilter(8, unixToolOpts, getEditorVal, formState.tool),
-    [formState.tool],
-  );
-
-  return (
-    <Form formState={formState} onChange={updateForm}>
-      <Input
-        label="Unix tool"
-        info="Your favorite unix tool"
-        dropdowninput={tools}
-        name="tool"
-      />
-    </Form>
-  );
-};
 
 export const dropdownInputMultiple = () => {
   const [formState, updateForm] = useForm({

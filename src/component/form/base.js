@@ -643,7 +643,7 @@ const matchChars = (from, to) => {
 };
 
 const fuzzyFilter = (count, options, map, search = '') => {
-  const s = search.toLowerCase();
+  const s = typeof search === 'string' ? search.toLowerCase() : '';
   const matches = [];
   for (let i = 0; i < options.length && matches.length < count; i++) {
     const k = options[i];
@@ -767,6 +767,96 @@ const FieldSuggest = (props) => {
   const k = Object.assign({}, props, {
     className: j.join(' '),
     render: renderSuggest,
+  });
+  return <Field {...k} />;
+};
+
+const MAX_MULTISELECT_OPTS = 128;
+
+const multiselectOptMap = (i) => i;
+
+const MultiSelectFieldOption = ({value}) => {
+  return (
+    <div className="option" onMouseDown={preventDefault}>
+      {value}
+    </div>
+  );
+};
+
+const renderMultiSelect = ({
+  fieldid,
+  type,
+  name,
+  value,
+  onChange,
+  options,
+  label,
+  placeholder,
+}) => {
+  const anchor = useRef(null);
+  const [search, setSearch] = useState('');
+  const [show, setShow] = useState(false);
+  const setVisible = useCallback(() => {
+    setShow(true);
+  }, [setShow]);
+  const setHidden = useCallback(() => {
+    setShow(false);
+  }, [setShow]);
+
+  const filteredOpts = useMemo(
+    () => fuzzyFilter(MAX_MULTISELECT_OPTS, options, multiselectOptMap, search),
+    [options, search],
+  );
+
+  const first = filteredOpts.length > 0 ? filteredOpts[0] : null;
+
+  const handleSearch = useCallback(
+    (e) => {
+      setSearch(e.target.value);
+    },
+    [setSearch],
+  );
+  const onKeyDown = useCallback((e) => {
+    console.log('keydown');
+  }, []);
+
+  return (
+    <Fragment>
+      {label && <label htmlFor={fieldid}>{label}</label>}
+      {renderNormal({
+        fieldid,
+        type,
+        value: search,
+        onChange: handleSearch,
+        onKeyDown,
+        onFocus: setVisible,
+        onBlur: setHidden,
+        placeholder,
+        forwardedRef: anchor,
+      })}
+      {show && filteredOpts.length > 0 && (
+        <Popover
+          anchor={anchor}
+          className="field-multiselect-options"
+          matchWidth
+        >
+          {filteredOpts.map((i) => (
+            <MultiSelectFieldOption key={i} value={i} />
+          ))}
+        </Popover>
+      )}
+    </Fragment>
+  );
+};
+
+const FieldMultiSelect = (props) => {
+  const j = ['multiselect'];
+  if (props.className) {
+    j.push(props.className);
+  }
+  const k = Object.assign({}, props, {
+    className: j.join(' '),
+    render: renderMultiSelect,
   });
   return <Field {...k} />;
 };
@@ -1280,6 +1370,7 @@ export {
   FieldFile,
   FieldSelect,
   FieldSuggest,
+  FieldMultiSelect,
   Input,
   Form,
   useForm,

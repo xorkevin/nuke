@@ -433,7 +433,57 @@ option {
 }
 
 .dark .field-suggest-options {
-  background-color: $color-back-light-3;
+  & > .option {
+    &:hover {
+      background-color: $color-back-light-3;
+    }
+  }
+}
+
+/* multiselect */
+.formfield.multiselect {
+  & > label {
+    display: block;
+    width: 100%;
+    padding: 0 8px 4px;
+    color: $color-text-dark-2;
+    font-weight: 700;
+    transition: $transition-normal;
+  }
+}
+
+.dark .formfield.multiselect {
+  & > label {
+    color: $color-text-light-2;
+  }
+}
+
+.field-multiselect-options {
+  // width just set as a default, overridden by react component style
+  width: $form-width;
+  max-height: $form-popover-max-height;
+  overflow: auto;
+  border-radius: 4px;
+
+  & > .option {
+    width: 100%;
+    border-radius: 4px;
+    padding: 8px 16px;
+    transition: $transition-fast;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $color-back-primary-3;
+    }
+  }
+}
+
+.dark .field-multiselect-options {
+  & > .option {
+    &:hover {
+      background-color: $color-back-light-3;
+    }
+  }
 }
 
 .input {
