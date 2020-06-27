@@ -42,6 +42,7 @@ const formErrCheck = ({
   bio,
   checkbox,
   toggle,
+  file2,
 }) => {
   const err = {};
   if (email.length > 0 && !emailRegex.test(email)) {
@@ -65,6 +66,9 @@ const formErrCheck = ({
   if (toggle) {
     Object.assign(err, {toggle: true});
   }
+  if (file2) {
+    Object.assign(err, {file2: true});
+  }
   return err;
 };
 const formValidCheck = ({
@@ -75,6 +79,7 @@ const formValidCheck = ({
   bio,
   checkbox,
   toggle2,
+  file3,
 }) => {
   const valid = {};
   if (emailRegex.test(email)) {
@@ -97,6 +102,9 @@ const formValidCheck = ({
   }
   if (toggle2) {
     Object.assign(valid, {toggle2: true});
+  }
+  if (file3) {
+    Object.assign(valid, {file3: true});
   }
   return valid;
 };
@@ -172,6 +180,8 @@ export const validation = () => {
     toggle4: false,
     radio: '',
     file: undefined,
+    file2: undefined,
+    file3: undefined,
     filemulti: [],
     lang: '',
     unixtool: '',
@@ -245,6 +255,28 @@ export const validation = () => {
       />
       <FieldFile
         name="file"
+        label="File"
+        hint="Choose an image"
+        accept="image/png, image/jpeg"
+        fullWidth
+      >
+        <Button>
+          <FaIcon icon="cloud-upload" /> Upload
+        </Button>
+      </FieldFile>
+      <FieldFile
+        name="file2"
+        label="File"
+        hint="Choose an image"
+        accept="image/png, image/jpeg"
+        fullWidth
+      >
+        <Button>
+          <FaIcon icon="cloud-upload" /> Upload
+        </Button>
+      </FieldFile>
+      <FieldFile
+        name="file3"
         label="File"
         hint="Choose an image"
         accept="image/png, image/jpeg"

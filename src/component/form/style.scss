@@ -216,7 +216,7 @@ option {
     vertical-align: middle;
     margin-right: 8px;
     border-radius: 4px;
-    box-shadow: 0 0 0 1px transparent, 0 0 0 2px transparent;
+    box-shadow: 0 0 0 1px transparent, 0 0 0 3px transparent;
     transition: $transition-normal;
   }
 
@@ -236,7 +236,7 @@ option {
   &.error:focus-within,
   &.valid:focus-within {
     & > input[type='checkbox'] {
-      box-shadow: 0 0 0 1px $color-back-primary, 0 0 0 2px $color-back-primary-2;
+      box-shadow: 0 0 0 1px $color-back-primary, 0 0 0 3px $color-back-primary-2;
     }
   }
 }
@@ -254,7 +254,7 @@ option {
   &.error:focus-within,
   &.valid:focus-within {
     & > input[type='checkbox'] {
-      box-shadow: 0 0 0 1px $color-back-primary, 0 0 0 2px $color-back-primary-2;
+      box-shadow: 0 0 0 1px $color-back-primary, 0 0 0 3px $color-back-primary-2;
     }
   }
 }
@@ -267,7 +267,7 @@ option {
     vertical-align: middle;
     margin-right: 8px;
     border-radius: 4px;
-    box-shadow: 0 0 0 1px transparent, 0 0 0 2px transparent;
+    box-shadow: 0 0 0 1px transparent, 0 0 0 3px transparent;
     transition: $transition-normal;
   }
 
@@ -287,7 +287,7 @@ option {
   &.error:focus-within,
   &.valid:focus-within {
     & > input[type='checkbox'] {
-      box-shadow: 0 0 0 1px $color-back-primary, 0 0 0 2px $color-back-primary-2;
+      box-shadow: 0 0 0 1px $color-back-primary, 0 0 0 3px $color-back-primary-2;
     }
   }
 }
@@ -305,7 +305,7 @@ option {
   &.error:focus-within,
   &.valid:focus-within {
     & > input[type='checkbox'] {
-      box-shadow: 0 0 0 1px $color-back-primary, 0 0 0 2px $color-back-primary-2;
+      box-shadow: 0 0 0 1px $color-back-primary, 0 0 0 3px $color-back-primary-2;
     }
   }
 }
@@ -387,7 +387,7 @@ option {
     vertical-align: middle;
     margin-right: 8px;
     border-radius: 50%;
-    box-shadow: 0 0 0 1px transparent, 0 0 0 2px transparent;
+    box-shadow: 0 0 0 1px transparent, 0 0 0 3px transparent;
     transition: $transition-normal;
   }
 
@@ -407,7 +407,7 @@ option {
   &.error:focus-within,
   &.valid:focus-within {
     & > input[type='radio'] {
-      box-shadow: 0 0 0 1px $color-back-primary, 0 0 0 2px $color-back-primary-2;
+      box-shadow: 0 0 0 1px $color-back-primary, 0 0 0 3px $color-back-primary-2;
     }
   }
 }
@@ -425,7 +425,7 @@ option {
   &.error:focus-within,
   &.valid:focus-within {
     & > input[type='radio'] {
-      box-shadow: 0 0 0 1px $color-back-primary, 0 0 0 2px $color-back-primary-2;
+      box-shadow: 0 0 0 1px $color-back-primary, 0 0 0 3px $color-back-primary-2;
     }
   }
 }
@@ -445,6 +445,7 @@ option {
     cursor: pointer;
 
     & > * {
+      outline: none;
       pointer-events: none;
     }
   }
@@ -456,11 +457,43 @@ option {
   & > .filelist {
     margin: 8px 0;
   }
+
+  &.error > label > * {
+    box-shadow: 0 0 0 1px $color-danger-light;
+  }
+
+  &.valid > label > * {
+    box-shadow: 0 0 0 1px $color-success-light;
+  }
+
+  &:focus-within,
+  &.error:focus-within,
+  &.valid:focus-within {
+    & > label > * {
+      box-shadow: 0 0 0 1px $color-back-primary, 0 0 0 3px $color-back-primary-2;
+    }
+  }
 }
 
 .dark .formfield.file {
   & > .label {
     color: $color-text-light-2;
+  }
+
+  &.error > label > * {
+    box-shadow: 0 0 0 1px $color-danger-light;
+  }
+
+  &.valid > label > * {
+    box-shadow: 0 0 0 1px $color-success-light;
+  }
+
+  &:focus-within,
+  &.error:focus-within,
+  &.valid:focus-within {
+    & > label > * {
+      box-shadow: 0 0 0 1px $color-back-primary, 0 0 0 3px $color-back-primary-2;
+    }
   }
 }
 
@@ -481,6 +514,7 @@ option {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+    outline: none;
     background: transparent;
     color: unset;
 
@@ -515,6 +549,23 @@ option {
       color: $color-text-dark-1;
     }
   }
+
+  &.error > select {
+    border-color: $color-danger-light;
+  }
+
+  &.valid > select {
+    border-color: $color-success-light;
+  }
+
+  &:focus-within,
+  &.error:focus-within,
+  &.valid:focus-within {
+    & > select {
+      border-color: $color-back-primary;
+      box-shadow: 0 0 0 2px $color-back-primary-2;
+    }
+  }
 }
 
 .dark .formfield.select {
@@ -527,6 +578,23 @@ option {
 
     & ~ .arrow {
       border-top-color: $color-back-light-2;
+    }
+  }
+
+  &.error > select {
+    border-color: $color-danger-light;
+  }
+
+  &.valid > select {
+    border-color: $color-success-light;
+  }
+
+  &:focus-within,
+  &.error:focus-within,
+  &.valid:focus-within {
+    & > select {
+      border-color: $color-back-primary;
+      box-shadow: 0 0 0 2px $color-back-primary-2;
     }
   }
 }

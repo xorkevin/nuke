@@ -537,6 +537,7 @@ const renderFile = ({accept, capture, multiple}) => ({
       <label htmlFor={fieldid}>{children}</label>
       <input
         id={fieldid}
+        tabIndex="-1"
         type="file"
         name={name}
         onChange={handleChange}
@@ -593,23 +594,10 @@ const renderSelect = ({
     },
     [name, onChange],
   );
-  const handleSubmit = useCallback(
-    (e) => {
-      if (e.key === 'Enter') {
-        onSubmit();
-      }
-    },
-    [onSubmit],
-  );
   return (
     <Fragment>
       {label && <label htmlFor={fieldid}>{label}</label>}
-      <select
-        id={fieldid}
-        value={value}
-        onChange={handleChange}
-        onKeyDown={handleSubmit}
-      >
+      <select id={fieldid} value={value} onChange={handleChange}>
         {options.map((i) => (
           <option key={i.display} value={i.value}>
             {i.display}
