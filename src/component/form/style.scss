@@ -105,7 +105,9 @@ option {
     border-color: $color-success-light;
   }
 
-  &:focus-within {
+  &:focus-within,
+  &.error:focus-within,
+  &.valid:focus-within {
     & > input.normal {
       border-color: $color-back-primary;
       box-shadow: inset 0 1px 1px 0 $color-back-light-3,
@@ -195,7 +197,9 @@ option {
     border-color: $color-success-light;
   }
 
-  &:focus-within {
+  &:focus-within,
+  &.error:focus-within,
+  &.valid:focus-within {
     & > textarea {
       border-color: $color-back-primary;
       box-shadow: inset 0 1px 1px 0 $color-back-light-3,
@@ -207,24 +211,102 @@ option {
 /* checkbox */
 .formfield.checkbox {
   & > input[type='checkbox'] {
+    outline: none;
+
     vertical-align: middle;
     margin-right: 8px;
+    border-radius: 4px;
+    box-shadow: 0 0 0 1px transparent, 0 0 0 2px transparent;
+    transition: $transition-normal;
   }
 
   & > label {
     vertical-align: middle;
+  }
+
+  &.error > input[type='checkbox'] {
+    box-shadow: 0 0 0 1px $color-danger-light;
+  }
+
+  &.valid > input[type='checkbox'] {
+    box-shadow: 0 0 0 1px $color-success-light;
+  }
+
+  &:focus-within,
+  &.error:focus-within,
+  &.valid:focus-within {
+    & > input[type='checkbox'] {
+      box-shadow: 0 0 0 1px $color-back-primary, 0 0 0 2px $color-back-primary-2;
+    }
+  }
+}
+
+.dark .formfield.checkbox {
+  &.error > input[type='checkbox'] {
+    box-shadow: 0 0 0 1px $color-danger-light;
+  }
+
+  &.valid > input[type='checkbox'] {
+    box-shadow: 0 0 0 1px $color-success-light;
+  }
+
+  &:focus-within,
+  &.error:focus-within,
+  &.valid:focus-within {
+    & > input[type='checkbox'] {
+      box-shadow: 0 0 0 1px $color-back-primary, 0 0 0 2px $color-back-primary-2;
+    }
   }
 }
 
 /* toggle */
 .formfield.toggle {
   & > input[type='checkbox'] {
+    outline: none;
+
     vertical-align: middle;
     margin-right: 8px;
+    border-radius: 4px;
+    box-shadow: 0 0 0 1px transparent, 0 0 0 2px transparent;
+    transition: $transition-normal;
   }
 
   & > label {
     vertical-align: middle;
+  }
+
+  &.error > input[type='checkbox'] {
+    box-shadow: 0 0 0 1px $color-danger-light;
+  }
+
+  &.valid > input[type='checkbox'] {
+    box-shadow: 0 0 0 1px $color-success-light;
+  }
+
+  &:focus-within,
+  &.error:focus-within,
+  &.valid:focus-within {
+    & > input[type='checkbox'] {
+      box-shadow: 0 0 0 1px $color-back-primary, 0 0 0 2px $color-back-primary-2;
+    }
+  }
+}
+
+.dark .formfield.toggle {
+  &.error > input[type='checkbox'] {
+    box-shadow: 0 0 0 1px $color-danger-light;
+  }
+
+  &.valid > input[type='checkbox'] {
+    box-shadow: 0 0 0 1px $color-success-light;
+  }
+
+  &:focus-within,
+  &.error:focus-within,
+  &.valid:focus-within {
+    & > input[type='checkbox'] {
+      box-shadow: 0 0 0 1px $color-back-primary, 0 0 0 2px $color-back-primary-2;
+    }
   }
 }
 
@@ -258,12 +340,20 @@ option {
     }
 
     &:checked {
-      background-color: $color-success-light;
+      background-color: $color-primary-2;
 
       &:after {
         left: 50%;
       }
     }
+  }
+
+  &.success > input[type='checkbox']:checked {
+    background-color: $color-success-light;
+  }
+
+  &.danger > input[type='checkbox']:checked {
+    background-color: $color-danger-light;
   }
 }
 
@@ -276,20 +366,67 @@ option {
     }
 
     &:checked {
-      background-color: $color-success-light;
+      background-color: $color-primary-2;
     }
+  }
+
+  &.success > input[type='checkbox']:checked {
+    background-color: $color-success-light;
+  }
+
+  &.danger > input[type='checkbox']:checked {
+    background-color: $color-danger-light;
   }
 }
 
 /* radio */
 .formfield.radio {
   & > input[type='radio'] {
+    outline: none;
+
     vertical-align: middle;
     margin-right: 8px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px transparent, 0 0 0 2px transparent;
+    transition: $transition-normal;
   }
 
   & > label {
     vertical-align: middle;
+  }
+
+  &.error > input[type='radio'] {
+    box-shadow: 0 0 0 1px $color-danger-light;
+  }
+
+  &.valid > input[type='radio'] {
+    box-shadow: 0 0 0 1px $color-success-light;
+  }
+
+  &:focus-within,
+  &.error:focus-within,
+  &.valid:focus-within {
+    & > input[type='radio'] {
+      box-shadow: 0 0 0 1px $color-back-primary, 0 0 0 2px $color-back-primary-2;
+    }
+  }
+}
+
+.dark .formfield.radio {
+  &.error > input[type='radio'] {
+    box-shadow: 0 0 0 1px $color-danger-light;
+  }
+
+  &.valid > input[type='radio'] {
+    box-shadow: 0 0 0 1px $color-success-light;
+  }
+
+  &:focus-within,
+  &.error:focus-within,
+  &.valid:focus-within {
+    & > input[type='radio'] {
+      box-shadow: 0 0 0 1px $color-back-primary, 0 0 0 2px $color-back-primary-2;
+    }
   }
 }
 
@@ -352,7 +489,7 @@ option {
     height: 3em;
     padding: 1px 8px;
     border-radius: 4px;
-    border: 1px solid $color-text-dark-1;
+    border: 1px solid $color-back-dark-2;
     box-shadow: 0 0 0 2px transparent;
     transition: $transition-normal;
 
@@ -386,7 +523,7 @@ option {
   }
 
   & > select {
-    border-color: $color-text-light-1;
+    border-color: $color-back-light-2;
 
     & ~ .arrow {
       border-top-color: $color-back-light-2;

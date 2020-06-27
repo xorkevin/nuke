@@ -34,7 +34,15 @@ export const hint = () => (
 
 const phoneRegex = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
 const imageSetType = new Set(['image/png', 'image/jpeg']);
-const formErrCheck = ({email, phone, password, confirm_password, bio}) => {
+const formErrCheck = ({
+  email,
+  phone,
+  password,
+  confirm_password,
+  bio,
+  checkbox,
+  toggle,
+}) => {
   const err = {};
   if (email.length > 0 && !emailRegex.test(email)) {
     Object.assign(err, {email: 'Must be a valid email'});
@@ -51,9 +59,23 @@ const formErrCheck = ({email, phone, password, confirm_password, bio}) => {
   if (bio.length > 128) {
     Object.assign(err, {bio: 'Max length exceeded'});
   }
+  if (new Set(checkbox).has('checked2')) {
+    Object.assign(err, {checkbox: 'Cannot have check2'});
+  }
+  if (toggle) {
+    Object.assign(err, {toggle: true});
+  }
   return err;
 };
-const formValidCheck = ({email, phone, password, confirm_password, bio}) => {
+const formValidCheck = ({
+  email,
+  phone,
+  password,
+  confirm_password,
+  bio,
+  checkbox,
+  toggle2,
+}) => {
   const valid = {};
   if (emailRegex.test(email)) {
     Object.assign(valid, {email: true});
@@ -69,6 +91,12 @@ const formValidCheck = ({email, phone, password, confirm_password, bio}) => {
   }
   if (bio.length > 0 && bio.length <= 128) {
     Object.assign(valid, {bio: true});
+  }
+  if (new Set(checkbox).has('checked1')) {
+    Object.assign(valid, {checkbox: true});
+  }
+  if (toggle2) {
+    Object.assign(valid, {toggle2: true});
   }
   return valid;
 };
@@ -139,6 +167,9 @@ export const validation = () => {
     bio: '',
     checkbox: [],
     toggle: false,
+    toggle2: false,
+    toggle3: false,
+    toggle4: false,
     radio: '',
     file: undefined,
     filemulti: [],
@@ -191,7 +222,9 @@ export const validation = () => {
         hint="This is a checkbox"
       />
       <FieldToggle name="toggle" label="Toggle me" nohint />
-      <FieldSwitch name="toggle" label="Toggle me" nohint />
+      <FieldSwitch name="toggle2" label="Toggle me" nohint />
+      <FieldSwitch name="toggle3" label="Toggle me" success nohint />
+      <FieldSwitch name="toggle4" label="Toggle me" danger nohint />
       <FieldRadio
         name="radio"
         option="one"

@@ -5,6 +5,7 @@ import ButtonPrimary from 'component/button/primary';
 import ButtonSecondary from 'component/button/secondary';
 import ButtonTertiary from 'component/button/tertiary';
 import ButtonDanger from 'component/button/danger';
+import ButtonDangerSecondary from 'component/button/dangersecondary';
 import ButtonSmall from 'component/button/small';
 
 <Meta title="Button" component={Button} />
@@ -70,6 +71,15 @@ towards.
 <Preview>
   <Story name="button danger">
     <ButtonDanger>Click me</ButtonDanger>
+  </Story>
+</Preview>
+
+Use the variant `button/dangersecondary` for actions that the user should be
+cautious towards.
+
+<Preview>
+  <Story name="button danger-seconary">
+    <ButtonDangerSecondary>Click me</ButtonDangerSecondary>
   </Story>
 </Preview>
 

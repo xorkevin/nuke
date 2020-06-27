@@ -150,6 +150,33 @@ button.danger {
   }
 }
 
+/* danger-secondary */
+
+button.danger-secondary {
+  border: 0;
+  color: $color-danger;
+
+  &:hover {
+    background-color: $color-back-dark-3;
+  }
+
+  &:active {
+    background-color: $color-back-dark-3;
+  }
+}
+
+.dark button.danger-secondary {
+  color: $color-danger-light;
+
+  &:hover {
+    background-color: $color-back-light-3;
+  }
+
+  &:active {
+    background-color: $color-back-light-3;
+  }
+}
+
 /* small */
 button.small {
   padding: 2px 4px;

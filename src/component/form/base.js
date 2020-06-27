@@ -386,6 +386,11 @@ const FieldToggle = (props) => {
 
 const FieldSwitch = (props) => {
   const j = ['toggle switch'];
+  if (props.success) {
+    j.push('success');
+  } else if (props.danger) {
+    j.push('danger');
+  }
   if (props.className) {
     j.push(props.className);
   }
@@ -775,11 +780,21 @@ const MAX_MULTISELECT_OPTS = 128;
 
 const multiselectOptMap = (i) => i;
 
-const MultiSelectFieldOption = ({selected, setSearch, addValue, value}) => {
+const MultiSelectFieldOption = ({
+  selected,
+  setSearch,
+  addValue,
+  rmValue,
+  value,
+}) => {
   const handler = useCallback(() => {
-    addValue(value);
+    if (selected) {
+      rmValue(value);
+    } else {
+      addValue(value);
+    }
     setSearch('');
-  }, [setSearch, addValue, value]);
+  }, [selected, setSearch, addValue, rmValue, value]);
   const k = ['option'];
   if (selected) {
     k.push('selected');
@@ -898,6 +913,7 @@ const renderMultiSelect = ({
               selected={valueSet.has(i)}
               setSearch={setSearch}
               addValue={addValue}
+              rmValue={rmValue}
               value={i}
             />
           ))}
