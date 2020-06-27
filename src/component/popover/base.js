@@ -136,6 +136,8 @@ const Popover = ({
   className,
   position,
   padding = 8,
+  matchWidth,
+  matchHeight,
   close,
   anchor,
   children,
@@ -235,6 +237,13 @@ const Popover = ({
     return null;
   }
 
+  const style = {};
+  if (matchWidth) {
+    style.width = anchorBounds.width;
+  }
+  if (matchHeight) {
+    style.height = anchorBounds.height;
+  }
   const k = ['popover'];
   if (positionSet.has(position)) {
     k.push(position);
@@ -253,7 +262,7 @@ const Popover = ({
   );
   return ReactDOM.createPortal(
     <div className="popover-root" style={s}>
-      <div className={k.join(' ')} ref={popover}>
+      <div ref={popover} className={k.join(' ')} style={style}>
         {children}
       </div>
     </div>,

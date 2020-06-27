@@ -9,6 +9,7 @@ import React, {
 } from 'react';
 import ReactDOM from 'react-dom';
 import {randomID} from 'utility';
+import Popover from '../popover';
 import {Grid, Column} from '../grid';
 import {ListGroup, ListItem} from '../listgroup';
 import ButtonSmall from '../button/small';
@@ -51,10 +52,14 @@ const renderNormal = ({
   value,
   onChange,
   onKeyDown,
+  onFocus,
+  onBlur,
   placeholder,
+  forwardedRef,
 }) => {
   return (
     <input
+      ref={forwardedRef}
       className="normal"
       id={fieldid}
       type={type}
@@ -62,6 +67,8 @@ const renderNormal = ({
       value={value}
       onChange={onChange}
       onKeyDown={onKeyDown}
+      onFocus={onFocus}
+      onBlur={onBlur}
       placeholder={placeholder}
     />
   );
@@ -643,6 +650,10 @@ const fuzzyFilter = (count, options, map, search = '') => {
   return matches;
 };
 
+const MAX_SUGGESTIONS = 128;
+
+const suggestOptMap = (i) => i;
+
 const renderSuggest = ({
   fieldid,
   type,
@@ -653,6 +664,14 @@ const renderSuggest = ({
   label,
   placeholder,
 }) => {
+  const anchor = useRef(null);
+  const [show, setShow] = useState(false);
+  const setVisible = useCallback(() => {
+    setShow(true);
+  }, [setShow]);
+  const setHidden = useCallback(() => {
+    setShow(false);
+  }, [setShow]);
   const handleChange = useCallback(
     (e) => {
       onChange(name, e.target.value);
@@ -664,6 +683,12 @@ const renderSuggest = ({
       console.log('enter hit');
     }
   }, []);
+
+  const filteredOpts = useMemo(
+    () => fuzzyFilter(MAX_SUGGESTIONS, options, suggestOptMap, value),
+    [options, value],
+  );
+
   return (
     <Fragment>
       {label && <label htmlFor={fieldid}>{label}</label>}
@@ -674,8 +699,20 @@ const renderSuggest = ({
         value,
         onChange: handleChange,
         onKeyDown,
+        onFocus: setVisible,
+        onBlur: setHidden,
         placeholder,
+        forwardedRef: anchor,
       })}
+      {show && filteredOpts.length > 0 && (
+        <Popover anchor={anchor} className="field-suggest-options" matchWidth>
+          {filteredOpts.map((i) => (
+            <div key={i} className="option">
+              {i}
+            </div>
+          ))}
+        </Popover>
+      )}
     </Fragment>
   );
 };

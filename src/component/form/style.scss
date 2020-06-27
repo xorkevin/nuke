@@ -412,6 +412,29 @@ option {
   }
 }
 
+.field-suggest-options {
+  // width just set as a default, overridden by react component style
+  width: $form-width;
+  max-height: $form-popover-max-height;
+  overflow: auto;
+  border-radius: 4px;
+
+  & > .option {
+    width: 100%;
+    border-radius: 4px;
+    padding: 8px 16px;
+    transition: $transition-fast;
+
+    &:hover {
+      background-color: $color-back-primary-3;
+    }
+  }
+}
+
+.dark .field-suggest-options {
+  background-color: $color-back-light-3;
+}
+
 .input {
   position: relative;
   width: $form-width;
