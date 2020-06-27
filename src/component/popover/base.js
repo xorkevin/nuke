@@ -1,9 +1,5 @@
-import React, {Fragment, useState, useEffect, useRef} from 'react';
+import React, {Fragment, useState, useEffect, useCallback, useRef} from 'react';
 import ReactDOM from 'react-dom';
-
-const stopPropagation = (e) => {
-  e.stopPropagation();
-};
 
 const getViewBounds = () => ({
   width: window.innerWidth,
@@ -213,15 +209,27 @@ const Popover = ({
     };
   }, [popover, setPopoverBounds]);
 
+  const onClick = useCallback(
+    (e) => {
+      if (anchor.current && anchor.current.contains(e.target)) {
+        return;
+      }
+      if (popover.current && popover.current.contains(e.target)) {
+        return;
+      }
+      if (close) {
+        close();
+      }
+    },
+    [anchor, popover, close],
+  );
+
   useEffect(() => {
-    if (!close) {
-      return;
-    }
-    window.addEventListener('click', close);
+    window.addEventListener('click', onClick);
     return () => {
-      window.removeEventListener('click', close);
+      window.removeEventListener('click', onClick);
     };
-  }, [close]);
+  }, [onClick]);
 
   if (!anchorBounds) {
     return null;
@@ -245,7 +253,7 @@ const Popover = ({
   );
   return ReactDOM.createPortal(
     <div className="popover-root" style={s}>
-      <div className={k.join(' ')} ref={popover} onClick={stopPropagation}>
+      <div className={k.join(' ')} ref={popover}>
         {children}
       </div>
     </div>,
