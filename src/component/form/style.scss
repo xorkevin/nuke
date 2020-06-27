@@ -424,6 +424,7 @@ option {
     border-radius: 4px;
     padding: 8px 16px;
     transition: $transition-fast;
+    cursor: pointer;
 
     &:hover {
       background-color: $color-back-primary-3;

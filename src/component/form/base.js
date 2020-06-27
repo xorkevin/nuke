@@ -74,6 +74,10 @@ const renderNormal = ({
   );
 };
 
+const preventDefault = (e) => {
+  e.preventDefault();
+};
+
 const Field = ({
   className,
   render,
@@ -654,6 +658,22 @@ const MAX_SUGGESTIONS = 128;
 
 const suggestOptMap = (i) => i;
 
+const SuggestFieldOption = ({fieldRef, close, setValue, value}) => {
+  const handler = useCallback(() => {
+    setValue(value);
+    close();
+    if (fieldRef.current) {
+      fieldRef.current.blur();
+    }
+  }, [fieldRef, close, setValue, value]);
+
+  return (
+    <div className="option" onClick={handler} onMouseDown={preventDefault}>
+      {value}
+    </div>
+  );
+};
+
 const renderSuggest = ({
   fieldid,
   type,
@@ -672,21 +692,39 @@ const renderSuggest = ({
   const setHidden = useCallback(() => {
     setShow(false);
   }, [setShow]);
-  const handleChange = useCallback(
-    (e) => {
-      onChange(name, e.target.value);
+  const setValue = useCallback(
+    (v) => {
+      onChange(name, v);
     },
     [name, onChange],
   );
-  const onKeyDown = useCallback((e) => {
-    if (e.key === 'Enter') {
-      console.log('enter hit');
-    }
-  }, []);
 
   const filteredOpts = useMemo(
     () => fuzzyFilter(MAX_SUGGESTIONS, options, suggestOptMap, value),
     [options, value],
+  );
+
+  const first = filteredOpts.length > 0 ? filteredOpts[0] : null;
+
+  const handleChange = useCallback(
+    (e) => {
+      setValue(e.target.value);
+    },
+    [setValue],
+  );
+  const onKeyDown = useCallback(
+    (e) => {
+      if (e.key === 'Enter') {
+        if (first !== null && show) {
+          setValue(first);
+          setShow(false);
+          if (anchor.current) {
+            anchor.current.blur();
+          }
+        }
+      }
+    },
+    [anchor, show, setShow, setValue, first],
   );
 
   return (
@@ -707,9 +745,13 @@ const renderSuggest = ({
       {show && filteredOpts.length > 0 && (
         <Popover anchor={anchor} className="field-suggest-options" matchWidth>
           {filteredOpts.map((i) => (
-            <div key={i} className="option">
-              {i}
-            </div>
+            <SuggestFieldOption
+              key={i}
+              fieldRef={anchor}
+              close={setHidden}
+              setValue={setValue}
+              value={i}
+            />
           ))}
         </Popover>
       )}
@@ -791,10 +833,6 @@ const OptionsContainer = ({align, position, fixed, reference, children}) => {
       </div>
     </div>
   );
-};
-
-const preventDefault = (e) => {
-  e.preventDefault();
 };
 
 const Option = ({close, reference, setValue, value, selected, children}) => {
