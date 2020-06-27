@@ -7,6 +7,7 @@ const Button = ({
   label,
   onClick,
   children,
+  forwardedRef,
 }) => {
   const j = [];
   if (fullWidth) {
@@ -19,7 +20,12 @@ const Button = ({
     j.push(className);
   }
   return (
-    <button className={j.join(' ')} onClick={onClick} aria-label={label}>
+    <button
+      ref={forwardedRef}
+      className={j.join(' ')}
+      onClick={onClick}
+      aria-label={label}
+    >
       {children}
     </button>
   );

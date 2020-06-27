@@ -1,8 +1,8 @@
-import React, {Fragment, useState, useEffect, useCallback, useRef} from 'react';
+import React, {Fragment, useState, useEffect, useRef} from 'react';
 import ReactDOM from 'react-dom';
 
-const preventDefault = (e) => {
-  e.preventDefault();
+const stopPropagation = (e) => {
+  e.stopPropagation();
 };
 
 const getViewBounds = () => ({
@@ -144,52 +144,84 @@ const Popover = ({
   anchor,
   children,
 }) => {
+  const popover = useRef(null);
   const [anchorBounds, setAnchorBounds] = useState(null);
   const [popoverBounds, setPopoverBounds] = useState(null);
-  const [viewBounds, setViewBounds] = useState(getViewBounds());
-  const popoverRef = useCallback(
-    (node) => {
-      if (node !== null) {
-        setPopoverBounds(node.getBoundingClientRect());
-      } else {
-        setPopoverBounds(null);
-      }
-    },
-    [setPopoverBounds],
-  );
+  const [viewBounds, setViewBounds] = useState(null);
 
   useEffect(() => {
     let running = null;
     const handler = () => {
-      if (!running) {
-        running = window.requestAnimationFrame(() => {
-          const ab = anchor.current
-            ? anchor.current.getBoundingClientRect()
-            : null;
-          const vb = getViewBounds();
-          setAnchorBounds(ab);
-          setViewBounds(vb);
-          running = null;
-        });
+      if (running) {
+        return;
       }
+      running = window.requestAnimationFrame(() => {
+        setViewBounds(getViewBounds());
+        running = null;
+      });
     };
-    window.addEventListener('resize', handler);
-    window.addEventListener('scroll', handler);
-    if (close) {
-      window.addEventListener('click', close);
-    }
     handler();
+    window.addEventListener('resize', handler);
     return () => {
       window.removeEventListener('resize', handler);
-      window.removeEventListener('scroll', handler);
-      if (close) {
-        window.removeEventListener('click', close);
-      }
       if (running) {
         window.cancelAnimationFrame(running);
       }
     };
-  }, [anchor, setAnchorBounds, setPopoverBounds, setViewBounds, close]);
+  }, [setViewBounds]);
+
+  useEffect(() => {
+    let running = null;
+    const handler = () => {
+      if (running) {
+        return;
+      }
+      running = window.requestAnimationFrame(() => {
+        if (anchor.current) {
+          setAnchorBounds(anchor.current.getBoundingClientRect());
+        }
+        running = null;
+      });
+    };
+    handler();
+    window.addEventListener('scroll', handler);
+    window.addEventListener('resize', handler);
+    return () => {
+      window.removeEventListener('resize', handler);
+      window.removeEventListener('scroll', handler);
+      if (running) {
+        window.cancelAnimationFrame(running);
+      }
+    };
+  }, [anchor, setAnchorBounds]);
+
+  useEffect(() => {
+    if (!popover.current) {
+      return;
+    }
+
+    setPopoverBounds(popover.current.getBoundingClientRect());
+    const observer = new ResizeObserver(() => {
+      if (popover.current) {
+        setPopoverBounds(popover.current.getBoundingClientRect());
+      }
+    });
+    observer.observe(popover.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [popover, setPopoverBounds]);
+
+  useEffect(() => {
+    if (!close) {
+      return;
+    }
+    window.addEventListener('click', close);
+    return () => {
+      window.removeEventListener('click', close);
+    };
+  }, [close]);
 
   if (!anchorBounds) {
     return null;
@@ -213,7 +245,7 @@ const Popover = ({
   );
   return ReactDOM.createPortal(
     <div className="popover-root" style={s}>
-      <div className={k.join(' ')} ref={popoverRef}>
+      <div className={k.join(' ')} ref={popover} onClick={stopPropagation}>
         {children}
       </div>
     </div>,

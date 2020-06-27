@@ -11,6 +11,9 @@ body {
 .dark {
   color: $color-text-light-1;
 }
+body.dark {
+  background-color: $color-primary-dark-3;
+}
 .dark-background {
   background-color: $color-primary-dark-3;
 }

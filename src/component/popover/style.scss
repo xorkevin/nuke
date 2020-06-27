@@ -36,79 +36,8 @@
   }
 }
 
-.debug-popover {
-  position: fixed;
-  width: 0;
-  height: 0;
-  z-index: 128;
-
+.dark .popover-root {
   & > .popover {
-    position: absolute;
-    background-color: $white;
-    z-index: 1;
-    @include shadow-box(16px);
-  }
-
-  & > .triangle {
-    position: absolute;
-    width: 32px;
-    height: 16px;
-    z-index: 2;
-    transform: translateX(-50%);
-    overflow: hidden;
-
-    &:before {
-      content: '';
-      position: absolute;
-      width: 12px;
-      height: 12px;
-      left: 50%;
-      z-index: 1;
-      background-color: $white;
-    }
-  }
-
-  &.left {
-    & > .popover-container {
-      left: 0;
-    }
-  }
-
-  &.right {
-    & > .popover-container {
-      right: 0;
-    }
-  }
-
-  &.top {
-    & > .popover-container {
-      bottom: 16px;
-    }
-
-    & > .triangle {
-      bottom: 0;
-
-      &:before {
-        top: 0;
-        transform: translateX(-50%) translateY(-50%) rotateZ(45deg);
-        @include shadow-box(12px);
-      }
-    }
-  }
-
-  &.bottom {
-    & > .popover-container {
-      top: 16px;
-    }
-
-    & > .triangle {
-      top: 0;
-
-      &:before {
-        bottom: 0;
-        transform: translateX(-50%) translateY(50%) rotateZ(45deg);
-        @include shadow-box(12px);
-      }
-    }
+    background-color: $color-primary-dark-1;
   }
 }
