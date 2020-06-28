@@ -1,2 +1,2 @@
-import Popover from './base';
-export default Popover;
+import {Popover, useStateRef} from './base';
+export {Popover as default, Popover, useStateRef};

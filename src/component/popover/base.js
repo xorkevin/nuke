@@ -132,6 +132,17 @@ const calcLocationStyle = (
   return s;
 };
 
+const useStateRef = (val = null) => {
+  const [ref, setRef] = useState(val);
+  const cbRef = useCallback(
+    (node) => {
+      setRef(node);
+    },
+    [setRef],
+  );
+  return [ref, cbRef];
+};
+
 const Popover = ({
   className,
   position,
@@ -142,7 +153,7 @@ const Popover = ({
   anchor,
   children,
 }) => {
-  const popover = useRef(null);
+  const [popover, popoverRef] = useStateRef(null);
   const [anchorBounds, setAnchorBounds] = useState(null);
   const [popoverBounds, setPopoverBounds] = useState(null);
   const [viewBounds, setViewBounds] = useState(null);
@@ -169,22 +180,27 @@ const Popover = ({
   }, [setViewBounds]);
 
   useEffect(() => {
+    if (!anchor) {
+      return;
+    }
+
     let running = null;
     const handler = () => {
       if (running) {
         return;
       }
       running = window.requestAnimationFrame(() => {
-        if (anchor.current) {
-          setAnchorBounds(anchor.current.getBoundingClientRect());
-        }
+        setAnchorBounds(anchor.getBoundingClientRect());
         running = null;
       });
     };
     handler();
     window.addEventListener('scroll', handler);
     window.addEventListener('resize', handler);
+    const observer = new ResizeObserver(handler);
+    observer.observe(document.body);
     return () => {
+      observer.disconnect();
       window.removeEventListener('resize', handler);
       window.removeEventListener('scroll', handler);
       if (running) {
@@ -194,17 +210,15 @@ const Popover = ({
   }, [anchor, setAnchorBounds]);
 
   useEffect(() => {
-    if (!popover.current) {
+    if (!popover) {
       return;
     }
 
-    setPopoverBounds(popover.current.getBoundingClientRect());
+    setPopoverBounds(popover.getBoundingClientRect());
     const observer = new ResizeObserver(() => {
-      if (popover.current) {
-        setPopoverBounds(popover.current.getBoundingClientRect());
-      }
+      setPopoverBounds(popover.getBoundingClientRect());
     });
-    observer.observe(popover.current);
+    observer.observe(popover);
 
     return () => {
       observer.disconnect();
@@ -213,10 +227,10 @@ const Popover = ({
 
   const onClick = useCallback(
     (e) => {
-      if (anchor.current && anchor.current.contains(e.target)) {
+      if (anchor && anchor.contains(e.target)) {
         return;
       }
-      if (popover.current && popover.current.contains(e.target)) {
+      if (popover && popover.contains(e.target)) {
         return;
       }
       if (close) {
@@ -262,7 +276,7 @@ const Popover = ({
   );
   return ReactDOM.createPortal(
     <div className="popover-root" style={s}>
-      <div ref={popover} className={k.join(' ')} style={style}>
+      <div ref={popoverRef} className={k.join(' ')} style={style}>
         {children}
       </div>
     </div>,
@@ -270,4 +284,4 @@ const Popover = ({
   );
 };
 
-export default Popover;
+export {Popover as default, Popover, useStateRef};

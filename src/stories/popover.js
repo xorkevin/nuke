@@ -1,11 +1,11 @@
 import React, {Fragment, useState, useCallback, useRef} from 'react';
-import Popover from 'component/popover';
+import {Popover, useStateRef} from 'component/popover';
 import Button from 'component/button';
 
 export default {title: 'Popover'};
 
 export const plain = () => {
-  const anchor = useRef(null);
+  const [anchor, anchorRef] = useStateRef(null);
   const [show, setShow] = useState(false);
   const handleClick = useCallback(() => {
     setShow((v) => !v);
@@ -15,7 +15,7 @@ export const plain = () => {
   }, [setShow]);
   return (
     <Fragment>
-      <Button forwardedRef={anchor} onClick={handleClick}>
+      <Button forwardedRef={anchorRef} onClick={handleClick}>
         Anchor
       </Button>
       {show && (
@@ -28,7 +28,7 @@ export const plain = () => {
 };
 
 export const top = () => {
-  const anchor = useRef(null);
+  const [anchor, anchorRef] = useStateRef(null);
   const [show, setShow] = useState(false);
   const handleClick = useCallback(() => {
     setShow((v) => !v);
@@ -38,7 +38,7 @@ export const top = () => {
   }, [setShow]);
   return (
     <Fragment>
-      <Button forwardedRef={anchor} onClick={handleClick}>
+      <Button forwardedRef={anchorRef} onClick={handleClick}>
         Anchor
       </Button>
       {show && (
@@ -51,7 +51,7 @@ export const top = () => {
 };
 
 export const left = () => {
-  const anchor = useRef(null);
+  const [anchor, anchorRef] = useStateRef(null);
   const [show, setShow] = useState(false);
   const handleClick = useCallback(() => {
     setShow((v) => !v);
@@ -61,7 +61,7 @@ export const left = () => {
   }, [setShow]);
   return (
     <Fragment>
-      <Button forwardedRef={anchor} onClick={handleClick}>
+      <Button forwardedRef={anchorRef} onClick={handleClick}>
         Anchor
       </Button>
       {show && (
@@ -74,7 +74,7 @@ export const left = () => {
 };
 
 export const right = () => {
-  const anchor = useRef(null);
+  const [anchor, anchorRef] = useStateRef(null);
   const [show, setShow] = useState(false);
   const handleClick = useCallback(() => {
     setShow((v) => !v);
@@ -84,7 +84,7 @@ export const right = () => {
   }, [setShow]);
   return (
     <Fragment>
-      <Button forwardedRef={anchor} onClick={handleClick}>
+      <Button forwardedRef={anchorRef} onClick={handleClick}>
         Anchor
       </Button>
       {show && (

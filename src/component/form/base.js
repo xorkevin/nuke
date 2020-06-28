@@ -5,11 +5,10 @@ import React, {
   useCallback,
   useMemo,
   useContext,
-  useRef,
 } from 'react';
 import ReactDOM from 'react-dom';
 import {randomID} from 'utility';
-import Popover from '../popover';
+import {Popover, useStateRef} from '../popover';
 import {Grid, Column} from '../grid';
 import {ListGroup, ListItem} from '../listgroup';
 import ButtonSmall from '../button/small';
@@ -655,8 +654,8 @@ const SuggestFieldOption = ({fieldRef, close, setValue, value}) => {
   const handler = useCallback(() => {
     setValue(value);
     close();
-    if (fieldRef.current) {
-      fieldRef.current.blur();
+    if (fieldRef) {
+      fieldRef.blur();
     }
   }, [fieldRef, close, setValue, value]);
 
@@ -677,7 +676,7 @@ const renderSuggest = ({
   label,
   placeholder,
 }) => {
-  const anchor = useRef(null);
+  const [anchor, anchorRef] = useStateRef(null);
   const [show, setShow] = useState(false);
   const setVisible = useCallback(() => {
     setShow(true);
@@ -711,8 +710,8 @@ const renderSuggest = ({
         if (first !== null && show) {
           setValue(first);
           setShow(false);
-          if (anchor.current) {
-            anchor.current.blur();
+          if (anchor) {
+            anchor.blur();
           }
         }
       }
@@ -733,7 +732,7 @@ const renderSuggest = ({
         onFocus: setVisible,
         onBlur: setHidden,
         placeholder,
-        forwardedRef: anchor,
+        forwardedRef: anchorRef,
       })}
       {show && filteredOpts.length > 0 && (
         <Popover anchor={anchor} className="field-suggest-options" matchWidth>
@@ -815,7 +814,7 @@ const renderMultiSelect = ({
   label,
   placeholder,
 }) => {
-  const anchor = useRef(null);
+  const [anchor, anchorRef] = useStateRef(null);
   const [search, setSearch] = useState('');
   const [show, setShow] = useState(false);
   const setVisible = useCallback(() => {
@@ -863,7 +862,7 @@ const renderMultiSelect = ({
         }
       }
     },
-    [anchor, show, setSearch, addValue, first],
+    [show, setSearch, addValue, first],
   );
 
   const valueSet = new Set(value);
@@ -887,7 +886,7 @@ const renderMultiSelect = ({
         onFocus: setVisible,
         onBlur: setHidden,
         placeholder,
-        forwardedRef: anchor,
+        forwardedRef: anchorRef,
       })}
       {show && filteredOpts.length > 0 && (
         <Popover
