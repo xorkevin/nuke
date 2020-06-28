@@ -2,6 +2,7 @@ button {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  outline: none;
   &::-moz-focus-inner {
     border: 0;
   }
@@ -38,6 +39,10 @@ button {
   &.fixed-width {
     min-width: $button-min-width;
   }
+
+  &:focus {
+    box-shadow: 0 0 0 1px $color-back-primary, 0 0 0 3px $color-back-primary-2;
+  }
 }
 
 .dark button {
@@ -50,6 +55,10 @@ button {
 
   &:active {
     background-color: $color-back-light-3;
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 1px $color-back-primary, 0 0 0 3px $color-back-primary-2;
   }
 }
 

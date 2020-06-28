@@ -443,11 +443,6 @@ option {
   & > label {
     display: inline-block;
     cursor: pointer;
-
-    & > * {
-      outline: none;
-      pointer-events: none;
-    }
   }
 
   & > input[type='file'] {
@@ -457,43 +452,11 @@ option {
   & > .filelist {
     margin: 8px 0;
   }
-
-  &.error > label > * {
-    box-shadow: 0 0 0 1px $color-danger-light;
-  }
-
-  &.valid > label > * {
-    box-shadow: 0 0 0 1px $color-success-light;
-  }
-
-  &:focus-within,
-  &.error:focus-within,
-  &.valid:focus-within {
-    & > label > * {
-      box-shadow: 0 0 0 1px $color-back-primary, 0 0 0 3px $color-back-primary-2;
-    }
-  }
 }
 
 .dark .formfield.file {
   & > .label {
     color: $color-text-light-2;
-  }
-
-  &.error > label > * {
-    box-shadow: 0 0 0 1px $color-danger-light;
-  }
-
-  &.valid > label > * {
-    box-shadow: 0 0 0 1px $color-success-light;
-  }
-
-  &:focus-within,
-  &.error:focus-within,
-  &.valid:focus-within {
-    & > label > * {
-      box-shadow: 0 0 0 1px $color-back-primary, 0 0 0 3px $color-back-primary-2;
-    }
   }
 }
 
@@ -620,6 +583,7 @@ option {
 .field-suggest-options {
   // width just set as a default, overridden by react component style
   width: $form-width;
+  max-width: 100vw;
   max-height: $form-popover-max-height;
   overflow: auto;
   background-color: $white;
@@ -678,6 +642,7 @@ option {
 .field-multiselect-options {
   // width just set as a default, overridden by react component style
   width: $form-width;
+  max-width: 100vw;
   max-height: $form-popover-max-height;
   overflow: auto;
   background-color: $white;

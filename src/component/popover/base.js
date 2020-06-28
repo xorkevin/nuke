@@ -198,6 +198,7 @@ const Popover = ({
     window.addEventListener('scroll', handler);
     window.addEventListener('resize', handler);
     const observer = new ResizeObserver(handler);
+    observer.observe(anchor);
     observer.observe(document.body);
     return () => {
       observer.disconnect();
