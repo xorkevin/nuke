@@ -49,7 +49,8 @@
 
     & > .menu-divider {
       margin: 4px 8px;
-      border-top: 1px solid $color-back-dark-3;
+      height: 1px;
+      background-color: $color-back-dark-3;
     }
   }
 }
@@ -66,7 +67,7 @@
     }
 
     & > .menu-divider {
-      border-top: 1px solid $color-back-light-3;
+      background-color: 1px solid $color-back-light-3;
     }
   }
 }

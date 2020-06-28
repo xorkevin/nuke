@@ -1,14 +1,9 @@
 import React from 'react';
 import Container from 'component/container';
 
-const Footer = ({withSidebar, children}) => {
-  const k = [];
-  if (withSidebar) {
-    k.push('with-sidebar');
-  }
-
+const Footer = ({className, children}) => {
   return (
-    <footer className={k.join(' ')}>
+    <footer className={className}>
       <Container padded narrow>
         {children}
       </Container>
