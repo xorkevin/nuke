@@ -80,6 +80,7 @@ const Column = ({
   basis,
   grow,
   shrink,
+  onClick,
   children,
 }) => {
   const k = ['col'];
@@ -120,7 +121,7 @@ const Column = ({
   }
 
   return (
-    <div className={k.join(' ')} style={j}>
+    <div className={k.join(' ')} style={j} onClick={onClick}>
       {children}
     </div>
   );
