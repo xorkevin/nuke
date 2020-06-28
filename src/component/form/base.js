@@ -5,6 +5,7 @@ import React, {
   useCallback,
   useMemo,
   useContext,
+  useRef,
 } from 'react';
 import ReactDOM from 'react-dom';
 import {randomID} from 'utility';
@@ -480,6 +481,7 @@ const renderFile = ({accept, capture, multiple}) => ({
   label,
   children,
 }) => {
+  const fileinput = useRef(null);
   const [files, setFiles] = useState([]);
   const handleDelete = useCallback(
     (index) => {
@@ -522,25 +524,24 @@ const renderFile = ({accept, capture, multiple}) => ({
     },
     [name, files, setFiles, multiple, onChange],
   );
-  const handleSubmit = useCallback(
-    (e) => {
-      if (e.key === 'Enter') {
-        onSubmit();
-      }
-    },
-    [onSubmit],
-  );
+  const handleClick = useCallback(() => {
+    if (fileinput.current) {
+      fileinput.current.click();
+    }
+  }, [fileinput]);
   return (
     <Fragment>
       {label && <div className="label">{label}</div>}
-      <label htmlFor={fieldid}>{children}</label>
+      <label htmlFor={fieldid} onClick={handleClick}>
+        {children}
+      </label>
       <input
+        ref={fileinput}
         id={fieldid}
         tabIndex="-1"
         type="file"
         name={name}
         onChange={handleChange}
-        onKeyDown={handleSubmit}
         accept={accept}
         capture={capture}
         multiple={multiple}
