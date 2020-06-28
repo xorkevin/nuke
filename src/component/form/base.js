@@ -239,14 +239,6 @@ const renderTextarea = ({
     },
     [name, onChange],
   );
-  const handleSubmit = useCallback(
-    (e) => {
-      if (e.key === 'Enter') {
-        onSubmit();
-      }
-    },
-    [onSubmit],
-  );
 
   return (
     <Fragment>
@@ -256,7 +248,6 @@ const renderTextarea = ({
         name={name}
         value={value}
         onChange={handleChange}
-        onKeyDown={handleSubmit}
         placeholder={placeholder}
       />
     </Fragment>
