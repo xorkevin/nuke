@@ -265,6 +265,9 @@ const Popover = ({
   } else {
     k.push('bottom');
   }
+  if (!popoverBounds) {
+    k.push('wait');
+  }
   if (className) {
     k.push(className);
   }

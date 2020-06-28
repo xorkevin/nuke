@@ -90,3 +90,19 @@ Use the variant `button/small` for a less intrusive button.
     <ButtonSmall>Click me</ButtonSmall>
   </Story>
 </Preview>
+
+A `Button` may be disabled.
+
+<Preview>
+  <Story name="button disabled">
+    <div>
+      <Button disabled onClick={action('button-click')}>Click me</Button>
+      <ButtonPrimary disabled>Click me</ButtonPrimary>
+      <ButtonSecondary disabled>Click me</ButtonSecondary>
+      <ButtonTertiary disabled>Click me</ButtonTertiary>
+      <ButtonDanger disabled>Click me</ButtonDanger>
+      <ButtonDangerSecondary disabled>Click me</ButtonDangerSecondary>
+      <ButtonSmall disabled>Click me</ButtonSmall>
+    </div>
+  </Story>
+</Preview>

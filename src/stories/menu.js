@@ -30,6 +30,7 @@ export const plain = () => (
       link="https://github.com/xorkevin"
       ext
       icon={<FaIcon icon="github" />}
+      label={<FaIcon icon="external-link" />}
     >
       xorkevin
     </MenuItem>

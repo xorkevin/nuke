@@ -24,11 +24,11 @@ button {
   transition: $transition-normal;
   cursor: pointer;
 
-  &:hover {
+  &:hover:not([disabled]) {
     background-color: $color-back-dark-3;
   }
 
-  &:active {
+  &:active:not([disabled]) {
     background-color: $color-back-dark-3;
   }
 
@@ -43,17 +43,22 @@ button {
   &:focus {
     box-shadow: 0 0 0 1px $color-back-primary, 0 0 0 3px $color-back-primary-2;
   }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
 }
 
 .dark button {
   border-color: $color-text-light-1;
   color: $color-text-light-1;
 
-  &:hover {
+  &:hover:not([disabled]) {
     background-color: $color-back-light-3;
   }
 
-  &:active {
+  &:active:not([disabled]) {
     background-color: $color-back-light-3;
   }
 
@@ -69,11 +74,11 @@ button.primary {
   background-color: $color-primary-2;
   color: $color-text-light-1;
 
-  &:hover {
+  &:hover:not([disabled]) {
     background-color: $color-primary-1;
   }
 
-  &:active {
+  &:active:not([disabled]) {
     background-color: $color-primary-1;
   }
 }
@@ -84,13 +89,13 @@ button.secondary {
   border-color: $color-primary-2;
   color: $color-primary-2;
 
-  &:hover {
+  &:hover:not([disabled]) {
     background-color: $color-back-light-3;
     border-color: $color-primary-1;
     color: $color-primary-1;
   }
 
-  &:active {
+  &:active:not([disabled]) {
     background-color: $color-back-dark-3;
     border-color: $color-primary-1;
     color: $color-primary-1;
@@ -101,12 +106,12 @@ button.secondary {
   border-color: $color-text-light-2;
   color: $color-text-light-1;
 
-  &:hover {
+  &:hover:not([disabled]) {
     border-color: $color-text-light-1;
     color: $color-text-light-1;
   }
 
-  &:active {
+  &:active:not([disabled]) {
     border-color: $color-text-light-1;
     color: $color-text-light-1;
   }
@@ -118,12 +123,12 @@ button.tertiary {
   border: 0;
   color: $color-text-dark-2;
 
-  &:hover {
+  &:hover:not([disabled]) {
     background-color: $color-back-dark-3;
     color: $color-text-dark-1;
   }
 
-  &:active {
+  &:active:not([disabled]) {
     background-color: $color-back-dark-3;
     color: $color-text-dark-1;
   }
@@ -132,12 +137,12 @@ button.tertiary {
 .dark button.tertiary {
   color: $color-text-light-2;
 
-  &:hover {
+  &:hover:not([disabled]) {
     background-color: $color-back-light-3;
     color: $color-text-light-1;
   }
 
-  &:active {
+  &:active:not([disabled]) {
     background-color: $color-back-light-3;
     color: $color-text-light-1;
   }
@@ -150,11 +155,11 @@ button.danger {
   background-color: $color-danger;
   color: $color-text-light-1;
 
-  &:hover {
+  &:hover:not([disabled]) {
     background-color: $color-danger-light;
   }
 
-  &:active {
+  &:active:not([disabled]) {
     background-color: $color-danger-light;
   }
 }
@@ -165,11 +170,11 @@ button.danger-secondary {
   border: 0;
   color: $color-danger;
 
-  &:hover {
+  &:hover:not([disabled]) {
     background-color: $color-back-dark-3;
   }
 
-  &:active {
+  &:active:not([disabled]) {
     background-color: $color-back-dark-3;
   }
 }
@@ -177,11 +182,11 @@ button.danger-secondary {
 .dark button.danger-secondary {
   color: $color-danger-light;
 
-  &:hover {
+  &:hover:not([disabled]) {
     background-color: $color-back-light-3;
   }
 
-  &:active {
+  &:active:not([disabled]) {
     background-color: $color-back-light-3;
   }
 }
@@ -192,12 +197,12 @@ button.small {
   border: 0;
   color: $color-text-dark-2;
 
-  &:hover {
+  &:hover:not([disabled]) {
     background-color: $color-back-dark-3;
     color: $color-text-dark-1;
   }
 
-  &:active {
+  &:active:not([disabled]) {
     background-color: $color-back-dark-3;
     color: $color-text-dark-1;
   }
@@ -206,12 +211,12 @@ button.small {
 .dark button.small {
   color: $color-text-light-2;
 
-  &:hover {
+  &:hover:not([disabled]) {
     background-color: $color-back-light-3;
     color: $color-text-light-1;
   }
 
-  &:active {
+  &:active:not([disabled]) {
     background-color: $color-back-light-3;
     color: $color-text-light-1;
   }

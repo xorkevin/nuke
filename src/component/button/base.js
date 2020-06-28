@@ -4,6 +4,7 @@ const Button = ({
   className,
   fullWidth,
   fixedWidth,
+  disabled,
   label,
   onClick,
   children,
@@ -23,6 +24,7 @@ const Button = ({
     <button
       ref={forwardedRef}
       className={j.join(' ')}
+      disabled={disabled}
       onClick={onClick}
       aria-label={label}
     >

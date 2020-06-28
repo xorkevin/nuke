@@ -7,6 +7,11 @@
   & > .popover {
     position: absolute;
     z-index: 1;
+    transition: $transition-fast;
+
+    &.wait {
+      opacity: 0;
+    }
 
     &.bottom {
       top: 0;
