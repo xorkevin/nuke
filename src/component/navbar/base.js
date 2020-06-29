@@ -2,61 +2,37 @@ import React, {useState, useEffect, useMemo} from 'react';
 import Container from '../container';
 import {Grid, Column} from '../grid';
 
-const scrollTime = 384;
-const scrollTimeSqrt = Math.sqrt(scrollTime);
-const navHeight = 64;
-const scrollDistanceCap = 4096;
-
-const easing = (t) => {
-  if (t < 0.5) {
-    return 4 * t * t * t;
-  } else {
-    return (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
-  }
+const useScrollTo = (id) => {
+  return useCallback(() => {
+    const k = document.getElementById(id);
+    if (k) {
+      k.scrollIntoView({
+        behavior: 'smooth',
+      });
+    }
+  }, [id]);
 };
 
-const scrollTo = (element) => {
-  const startingY = window.pageYOffset;
-  let elementY = 0;
-  if (typeof element === 'string') {
-    elementY =
-      window.scrollY +
-      document.getElementById(element).getBoundingClientRect().top;
-  }
-  let targetY = elementY - navHeight;
-  if (targetY < 0) {
-    targetY = 0;
-  }
-  const scrollHeight = document.body.scrollHeight;
-  const innerHeight = window.innerHeight;
-  if (scrollHeight - elementY < innerHeight) {
-    targetY = scrollHeight - innerHeight;
-  }
-  const diff = targetY - startingY;
-  let start;
-  if (!diff) {
-    return;
-  }
-  const duration = Math.min(
-    Math.sqrt((Math.abs(diff) * scrollTime) / scrollDistanceCap) *
-      scrollTimeSqrt,
-    scrollTime,
-  );
-  window.requestAnimationFrame(function step(timestamp) {
-    if (!start) {
-      start = timestamp;
+const NavItem = ({onClick, scroll, forwardedRef, children}) => {
+  const clickHandler = useMemo(() => {
+    if (scroll) {
+      return () => {
+        const k = document.getElementById(scroll);
+        if (k) {
+          k.scrollIntoView({
+            behavior: 'smooth',
+          });
+        }
+      };
     }
-    const time = timestamp - start;
-    window.scrollTo(0, startingY + diff * easing(Math.min(time / duration, 1)));
-    if (time < duration) {
-      window.requestAnimationFrame(step);
-    }
-  });
-};
-
-const NavItem = ({onClick, forwardedRef, children}) => {
+    return onClick;
+  }, [scroll, onClick]);
   return (
-    <Column forwardedRef={forwardedRef} className="nav-item" onClick={onClick}>
+    <Column
+      forwardedRef={forwardedRef}
+      className="nav-item"
+      onClick={clickHandler}
+    >
       {children}
     </Column>
   );
@@ -140,4 +116,4 @@ const Navbar = ({
   );
 };
 
-export {Navbar as default, Navbar, NavItem};
+export {Navbar as default, Navbar, NavItem, useScrollTo};
