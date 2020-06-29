@@ -28,6 +28,7 @@ const Grid = ({
   justify,
   cjustify,
   align,
+  forwardedRef,
   children,
 }) => {
   const k = ['grid'];
@@ -56,7 +57,11 @@ const Grid = ({
     k.push(className);
   }
 
-  return <div className={k.join(' ')}>{children}</div>;
+  return (
+    <div ref={forwardedRef} className={k.join(' ')}>
+      {children}
+    </div>
+  );
 };
 
 const switchSize = (prefix, number) => {
@@ -81,6 +86,7 @@ const Column = ({
   grow,
   shrink,
   onClick,
+  forwardedRef,
   children,
 }) => {
   const k = ['col'];
@@ -121,7 +127,7 @@ const Column = ({
   }
 
   return (
-    <div className={k.join(' ')} style={j} onClick={onClick}>
+    <div ref={forwardedRef} className={k.join(' ')} style={j} onClick={onClick}>
       {children}
     </div>
   );

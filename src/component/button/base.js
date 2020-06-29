@@ -7,8 +7,8 @@ const Button = ({
   disabled,
   label,
   onClick,
-  children,
   forwardedRef,
+  children,
 }) => {
   const j = [];
   if (fullWidth) {

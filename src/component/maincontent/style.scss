@@ -1,0 +1,18 @@
+main {
+  min-height: 100vh;
+
+  @media (max-width: $grid-sm-breakpoint - 1) {
+    min-height: $image-mobile-size;
+  }
+
+  // force align main to top
+  &:before {
+    content: '';
+    display: table;
+    clear: both;
+  }
+
+  &.with-navbar {
+    padding-top: $nav-height;
+  }
+}

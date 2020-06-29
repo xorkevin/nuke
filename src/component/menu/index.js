@@ -1,2 +1,2 @@
-import {Menu, MenuItem, MenuHeader, MenuDivider} from './base';
-export {Menu as default, Menu, MenuItem, MenuHeader, MenuDivider};
+import {useMenu, Menu, MenuItem, MenuHeader, MenuDivider} from './base';
+export {Menu as default, useMenu, Menu, MenuItem, MenuHeader, MenuDivider};

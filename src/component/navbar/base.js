@@ -1,11 +1,11 @@
 import React, {useState, useEffect, useMemo} from 'react';
-import Container from 'component/container';
+import Container from '../container';
+import {Grid, Column} from '../grid';
 
 const scrollTime = 384;
 const scrollTimeSqrt = Math.sqrt(scrollTime);
 const navHeight = 64;
 const scrollDistanceCap = 4096;
-const scrollTriggerMargin = 8;
 
 const easing = (t) => {
   if (t < 0.5) {
@@ -54,45 +54,39 @@ const scrollTo = (element) => {
   });
 };
 
-const Navitem = ({scroll, children}) => {
-  const onClickHandler = useMemo(() => {
-    if (scroll) {
-      return () => {
-        scrollTo(scroll);
-      };
-    }
-    return undefined;
-  }, [scroll]);
-
+const NavItem = ({onClick, forwardedRef, children}) => {
   return (
-    <div className="item" onClick={onClickHandler}>
+    <Column forwardedRef={forwardedRef} className="nav-item" onClick={onClick}>
       {children}
-    </div>
+    </Column>
   );
 };
 
 const Navbar = ({
-  sidebar,
-  left,
-  right,
+  className,
+  fixed,
+  topHeight = 256,
+  scrollMargin = 8,
   hideOnScroll,
-  styletop,
-  accent,
   children,
+  right,
 }) => {
   const [top, setTop] = useState(false);
-  const [hidden, setHidden] = useState(false);
+  const [scrollDown, setScrollDown] = useState(false);
 
   useEffect(() => {
-    if (sidebar) {
-      return;
-    }
+    let position = window.pageYOffset;
     let running = null;
     const handler = () => {
       if (!running) {
         running = window.requestAnimationFrame(() => {
-          const position = window.pageYOffset;
-          if (position < 256) {
+          const nextPosition = window.pageYOffset;
+          const diff = nextPosition - position;
+          if (Math.abs(diff) > scrollMargin) {
+            setScrollDown(diff > 0);
+            position = nextPosition;
+          }
+          if (nextPosition < topHeight) {
             setTop(true);
           } else {
             setTop(false);
@@ -101,9 +95,9 @@ const Navbar = ({
         });
       }
     };
+    handler();
     window.addEventListener('scroll', handler);
     window.addEventListener('resize', handler);
-    handler();
     return () => {
       window.removeEventListener('scroll', handler);
       window.removeEventListener('resize', handler);
@@ -111,64 +105,39 @@ const Navbar = ({
         window.cancelAnimationFrame(running);
       }
     };
-  }, [sidebar, setTop]);
-
-  useEffect(() => {
-    if (sidebar || !hideOnScroll) {
-      return;
-    }
-    let position = window.pageYOffset;
-    let running = null;
-    const handler = () => {
-      if (!running) {
-        running = window.requestAnimationFrame(() => {
-          const nextPosition = window.pageYOffset;
-          const diff = nextPosition - position;
-          if (Math.abs(diff) > scrollTriggerMargin) {
-            setHidden(diff > 0);
-            position = nextPosition;
-          }
-          running = null;
-        });
-      }
-    };
-    window.addEventListener('scroll', handler);
-    window.addEventListener('resize', handler);
-    handler();
-    return () => {
-      window.removeEventListener('scroll', handler);
-      window.removeEventListener('resize', handler);
-      if (running) {
-        window.cancelAnimationFrame(running);
-      }
-    };
-  }, [sidebar, hideOnScroll, setHidden]);
+  }, [topHeight, scrollMargin, setTop, setScrollDown]);
 
   const k = [];
-  if (sidebar) {
-    k.push('sidebar');
+  if (scrollDown) {
+    k.push('scroll-down');
   }
-  if (!sidebar && !top && hidden) {
-    k.push('hidden');
-  }
-  if (styletop && top) {
+  if (top) {
     k.push('top');
+  } else {
+    k.push('not-top');
   }
-  if (accent) {
-    k.push('accent');
+  if (hideOnScroll) {
+    k.push('hide-on-scroll');
   }
 
   return (
     <nav className={k.join(' ')}>
-      <div className="nav-container">
-        <Container>
-          <div className="element">{left}</div>
-          {children && <div className="element">{children}</div>}
-          <div className="element">{right}</div>
-        </Container>
-      </div>
+      <Container className="nav-container" fill>
+        <Grid className="nav-elements" strict fill justify="space-between">
+          <Column className="element">
+            <Grid className="nav-items" strict fill>
+              {children}
+            </Grid>
+          </Column>
+          <Column className="element">
+            <Grid className="nav-items" strict fill>
+              {right}
+            </Grid>
+          </Column>
+        </Grid>
+      </Container>
     </nav>
   );
 };
 
-export {Navbar, Navitem, Navbar as default};
+export {Navbar as default, Navbar, NavItem};

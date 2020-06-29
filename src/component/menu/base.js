@@ -48,21 +48,29 @@ const MenuItem = ({className, onClick, link, ext, icon, label, children}) => {
 
 const menuSizeSet = new Set(['sm', 'md', 'lg']);
 
-const Menu = ({className, size, position, target, children}) => {
+const useMenu = () => {
   const [anchor, anchorRef] = useStateRef(null);
   const [show, setShow] = useState(false);
-  const setHidden = useCallback(() => {
+  const close = useCallback(() => {
     setShow(false);
   }, [setShow]);
-
-  const toggleVisible = useCallback(
+  const toggle = useCallback(
     (e) => {
-      console.log('clicked');
       setShow((v) => !v);
     },
     [setShow],
   );
+  return {
+    anchor,
+    anchorRef,
+    show,
+    setShow,
+    close,
+    toggle,
+  };
+};
 
+const Menu = ({className, size, position, anchor, close, children}) => {
   const k = ['menu'];
   if (menuSizeSet.has(size)) {
     k.push(size);
@@ -72,24 +80,17 @@ const Menu = ({className, size, position, target, children}) => {
   }
 
   return (
-    <Fragment>
-      <div className="menu-target" onClick={toggleVisible} ref={anchorRef}>
-        {target}
-      </div>
-      {show && (
-        <Popover
-          anchor={anchor}
-          className={k.join(' ')}
-          position={position}
-          close={setHidden}
-        >
-          <Grid className="menu-items" strict nowrap direction="column">
-            {children}
-          </Grid>
-        </Popover>
-      )}
-    </Fragment>
+    <Popover
+      anchor={anchor}
+      className={k.join(' ')}
+      position={position}
+      close={close}
+    >
+      <Grid className="menu-items" strict nowrap direction="column">
+        {children}
+      </Grid>
+    </Popover>
   );
 };
 
-export {Menu as default, Menu, MenuItem, MenuHeader, MenuDivider};
+export {Menu as default, useMenu, Menu, MenuItem, MenuHeader, MenuDivider};
