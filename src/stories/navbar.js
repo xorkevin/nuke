@@ -17,28 +17,28 @@ export const plain = () => {
           <Fragment>
             <NavItem forwardedRef={menu.anchorRef} onClick={menu.toggle}>
               <FaIcon icon="cog" /> Settings
-              {menu.show && (
-                <Menu size="md" anchor={menu.anchor} close={menu.close}>
-                  <MenuHeader>Settings</MenuHeader>
-                  <MenuItem icon={<FaIcon icon="bolt" />} label="Ctrl+B">
-                    Dark Mode
-                  </MenuItem>
-                  <MenuItem icon={<FaIcon icon="question" />} label="Ctrl+H">
-                    Help
-                  </MenuItem>
-                  <MenuDivider />
-                  <MenuHeader>About</MenuHeader>
-                  <MenuItem
-                    link="https://github.com/xorkevin"
-                    ext
-                    icon={<FaIcon icon="github" />}
-                    label={<FaIcon icon="external-link" />}
-                  >
-                    xorkevin
-                  </MenuItem>
-                </Menu>
-              )}
             </NavItem>
+            {menu.show && (
+              <Menu size="md" anchor={menu.anchor} close={menu.close}>
+                <MenuHeader>Settings</MenuHeader>
+                <MenuItem icon={<FaIcon icon="bolt" />} label="Ctrl+B">
+                  Dark Mode
+                </MenuItem>
+                <MenuItem icon={<FaIcon icon="question" />} label="Ctrl+H">
+                  Help
+                </MenuItem>
+                <MenuDivider />
+                <MenuHeader>About</MenuHeader>
+                <MenuItem
+                  link="https://github.com/xorkevin"
+                  ext
+                  icon={<FaIcon icon="github" />}
+                  label={<FaIcon icon="external-link" />}
+                >
+                  xorkevin
+                </MenuItem>
+              </Menu>
+            )}
           </Fragment>
         }
       >
