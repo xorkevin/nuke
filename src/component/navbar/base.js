@@ -99,7 +99,7 @@ const Navbar = ({
   return (
     <nav className={k.join(' ')}>
       <Container className="nav-container" fill>
-        <Grid className="nav-elements" strict fill justify="space-between">
+        <Grid className="nav-elements" fill justify="space-between">
           <Column className="element">
             <Grid className="nav-items" strict fill>
               {children}
