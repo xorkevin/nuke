@@ -33,6 +33,19 @@ nav {
               background-color: $color-back-primary-3;
             }
           }
+
+          & > .nav-divider {
+            height: 100%;
+            padding: 8px 2px;
+
+            &:after {
+              content: '';
+              display: block;
+              height: 100%;
+              width: 1px;
+              background-color: $color-back-dark-3;
+            }
+          }
         }
       }
     }
@@ -50,6 +63,12 @@ nav {
           & > .nav-item {
             &:hover {
               background-color: $color-primary-dark-2;
+            }
+          }
+
+          & > .nav-divider {
+            &:after {
+              background-color: $color-back-light-3;
             }
           }
         }

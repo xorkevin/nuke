@@ -38,6 +38,14 @@ const NavItem = ({onClick, scroll, forwardedRef, children}) => {
   );
 };
 
+const NavDivider = ({className}) => {
+  const k = ['nav-divider'];
+  if (className) {
+    k.push(className);
+  }
+  return <div className={k.join(' ')}></div>;
+};
+
 const Navbar = ({
   className,
   fixed,
@@ -116,4 +124,4 @@ const Navbar = ({
   );
 };
 
-export {Navbar as default, Navbar, NavItem, useScrollTo};
+export {Navbar as default, Navbar, NavItem, NavDivider, useScrollTo};

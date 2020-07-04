@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import {Navbar, NavItem} from 'component/navbar';
+import {Navbar, NavItem, NavDivider} from 'component/navbar';
 import {useMenu, Menu, MenuItem, MenuHeader, MenuDivider} from 'component/menu';
 import Section from 'component/section';
 import FaIcon from 'component/faicon';
@@ -44,6 +44,7 @@ export const plain = () => {
       >
         <NavItem scroll="section1">Section 1</NavItem>
         <NavItem scroll="section2">Section 2</NavItem>
+        <NavDivider />
         <NavItem scroll="section3">Section 3</NavItem>
         <NavItem scroll="section4">Section 4</NavItem>
       </Navbar>
