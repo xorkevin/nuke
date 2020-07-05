@@ -915,13 +915,16 @@ const FieldMultiSelect = (props) => {
 };
 
 const useForm = (initState = {}) => {
-  const [formState, setFormState] = useState(initState);
-  const updateForm = useCallback(
-    (name, val) =>
-      setFormState((prev) => Object.assign({}, prev, {[name]: val})),
-    [setFormState],
+  const [state, setState] = useState(initState);
+  const update = useCallback(
+    (name, val) => setState((prev) => Object.assign({}, prev, {[name]: val})),
+    [setState],
   );
-  return [formState, updateForm];
+  const assign = useCallback(
+    (val) => setState((prev) => Object.assign({}, prev, val)),
+    [setState],
+  );
+  return {state, update, assign};
 };
 
 export {

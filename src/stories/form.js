@@ -166,7 +166,7 @@ const unixToolSuggestions = [
 ];
 
 export const validation = () => {
-  const [formState, updateForm] = useForm({
+  const form = useForm({
     email: '',
     phone: '',
     password: '',
@@ -188,8 +188,8 @@ export const validation = () => {
   });
   return (
     <Form
-      formState={formState}
-      onChange={updateForm}
+      formState={form.state}
+      onChange={form.update}
       errCheck={formErrCheck}
       validCheck={formValidCheck}
     >
@@ -201,7 +201,7 @@ export const validation = () => {
         label="Password"
         hint="Must be at least 10 chars"
         hintRight={
-          formState.password.length > 0 ? formState.password.length : ''
+          form.state.password.length > 0 ? form.state.password.length : ''
         }
       />
       <Field name="confirm_password" type="password" label="Confirm password" />
@@ -209,7 +209,7 @@ export const validation = () => {
         name="bio"
         label="Bio"
         hint="Tell us about yourself"
-        hintRight={`${formState.bio.length}/128`}
+        hintRight={`${form.state.bio.length}/128`}
         wide
       />
       <FieldCheckbox
@@ -316,7 +316,7 @@ export const validation = () => {
         options={unixToolSuggestions}
       />
       <h3>Form state</h3>
-      <pre>{JSON.stringify(formState, fileStringReplacer, '  ')}</pre>
+      <pre>{JSON.stringify(form.state, fileStringReplacer, '  ')}</pre>
     </Form>
   );
 };
