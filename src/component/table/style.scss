@@ -1,0 +1,52 @@
+table {
+  padding: 8px;
+
+  & > thead,
+  & > tfoot {
+    & > tr {
+      & > th {
+        padding: $table-padding;
+        text-align: left;
+        font-weight: 700;
+      }
+    }
+  }
+
+  & > thead {
+    border-bottom: 2px solid $color-text-dark-3;
+  }
+  & > tfoot {
+    border-top: 2px solid $color-text-dark-3;
+  }
+
+  & > tbody {
+    & > tr {
+      transition: background-color $transition-fast;
+
+      &:hover {
+        background-color: $color-back-primary-3;
+      }
+
+      & > td {
+        padding: $table-padding;
+      }
+    }
+  }
+}
+
+.dark table {
+  & > thead {
+    border-color: $color-text-light-3;
+  }
+  & > tfoot {
+    border-color: $color-text-light-3;
+  }
+
+  & > tbody {
+    & > tr {
+      &:hover {
+        background-color: $color-back-light-3;
+      }
+    }
+  }
+}
