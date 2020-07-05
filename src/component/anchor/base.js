@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Anchor = ({className, ext, href, children}) => {
+const Anchor = ({className, ext, href, forwardedRef, children}) => {
   let k = {};
   if (ext) {
     k = {
@@ -10,7 +10,7 @@ const Anchor = ({className, ext, href, children}) => {
   }
 
   return (
-    <a className={className} {...k} href={href}>
+    <a ref={forwardedRef} className={className} {...k} href={href}>
       {children}
     </a>
   );

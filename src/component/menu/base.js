@@ -19,8 +19,17 @@ const MenuHeader = ({className, children}) => {
   return <div className={k.join(' ')}>{children}</div>;
 };
 
-const MenuItem = ({className, onClick, link, ext, icon, label, children}) => {
-  let k = ['menu-item'];
+const MenuItem = ({
+  className,
+  onClick,
+  link,
+  ext,
+  icon,
+  label,
+  forwardedRef,
+  children,
+}) => {
+  const k = ['menu-item'];
   if (className) {
     k.push(className);
   }
@@ -34,13 +43,22 @@ const MenuItem = ({className, onClick, link, ext, icon, label, children}) => {
   );
   if (link) {
     return (
-      <Anchor className={k.join(' ')} href={link} ext={ext}>
+      <Anchor
+        forwardedRef={forwardedRef}
+        className={k.join(' ')}
+        href={link}
+        ext={ext}
+      >
         {row}
       </Anchor>
     );
   }
   return (
-    <Column className={k.join(' ')} onClick={onClick}>
+    <Column
+      forwardedRef={forwardedRef}
+      className={k.join(' ')}
+      onClick={onClick}
+    >
       {row}
     </Column>
   );

@@ -1,19 +1,17 @@
 import React, {useState, useEffect, useMemo} from 'react';
 import Container from '../container';
 import {Grid, Column} from '../grid';
+import Anchor from '../anchor';
 
-const useScrollTo = (id) => {
-  return useCallback(() => {
-    const k = document.getElementById(id);
-    if (k) {
-      k.scrollIntoView({
-        behavior: 'smooth',
-      });
-    }
-  }, [id]);
-};
-
-const NavItem = ({onClick, scroll, forwardedRef, children}) => {
+const NavItem = ({
+  className,
+  link,
+  ext,
+  onClick,
+  scroll,
+  forwardedRef,
+  children,
+}) => {
   const clickHandler = useMemo(() => {
     if (scroll) {
       return () => {
@@ -27,10 +25,28 @@ const NavItem = ({onClick, scroll, forwardedRef, children}) => {
     }
     return onClick;
   }, [scroll, onClick]);
+
+  const k = ['nav-item'];
+  if (className) {
+    k.push(className);
+  }
+
+  if (link) {
+    return (
+      <Anchor
+        forwardedRef={forwardedRef}
+        className={k.join(' ')}
+        href={link}
+        ext={ext}
+      >
+        {children}
+      </Anchor>
+    );
+  }
   return (
     <Column
       forwardedRef={forwardedRef}
-      className="nav-item"
+      className={k.join(' ')}
       onClick={clickHandler}
     >
       {children}
@@ -49,9 +65,9 @@ const NavDivider = ({className}) => {
 const Navbar = ({
   className,
   fixed,
+  hideOnScroll,
   topHeight = 256,
   scrollMargin = 8,
-  hideOnScroll,
   children,
   right,
 }) => {
@@ -100,6 +116,9 @@ const Navbar = ({
   } else {
     k.push('not-top');
   }
+  if (fixed) {
+    k.push('fixed');
+  }
   if (hideOnScroll) {
     k.push('hide-on-scroll');
   }
@@ -124,4 +143,4 @@ const Navbar = ({
   );
 };
 
-export {Navbar as default, Navbar, NavItem, NavDivider, useScrollTo};
+export {Navbar as default, Navbar, NavItem, NavDivider};
