@@ -69,6 +69,6 @@ $snackbar-padding: 16px !default;
 $table-padding: 8px !default;
 
 // Transitions //
-$transition-normal: 0.125s cubic-bezier(0.4, 0, 0.2, 1) !default;
-$transition-fast: 0.0625s cubic-bezier(0.4, 0, 0.2, 1) !default;
-$transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1) !default;
+$transition-normal: 0.125s cubic-bezier(0.375, 0, 0.25, 1) !default;
+$transition-fast: 0.0625s cubic-bezier(0.375, 0, 0.25, 1) !default;
+$transition-slow: 0.5s cubic-bezier(0.375, 0, 0.25, 1) !default;

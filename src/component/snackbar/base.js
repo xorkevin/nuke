@@ -2,13 +2,13 @@ import React, {useCallback, useRef} from 'react';
 import {useSelector, useDispatch, useStore} from 'react-redux';
 
 const SnackbarComponent = ({show, children}) => {
-  const k = ['snackbar'];
+  const k = ['snackbar-container'];
   if (!show) {
     k.push('hidden');
   }
   return (
     <div className={k.join(' ')}>
-      <div className="inner">{children}</div>
+      <div className="snackbar-inner">{children}</div>
     </div>
   );
 };
@@ -20,9 +20,9 @@ const TIME_ANIMATE = 250;
 
 // Actions
 
-const SNACKBAR_FRAGMENT = Symbol('SNACKBAR_FRAGMENT');
-const SnackbarFragment = (fragment, timer) => ({
-  type: SNACKBAR_FRAGMENT,
+const SNACKBAR_SHOW = Symbol('SNACKBAR_SHOW');
+const SnackbarShow = (fragment, timer) => ({
+  type: SNACKBAR_SHOW,
   fragment,
   timer,
 });
@@ -47,7 +47,7 @@ const initState = () => {
 
 const Snackbar = (state = initState(), action) => {
   switch (action.type) {
-    case SNACKBAR_FRAGMENT:
+    case SNACKBAR_SHOW:
       return Object.assign({}, state, {
         show: true,
         fragment: action.fragment,
@@ -73,9 +73,9 @@ const useSnackbar = () => {
   const dispatch = useDispatch();
   const store = useStore();
 
-  const display = useCallback(
+  const snackbar = useCallback(
     async (fragment, delay = TIME_DISPLAY) => {
-      const {show, timer} = store.getState().Snackbar;
+      const {show, timer} = selectReducerSnackbar(store.getState());
       if (timer) {
         window.clearTimeout(timer);
       }
@@ -84,7 +84,7 @@ const useSnackbar = () => {
         const nextTimer = window.setTimeout(() => {
           dispatch(SnackbarHide(null));
         }, delay);
-        dispatch(SnackbarFragment(fragment, nextTimer));
+        dispatch(SnackbarShow(fragment, nextTimer));
       };
 
       if (show) {
@@ -97,13 +97,13 @@ const useSnackbar = () => {
     [dispatch, store],
   );
 
-  return display;
+  return snackbar;
 };
 
 const useSnackbarView = (view, delay) => {
+  const snackbar = useSnackbar();
   const viewRef = useRef(view);
   viewRef.current = view;
-  const snackbar = useSnackbar();
 
   const display = useCallback(() => {
     snackbar(viewRef.current, delay);
@@ -112,18 +112,28 @@ const useSnackbarView = (view, delay) => {
   return display;
 };
 
-// Higher Order
+// Slot
 
 const SnackbarContainer = () => {
   const {show, fragment} = useSnackbarState();
   return <SnackbarComponent show={show}>{fragment}</SnackbarComponent>;
 };
 
+// Style
+
+const SnackbarSurface = ({className, children}) => {
+  const k = ['snackbar-surface dark'];
+  if (className) {
+    k.push(className);
+  }
+  return <div className={k.join(' ')}>{children}</div>;
+};
+
 export {
   Snackbar as default,
   Snackbar,
-  useSnackbarState,
   useSnackbar,
   useSnackbarView,
   SnackbarContainer,
+  SnackbarSurface,
 };
