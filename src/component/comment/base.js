@@ -1,4 +1,4 @@
-import React, {Fragment, useState, useEffect, useCallback} from 'react';
+import React, {Fragment, useState, useCallback} from 'react';
 import Container from '../container';
 import Anchor from '../anchor/text';
 import AS from '../anchor/secondary';
@@ -38,7 +38,7 @@ const Comment = ({
             <div className="content">{content}</div>
             <div className="options">
               <span>
-                <AS>link</AS>
+                <AS href={id}>link</AS>
               </span>
               <span>
                 <AS>source</AS>

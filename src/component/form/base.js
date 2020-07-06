@@ -1,20 +1,17 @@
 import React, {
   Fragment,
   useState,
-  useEffect,
   useCallback,
   useMemo,
   useContext,
   useRef,
 } from 'react';
-import ReactDOM from 'react-dom';
 import {randomID} from 'utility';
 import {Popover, useStateRef} from '../popover';
 import {Grid, Column} from '../grid';
 import {ListGroup, ListItem} from '../listgroup';
 import ButtonSmall from '../button/small';
 import Chip from '../chip';
-import FaIcon from '../faicon';
 
 const FormContext = React.createContext();
 
@@ -181,19 +178,22 @@ const Field = ({
 
   let inp = null;
   if (render) {
-    inp = render({
-      fieldid,
-      type,
-      name,
-      value,
-      onChange: changeFunc,
-      onSubmit: submitFunc,
-      option,
-      options,
-      label,
-      placeholder,
+    inp = React.createElement(
+      render,
+      {
+        fieldid,
+        type,
+        name,
+        value,
+        onChange: changeFunc,
+        onSubmit: submitFunc,
+        option,
+        options,
+        label,
+        placeholder,
+      },
       children,
-    });
+    );
   } else {
     k.push('normal');
     inp = (
@@ -224,12 +224,11 @@ const Field = ({
   );
 };
 
-const renderTextarea = ({
+const RenderTextarea = ({
   fieldid,
   name,
   value,
   onChange,
-  onSubmit,
   label,
   placeholder,
 }) => {
@@ -261,12 +260,12 @@ const FieldTextarea = (props) => {
   }
   const k = Object.assign({}, props, {
     className: j.join(' '),
-    render: renderTextarea,
+    render: RenderTextarea,
   });
   return <Field {...k} />;
 };
 
-const renderCheckbox = ({
+const RenderCheckbox = ({
   fieldid,
   name,
   value,
@@ -319,12 +318,12 @@ const FieldCheckbox = (props) => {
   }
   const k = Object.assign({}, props, {
     className: j.join(' '),
-    render: renderCheckbox,
+    render: RenderCheckbox,
   });
   return <Field {...k} />;
 };
 
-const renderToggle = ({
+const RenderToggle = ({
   fieldid,
   name,
   value,
@@ -370,7 +369,7 @@ const FieldToggle = (props) => {
   }
   const k = Object.assign({}, props, {
     className: j.join(' '),
-    render: renderToggle,
+    render: RenderToggle,
   });
   return <Field {...k} />;
 };
@@ -387,12 +386,12 @@ const FieldSwitch = (props) => {
   }
   const k = Object.assign({}, props, {
     className: j.join(' '),
-    render: renderToggle,
+    render: RenderToggle,
   });
   return <Field {...k} />;
 };
 
-const renderRadio = ({
+const RenderRadio = ({
   fieldid,
   name,
   value,
@@ -441,7 +440,7 @@ const FieldRadio = (props) => {
   }
   const k = Object.assign({}, props, {
     className: j.join(' '),
-    render: renderRadio,
+    render: RenderRadio,
   });
   return <Field {...k} />;
 };
@@ -468,7 +467,6 @@ const renderFile = ({accept, capture, multiple}) => ({
   fieldid,
   name,
   onChange,
-  onSubmit,
   label,
   children,
 }) => {
@@ -489,7 +487,7 @@ const renderFile = ({accept, capture, multiple}) => ({
         next.map((i) => i.file),
       );
     },
-    [name, files, setFiles, multiple],
+    [onChange, name, files, setFiles],
   );
   const handleChange = useCallback(
     (e) => {
@@ -513,7 +511,7 @@ const renderFile = ({accept, capture, multiple}) => ({
         next.map((i) => i.file),
       );
     },
-    [name, files, setFiles, multiple, onChange],
+    [onChange, name, files, setFiles],
   );
   const handleClick = useCallback(() => {
     if (fileinput.current) {
@@ -558,6 +556,7 @@ const FieldFile = (props) => {
   const render = useMemo(() => renderFile({accept, capture, multiple}), [
     accept,
     capture,
+    multiple,
   ]);
   const j = ['file'];
   if (props.className) {
@@ -570,15 +569,7 @@ const FieldFile = (props) => {
   return <Field {...k} />;
 };
 
-const renderSelect = ({
-  fieldid,
-  name,
-  value,
-  onChange,
-  onSubmit,
-  options,
-  label,
-}) => {
+const RenderSelect = ({fieldid, name, value, onChange, options, label}) => {
   const handleChange = useCallback(
     (e) => {
       onChange(name, e.target.value);
@@ -607,7 +598,7 @@ const FieldSelect = (props) => {
   }
   const k = Object.assign({}, props, {
     className: j.join(' '),
-    render: renderSelect,
+    render: RenderSelect,
   });
   return <Field {...k} />;
 };
@@ -658,7 +649,7 @@ const SuggestFieldOption = ({fieldRef, close, setValue, value}) => {
   );
 };
 
-const renderSuggest = ({
+const RenderSuggest = ({
   fieldid,
   type,
   name,
@@ -750,7 +741,7 @@ const FieldSuggest = (props) => {
   }
   const k = Object.assign({}, props, {
     className: j.join(' '),
-    render: renderSuggest,
+    render: RenderSuggest,
   });
   return <Field {...k} />;
 };
@@ -796,7 +787,7 @@ const MultiSelectFieldValue = ({rmValue, value}) => {
   );
 };
 
-const renderMultiSelect = ({
+const RenderMultiSelect = ({
   fieldid,
   type,
   name,
@@ -909,7 +900,7 @@ const FieldMultiSelect = (props) => {
   }
   const k = Object.assign({}, props, {
     className: j.join(' '),
-    render: renderMultiSelect,
+    render: RenderMultiSelect,
   });
   return <Field {...k} />;
 };

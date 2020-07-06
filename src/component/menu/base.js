@@ -1,4 +1,4 @@
-import React, {Fragment, useState, useCallback} from 'react';
+import React, {useState, useCallback} from 'react';
 import {Popover, useStateRef} from '../popover';
 import {Grid, Column} from '../grid';
 import Anchor from '../anchor';
@@ -72,12 +72,9 @@ const useMenu = () => {
   const close = useCallback(() => {
     setShow(false);
   }, [setShow]);
-  const toggle = useCallback(
-    (e) => {
-      setShow((v) => !v);
-    },
-    [setShow],
-  );
+  const toggle = useCallback(() => {
+    setShow((v) => !v);
+  }, [setShow]);
   return {
     anchor,
     anchorRef,

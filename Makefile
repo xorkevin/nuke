@@ -1,18 +1,14 @@
-.PHONY: all build clean dev dev-story publish
+.PHONY: all lint publish
 
-all: build
+all: lint
 
-build: clean
-	npm run build
+lint:
+	npm run lint
 
-clean:
-	rm -rf dist
+publish: lint
+	npm publish
 
-dev:
-	npm run build-dev
+.PHONY: dev
 
 dev-story:
 	npm run storybook
-
-publish: build
-	npm publish

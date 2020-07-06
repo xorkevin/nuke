@@ -122,6 +122,9 @@ const Navbar = ({
   if (hideOnScroll) {
     k.push('hide-on-scroll');
   }
+  if (className) {
+    k.push(className);
+  }
 
   return (
     <nav className={k.join(' ')}>

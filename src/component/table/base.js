@@ -8,8 +8,8 @@ const TableHead = ({
   id,
   className,
   scope,
-  colspan,
-  rowspan,
+  colSpan,
+  rowSpan,
   headers,
   children,
 }) => {
@@ -18,8 +18,8 @@ const TableHead = ({
       id={id}
       className={className}
       scope={scope}
-      colspan={colspan}
-      rowspan={rowspan}
+      colSpan={colSpan}
+      rowSpan={rowSpan}
       headers={headers}
     >
       {children}
@@ -27,12 +27,12 @@ const TableHead = ({
   );
 };
 
-const TableData = ({className, colspan, rowspan, headers, children}) => {
+const TableData = ({className, colSpan, rowSpan, headers, children}) => {
   return (
     <td
       className={className}
-      colspan={colspan}
-      rowspan={rowspan}
+      colSpan={colSpan}
+      rowSpan={rowSpan}
       headers={headers}
     >
       {children}

@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useCallback, useRef} from 'react';
 
 const getImg = (src) => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve, _reject) => {
     const img = new Image();
     img.onload = () => {
       resolve(img);

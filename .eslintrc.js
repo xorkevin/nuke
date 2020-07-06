@@ -36,4 +36,10 @@ module.exports = {
     'react/display-name': 'off',
     'react/prop-types': 'off',
   },
+  ignorePatterns: ['example/**', 'stories/**'],
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
 };
