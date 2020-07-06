@@ -1,7 +1,9 @@
 import React from 'react';
 import {Provider} from 'react-redux';
-import store from 'example/store';
+import {createStore, combineReducers, applyMiddleware} from 'redux';
+import thunk from 'redux-thunk';
 import {
+  Snackbar,
   SnackbarContainer,
   useSnackbarView,
   SnackbarSurface,
@@ -9,6 +11,13 @@ import {
 import Button from 'src/component/button';
 
 export default {title: 'Snackbar'};
+
+const store = createStore(
+  combineReducers({
+    Snackbar,
+  }),
+  applyMiddleware(thunk),
+);
 
 const PlainInner = () => {
   const snackbar = useSnackbarView(

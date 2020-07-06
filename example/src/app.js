@@ -5,11 +5,18 @@ import {useDarkMode} from '@xorkevin/nuke/src/component/darkmode';
 import {SnackbarContainer} from '@xorkevin/nuke/src/component/snackbar';
 
 import MainContent from '@xorkevin/nuke/src/component/maincontent';
+import Container from '@xorkevin/nuke/src/component/container';
 import Section from '@xorkevin/nuke/src/component/section';
-import {Navbar, Navitem} from '@xorkevin/nuke/src/component/navbar';
-import Menu from '@xorkevin/nuke/src/component/menu';
+import {Navbar, NavItem} from '@xorkevin/nuke/src/component/navbar';
+import {
+  useMenu,
+  Menu,
+  MenuItem,
+  MenuHeader,
+  MenuDivider,
+} from '@xorkevin/nuke/src/component/menu';
 import Footer from '@xorkevin/nuke/src/component/footer';
-import Grid from '@xorkevin/nuke/src/component/grid';
+import {Grid, Column} from '@xorkevin/nuke/src/component/grid';
 import Anchor from '@xorkevin/nuke/src/component/anchor';
 import FaIcon from '@xorkevin/nuke/src/component/faicon';
 
@@ -18,9 +25,9 @@ const FormContainer = lazy(() => import('container/form'));
 const CardContainer = lazy(() => import('container/card'));
 
 const FallbackView = (
-  <Section container padded narrow>
-    Loading
-  </Section>
+  <Container padded>
+    <Section>Loading</Section>
+  </Container>
 );
 
 const styletoppaths = new Set(['/']);
@@ -28,57 +35,56 @@ const styletoppaths = new Set(['/']);
 const App = () => {
   const {pathname} = useLocation();
   const [dark, toggleDark] = useDarkMode();
+  const menu = useMenu();
 
   return (
     <div>
       <Navbar
+        fixed
         hideOnScroll
-        styletop={styletoppaths.has(pathname)}
-        left={
-          <Fragment>
-            <Navitem scroll>
-              <NavLink exact to="/">
-                Home
-              </NavLink>
-            </Navitem>
-            <Navitem scroll="typography">
-              <div>Typography</div>
-            </Navitem>
-            <Navitem>
-              <NavLink to="/form">Form</NavLink>
-            </Navitem>
-            <Navitem>
-              <NavLink to="/cards">Cards</NavLink>
-            </Navitem>
-          </Fragment>
-        }
         right={
           <Fragment>
-            <Navitem>
-              <Menu
-                icon={
-                  <Fragment>
-                    <FaIcon icon="cog" /> Settings
-                  </Fragment>
-                }
-                size="md"
-                fixed
-                align="right"
-                position="bottom"
-              >
-                <span onClick={toggleDark}>
-                  <FaIcon icon="bolt" /> {dark ? 'Light' : 'Dark'} Mode
-                </span>
-                <Anchor ext href="https://github.com/xorkevin">
-                  <FaIcon icon="github" /> xorkevin
-                </Anchor>
+            <NavItem forwardedRef={menu.anchorRef} onClick={menu.toggle}>
+              <FaIcon icon="cog" /> Settings
+            </NavItem>
+            {menu.show && (
+              <Menu size="md" anchor={menu.anchor} close={menu.close}>
+                <MenuHeader>Settings</MenuHeader>
+                <MenuItem
+                  onClick={toggleDark}
+                  icon={<FaIcon icon="bolt" />}
+                  label="Ctrl+B"
+                >
+                  {dark ? 'Light' : 'Dark'} Mode
+                </MenuItem>
+                <MenuDivider />
+                <MenuHeader>About</MenuHeader>
+                <MenuItem
+                  link="https://github.com/xorkevin"
+                  ext
+                  icon={<FaIcon icon="github" />}
+                  label={<FaIcon icon="external-link" />}
+                >
+                  xorkevin
+                </MenuItem>
               </Menu>
-            </Navitem>
+            )}
           </Fragment>
         }
-      />
+      >
+        <NavItem local link="/">
+          Home
+        </NavItem>
+        <NavItem scroll="typography">Typography</NavItem>
+        <NavItem local link="/form">
+          Form
+        </NavItem>
+        <NavItem local link="/cards">
+          Cards
+        </NavItem>
+      </Navbar>
 
-      <MainContent>
+      <MainContent withNavbar={!styletoppaths.has(pathname)}>
         <Suspense fallback={FallbackView}>
           <Switch>
             <Route exact path="/">
@@ -96,33 +102,28 @@ const App = () => {
       </MainContent>
 
       <Footer>
-        <Grid center map sm={8}>
-          <div className="text-center">
-            <h4>Nuke</h4>a reactive frontend for governor
-          </div>
-          <div className="text-center">
-            <ul>
-              <li>
-                <Anchor noColor ext href="https://github.com/xorkevin/nuke">
-                  <FaIcon icon="github" /> Github
-                </Anchor>
-              </li>
-              <li>
-                Designed for{' '}
-                <Anchor noColor ext href="https://github.com/xorkevin/governor">
-                  xorkevin/governor
-                </Anchor>
-              </li>
-            </ul>
-          </div>
-          <div className="text-center">
-            <h5>
-              <FaIcon icon="code" /> with <FaIcon icon="heart-o" /> by{' '}
-              <Anchor noColor ext href="https://github.com/xorkevin">
-                <FaIcon icon="github" /> xorkevin
-              </Anchor>
-            </h5>
-          </div>
+        <Grid className="dark" justify="center" align="center">
+          <Column sm={8}>
+            <div className="text-center">
+              <h4 className="footer-header">Nuke</h4> a reactive frontend
+              toolkit
+              <ul>
+                <li>
+                  <Anchor ext href="https://github.com/xorkevin/nuke">
+                    <FaIcon icon="github" /> xorkevin/nuke
+                  </Anchor>
+                </li>
+                <li>
+                  <h5>
+                    <FaIcon icon="code" /> with <FaIcon icon="heart-o" /> by{' '}
+                    <Anchor ext href="https://github.com/xorkevin">
+                      <FaIcon icon="github" /> xorkevin
+                    </Anchor>
+                  </h5>
+                </li>
+              </ul>
+            </div>
+          </Column>
         </Grid>
       </Footer>
       <SnackbarContainer />

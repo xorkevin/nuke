@@ -20,8 +20,9 @@ const SidebarHeader = ({className, children}) => {
 
 const SidebarItem = ({
   className,
-  link,
+  local,
   ext,
+  link,
   scroll,
   onClick,
   icon,
@@ -32,9 +33,17 @@ const SidebarItem = ({
   const clickHandler = useMemo(() => {
     if (scroll) {
       return () => {
-        const k = document.getElementById(scroll);
-        if (k) {
-          k.scrollIntoView({
+        if (typeof scroll === 'string') {
+          const k = document.getElementById(scroll);
+          if (k) {
+            k.scrollIntoView({
+              behavior: 'smooth',
+            });
+          }
+        } else {
+          window.scrollTo({
+            top: 0,
+            left: 0,
             behavior: 'smooth',
           });
         }
@@ -60,8 +69,9 @@ const SidebarItem = ({
       <Anchor
         forwardedRef={forwardedRef}
         className={k.join(' ')}
-        href={link}
+        local={local}
         ext={ext}
+        href={link}
       >
         {row}
       </Anchor>

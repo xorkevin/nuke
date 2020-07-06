@@ -5,8 +5,9 @@ import Anchor from '../anchor';
 
 const TabItem = ({
   className,
-  link,
+  local,
   ext,
+  link,
   scroll,
   onClick,
   forwardedRef,
@@ -15,9 +16,17 @@ const TabItem = ({
   const clickHandler = useMemo(() => {
     if (scroll) {
       return () => {
-        const k = document.getElementById(scroll);
-        if (k) {
-          k.scrollIntoView({
+        if (typeof scroll === 'string') {
+          const k = document.getElementById(scroll);
+          if (k) {
+            k.scrollIntoView({
+              behavior: 'smooth',
+            });
+          }
+        } else {
+          window.scrollTo({
+            top: 0,
+            left: 0,
             behavior: 'smooth',
           });
         }
@@ -36,8 +45,9 @@ const TabItem = ({
       <Anchor
         forwardedRef={forwardedRef}
         className={k.join(' ')}
-        href={link}
+        local={local}
         ext={ext}
+        href={link}
       >
         {children}
       </Anchor>

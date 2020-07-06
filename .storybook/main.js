@@ -58,11 +58,9 @@ module.exports = {
     });
 
     config.plugins.push(
-      new CopyPlugin([
-        {
-          from: 'example/public',
-        },
-      ]),
+      new CopyPlugin({
+        patterns: [{from: 'example/src/public'}],
+      }),
     );
 
     return config;

@@ -1,6 +1,15 @@
 import React from 'react';
+import {NavLink} from 'react-router-dom';
 
-const Anchor = ({className, ext, href, forwardedRef, children}) => {
+const Anchor = ({className, local, ext, href, forwardedRef, children}) => {
+  if (local) {
+    return (
+      <NavLink ref={forwardedRef} className={className} to={href}>
+        {children}
+      </NavLink>
+    );
+  }
+
   let k = {};
   if (ext) {
     k = {

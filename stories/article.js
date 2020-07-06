@@ -2,7 +2,7 @@ import React from 'react';
 import Article from 'src/component/article';
 import {Grid, Column} from 'src/component/grid';
 import Img from 'src/component/image';
-import {thamesPreview} from 'example/config';
+import {thamesPreview} from 'example/src/config';
 
 export default {title: 'Article'};
 
@@ -52,21 +52,21 @@ export const plain = () => (
       preview={thamesPreview}
     />
     <Grid className="outset" nowrap>
-      <Column>
+      <Column grow="1">
         <Img src="/static/thames.jpg" preview={thamesPreview} />
       </Column>
-      <Column>
+      <Column grow="1">
         <Img src="/static/thames.jpg" preview={thamesPreview} />
       </Column>
     </Grid>
     <Grid className="outset-double" nowrap>
-      <Column>
+      <Column grow="1">
         <Img src="/static/thames.jpg" preview={thamesPreview} />
       </Column>
-      <Column>
+      <Column grow="1">
         <Img src="/static/thames.jpg" preview={thamesPreview} />
       </Column>
-      <Column>
+      <Column grow="1">
         <Img src="/static/thames.jpg" preview={thamesPreview} />
       </Column>
     </Grid>

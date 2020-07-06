@@ -60,7 +60,7 @@ $menu-lg-size: $menu-md-size * 1.5 !default;
 $nav-height: 64px !default;
 
 // Section //
-$section-margin: $nav-height !default;
+$section-padding: $nav-height 0 !default;
 
 // Snackbar //
 $snackbar-padding: 16px !default;

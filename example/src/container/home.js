@@ -1,62 +1,62 @@
 import React from 'react';
-import Section from '@xorkevin/nuke/src/component/section';
 import Container from '@xorkevin/nuke/src/component/container';
+import {Grid, Column} from '@xorkevin/nuke/src/component/grid';
+import Section from '@xorkevin/nuke/src/component/section';
 import Article from '@xorkevin/nuke/src/component/article';
 import {CommentSection, Comment} from '@xorkevin/nuke/src/component/comment';
 import Img from '@xorkevin/nuke/src/component/image';
 
-import {mountainPreview, thamesPreview} from 'config';
+import {thamesPreview, comments} from 'config';
 
 const HomeContainer = () => {
   return (
     <div>
       <Img
+        className="dark"
+        src="/static/thames.jpg"
+        preview={thamesPreview}
         size="full"
-        imgWidth={1920}
-        imgHeight={1080}
-        src="https://xorkevin.github.io/stratosphere/assets/mountain.jpg"
-        preview={mountainPreview}
       >
-        <header style={{width: '100%'}}>
-          <Container padded narrow>
-            <h1 className="colossal">Nuke</h1>
-            <h4>a reactive frontend for governor</h4>
-          </Container>
-        </header>
+        <Container fill padded narrow>
+          <Grid fill align="center">
+            <header className="home-header">
+              <h1 className="colossal">Nuke</h1>
+              <h4>a reactive frontend toolkit</h4>
+            </header>
+          </Grid>
+        </Container>
       </Img>
 
-      <Section
-        id="typography"
-        sectionTitle="Typography"
-        container
-        padded
-        narrow
-      >
-        <h1>
-          Heading 1 <small>small</small>
-        </h1>
-        <h2>
-          Heading 2 <small>small</small>
-        </h2>
-        <h3>
-          Heading 3 <small>small</small>
-        </h3>
-        <h4>
-          Heading 4 <small>small</small>
-        </h4>
-        <h5>
-          Heading 5 <small>small</small>
-        </h5>
-        <h6>
-          Heading 6 <small>small</small>
-        </h6>
-        <div>
-          Text <small>small</small>
-        </div>
-        <div>
-          <code>Code: Hello, World</code>
-        </div>
-      </Section>
+      <Container padded narrow>
+        <Section id="typography">
+          <h1>Typography</h1>
+          <hr />
+          <h1>
+            Heading 1 <small>small</small>
+          </h1>
+          <h2>
+            Heading 2 <small>small</small>
+          </h2>
+          <h3>
+            Heading 3 <small>small</small>
+          </h3>
+          <h4>
+            Heading 4 <small>small</small>
+          </h4>
+          <h5>
+            Heading 5 <small>small</small>
+          </h5>
+          <h6>
+            Heading 6 <small>small</small>
+          </h6>
+          <div>
+            Text <small>small</small>
+          </div>
+          <div>
+            <code>Code: Hello, World</code>
+          </div>
+        </Section>
+      </Container>
 
       <Article
         title="Lorem ipsum"
@@ -65,6 +65,8 @@ const HomeContainer = () => {
           name: 'Kevin Wang',
           bio:
             'Tech evangelist and web dev. Experiences decision fatigue daily.',
+          img: '/static/thames.jpg',
+          preview: thamesPreview,
         }}
         time={Date.now() - 86400000}
         tags={['list', 'of', 'tags']}
@@ -88,53 +90,46 @@ const HomeContainer = () => {
           elit purus quis metus.
         </p>
         <Img
-          className="outset"
-          imgWidth={1920}
-          imgHeight={1080}
+          className="outset-double"
+          src="/static/thames.jpg"
           preview={thamesPreview}
-          src="https://xorkevin.github.io/stratosphere/assets/thames.jpg"
+        />
+        <Img
+          className="outset"
+          src="/static/thames.jpg"
+          preview={thamesPreview}
         />
         <div className="caption">Hello, World</div>
-        <Img
-          imgWidth={1920}
-          imgHeight={1080}
-          preview={thamesPreview}
-          src="https://xorkevin.github.io/stratosphere/assets/thames.jpg"
-        />
+        <Img src="/static/thames.jpg" preview={thamesPreview} />
         <Img
           className="inset"
-          imgWidth={1920}
-          imgHeight={1080}
+          src="/static/thames.jpg"
           preview={thamesPreview}
-          src="https://xorkevin.github.io/stratosphere/assets/thames.jpg"
         />
         <Img
           className="inset-half"
-          imgWidth={1920}
-          imgHeight={1080}
+          src="/static/thames.jpg"
           preview={thamesPreview}
-          src="https://xorkevin.github.io/stratosphere/assets/thames.jpg"
         />
-        <div className="contentrow outset">
-          <Img
-            imgWidth={1920}
-            imgHeight={1080}
-            preview={thamesPreview}
-            src="https://xorkevin.github.io/stratosphere/assets/thames.jpg"
-          />
-          <Img
-            imgWidth={1920}
-            imgHeight={1080}
-            preview={thamesPreview}
-            src="https://xorkevin.github.io/stratosphere/assets/thames.jpg"
-          />
-          <Img
-            imgWidth={1920}
-            imgHeight={1080}
-            preview={thamesPreview}
-            src="https://xorkevin.github.io/stratosphere/assets/thames.jpg"
-          />
-        </div>
+        <Grid className="outset" nowrap>
+          <Column grow="1">
+            <Img src="/static/thames.jpg" preview={thamesPreview} />
+          </Column>
+          <Column grow="1">
+            <Img src="/static/thames.jpg" preview={thamesPreview} />
+          </Column>
+        </Grid>
+        <Grid className="outset-double" nowrap>
+          <Column grow="1">
+            <Img src="/static/thames.jpg" preview={thamesPreview} />
+          </Column>
+          <Column grow="1">
+            <Img src="/static/thames.jpg" preview={thamesPreview} />
+          </Column>
+          <Column grow="1">
+            <Img src="/static/thames.jpg" preview={thamesPreview} />
+          </Column>
+        </Grid>
         <p>
           Nulla facilisi. Phasellus blandit interdum est, in pellentesque nunc
           fermentum et. Proin nibh risus, sollicitudin ac urna sed, aliquet
@@ -163,155 +158,7 @@ const HomeContainer = () => {
           Fusce mollis consectetur ligula. <code>Code: Hello, World</code>
         </p>
       </Article>
-      <CommentSection>
-        <Comment
-          username="xorkevin"
-          score={256}
-          time={Date.now() - 0.5 * 86400000}
-          content="Lorem ipsum dolor sit amet"
-        >
-          <Comment
-            username="xorkevin"
-            score={32}
-            time={Date.now() - 0.25 * 86400000}
-            content="Consectetur adipiscing elit"
-          >
-            <Comment
-              username="xorkevin"
-              score={16}
-              time={Date.now()}
-              content="Mauris augue nisi, scelerisque ac suscipit sit amet, egestas ut risus"
-            />
-          </Comment>
-          <Comment
-            username="xorkevin"
-            score={128}
-            time={Date.now() - 0.325 * 86400000}
-            content="Nunc facilisis orci dui, sit amet dictum massa porta at"
-          >
-            <Comment
-              username="xorkevin"
-              score={16}
-              time={Date.now()}
-              content="Mauris augue nisi, scelerisque ac suscipit sit amet, egestas ut risus"
-            />
-            <Comment
-              username="xorkevin"
-              score={16}
-              time={Date.now()}
-              content="Mauris augue nisi, scelerisque ac suscipit sit amet, egestas ut risus"
-            >
-              <Comment
-                username="xorkevin"
-                score={16}
-                time={Date.now()}
-                content="Mauris augue nisi, scelerisque ac suscipit sit amet, egestas ut risus"
-              >
-                <Comment
-                  username="xorkevin"
-                  score={16}
-                  time={Date.now()}
-                  content="Mauris augue nisi, scelerisque ac suscipit sit amet, egestas ut risus"
-                />
-              </Comment>
-            </Comment>
-            <Comment
-              username="xorkevin"
-              score={16}
-              time={Date.now()}
-              content="Mauris augue nisi, scelerisque ac suscipit sit amet, egestas ut risus"
-            />
-          </Comment>
-        </Comment>
-        <Comment
-          username="xorkevin"
-          score={64}
-          time={Date.now() - 0.75 * 86400000}
-          content="Integer fringilla aliquet condimentum"
-        >
-          <Comment
-            username="xorkevin"
-            score={8}
-            time={Date.now() - 0.015625 * 86400000}
-            content="In hac habitasse platea dictumst"
-          />
-          <Comment
-            username="xorkevin"
-            score={16}
-            time={Date.now()}
-            content="Mauris augue nisi, scelerisque ac suscipit sit amet, egestas ut risus"
-          />
-        </Comment>
-        <Comment
-          username="xorkevin"
-          score={1}
-          time={Date.now() - 180000}
-          content="Vivamus nibh enim, dignissim quis consequat at, sagittis in magna"
-        >
-          <Comment
-            username="xorkevin"
-            score={16}
-            time={Date.now()}
-            content="Mauris augue nisi, scelerisque ac suscipit sit amet, egestas ut risus"
-          >
-            <Comment
-              username="xorkevin"
-              score={16}
-              time={Date.now()}
-              content="Mauris augue nisi, scelerisque ac suscipit sit amet, egestas ut risus"
-            >
-              <Comment
-                username="xorkevin"
-                score={16}
-                time={Date.now()}
-                content="Mauris augue nisi, scelerisque ac suscipit sit amet, egestas ut risus"
-              >
-                <Comment
-                  username="xorkevin"
-                  score={16}
-                  time={Date.now()}
-                  content="Mauris augue nisi, scelerisque ac suscipit sit amet, egestas ut risus"
-                >
-                  <Comment
-                    username="xorkevin"
-                    score={16}
-                    time={Date.now()}
-                    content="Mauris augue nisi, scelerisque ac suscipit sit amet, egestas ut risus"
-                  >
-                    <Comment
-                      username="xorkevin"
-                      score={16}
-                      time={Date.now()}
-                      content="Mauris augue nisi, scelerisque ac suscipit sit amet, egestas ut risus"
-                    >
-                      <Comment
-                        username="xorkevin"
-                        score={16}
-                        time={Date.now()}
-                        content="Mauris augue nisi, scelerisque ac suscipit sit amet, egestas ut risus"
-                      >
-                        <Comment
-                          username="xorkevin"
-                          score={16}
-                          time={Date.now()}
-                          content="Mauris augue nisi, scelerisque ac suscipit sit amet, egestas ut risus"
-                        >
-                          <Comment
-                            username="xorkevin"
-                            score={16}
-                            time={Date.now()}
-                            content="Mauris augue nisi, scelerisque ac suscipit sit amet, egestas ut risus"
-                          />
-                        </Comment>
-                      </Comment>
-                    </Comment>
-                  </Comment>
-                </Comment>
-              </Comment>
-            </Comment>
-          </Comment>
-        </Comment>
-      </CommentSection>
+      <CommentSection comments={comments}></CommentSection>
     </div>
   );
 };

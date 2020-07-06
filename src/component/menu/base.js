@@ -22,8 +22,9 @@ const MenuHeader = ({className, children}) => {
 const MenuItem = ({
   className,
   onClick,
-  link,
+  local,
   ext,
+  link,
   icon,
   label,
   forwardedRef,
@@ -46,8 +47,9 @@ const MenuItem = ({
       <Anchor
         forwardedRef={forwardedRef}
         className={k.join(' ')}
-        href={link}
+        local={local}
         ext={ext}
+        href={link}
       >
         {row}
       </Anchor>
