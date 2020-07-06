@@ -1,31 +1,10 @@
-.menu-target {
-  display: inline-block;
-}
-
-.menu {
-  max-width: 100vw;
-  max-height: 100vh;
-  overflow: auto;
+.sidebar {
   padding: 4px;
-  background-color: $white;
   color: $color-text-dark-2;
   border-radius: 4px;
-  @include shadow-box(16px);
 
-  &.sm {
-    width: $menu-sm-size;
-  }
-
-  &.md {
-    width: $menu-md-size;
-  }
-
-  &.lg {
-    width: $menu-lg-size;
-  }
-
-  & > .menu-items {
-    & > .menu-item {
+  & > .sidebar-items {
+    & > .sidebar-item {
       display: block;
       padding: 4px 8px;
       border-radius: 4px;
@@ -35,19 +14,19 @@
         background-color: $color-back-primary-3;
       }
 
-      & > .menu-item-row {
-        & > .menu-item-right {
+      & > .sidebar-item-row {
+        & > .sidebar-item-right {
           margin-left: auto;
         }
       }
     }
 
-    & > .menu-header {
+    & > .sidebar-header {
       margin: 4px 8px;
       font-weight: 700;
     }
 
-    & > .menu-divider {
+    & > .sidebar-divider {
       margin: 4px 8px;
       height: 1px;
       background-color: $color-back-dark-3;
@@ -55,18 +34,17 @@
   }
 }
 
-.dark .menu {
-  background-color: $color-primary-dark-1;
+.dark .sidebar {
   color: $color-text-light-2;
 
-  & > .menu-items {
-    & > .menu-item {
+  & > .sidebar-items {
+    & > .sidebar-item {
       &:hover {
         background-color: $color-primary-dark-2;
       }
     }
 
-    & > .menu-divider {
+    & > .sidebar-divider {
       background-color: $color-back-light-3;
     }
   }

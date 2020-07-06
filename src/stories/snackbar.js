@@ -13,8 +13,7 @@ export default {title: 'Snackbar'};
 const PlainInner = () => {
   const snackbar = useSnackbarView(
     <SnackbarSurface>
-      <span>Hello, World</span>
-      <Button>Reply</Button>
+      <span>Hello, World</span> <Button>Reply</Button>
     </SnackbarSurface>,
   );
 
