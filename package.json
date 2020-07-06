@@ -1,6 +1,6 @@
 {
   "name": "@xorkevin/nuke",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "a reactive ui toolkit",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
@@ -34,23 +34,22 @@
     "@storybook/theming": "^5.3.19",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
-    "copy-webpack-plugin": "^5.1.1",
+    "copy-webpack-plugin": "^6.0.3",
     "core-js": "^3.6.5",
     "css-loader": "^3.6.0",
-    "eslint": "^6.8.0",
+    "eslint": "^7.4.0",
     "eslint-config-prettier": "^6.11.0",
-    "eslint-loader": "^3.0.4",
+    "eslint-loader": "^4.0.2",
     "eslint-plugin-babel": "^5.3.0",
     "eslint-plugin-react": "^7.20.0",
-    "eslint-plugin-react-hooks": "^2.5.1",
-    "file-loader": "^4.3.0",
+    "eslint-plugin-react-hooks": "^4.0.5",
+    "file-loader": "^6.0.0",
     "fork-awesome": "^1.1.7",
-    "html-webpack-plugin": "^3.2.0",
-    "ignore-loader": "^0.1.2",
+    "html-webpack-plugin": "^4.3.0",
     "inter-ui": "^3.13.1",
-    "mini-css-extract-plugin": "^0.8.2",
+    "mini-css-extract-plugin": "^0.9.0",
     "node-sass": "^4.14.1",
-    "prettier": "^1.19.1",
+    "prettier": "^2.0.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-is": "^16.13.1",
@@ -59,21 +58,20 @@
     "react-router-dom": "^5.2.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "sass-loader": "^8.0.2",
-    "terser-webpack-plugin": "^2.3.7",
+    "sass-loader": "^9.0.1",
+    "terser-webpack-plugin": "^3.0.6",
     "typeface-merriweather": "0.0.72",
     "webpack": "^4.42.0",
     "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0",
-    "webpack-node-externals": "^1.7.2"
+    "webpack-dev-server": "^3.11.0"
   },
   "peerDependencies": {
     "fork-awesome": "^1.1.7",
     "react": "^16.9.0",
     "react-redux": "^7.1.0",
-    "redux": "^4.0.0",
     "react-router": "^5.2.0",
-    "react-router-dom": "^5.2.0"
+    "react-router-dom": "^5.2.0",
+    "redux": "^4.0.0"
   },
   "dependencies": {}
 }
