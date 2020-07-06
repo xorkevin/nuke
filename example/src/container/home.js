@@ -1,11 +1,11 @@
 import React from 'react';
-import Section from 'component/section';
-import Container from 'component/container';
-import Article from 'component/article';
-import {CommentSection, Comment} from 'component/comment';
-import Img from 'component/image';
+import Section from '@xorkevin/nuke/src/component/section';
+import Container from '@xorkevin/nuke/src/component/container';
+import Article from '@xorkevin/nuke/src/component/article';
+import {CommentSection, Comment} from '@xorkevin/nuke/src/component/comment';
+import Img from '@xorkevin/nuke/src/component/image';
 
-import {mountainPreview, thamesPreview} from 'example/config';
+import {mountainPreview, thamesPreview} from 'config';
 
 const HomeContainer = () => {
   return (

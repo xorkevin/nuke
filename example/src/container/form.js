@@ -1,12 +1,17 @@
 import React, {Fragment, useCallback, useMemo} from 'react';
-import {useSnackbarView} from 'component/snackbar';
-import Section from 'component/section';
-import {Form, Input, useForm, fuzzyFilter} from 'component/form';
-import Card from 'component/card';
-import Button from 'component/button';
-import Table from 'component/table';
-import Tabbar from 'component/tabbar';
-import FaIcon from 'component/faicon';
+import {useSnackbarView} from '@xorkevin/nuke/src/component/snackbar';
+import Section from '@xorkevin/nuke/src/component/section';
+import {
+  Form,
+  Input,
+  useForm,
+  fuzzyFilter,
+} from '@xorkevin/nuke/src/component/form';
+import Card from '@xorkevin/nuke/src/component/card';
+import Button from '@xorkevin/nuke/src/component/button';
+import Table from '@xorkevin/nuke/src/component/table';
+import Tabbar from '@xorkevin/nuke/src/component/tabbar';
+import FaIcon from '@xorkevin/nuke/src/component/faicon';
 
 const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]+$/;
 

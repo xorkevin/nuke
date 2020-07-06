@@ -8,7 +8,10 @@ lint:
 publish: lint
 	npm publish
 
-.PHONY: dev
+.PHONY: dev dev-story
+
+dev:
+	npm run build-dev
 
 dev-story:
 	npm run storybook

@@ -1,21 +1,21 @@
 import React, {Fragment, lazy, Suspense} from 'react';
 import {Switch, Route, Redirect, NavLink, useLocation} from 'react-router-dom';
 
-import {useDarkMode} from 'component/darkmode';
-import {SnackbarContainer} from 'component/snackbar';
+import {useDarkMode} from '@xorkevin/nuke/src/component/darkmode';
+import {SnackbarContainer} from '@xorkevin/nuke/src/component/snackbar';
 
-import MainContent from 'component/maincontent';
-import Section from 'component/section';
-import {Navbar, Navitem} from 'component/navbar';
-import Menu from 'component/menu';
-import Footer from 'component/footer';
-import Grid from 'component/grid';
-import Anchor from 'component/anchor';
-import FaIcon from 'component/faicon';
+import MainContent from '@xorkevin/nuke/src/component/maincontent';
+import Section from '@xorkevin/nuke/src/component/section';
+import {Navbar, Navitem} from '@xorkevin/nuke/src/component/navbar';
+import Menu from '@xorkevin/nuke/src/component/menu';
+import Footer from '@xorkevin/nuke/src/component/footer';
+import Grid from '@xorkevin/nuke/src/component/grid';
+import Anchor from '@xorkevin/nuke/src/component/anchor';
+import FaIcon from '@xorkevin/nuke/src/component/faicon';
 
-const HomeContainer = lazy(() => import('example/container/home'));
-const FormContainer = lazy(() => import('example/container/form'));
-const CardContainer = lazy(() => import('example/container/card'));
+const HomeContainer = lazy(() => import('container/home'));
+const FormContainer = lazy(() => import('container/form'));
+const CardContainer = lazy(() => import('container/card'));
 
 const FallbackView = (
   <Section container padded narrow>

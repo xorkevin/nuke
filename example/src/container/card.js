@@ -1,12 +1,12 @@
 import React, {Fragment} from 'react';
-import Section from 'component/section';
-import Grid from 'component/grid';
-import Card from 'component/card';
-import Button from 'component/button';
-import FaIcon from 'component/faicon';
-import Description from 'component/description';
+import Section from '@xorkevin/nuke/src/component/section';
+import Grid from '@xorkevin/nuke/src/component/grid';
+import Card from '@xorkevin/nuke/src/component/card';
+import Button from '@xorkevin/nuke/src/component/button';
+import FaIcon from '@xorkevin/nuke/src/component/faicon';
+import Description from '@xorkevin/nuke/src/component/description';
 
-import {mountainPreview, thamesPreview} from 'example/config';
+import {mountainPreview, thamesPreview} from 'config';
 
 const CardContainer = () => {
   return (
