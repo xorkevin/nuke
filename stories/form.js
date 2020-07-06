@@ -13,9 +13,9 @@ import {
   Form,
   useForm,
   fuzzyFilter,
-} from 'component/form';
-import Button from 'component/button';
-import FaIcon from 'component/faicon';
+} from 'src/component/form';
+import Button from 'src/component/button';
+import FaIcon from 'src/component/faicon';
 
 const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]+$/;
 

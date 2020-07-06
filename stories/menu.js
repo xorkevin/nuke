@@ -1,7 +1,13 @@
 import React, {Fragment} from 'react';
-import {useMenu, Menu, MenuItem, MenuHeader, MenuDivider} from 'component/menu';
-import Button from 'component/button';
-import FaIcon from 'component/faicon';
+import {
+  useMenu,
+  Menu,
+  MenuItem,
+  MenuHeader,
+  MenuDivider,
+} from 'src/component/menu';
+import Button from 'src/component/button';
+import FaIcon from 'src/component/faicon';
 
 export default {title: 'Menu'};
 

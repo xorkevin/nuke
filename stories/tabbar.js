@@ -1,7 +1,13 @@
 import React, {Fragment} from 'react';
-import {Tabbar, TabItem, TabDivider} from 'component/tabbar';
-import {useMenu, Menu, MenuItem, MenuHeader, MenuDivider} from 'component/menu';
-import FaIcon from 'component/faicon';
+import {Tabbar, TabItem, TabDivider} from 'src/component/tabbar';
+import {
+  useMenu,
+  Menu,
+  MenuItem,
+  MenuHeader,
+  MenuDivider,
+} from 'src/component/menu';
+import FaIcon from 'src/component/faicon';
 
 export default {title: 'Tabbar'};
 

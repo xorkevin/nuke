@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import Table from 'component/table';
+import Table from 'src/component/table';
 
 export default {title: 'Table'};
 

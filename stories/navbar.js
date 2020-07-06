@@ -1,8 +1,14 @@
 import React, {Fragment} from 'react';
-import {Navbar, NavItem, NavDivider} from 'component/navbar';
-import {useMenu, Menu, MenuItem, MenuHeader, MenuDivider} from 'component/menu';
-import Section from 'component/section';
-import FaIcon from 'component/faicon';
+import {Navbar, NavItem, NavDivider} from 'src/component/navbar';
+import {
+  useMenu,
+  Menu,
+  MenuItem,
+  MenuHeader,
+  MenuDivider,
+} from 'src/component/menu';
+import Section from 'src/component/section';
+import FaIcon from 'src/component/faicon';
 
 export default {title: 'Navbar'};
 

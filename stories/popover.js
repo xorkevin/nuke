@@ -1,6 +1,6 @@
 import React, {Fragment, useState, useCallback, useRef} from 'react';
-import {Popover, useStateRef} from 'component/popover';
-import Button from 'component/button';
+import {Popover, useStateRef} from 'src/component/popover';
+import Button from 'src/component/button';
 
 export default {title: 'Popover'};
 

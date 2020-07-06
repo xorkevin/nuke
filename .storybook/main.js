@@ -4,18 +4,15 @@ const ExtractTextPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-  stories: ['../src/stories/**/*.(js|mdx)'],
+  stories: ['../stories/**/*.(js|mdx)'],
   addons: [
     '@storybook/addon-contexts/register',
     '@storybook/addon-docs/register',
     '@storybook/addon-actions/register',
   ],
   webpackFinal: (config) => {
-    config.context = path.resolve(__dirname, '../src');
-    config.resolve.modules = [
-      path.resolve(__dirname, '../src'),
-      'node_modules',
-    ];
+    config.context = path.resolve(__dirname, '..');
+    config.resolve.modules = [path.resolve(__dirname, '..'), 'node_modules'];
 
     config.module.rules = config.module.rules.filter(
       (i) => !i.test.test('.css') && !i.test.test('.ttf'),

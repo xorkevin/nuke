@@ -5,8 +5,8 @@ import {
   SnackbarContainer,
   useSnackbarView,
   SnackbarSurface,
-} from 'component/snackbar';
-import Button from 'component/button';
+} from 'src/component/snackbar';
+import Button from 'src/component/button';
 
 export default {title: 'Snackbar'};
 

@@ -1,6 +1,6 @@
 import React, {Fragment, useEffect} from 'react';
-import {usePaginate} from 'component/paginate';
-import Button from 'component/button';
+import {usePaginate} from 'src/component/paginate';
+import Button from 'src/component/button';
 
 export default {title: 'Paginate'};
 

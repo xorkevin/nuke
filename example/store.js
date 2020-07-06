@@ -1,8 +1,8 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 
-import DarkMode from 'component/darkmode';
-import Snackbar from 'component/snackbar';
+import DarkMode from 'src/component/darkmode';
+import Snackbar from 'src/component/snackbar';
 
 const store = createStore(
   combineReducers({

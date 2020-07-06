@@ -1,7 +1,7 @@
 import React from 'react';
-import Article from 'component/article';
-import {Grid, Column} from 'component/grid';
-import Img from 'component/image';
+import Article from 'src/component/article';
+import {Grid, Column} from 'src/component/grid';
+import Img from 'src/component/image';
 import {thamesPreview} from 'example/config';
 
 export default {title: 'Article'};

@@ -1,5 +1,5 @@
 import React from 'react';
-import {CommentSection, Comment} from 'component/comment';
+import {CommentSection, Comment} from 'src/component/comment';
 
 export default {title: 'Comment section'};
 
