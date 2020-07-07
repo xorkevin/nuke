@@ -1,123 +1,96 @@
 import React, {Fragment, useCallback, useMemo} from 'react';
-import {useSnackbarView} from '@xorkevin/nuke/src/component/snackbar';
+import {
+  useSnackbarView,
+  SnackbarSurface,
+} from '@xorkevin/nuke/src/component/snackbar';
+import Container from '@xorkevin/nuke/src/component/container';
 import Section from '@xorkevin/nuke/src/component/section';
 import {
+  Field,
+  FieldTextarea,
+  FieldCheckbox,
+  FieldToggle,
+  FieldSwitch,
+  FieldRadio,
+  FieldFile,
+  FieldSelect,
+  FieldSuggest,
+  FieldMultiSelect,
   Form,
-  Input,
   useForm,
-  fuzzyFilter,
 } from '@xorkevin/nuke/src/component/form';
+import {
+  useMenu,
+  Menu,
+  MenuItem,
+  MenuHeader,
+  MenuDivider,
+} from '@xorkevin/nuke/src/component/menu';
 import Card from '@xorkevin/nuke/src/component/card';
 import Button from '@xorkevin/nuke/src/component/button';
 import Table from '@xorkevin/nuke/src/component/table';
-import Tabbar from '@xorkevin/nuke/src/component/tabbar';
+import {Tabbar, TabItem, TabDivider} from '@xorkevin/nuke/src/component/tabbar';
 import FaIcon from '@xorkevin/nuke/src/component/faicon';
+import {tableData} from 'config';
+
+const fileStringReplacer = (k, v) => {
+  if (v instanceof File) {
+    return `FILE:${v.name}`;
+  }
+  return v;
+};
+
+const languageOpts = [
+  {display: 'Rust', value: 'rs'},
+  {display: 'Go', value: 'go'},
+  {display: 'Javascript', value: 'js'},
+  {display: 'Python', value: 'py'},
+  {display: 'Erlang', value: 'erl'},
+];
+
+const unixToolSuggestions = [
+  'man',
+  'ls',
+  'pwd',
+  'cd',
+  'cat',
+  'echo',
+  'tee',
+  'head',
+  'tail',
+  'less',
+  'more',
+  'tr',
+  'cut',
+  'awk',
+  'sed',
+  'sort',
+  'grep',
+  'wc',
+  'bc',
+  'diff',
+  'patch',
+  'chmod',
+  'chown',
+  'cp',
+  'mv',
+  'rm',
+  'ln',
+  'date',
+  'df',
+  'du',
+  'find',
+  'xargs',
+  'ed',
+  'vi',
+  'vim',
+  'nvim',
+  'emacs',
+  'nano',
+  'tar',
+];
 
 const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]+$/;
-
-const TableData = [
-  {
-    name: 'Elrond',
-    description:
-      'a Half-elven conveyor, member of White Council and lord of Rivendell.',
-  },
-  {
-    name: 'Erestor',
-    description: 'an Elf-lord, advisor, and the chief of the House of Elrond.',
-  },
-  {
-    name: 'Gandalf the Grey',
-    description:
-      'a Wizard, one of the Istari, and member of both the White Council and The Fellowship.',
-  },
-  {
-    name: 'Aragorn',
-    description:
-      'a Ranger, heir of Isildur, member of The Fellowship, and Chieftain of the Dúnedain in the North.',
-  },
-  {
-    name: 'Frodo Baggins',
-    description:
-      'a Hobbit of the Shire, member of The Fellowship, and Ring-bearer.',
-  },
-  {
-    name: 'Bilbo Baggins',
-    description:
-      'a Hobbit of the Shire, former Ring-bearer, uncle of Frodo and long resident in Rivendell.',
-  },
-  {
-    name: 'Boromir of Gondor',
-    description:
-      'son of Denethor II Ruling Steward of Minas Tirith, and member of The Fellowship.',
-  },
-  {
-    name: 'Glóin of the Lonely Mountain',
-    description:
-      'representative of the King under the Mountain, Dain Ironfoot of the Dwarves.',
-  },
-  {
-    name: 'Gimli',
-    description:
-      'son of Gloin, member of The Fellowship, and dwarf of the Lonely Mountain.',
-  },
-  {
-    name: 'Legolas',
-    description:
-      'a Sindar Elf of the Woodland Realm (Mirkwood), son of Thranduil the Elvenking, and member of The Fellowship.',
-  },
-  {
-    name: 'Glorfindel',
-    description:
-      'an Elf-lord of Rivendell, rescuer of Frodo and his company from the Nine.',
-  },
-  {
-    name: 'Galdor of the Havens',
-    description: 'messenger from Círdan of the Grey Havens.',
-  },
-];
-
-const Tools = [
-  {value: 'man'},
-  {value: 'ls'},
-  {value: 'pwd'},
-  {value: 'cd'},
-  {value: 'cat'},
-  {value: 'echo'},
-  {value: 'tee'},
-  {value: 'head'},
-  {value: 'tail'},
-  {value: 'less'},
-  {value: 'more'},
-  {value: 'tr'},
-  {value: 'cut'},
-  {value: 'awk'},
-  {value: 'sed'},
-  {value: 'sort'},
-  {value: 'grep'},
-  {value: 'wc'},
-  {value: 'bc'},
-  {value: 'diff'},
-  {value: 'patch'},
-  {value: 'chmod'},
-  {value: 'chown'},
-  {value: 'cp'},
-  {value: 'mv'},
-  {value: 'rm'},
-  {value: 'ln'},
-  {value: 'date'},
-  {value: 'df'},
-  {value: 'du'},
-  {value: 'find'},
-  {value: 'xargs'},
-  {value: 'ed'},
-  {value: 'vi'},
-  {value: 'vim'},
-  {value: 'nvim'},
-  {value: 'emacs'},
-  {value: 'nano'},
-  {value: 'tar'},
-];
-
 const phoneRegex = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
 const imageSetType = new Set(['image/png', 'image/jpeg']);
 const formErrCheck = ({
@@ -125,13 +98,14 @@ const formErrCheck = ({
   phone,
   password,
   confirm_password,
-  checkbox2,
-  radioval,
-  fileval,
+  bio,
+  checkbox,
+  toggle,
+  file2,
 }) => {
   const err = {};
   if (email.length > 0 && !emailRegex.test(email)) {
-    Object.assign(err, {email: true});
+    Object.assign(err, {email: 'Must be a valid email'});
   }
   if (phone.length > 0 && !phoneRegex.test(phone)) {
     Object.assign(err, {phone: true});
@@ -140,16 +114,19 @@ const formErrCheck = ({
     Object.assign(err, {password: true});
   }
   if (confirm_password.length > 0 && confirm_password !== password) {
-    Object.assign(err, {confirm_password: 'Must match password'});
+    Object.assign(err, {confirm_password: 'Passwords must match'});
   }
-  if (checkbox2) {
-    Object.assign(err, {checkbox2: true});
+  if (bio.length > 128) {
+    Object.assign(err, {bio: 'Max length exceeded'});
   }
-  if (radioval === 'two') {
-    Object.assign(err, {radioval: true});
+  if (new Set(checkbox).has('checked2')) {
+    Object.assign(err, {checkbox: 'Cannot have check2'});
   }
-  if (fileval && !imageSetType.has(fileval.type)) {
-    Object.assign(err, {fileval: 'File must be a png or jpeg'});
+  if (toggle) {
+    Object.assign(err, {toggle: true});
+  }
+  if (file2) {
+    Object.assign(err, {file2: true});
   }
   return err;
 };
@@ -159,10 +136,10 @@ const formValidCheck = ({
   phone,
   password,
   confirm_password,
+  bio,
   checkbox,
-  radioval,
-  fileval,
-  lang,
+  toggle2,
+  file3,
 }) => {
   const valid = {};
   if (name.length > 0) {
@@ -178,19 +155,19 @@ const formValidCheck = ({
     Object.assign(valid, {password: true});
   }
   if (password.length > 0 && confirm_password === password) {
-    Object.assign(valid, {confirm_password: true});
+    Object.assign(valid, {confirm_password: 'Passwords match!'});
   }
-  if (checkbox) {
+  if (bio.length > 0 && bio.length <= 128) {
+    Object.assign(valid, {bio: true});
+  }
+  if (new Set(checkbox).has('checked1')) {
     Object.assign(valid, {checkbox: true});
   }
-  if (radioval === 'one') {
-    Object.assign(valid, {radioval: true});
+  if (toggle2) {
+    Object.assign(valid, {toggle2: true});
   }
-  if (fileval && imageSetType.has(fileval.type)) {
-    Object.assign(valid, {fileval: true});
-  }
-  if (lang === '100' || lang === '200') {
-    Object.assign(valid, {lang: true});
+  if (file3) {
+    Object.assign(valid, {file3: true});
   }
   return valid;
 };
@@ -198,301 +175,298 @@ const formValidCheck = ({
 const getEditorVal = (i) => i.value;
 
 const FormContainer = () => {
-  const [formState, updateForm] = useForm({
+  const form = useForm({
     name: '',
     email: '',
     phone: '',
-    tagline: '',
     password: '',
     confirm_password: '',
-    checkbox: false,
-    checkbox2: false,
+    bio: '',
+    checkbox: [],
     toggle: false,
-    radioval: false,
-    fileval: undefined,
-    lang: '200',
-    tool: '',
-    tool2: [],
+    toggle2: false,
+    toggle3: false,
+    toggle4: false,
+    radio: '',
+    file: undefined,
+    file2: undefined,
+    file3: undefined,
+    filemulti: [],
+    lang: '',
+    unixtool: '',
+    unixtoollist: [],
   });
 
   const logFormState = useCallback(() => {
-    console.log(formState);
-  }, [formState]);
+    console.log(form.state);
+  }, [form.state]);
 
   const displaySnackbar = useSnackbarView(
-    <Fragment>
-      <span>Hello, World</span>
-      <Button>Reply</Button>
-    </Fragment>,
+    <SnackbarSurface>
+      <span>Hello, World</span> <Button>Reply</Button>
+    </SnackbarSurface>,
   );
 
-  const tools = useMemo(
-    () => fuzzyFilter(8, Tools, getEditorVal, formState.tool),
-    [formState.tool],
-  );
-
-  const tools2 = useMemo(
-    () => fuzzyFilter(8, Tools, getEditorVal, formState._search_tool2),
-    [formState._search_tool2],
-  );
+  const menu = useMenu();
 
   return (
-    <Section id="form" sectionTitle="Form" container padded narrow>
-      <Form
-        formState={formState}
-        onChange={updateForm}
-        onEnter={logFormState}
-        errCheck={formErrCheck}
-        validCheck={formValidCheck}
-      >
-        <Input label="Name" name="name" />
-        <Input label="Email" name="email" info="name@example.com" />
-        <Input label="Phone" name="phone" info="xxx-xxx-xxxx" />
-        <Input label="Tagline" name="tagline" info="What describes you?" />
-        <Input
-          label="Password"
-          type="password"
-          name="password"
-          info="Must be at least 10 chars"
-        />
-        <Input
-          label="Confirm password"
-          type="password"
-          name="confirm_password"
-        />
-        <Input
-          label="Check me"
-          info="This is a checkbox"
-          type="checkbox"
-          name="checkbox"
-        />
-        <Input
-          label="Check me"
-          info="This is a checkbox"
-          type="checkbox"
-          name="checkbox"
-        />
-        <Input
-          label="Check me"
-          info="This is a checkbox"
-          type="checkbox"
-          name="checkbox2"
-        />
-        <Input
-          label="Toggle me"
-          info="This is a toggle"
-          type="checkbox"
-          toggle
-          name="toggle"
-        />
-        <Input
-          label="Radio one"
-          info="Radio button"
-          type="radio"
-          name="radioval"
-          value="one"
-        />
-        <Input
-          label="Radio two"
-          info="Radio button"
-          type="radio"
-          name="radioval"
-          value="two"
-        />
-        <Input
-          label="Radio three"
-          info="Radio button"
-          type="radio"
-          name="radioval"
-          value="three"
-        />
-        <Input
-          label="File"
-          type="file"
-          name="fileval"
-          accept="image/png, image/jpeg"
-          info="Choose an image"
-        />
-        <Input
-          label="Language"
-          info="Your favorite language"
-          dropdown={[
-            {text: 'Rust', value: '100'},
-            {text: 'Go', value: '200'},
-            {text: 'Javascript', value: '300'},
-            {text: 'Python', value: '400'},
-            {text: 'Prolog', value: '500'},
-          ]}
-          name="lang"
-        />
-        <Input
-          label="Language"
-          info="Your favorite language"
-          dropdown={[
-            {text: 'Rust', value: '100'},
-            {text: 'Go', value: '200'},
-            {text: 'Javascript', value: '300'},
-            {text: 'Python', value: '400'},
-            {text: 'Prolog', value: '500'},
-          ]}
-          name="lang"
-          error="select error"
-        />
-        <Input
-          label="Language"
-          info="Your favorite language"
-          dropdown={[
-            {text: 'Rust', value: '100'},
-            {text: 'Go', value: '200'},
-            {text: 'Javascript', value: '300'},
-            {text: 'Python', value: '400'},
-            {text: 'Prolog', value: '500'},
-          ]}
-          name="lang"
-          valid
-        />
-        <Input
-          label="Unix tool"
-          info="Your favorite unix tool"
-          dropdowninput={tools}
-          name="tool"
-        />
-        <Input
-          label="Unix tool"
-          info="Your favorite unix tool"
-          dropdowninput={tools}
-          name="tool"
-          error="fuzzy error"
-        />
-        <Input
-          label="Unix tool"
-          info="Your favorite unix tool"
-          dropdowninput={tools}
-          name="tool"
-          valid
-        />
-        <Input
-          label="Multiple unix tools"
-          info="Your favorite unix tools"
-          multiple
-          dropdowninput={tools2}
-          name="tool2"
-        />
-      </Form>
-      <Button fixedWidth primary onClick={logFormState}>
-        Submit
-      </Button>
-      <Card
-        size="lg"
-        restrictWidth
-        titleBar
-        title={<h3>Vivamus nibh enim</h3>}
-        bar={
-          <Fragment>
-            <Button fixedWidth text>
-              Cancel
+    <Container padded narrow>
+      <Section id="form">
+        <h1>Form</h1>
+        <hr />
+        <Form
+          formState={form.state}
+          onChange={form.update}
+          errCheck={formErrCheck}
+          validCheck={formValidCheck}
+        >
+          <Field name="name" label="Name" />
+          <Field name="email" label="Email" placeholder="name@example.com" />
+          <Field name="phone" label="Phone" placeholder="xxx-xxx-xxxx" />
+          <Field
+            name="password"
+            type="password"
+            label="Password"
+            hint="Must be at least 10 chars"
+            hintRight={
+              form.state.password.length > 0 ? form.state.password.length : ''
+            }
+          />
+          <Field
+            name="confirm_password"
+            type="password"
+            label="Confirm password"
+          />
+          <FieldTextarea
+            name="bio"
+            label="Bio"
+            hint="Tell us about yourself"
+            hintRight={`${form.state.bio.length}/128`}
+            wide
+          />
+          <FieldCheckbox
+            name="checkbox"
+            option="checked1"
+            label="Check me"
+            hint="This is a checkbox"
+          />
+          <FieldCheckbox
+            name="checkbox"
+            option="checked1"
+            label="Check me"
+            hint="This is a checkbox"
+          />
+          <FieldCheckbox
+            name="checkbox"
+            option="checked2"
+            label="Check me"
+            hint="This is a checkbox"
+          />
+          <FieldToggle name="toggle" label="Toggle me" nohint />
+          <FieldSwitch name="toggle2" label="Toggle me" nohint />
+          <FieldSwitch name="toggle3" label="Toggle me" success nohint />
+          <FieldSwitch name="toggle4" label="Toggle me" danger nohint />
+          <FieldRadio
+            name="radio"
+            option="one"
+            label="Radio one"
+            hint="Radio button"
+          />
+          <FieldRadio
+            name="radio"
+            option="two"
+            label="Radio two"
+            hint="Radio button"
+          />
+          <FieldRadio
+            name="radio"
+            option="three"
+            label="Radio three"
+            hint="Radio button"
+          />
+          <FieldFile
+            name="file"
+            label="File"
+            hint="Choose an image"
+            accept="image/png, image/jpeg"
+            fullWidth
+          >
+            <Button>
+              <FaIcon icon="cloud-upload" /> Upload
             </Button>
-            <Button fixedWidth outline>
-              Save
+          </FieldFile>
+          <FieldFile
+            name="file2"
+            label="File"
+            hint="Choose an image"
+            accept="image/png, image/jpeg"
+            fullWidth
+          >
+            <Button>
+              <FaIcon icon="cloud-upload" /> Upload
             </Button>
-            <Button fixedWidth primary onClick={displaySnackbar}>
-              Submit
+          </FieldFile>
+          <FieldFile
+            name="file3"
+            label="File"
+            hint="Choose an image"
+            accept="image/png, image/jpeg"
+            fullWidth
+          >
+            <Button>
+              <FaIcon icon="cloud-upload" /> Upload
             </Button>
-          </Fragment>
-        }
-      >
-        <Input
-          textarea
-          fullWidth
-          label="Biography"
-          info="Tell us about yourself"
-        />
-        <Input
-          textarea
-          fullWidth
-          error="textarea error"
-          label="Biography"
-          info="Tell us about yourself"
-        />
-        <Input
-          textarea
-          fullWidth
-          valid
-          label="Biography"
-          info="Tell us about yourself"
-        />
-      </Card>
-
-      <Section subsection sectionTitle="Buttons">
-        <Button fixedWidth primary>
-          Primary
-        </Button>
-        <Button fixedWidth outline>
-          Outline
-        </Button>
-        <Button fixedWidth text>
-          Text
-        </Button>
-        <Button raised fixedWidth primary>
-          Raised Primary
-        </Button>
-        <Button raised fixedWidth outline>
-          Raised Outline
-        </Button>
-        <Button raised fixedWidth text>
-          Raised Text
-        </Button>
-      </Section>
-
-      <Section subsection sectionTitle="Table">
-        <Table
-          head={
+          </FieldFile>
+          <FieldFile
+            name="filemulti"
+            label="Multiple files"
+            hint="Choose images"
+            accept="image/png, image/jpeg"
+            multiple
+            fullWidth
+          >
+            <Button>
+              <FaIcon icon="cloud-upload" /> Upload
+            </Button>
+          </FieldFile>
+          <FieldSelect
+            name="lang"
+            label="Language"
+            hint="Your favorite language"
+            options={languageOpts}
+          />
+          <FieldSuggest
+            name="unixtool"
+            label="Unix tool"
+            hint="Your favorite unix tool"
+            options={unixToolSuggestions}
+          />
+          <FieldMultiSelect
+            name="unixtoollist"
+            label="Unix tools"
+            hint="Your favorite unix tools"
+            options={unixToolSuggestions}
+          />
+          <h3>Form state</h3>
+          <pre>{JSON.stringify(form.state, fileStringReplacer, '  ')}</pre>
+        </Form>
+        <Button onClick={logFormState}>Submit</Button>
+        <Card
+          width="lg"
+          title={
+            <Container padded>
+              <h3>Vivamus nibh enim</h3>
+            </Container>
+          }
+          bar={
             <Fragment>
-              <th>name</th>
-              <th>description</th>
+              <Button fixedWidth>Cancel</Button>
+              <Button fixedWidth>Save</Button>
+              <Button fixedWidth onClick={displaySnackbar}>
+                Submit
+              </Button>
             </Fragment>
           }
         >
-          {TableData.map(({name, description}) => (
-            <tr key={name}>
-              <td>{name}</td>
-              <td>{description}</td>
-            </tr>
-          ))}
-        </Table>
-      </Section>
+          <Container padded>
+            <FieldTextarea
+              label="Biography"
+              hint="Tell us about yourself"
+              fullWidth
+            />
+            <FieldTextarea
+              label="Biography"
+              hint="Tell us about yourself"
+              error="textarea error"
+              fullWidth
+            />
+            <FieldTextarea
+              label="Biography"
+              hint="Tell us about yourself"
+              valid
+              fullWidth
+            />
+          </Container>
+        </Card>
 
-      <Section subsection sectionTitle="Tabs">
-        <Tabbar
-          left={
-            <Fragment>
-              <div>
-                <FaIcon icon="newspaper-o" /> Newsfeed
-              </div>
-              <div>
-                <FaIcon icon="fire" /> Popular
-              </div>
-              <div>
-                <FaIcon icon="users" /> Friends
-              </div>
-              <div>
-                <FaIcon icon="paper-plane" /> Post
-              </div>
-            </Fragment>
-          }
-          right={
-            <Fragment>
-              <div>
-                <FaIcon icon="user" /> Profile
-              </div>
-              <div>
-                <FaIcon icon="cog" /> Settings
-              </div>
-            </Fragment>
-          }
-        />
+        <Section id="buttons">
+          <h3>Buttons</h3>
+          <Button fixedWidth>Primary</Button>
+          <Button fixedWidth>Secondary</Button>
+          <Button fixedWidth>Tertiary</Button>
+        </Section>
+
+        <Section id="table">
+          <h3>Table</h3>
+          <Table
+            head={
+              <Fragment>
+                <th>name</th>
+                <th>description</th>
+              </Fragment>
+            }
+          >
+            {tableData.map(({name, description}) => (
+              <tr key={name}>
+                <td>{name}</td>
+                <td>{description}</td>
+              </tr>
+            ))}
+          </Table>
+        </Section>
+
+        <Section id="tabs">
+          <h3>Tabs</h3>
+          <Tabbar
+            right={
+              <Fragment>
+                <TabItem link="https://github.com/xorkevin" ext>
+                  <FaIcon icon="user" /> Profile
+                </TabItem>
+                <TabItem forwardedRef={menu.anchorRef} onClick={menu.toggle}>
+                  <FaIcon icon="cog" /> Settings
+                </TabItem>
+                {menu.show && (
+                  <Menu size="md" anchor={menu.anchor} close={menu.close}>
+                    <MenuHeader>Settings</MenuHeader>
+                    <MenuItem icon={<FaIcon icon="bolt" />} label="Ctrl+B">
+                      Dark Mode
+                    </MenuItem>
+                    <MenuItem icon={<FaIcon icon="question" />} label="Ctrl+H">
+                      Help
+                    </MenuItem>
+                    <MenuDivider />
+                    <MenuHeader>About</MenuHeader>
+                    <MenuItem
+                      link="https://github.com/xorkevin"
+                      ext
+                      icon={<FaIcon icon="github" />}
+                      label={<FaIcon icon="external-link" />}
+                    >
+                      xorkevin
+                    </MenuItem>
+                  </Menu>
+                )}
+              </Fragment>
+            }
+          >
+            <TabItem className="active">
+              <FaIcon icon="newspaper-o" /> Newsfeed
+            </TabItem>
+            <TabItem>
+              <FaIcon icon="fire" /> Popular
+            </TabItem>
+            <TabDivider />
+            <TabItem>
+              <FaIcon icon="users" /> Friends
+            </TabItem>
+            <TabItem>
+              <FaIcon icon="paper-plane" /> Post
+            </TabItem>
+          </Tabbar>
+        </Section>
       </Section>
-    </Section>
+    </Container>
   );
 };
 

@@ -12,7 +12,6 @@ import {
   FieldMultiSelect,
   Form,
   useForm,
-  fuzzyFilter,
 } from 'src/component/form';
 import Button from 'src/component/button';
 import FaIcon from 'src/component/faicon';

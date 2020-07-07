@@ -18,6 +18,7 @@ import {
 import Footer from '@xorkevin/nuke/src/component/footer';
 import {Grid, Column} from '@xorkevin/nuke/src/component/grid';
 import Anchor from '@xorkevin/nuke/src/component/anchor';
+import AnchorSecondary from '@xorkevin/nuke/src/component/anchor/secondary';
 import FaIcon from '@xorkevin/nuke/src/component/faicon';
 
 const HomeContainer = lazy(() => import('container/home'));
@@ -84,7 +85,7 @@ const App = () => {
         </NavItem>
       </Navbar>
 
-      <MainContent withNavbar={!styletoppaths.has(pathname)}>
+      <MainContent>
         <Suspense fallback={FallbackView}>
           <Switch>
             <Route exact path="/">
@@ -109,16 +110,16 @@ const App = () => {
               toolkit
               <ul>
                 <li>
-                  <Anchor ext href="https://github.com/xorkevin/nuke">
+                  <AnchorSecondary ext href="https://github.com/xorkevin/nuke">
                     <FaIcon icon="github" /> xorkevin/nuke
-                  </Anchor>
+                  </AnchorSecondary>
                 </li>
                 <li>
                   <h5>
                     <FaIcon icon="code" /> with <FaIcon icon="heart-o" /> by{' '}
-                    <Anchor ext href="https://github.com/xorkevin">
+                    <AnchorSecondary ext href="https://github.com/xorkevin">
                       <FaIcon icon="github" /> xorkevin
-                    </Anchor>
+                    </AnchorSecondary>
                   </h5>
                 </li>
               </ul>
