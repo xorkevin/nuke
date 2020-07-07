@@ -1,10 +1,13 @@
 import React from 'react';
-import Container from '@xorkevin/nuke/src/component/container';
-import {Grid, Column} from '@xorkevin/nuke/src/component/grid';
-import Section from '@xorkevin/nuke/src/component/section';
-import Article from '@xorkevin/nuke/src/component/article';
-import {CommentSection, Comment} from '@xorkevin/nuke/src/component/comment';
-import Img from '@xorkevin/nuke/src/component/image';
+import {
+  Container,
+  Section,
+  Grid,
+  Column,
+  Article,
+  CommentSection,
+  Img,
+} from '@xorkevin/nuke';
 
 import {thamesPreview, comments} from 'config';
 

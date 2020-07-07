@@ -2,10 +2,8 @@ import React, {Fragment, useCallback, useMemo} from 'react';
 import {
   useSnackbarView,
   SnackbarSurface,
-} from '@xorkevin/nuke/src/component/snackbar';
-import Container from '@xorkevin/nuke/src/component/container';
-import Section from '@xorkevin/nuke/src/component/section';
-import {
+  Container,
+  Section,
   Field,
   FieldTextarea,
   FieldCheckbox,
@@ -18,19 +16,20 @@ import {
   FieldMultiSelect,
   Form,
   useForm,
-} from '@xorkevin/nuke/src/component/form';
-import {
   useMenu,
   Menu,
   MenuItem,
   MenuHeader,
   MenuDivider,
-} from '@xorkevin/nuke/src/component/menu';
-import Card from '@xorkevin/nuke/src/component/card';
-import Button from '@xorkevin/nuke/src/component/button';
-import Table from '@xorkevin/nuke/src/component/table';
-import {Tabbar, TabItem, TabDivider} from '@xorkevin/nuke/src/component/tabbar';
-import FaIcon from '@xorkevin/nuke/src/component/faicon';
+  Card,
+  Button,
+  Table,
+  Tabbar,
+  TabItem,
+  TabDivider,
+  FaIcon,
+} from '@xorkevin/nuke';
+
 import {tableData} from 'config';
 
 const fileStringReplacer = (k, v) => {

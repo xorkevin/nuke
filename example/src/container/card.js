@@ -1,12 +1,15 @@
 import React from 'react';
-import Container from '@xorkevin/nuke/src/component/container';
-import Section from '@xorkevin/nuke/src/component/section';
-import {Grid, Column} from '@xorkevin/nuke/src/component/grid';
-import Card from '@xorkevin/nuke/src/component/card';
-import Img from '@xorkevin/nuke/src/component/image';
-import Button from '@xorkevin/nuke/src/component/button';
-import FaIcon from '@xorkevin/nuke/src/component/faicon';
-import Description from '@xorkevin/nuke/src/component/description';
+import {
+  Container,
+  Section,
+  Grid,
+  Column,
+  Card,
+  Img,
+  Button,
+  FaIcon,
+  Description,
+} from '@xorkevin/nuke';
 
 import {thamesPreview} from 'config';
 

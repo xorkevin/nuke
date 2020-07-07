@@ -1,25 +1,26 @@
 import React, {Fragment, lazy, Suspense} from 'react';
 import {Switch, Route, Redirect, NavLink, useLocation} from 'react-router-dom';
 
-import {useDarkMode} from '@xorkevin/nuke/src/component/darkmode';
-import {SnackbarContainer} from '@xorkevin/nuke/src/component/snackbar';
-
-import MainContent from '@xorkevin/nuke/src/component/maincontent';
-import Container from '@xorkevin/nuke/src/component/container';
-import Section from '@xorkevin/nuke/src/component/section';
-import {Navbar, NavItem} from '@xorkevin/nuke/src/component/navbar';
 import {
+  useDarkMode,
+  SnackbarContainer,
+  MainContent,
+  Container,
+  Section,
+  Navbar,
+  NavItem,
   useMenu,
   Menu,
   MenuItem,
   MenuHeader,
   MenuDivider,
-} from '@xorkevin/nuke/src/component/menu';
-import Footer from '@xorkevin/nuke/src/component/footer';
-import {Grid, Column} from '@xorkevin/nuke/src/component/grid';
-import Anchor from '@xorkevin/nuke/src/component/anchor';
+  Footer,
+  Grid,
+  Column,
+  Anchor,
+  FaIcon,
+} from '@xorkevin/nuke';
 import AnchorSecondary from '@xorkevin/nuke/src/component/anchor/secondary';
-import FaIcon from '@xorkevin/nuke/src/component/faicon';
 
 const HomeContainer = lazy(() => import('container/home'));
 const FormContainer = lazy(() => import('container/form'));
