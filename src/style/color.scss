@@ -32,7 +32,7 @@ $color-primary-dark: #29313d !default;
 
 $color-primary-dark-1: $color-primary-dark !default;
 $color-primary-dark-2: darken($color-primary-dark, 6.25%) !default;
-$color-primary-dark-3: $black !default;
+$color-primary-dark-3: darken($color-primary-dark, 12.5%) !default;
 
 $color-back-primary: lighten($color-primary, 12.5%) !default;
 
