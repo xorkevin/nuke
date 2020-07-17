@@ -1,4 +1,5 @@
 import {
+  SnackbarDefaultOpts,
   SnackbarCtx,
   SnackbarState,
   useSnackbarValue,
@@ -9,6 +10,7 @@ import {
 } from './base';
 export {
   SnackbarContainer as default,
+  SnackbarDefaultOpts,
   SnackbarCtx,
   SnackbarState,
   useSnackbarValue,

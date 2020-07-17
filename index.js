@@ -5,7 +5,14 @@ import Card from './src/component/card';
 import Chip from './src/component/chip';
 import CommentSection from './src/component/comment';
 import Container from './src/component/container';
-import {DarkMode, useDarkMode} from './src/component/darkmode';
+import {
+  DarkModeDefaultOpts,
+  DarkModeCtx,
+  DarkModeState,
+  makeInitDarkModeState,
+  useDarkModeValue,
+  useSetDarkMode,
+} from './src/component/darkmode';
 import Description from './src/component/description';
 import FaIcon from './src/component/faicon';
 import Footer from './src/component/footer';
@@ -45,6 +52,7 @@ import {
   SidebarDivider,
 } from './src/component/sidebar';
 import {
+  SnackbarDefaultOpts,
   SnackbarCtx,
   SnackbarState,
   useSnackbarValue,
@@ -66,8 +74,12 @@ export {
   Chip,
   CommentSection,
   Container,
-  DarkMode,
-  useDarkMode,
+  DarkModeDefaultOpts,
+  DarkModeCtx,
+  DarkModeState,
+  makeInitDarkModeState,
+  useDarkModeValue,
+  useSetDarkMode,
   Description,
   FaIcon,
   Footer,
@@ -105,6 +117,7 @@ export {
   SidebarItem,
   SidebarHeader,
   SidebarDivider,
+  SnackbarDefaultOpts,
   SnackbarCtx,
   SnackbarState,
   useSnackbarValue,

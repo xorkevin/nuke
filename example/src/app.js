@@ -2,7 +2,8 @@ import React, {Fragment, lazy, Suspense} from 'react';
 import {Switch, Route, Redirect, NavLink, useLocation} from 'react-router-dom';
 
 import {
-  useDarkMode,
+  useDarkModeValue,
+  useSetDarkMode,
   SnackbarContainer,
   MainContent,
   Container,
@@ -36,7 +37,8 @@ const styletoppaths = new Set(['/']);
 
 const App = () => {
   const {pathname} = useLocation();
-  const [dark, toggleDark] = useDarkMode();
+  const dark = useDarkModeValue();
+  const toggleDark = useSetDarkMode();
   const menu = useMenu();
 
   return (

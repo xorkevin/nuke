@@ -101,8 +101,8 @@ const SnackbarComponent = ({show, children}) => {
 };
 
 const SnackbarContainer = () => {
-  const {show, fragment} = useSnackbarValue();
-  return <SnackbarComponent show={show}>{fragment}</SnackbarComponent>;
+  const {show, view} = useSnackbarValue();
+  return <SnackbarComponent show={show}>{view}</SnackbarComponent>;
 };
 
 // Style
@@ -117,6 +117,7 @@ const SnackbarSurface = ({className, children}) => {
 
 export {
   SnackbarContainer as default,
+  SnackbarDefaultOpts,
   SnackbarCtx,
   SnackbarState,
   useSnackbarValue,

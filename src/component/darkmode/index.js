@@ -1,89 +1,90 @@
-import {useCallback} from 'react';
-import {useSelector, useDispatch, useStore} from 'react-redux';
+import React, {useCallback, useContext} from 'react';
+import {atom, useRecoilValue, useSetRecoilState} from 'recoil';
 
-// Actions
+const valueEnabled = 'enabled';
+const valueDisabled = 'disabled';
+const darkClassName = 'dark';
 
-const darkModeKeyName = 'dark_mode';
-const darkModeValueEnabled = 'enabled';
-const darkModeValueDisabled = 'disabled';
-
-const storeDarkMode = (dark) => {
-  localStorage.setItem(darkModeKeyName, dark);
+const storeDarkMode = (key, dark) => {
+  localStorage.setItem(key, dark);
 };
 
-const retrieveDarkMode = () => {
-  return localStorage.getItem(darkModeKeyName);
+const retrieveDarkMode = (key) => {
+  return localStorage.getItem(key);
 };
 
-const SET_DARK_MODE = Symbol('SET_DARK_MODE');
+const checkDarkMode = (key) => {
+  return retrieveDarkMode(key) === valueEnabled;
+};
 
-const darkModeClassName = 'dark';
-
-const setDarkMode = (dark) => {
+const setBodyDarkMode = (key, dark) => {
   if (dark) {
-    storeDarkMode(darkModeValueEnabled);
-    document.body.classList.add(darkModeClassName);
+    storeDarkMode(key, valueEnabled);
+    document.body.classList.add(darkClassName);
   } else {
-    storeDarkMode(darkModeValueDisabled);
-    document.body.classList.remove(darkModeClassName);
+    storeDarkMode(key, valueDisabled);
+    document.body.classList.remove(darkClassName);
   }
 };
 
-const checkDarkMode = () => {
-  return retrieveDarkMode() === darkModeValueEnabled;
-};
+const DarkModeDefaultOpts = Object.freeze({
+  storageKey: 'dark_mode',
+});
 
-// Reducer
+const DarkModeCtx = React.createContext(DarkModeDefaultOpts);
 
-const defaultState = {
+const defaultDarkMode = Object.freeze({
   dark: false,
-};
+});
 
-const initState = () => {
-  const k = {};
-  if (checkDarkMode()) {
-    k.dark = true;
-  }
-  const state = Object.assign({}, defaultState, k);
-  setDarkMode(state.dark);
-  return state;
-};
+const DarkModeState = atom({
+  key: 'nuke:dark_mode',
+  default: defaultDarkMode,
+});
 
-const DarkMode = (state = initState(), action) => {
-  switch (action.type) {
-    case SET_DARK_MODE:
-      return Object.assign({}, state, {
-        dark: action.dark,
-      });
-    default:
-      return state;
+const makeInitDarkModeState = ({storageKey}) => ({set}) => {
+  const state = Object.assign({}, defaultDarkMode);
+  if (checkDarkMode(storageKey)) {
+    state.dark = true;
   }
+  setBodyDarkMode(storageKey, state.dark);
+  return set(DarkModeState, state);
 };
 
 // Hooks
 
-const selectDarkState = (store) => store.DarkMode.dark;
+const useDarkModeValue = () => {
+  return useRecoilValue(DarkModeState).dark;
+};
 
-const useDarkMode = () => {
-  const dispatch = useDispatch();
-  const store = useStore();
+const useSetDarkMode = () => {
+  const ctx = useContext(DarkModeCtx);
+  const setDarkMode = useSetRecoilState(DarkModeState);
 
   const toggle = useCallback(
     (next) => {
-      let dark = !store.getState().DarkMode.dark;
-      if (typeof next === 'boolean') {
-        dark = next;
-      }
-      setDarkMode(dark);
-      dispatch({
-        type: SET_DARK_MODE,
-        dark,
+      setDarkMode(({dark}) => {
+        dark = !dark;
+        if (typeof next === 'boolean') {
+          dark = next;
+        }
+        setBodyDarkMode(ctx.storageKey, dark);
+        return {
+          dark,
+        };
       });
     },
-    [dispatch, store],
+    [ctx, setDarkMode],
   );
 
-  return [useSelector(selectDarkState), toggle];
+  return toggle;
 };
 
-export {DarkMode as default, DarkMode, useDarkMode};
+export {
+  DarkModeDefaultOpts,
+  DarkModeCtx,
+  DarkModeState,
+  makeInitDarkModeState,
+  useDarkModeValue,
+  useSetDarkMode,
+};
