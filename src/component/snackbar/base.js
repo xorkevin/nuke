@@ -1,5 +1,92 @@
-import React, {useCallback, useRef} from 'react';
-import {useSelector, useDispatch, useStore} from 'react-redux';
+import React, {useCallback, useRef, useContext} from 'react';
+import {atom, useRecoilValue, useSetRecoilState} from 'recoil';
+
+// Constants
+
+const defaultTimeDisplay = 4000;
+const defaultTimeAnimate = 250;
+
+const SnackbarDefaultOpts = Object.freeze({
+  timer: null,
+});
+
+const SnackbarCtx = React.createContext(Object.assign({}, SnackbarDefaultOpts));
+
+const defaultState = Object.freeze({
+  show: false,
+  view: null,
+});
+
+const SnackbarState = atom({
+  key: 'nuke:snackbar_state',
+  default: defaultState,
+});
+
+// Hooks
+
+const useSnackbarValue = () => {
+  return useRecoilValue(SnackbarState);
+};
+
+const useSnackbar = () => {
+  const ctx = useContext(SnackbarCtx);
+  const setSnackbar = useSetRecoilState(SnackbarState);
+
+  const snack = useCallback(
+    async (fragment, delay = defaultTimeDisplay) => {
+      if (delay < defaultTimeAnimate) {
+        delay = defaultTimeAnimate;
+      }
+
+      if (ctx.timer) {
+        window.clearTimeout(ctx.timer);
+        ctx.timer = null;
+      }
+
+      const display = () => {
+        ctx.timer = window.setTimeout(() => {
+          ctx.timer = null;
+          setSnackbar(({view}) => ({show: false, view}));
+        }, delay);
+        return {
+          show: true,
+          view: fragment,
+        };
+      };
+
+      setSnackbar(({show, view}) => {
+        if (show) {
+          ctx.timer = window.setTimeout(() => {
+            ctx.timer = null;
+            setSnackbar(display());
+          }, defaultTimeAnimate);
+          return {
+            show: false,
+            view,
+          };
+        }
+        return display();
+      });
+    },
+    [ctx, setSnackbar],
+  );
+
+  return snack;
+};
+
+const useSnackbarView = (view, delay) => {
+  const snack = useSnackbar();
+  const viewRef = useRef(view);
+  viewRef.current = view;
+
+  const display = useCallback(() => {
+    snack(viewRef.current, delay);
+  }, [snack, viewRef, delay]);
+
+  return display;
+};
+
+// Slot
 
 const SnackbarComponent = ({show, children}) => {
   const k = ['snackbar-container'];
@@ -13,109 +100,8 @@ const SnackbarComponent = ({show, children}) => {
   );
 };
 
-// Constants
-
-const TIME_DISPLAY = 4000;
-const TIME_ANIMATE = 250;
-
-// Actions
-
-const SNACKBAR_SHOW = Symbol('SNACKBAR_SHOW');
-const SnackbarShow = (fragment, timer) => ({
-  type: SNACKBAR_SHOW,
-  fragment,
-  timer,
-});
-
-const SNACKBAR_HIDE = Symbol('SNACKBAR_HIDE');
-const SnackbarHide = (timer) => ({
-  type: SNACKBAR_HIDE,
-  timer,
-});
-
-// Reducer
-
-const defaultState = Object.freeze({
-  show: false,
-  fragment: null,
-  timer: null,
-});
-
-const initState = () => {
-  return Object.assign({}, defaultState);
-};
-
-const Snackbar = (state = initState(), action) => {
-  switch (action.type) {
-    case SNACKBAR_SHOW:
-      return Object.assign({}, state, {
-        show: true,
-        fragment: action.fragment,
-        timer: action.timer,
-      });
-    case SNACKBAR_HIDE:
-      return Object.assign({}, state, {
-        show: false,
-        timer: action.timer,
-      });
-    default:
-      return state;
-  }
-};
-
-// Hooks
-
-const selectReducerSnackbar = (store) => store.Snackbar;
-
-const useSnackbarState = () => useSelector(selectReducerSnackbar);
-
-const useSnackbar = () => {
-  const dispatch = useDispatch();
-  const store = useStore();
-
-  const snackbar = useCallback(
-    async (fragment, delay = TIME_DISPLAY) => {
-      const {show, timer} = selectReducerSnackbar(store.getState());
-      if (timer) {
-        window.clearTimeout(timer);
-      }
-
-      const display = () => {
-        const nextTimer = window.setTimeout(() => {
-          dispatch(SnackbarHide(null));
-        }, delay);
-        dispatch(SnackbarShow(fragment, nextTimer));
-      };
-
-      if (show) {
-        const nextTimer = window.setTimeout(display, TIME_ANIMATE);
-        dispatch(SnackbarHide(nextTimer));
-      } else {
-        display();
-      }
-    },
-    [dispatch, store],
-  );
-
-  return snackbar;
-};
-
-const useSnackbarView = (view, delay) => {
-  const snackbar = useSnackbar();
-  const viewRef = useRef(view);
-  viewRef.current = view;
-
-  const display = useCallback(() => {
-    snackbar(viewRef.current, delay);
-  }, [snackbar, viewRef, delay]);
-
-  return display;
-};
-
-// Slot
-
 const SnackbarContainer = () => {
-  const {show, fragment} = useSnackbarState();
+  const {show, fragment} = useSnackbarValue();
   return <SnackbarComponent show={show}>{fragment}</SnackbarComponent>;
 };
 
@@ -130,8 +116,10 @@ const SnackbarSurface = ({className, children}) => {
 };
 
 export {
-  Snackbar as default,
-  Snackbar,
+  SnackbarContainer as default,
+  SnackbarCtx,
+  SnackbarState,
+  useSnackbarValue,
   useSnackbar,
   useSnackbarView,
   SnackbarContainer,

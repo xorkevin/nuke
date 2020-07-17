@@ -45,7 +45,9 @@ import {
   SidebarDivider,
 } from './src/component/sidebar';
 import {
-  Snackbar,
+  SnackbarCtx,
+  SnackbarState,
+  useSnackbarValue,
   useSnackbar,
   useSnackbarView,
   SnackbarContainer,
@@ -103,7 +105,9 @@ export {
   SidebarItem,
   SidebarHeader,
   SidebarDivider,
-  Snackbar,
+  SnackbarCtx,
+  SnackbarState,
+  useSnackbarValue,
   useSnackbar,
   useSnackbarView,
   SnackbarContainer,

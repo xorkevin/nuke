@@ -1,9 +1,7 @@
 import React from 'react';
-import {Provider} from 'react-redux';
-import {createStore, combineReducers, applyMiddleware} from 'redux';
-import thunk from 'redux-thunk';
+import {RecoilRoot} from 'recoil';
 import {
-  Snackbar,
+  SnackbarCtx,
   SnackbarContainer,
   useSnackbarView,
   SnackbarSurface,
@@ -11,13 +9,6 @@ import {
 import Button from 'src/component/button';
 
 export default {title: 'Snackbar'};
-
-const store = createStore(
-  combineReducers({
-    Snackbar,
-  }),
-  applyMiddleware(thunk),
-);
 
 const PlainInner = () => {
   const snackbar = useSnackbarView(
@@ -36,8 +27,12 @@ const PlainInner = () => {
   );
 };
 
+const snacktimer = {timer: null};
+
 export const plain = () => (
-  <Provider store={store}>
-    <PlainInner />
-  </Provider>
+  <RecoilRoot>
+    <SnackbarCtx.Provider value={snacktimer}>
+      <PlainInner />
+    </SnackbarCtx.Provider>
+  </RecoilRoot>
 );
