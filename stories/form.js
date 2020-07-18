@@ -1,4 +1,4 @@
-import React, {Fragment, useMemo} from 'react';
+import React from 'react';
 import {
   Field,
   FieldTextarea,
@@ -31,7 +31,6 @@ export const hint = () => (
 );
 
 const phoneRegex = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
-const imageSetType = new Set(['image/png', 'image/jpeg']);
 const formErrCheck = ({
   email,
   phone,
@@ -107,7 +106,7 @@ const formValidCheck = ({
   return valid;
 };
 
-const fileStringReplacer = (k, v) => {
+const fileStringReplacer = (_k, v) => {
   if (v instanceof File) {
     return `FILE:${v.name}`;
   }
@@ -164,7 +163,7 @@ const unixToolSuggestions = [
   'tar',
 ];
 
-export const validation = () => {
+export const Validation = () => {
   const form = useForm({
     email: '',
     phone: '',

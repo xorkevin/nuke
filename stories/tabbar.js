@@ -11,7 +11,7 @@ import FaIcon from 'src/component/faicon';
 
 export default {title: 'Tabbar'};
 
-export const plain = () => {
+export const Plain = () => {
   const menu = useMenu();
   return (
     <Tabbar

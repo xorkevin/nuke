@@ -1,4 +1,4 @@
-import React, {Fragment, useCallback, useMemo} from 'react';
+import React, {Fragment, useCallback} from 'react';
 import {
   useSnackbarView,
   SnackbarSurface,
@@ -32,7 +32,7 @@ import {
 
 import {tableData} from 'config';
 
-const fileStringReplacer = (k, v) => {
+const fileStringReplacer = (_k, v) => {
   if (v instanceof File) {
     return `FILE:${v.name}`;
   }
@@ -91,7 +91,6 @@ const unixToolSuggestions = [
 
 const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]+$/;
 const phoneRegex = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
-const imageSetType = new Set(['image/png', 'image/jpeg']);
 const formErrCheck = ({
   email,
   phone,
@@ -170,8 +169,6 @@ const formValidCheck = ({
   }
   return valid;
 };
-
-const getEditorVal = (i) => i.value;
 
 const FormContainer = () => {
   const form = useForm({

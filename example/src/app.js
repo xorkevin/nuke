@@ -1,5 +1,5 @@
 import React, {Fragment, lazy, Suspense} from 'react';
-import {Switch, Route, Redirect, NavLink, useLocation} from 'react-router-dom';
+import {Switch, Route, Redirect} from 'react-router-dom';
 
 import {
   useDarkModeValue,
@@ -18,7 +18,6 @@ import {
   Footer,
   Grid,
   Column,
-  Anchor,
   FaIcon,
 } from '@xorkevin/nuke';
 import AnchorSecondary from '@xorkevin/nuke/src/component/anchor/secondary';
@@ -33,10 +32,7 @@ const FallbackView = (
   </Container>
 );
 
-const styletoppaths = new Set(['/']);
-
 const App = () => {
-  const {pathname} = useLocation();
   const dark = useDarkModeValue();
   const toggleDark = useSetDarkMode();
   const menu = useMenu();

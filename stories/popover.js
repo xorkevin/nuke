@@ -1,10 +1,10 @@
-import React, {Fragment, useState, useCallback, useRef} from 'react';
+import React, {Fragment, useState, useCallback} from 'react';
 import {Popover, useStateRef} from 'src/component/popover';
 import Button from 'src/component/button';
 
 export default {title: 'Popover'};
 
-export const plain = () => {
+export const Plain = () => {
   const [anchor, anchorRef] = useStateRef(null);
   const [show, setShow] = useState(false);
   const handleClick = useCallback(() => {
@@ -27,7 +27,7 @@ export const plain = () => {
   );
 };
 
-export const top = () => {
+export const Top = () => {
   const [anchor, anchorRef] = useStateRef(null);
   const [show, setShow] = useState(false);
   const handleClick = useCallback(() => {
@@ -50,7 +50,7 @@ export const top = () => {
   );
 };
 
-export const left = () => {
+export const Left = () => {
   const [anchor, anchorRef] = useStateRef(null);
   const [show, setShow] = useState(false);
   const handleClick = useCallback(() => {
@@ -73,7 +73,7 @@ export const left = () => {
   );
 };
 
-export const right = () => {
+export const Right = () => {
   const [anchor, anchorRef] = useStateRef(null);
   const [show, setShow] = useState(false);
   const handleClick = useCallback(() => {

@@ -12,7 +12,7 @@ import FaIcon from 'src/component/faicon';
 
 export default {title: 'Navbar'};
 
-export const plain = () => {
+export const Plain = () => {
   const menu = useMenu();
   return (
     <Fragment>
@@ -104,7 +104,7 @@ export const plain = () => {
   );
 };
 
-export const fixed = () => {
+export const Fixed = () => {
   const menu = useMenu();
   return (
     <Fragment>

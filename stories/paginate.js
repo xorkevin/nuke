@@ -4,7 +4,7 @@ import Button from 'src/component/button';
 
 export default {title: 'Paginate'};
 
-export const plain = () => {
+export const Plain = () => {
   const {
     index,
     page,
@@ -37,7 +37,7 @@ export const plain = () => {
   );
 };
 
-export const endToggle = () => {
+export const EndToggle = () => {
   const {
     index,
     page,
@@ -78,7 +78,7 @@ export const endToggle = () => {
   );
 };
 
-export const fixedEnd = () => {
+export const FixedEnd = () => {
   const {
     index,
     page,
