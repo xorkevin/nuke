@@ -23,7 +23,11 @@ const createConfig = (env, argv) => {
       rules: [
         {
           test: /\.js$/,
-          exclude: /node_modules/,
+          include: [
+            path.resolve(__dirname, '../src'),
+            path.resolve(__dirname, '../index.js'),
+            path.resolve(__dirname, 'src'),
+          ],
           use: ['babel-loader', 'eslint-loader'],
         },
         {
@@ -35,11 +39,11 @@ const createConfig = (env, argv) => {
           ],
         },
         {
-          test: /\.(eot|svg|ttf|woff(2)?)(\?v=\d+\.\d+\.\d+)?/,
+          test: /\.(ttf|otf|woff|woff2|svg|eot)/,
           use: {
             loader: 'file-loader',
             options: {
-              name: '[name].[hash].[ext]',
+              name: '[name].[contenthash].[ext]',
               outputPath: 'static/fonts/',
             },
           },
@@ -48,6 +52,7 @@ const createConfig = (env, argv) => {
     },
 
     optimization: {
+      moduleIds: 'hashed',
       runtimeChunk: 'single',
       splitChunks: {
         chunks: 'all',
@@ -69,11 +74,6 @@ const createConfig = (env, argv) => {
     },
 
     plugins: [
-      new webpack.HashedModuleIdsPlugin({
-        hashFunction: 'blake2b512',
-        hashDigest: 'base64',
-        hashDigestLength: 8,
-      }),
       new HtmlPlugin({
         title: 'Nuke',
         filename: 'index.html',
@@ -82,7 +82,6 @@ const createConfig = (env, argv) => {
       }),
       new ExtractTextPlugin({
         filename: 'static/[name].[contenthash].css',
-        chunkFilename: 'static/chunk.[name].[contenthash].css',
       }),
       new CopyPlugin({
         patterns: [{from: 'public'}],
@@ -92,8 +91,7 @@ const createConfig = (env, argv) => {
     output: {
       path: path.resolve(__dirname, 'bin'),
       publicPath: '/',
-      filename: 'static/[name].[hash].js',
-      chunkFilename: 'static/chunk.[name].[chunkhash].js',
+      filename: 'static/[name].[contenthash].js',
     },
 
     watchOptions: {
@@ -109,6 +107,7 @@ const createConfig = (env, argv) => {
       port: 3000,
       disableHostCheck: true,
       historyApiFallback: true,
+      hot: false,
     },
   };
 

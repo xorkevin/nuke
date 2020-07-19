@@ -6,7 +6,7 @@ import React, {
   useContext,
   useRef,
 } from 'react';
-import {randomID} from '../../../utility';
+import {randomID} from '../../utility';
 import {Popover, useStateRef} from '../popover';
 import {Grid, Column} from '../grid';
 import {ListGroup, ListItem} from '../listgroup';
