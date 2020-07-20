@@ -26,11 +26,11 @@ module.exports = {
       ],
     });
     config.module.rules.push({
-      test: /\.(eot|svg|ttf|woff(2)?)(\?v=\d+\.\d+\.\d+)?/,
+      test: /\.(ttf|otf|woff|woff2|svg|eot)/,
       use: {
         loader: 'file-loader',
         options: {
-          name: '[name].[hash].[ext]',
+          name: '[name].[contenthash].[ext]',
           outputPath: 'static/fonts/',
           // required because otherwise path becomes static/static/fonts
           publicPath: 'fonts/',
@@ -40,7 +40,6 @@ module.exports = {
     config.plugins.push(
       new ExtractTextPlugin({
         filename: 'static/[name].[contenthash].css',
-        chunkFilename: 'static/chunk.[name].[contenthash].css',
       }),
     );
 
