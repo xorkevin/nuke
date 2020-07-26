@@ -36,10 +36,14 @@ const MenuItem = ({
   }
 
   const row = (
-    <Grid className="menu-item-row" strict align="center">
-      <Column className="menu-item-icon">{icon}</Column>
+    <Grid className="menu-item-row" nowrap strict align="center">
+      <Column className="menu-item-icon" shrink="0">
+        {icon}
+      </Column>
       <Column className="menu-item-text">{children}</Column>
-      <Column className="menu-item-right">{label}</Column>
+      <Column className="menu-item-right" shrink="0">
+        {label}
+      </Column>
     </Grid>
   );
   if (link) {

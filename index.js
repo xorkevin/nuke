@@ -1,6 +1,6 @@
 import Anchor from './src/component/anchor';
 import Article from './src/component/article';
-import Button from './src/component/button';
+import {Button, ButtonGroup} from './src/component/button';
 import Card from './src/component/card';
 import Chip from './src/component/chip';
 import CommentSection from './src/component/comment';
@@ -70,6 +70,7 @@ export {
   Anchor,
   Article,
   Button,
+  ButtonGroup,
   Card,
   Chip,
   CommentSection,

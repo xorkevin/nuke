@@ -36,6 +36,10 @@
       }
 
       & > .menu-item-row {
+        & > .menu-item-icon,
+        & > .menu-item-text {
+          margin-right: 8px;
+        }
         & > .menu-item-right {
           margin-left: auto;
         }

@@ -23,6 +23,7 @@ import {
   MenuDivider,
   Card,
   Button,
+  ButtonGroup,
   Table,
   Tabbar,
   TabItem,
@@ -355,13 +356,13 @@ const FormContainer = () => {
             </Container>
           }
           bar={
-            <Fragment>
+            <ButtonGroup>
               <Button fixedWidth>Cancel</Button>
               <Button fixedWidth>Save</Button>
               <Button fixedWidth onClick={displaySnackbar}>
                 Submit
               </Button>
-            </Fragment>
+            </ButtonGroup>
           }
         >
           <Container padded>
@@ -387,9 +388,11 @@ const FormContainer = () => {
 
         <Section id="buttons">
           <h3>Buttons</h3>
-          <Button fixedWidth>Primary</Button>
-          <Button fixedWidth>Secondary</Button>
-          <Button fixedWidth>Tertiary</Button>
+          <ButtonGroup>
+            <Button fixedWidth>Primary</Button>
+            <Button fixedWidth>Secondary</Button>
+            <Button fixedWidth>Tertiary</Button>
+          </ButtonGroup>
         </Section>
 
         <Section id="table">

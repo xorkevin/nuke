@@ -33,4 +33,12 @@ const Button = ({
   );
 };
 
-export default Button;
+const ButtonGroup = ({className, children}) => {
+  const j = ['button-group'];
+  if (className) {
+    j.push(className);
+  }
+  return <div className={j.join(' ')}>{children}</div>;
+};
+
+export {Button as default, Button, ButtonGroup};
