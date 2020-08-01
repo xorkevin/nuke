@@ -15,6 +15,10 @@
       }
 
       & > .sidebar-item-row {
+        & > .menu-item-icon,
+        & > .menu-item-text {
+          margin-right: 8px;
+        }
         & > .sidebar-item-right {
           margin-left: auto;
         }
