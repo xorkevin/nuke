@@ -58,10 +58,14 @@ const SidebarItem = ({
   }
 
   const row = (
-    <Grid className="sidebar-item-row" strict align="center">
-      <Column className="sidebar-item-icon">{icon}</Column>
+    <Grid className="sidebar-item-row" nowrap strict align="center">
+      <Column className="sidebar-item-icon" shrink="0">
+        {icon}
+      </Column>
       <Column className="sidebar-item-text">{children}</Column>
-      <Column className="sidebar-item-right">{label}</Column>
+      <Column className="sidebar-item-right" shrihk="0">
+        {label}
+      </Column>
     </Grid>
   );
   if (link) {
