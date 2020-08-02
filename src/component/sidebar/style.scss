@@ -7,11 +7,18 @@
     & > .sidebar-item {
       display: block;
       padding: 4px 8px;
+      border-left: 2px solid transparent;
       border-radius: 4px;
       cursor: pointer;
 
       &:hover {
         background-color: $color-back-primary-3;
+      }
+
+      &.active {
+        border-color: $color-primary-1;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
       }
 
       & > .sidebar-item-row {
