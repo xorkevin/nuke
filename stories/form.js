@@ -192,6 +192,12 @@ export const Validation = () => {
       validCheck={formValidCheck}
     >
       <Field name="email" label="Email" placeholder="name@example.com" />
+      <Field
+        name="email"
+        label="Email"
+        placeholder="name@example.com"
+        disabled
+      />
       <Field name="phone" label="Phone" placeholder="xxx-xxx-xxxx" />
       <Field
         name="password"
@@ -208,6 +214,14 @@ export const Validation = () => {
         label="Bio"
         hint="Tell us about yourself"
         hintRight={`${form.state.bio.length}/128`}
+        wide
+      />
+      <FieldTextarea
+        name="bio"
+        label="Bio"
+        hint="Tell us about yourself"
+        hintRight={`${form.state.bio.length}/128`}
+        disabled
         wide
       />
       <FieldCheckbox
@@ -228,8 +242,17 @@ export const Validation = () => {
         label="Check me"
         hint="This is a checkbox"
       />
+      <FieldCheckbox
+        name="checkbox"
+        option="checked2"
+        label="Check me"
+        hint="This is a checkbox"
+        disabled
+      />
       <FieldToggle name="toggle" label="Toggle me" nohint />
+      <FieldToggle name="toggle" label="Toggle me" nohint disabled />
       <FieldSwitch name="toggle2" label="Toggle me" nohint />
+      <FieldSwitch name="toggle2" label="Toggle me" nohint disabled />
       <FieldSwitch name="toggle3" label="Toggle me" success nohint />
       <FieldSwitch name="toggle4" label="Toggle me" danger nohint />
       <FieldRadio
@@ -250,14 +273,32 @@ export const Validation = () => {
         label="Radio three"
         hint="Radio button"
       />
+      <FieldRadio
+        name="radio"
+        option="four"
+        label="Radio three"
+        hint="Radio button"
+        disabled
+      />
       <FieldFile
         name="file"
         label="File"
         hint="Choose an image"
         accept="image/png, image/jpeg"
-        fullWidth
       >
         <Button>
+          <FaIcon icon="cloud-upload" /> Upload
+        </Button>
+      </FieldFile>
+      <FieldFile
+        name="file"
+        label="File"
+        hint="Choose an image"
+        accept="image/png, image/jpeg"
+        disabled
+        fullWidth
+      >
+        <Button disabled>
           <FaIcon icon="cloud-upload" /> Upload
         </Button>
       </FieldFile>
@@ -301,10 +342,30 @@ export const Validation = () => {
         hint="Your favorite language"
         options={languageOpts}
       />
+      <FieldSelect
+        name="lang"
+        label="Language"
+        hint="Your favorite language"
+        options={languageOpts}
+        disabled
+      />
       <FieldSuggest
         name="unixtool"
         label="Unix tool"
         hint="Your favorite unix tool"
+        options={unixToolSuggestions}
+      />
+      <FieldSuggest
+        name="unixtool"
+        label="Unix tool"
+        hint="Your favorite unix tool"
+        options={unixToolSuggestions}
+        disabled
+      />
+      <FieldMultiSelect
+        name="unixtoollist"
+        label="Unix tools"
+        hint="Your favorite unix tools"
         options={unixToolSuggestions}
       />
       <FieldMultiSelect
@@ -312,6 +373,7 @@ export const Validation = () => {
         label="Unix tools"
         hint="Your favorite unix tools"
         options={unixToolSuggestions}
+        disabled
       />
       <h3>Form state</h3>
       <pre>{JSON.stringify(form.state, fileStringReplacer, '  ')}</pre>

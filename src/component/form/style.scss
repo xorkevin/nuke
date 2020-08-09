@@ -6,6 +6,10 @@ option {
   font-size: unset;
   font-family: unset;
   line-height: $typography-line-height;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 }
 
 .formfield {
@@ -23,6 +27,11 @@ option {
 }
 
 .formfield {
+  &.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
   & > .hint {
     font-size: 0.85rem;
     padding: 4px 8px 0;
@@ -70,6 +79,10 @@ option {
     border: 1px solid $color-back-dark-3;
     box-shadow: inset 0 1px 2px 0 $color-back-dark-3, 0 0 0 2px transparent;
     transition: $transition-normal;
+
+    &:disabled {
+      cursor: not-allowed;
+    }
   }
 
   &.error > input.normal {
@@ -158,6 +171,10 @@ option {
     box-shadow: inset 0 1px 2px 0 $color-back-dark-3, 0 0 0 2px transparent;
     transition: border-color $transition-normal, box-shadow $transition-normal;
     resize: vertical;
+
+    &:disabled {
+      cursor: not-allowed;
+    }
   }
 
   &.error > textarea {
@@ -451,6 +468,10 @@ option {
 
   & > .filelist {
     margin: 8px 0;
+
+    .file-field-item-name {
+      min-width: 0;
+    }
   }
 }
 

@@ -52,6 +52,7 @@ const renderNormal = ({
   onFocus,
   onBlur,
   placeholder,
+  disabled,
   forwardedRef,
 }) => {
   return (
@@ -66,6 +67,7 @@ const renderNormal = ({
       onKeyDown={onKeyDown}
       onFocus={onFocus}
       onBlur={onBlur}
+      disabled={disabled}
       placeholder={placeholder}
     />
   );
@@ -92,6 +94,7 @@ const Field = ({
   hint,
   hintRight,
   nohint,
+  disabled,
   wide,
   fullWidth,
   noctx,
@@ -176,6 +179,10 @@ const Field = ({
     hintClass.push('error');
   }
 
+  if (disabled) {
+    k.push('disabled');
+  }
+
   let inp = null;
   if (render) {
     inp = React.createElement(
@@ -191,6 +198,7 @@ const Field = ({
         options,
         label,
         placeholder,
+        disabled,
       },
       children,
     );
@@ -207,6 +215,7 @@ const Field = ({
           onChange: handleChange,
           onKeyDown: handleSubmit,
           placeholder,
+          disabled,
         })}
       </Fragment>
     );
@@ -231,6 +240,7 @@ const RenderTextarea = ({
   onChange,
   label,
   placeholder,
+  disabled,
 }) => {
   const handleChange = useCallback(
     (e) => {
@@ -248,6 +258,7 @@ const RenderTextarea = ({
         value={value}
         onChange={handleChange}
         placeholder={placeholder}
+        disabled={disabled}
       />
     </Fragment>
   );
@@ -273,6 +284,7 @@ const RenderCheckbox = ({
   onSubmit,
   option,
   label,
+  disabled,
 }) => {
   const checked = Array.isArray(value) && new Set(value).has(option);
   const handleChange = useCallback(
@@ -305,6 +317,7 @@ const RenderCheckbox = ({
         checked={checked}
         onChange={handleChange}
         onKeyDown={handleSubmit}
+        disabled={disabled}
       />
       {label && <label htmlFor={fieldid}>{label}</label>}
     </Fragment>
@@ -331,6 +344,7 @@ const RenderToggle = ({
   onSubmit,
   option,
   label,
+  disabled,
 }) => {
   const handleChange = useCallback(
     (e) => {
@@ -356,6 +370,7 @@ const RenderToggle = ({
         checked={value}
         onChange={handleChange}
         onKeyDown={handleSubmit}
+        disabled={disabled}
       />
       {label && <label htmlFor={fieldid}>{label}</label>}
     </Fragment>
@@ -399,6 +414,7 @@ const RenderRadio = ({
   onSubmit,
   option,
   label,
+  disabled,
 }) => {
   const checked = value === option;
   const handleChange = useCallback(
@@ -427,6 +443,7 @@ const RenderRadio = ({
         checked={checked}
         onChange={handleChange}
         onKeyDown={handleSubmit}
+        disabled={disabled}
       />
       {label && <label htmlFor={fieldid}>{label}</label>}
     </Fragment>
@@ -451,9 +468,11 @@ const FileFieldItem = ({index, file, handleDelete}) => {
   }, [index, handleDelete]);
   return (
     <ListItem>
-      <Grid justify="space-between" align="center">
-        <Column>{file.name}</Column>
-        <Column>
+      <Grid justify="space-between" align="center" nowrap>
+        <Column className="file-field-item-name" shrink="1">
+          {file.name}
+        </Column>
+        <Column shrink="0">
           <ButtonSmall label="remove file" onClick={onClick}>
             &times;
           </ButtonSmall>
@@ -468,6 +487,7 @@ const renderFile = ({accept, capture, multiple}) => ({
   name,
   onChange,
   label,
+  disabled,
   children,
 }) => {
   const fileinput = useRef(null);
@@ -534,6 +554,7 @@ const renderFile = ({accept, capture, multiple}) => ({
         accept={accept}
         capture={capture}
         multiple={multiple}
+        disabled={disabled}
       />
       {files.length > 0 && (
         <ListGroup className="filelist">
@@ -569,7 +590,15 @@ const FieldFile = (props) => {
   return <Field {...k} />;
 };
 
-const RenderSelect = ({fieldid, name, value, onChange, options, label}) => {
+const RenderSelect = ({
+  fieldid,
+  name,
+  value,
+  onChange,
+  options,
+  label,
+  disabled,
+}) => {
   const handleChange = useCallback(
     (e) => {
       onChange(name, e.target.value);
@@ -579,7 +608,12 @@ const RenderSelect = ({fieldid, name, value, onChange, options, label}) => {
   return (
     <Fragment>
       {label && <label htmlFor={fieldid}>{label}</label>}
-      <select id={fieldid} value={value} onChange={handleChange}>
+      <select
+        id={fieldid}
+        value={value}
+        onChange={handleChange}
+        disabled={disabled}
+      >
         {options.map((i) => (
           <option key={i.display} value={i.value}>
             {i.display}
@@ -658,6 +692,7 @@ const RenderSuggest = ({
   options,
   label,
   placeholder,
+  disabled,
 }) => {
   const [anchor, anchorRef] = useStateRef(null);
   const [show, setShow] = useState(false);
@@ -715,6 +750,7 @@ const RenderSuggest = ({
         onFocus: setVisible,
         onBlur: setHidden,
         placeholder,
+        disabled,
         forwardedRef: anchorRef,
       })}
       {show && filteredOpts.length > 0 && (
@@ -796,6 +832,7 @@ const RenderMultiSelect = ({
   options,
   label,
   placeholder,
+  disabled,
 }) => {
   const [anchor, anchorRef] = useStateRef(null);
   const [search, setSearch] = useState('');
@@ -869,6 +906,7 @@ const RenderMultiSelect = ({
         onFocus: setVisible,
         onBlur: setHidden,
         placeholder,
+        disabled,
         forwardedRef: anchorRef,
       })}
       {show && filteredOpts.length > 0 && (
