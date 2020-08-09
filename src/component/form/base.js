@@ -469,9 +469,7 @@ const FileFieldItem = ({index, file, handleDelete}) => {
   return (
     <ListItem>
       <Grid justify="space-between" align="center" nowrap>
-        <Column className="file-field-item-name" shrink="1">
-          {file.name}
-        </Column>
+        <Column className="file-field-item-name">{file.name}</Column>
         <Column shrink="0">
           <ButtonSmall label="remove file" onClick={onClick}>
             &times;
