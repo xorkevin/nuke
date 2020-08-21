@@ -45,6 +45,8 @@ const Form = ({
 const renderNormal = ({
   fieldid,
   type,
+  autoFocus,
+  autoComplete,
   name,
   value,
   onChange,
@@ -71,6 +73,8 @@ const renderNormal = ({
           className="normal"
           id={fieldid}
           type={type}
+          autoFocus={autoFocus}
+          autoComplete={autoComplete}
           name={name}
           value={value}
           onChange={onChange}
@@ -99,6 +103,8 @@ const Field = ({
   className,
   render,
   type,
+  autoFocus,
+  autoComplete,
   name,
   value,
   onChange,
@@ -211,6 +217,8 @@ const Field = ({
       {
         fieldid,
         type,
+        autoFocus,
+        autoComplete,
         name,
         value,
         onChange: changeFunc,
@@ -234,6 +242,8 @@ const Field = ({
         {renderNormal({
           fieldid,
           type,
+          autoFocus,
+          autoComplete,
           name,
           value,
           onChange: handleChange,
@@ -262,6 +272,8 @@ const Field = ({
 
 const RenderTextarea = ({
   fieldid,
+  autoFocus,
+  autoComplete,
   name,
   value,
   onChange,
@@ -291,6 +303,8 @@ const RenderTextarea = ({
         <Column className="field" fullWidth>
           <textarea
             id={fieldid}
+            autoFocus={autoFocus}
+            autoComplete={autoComplete}
             name={name}
             value={value}
             onChange={handleChange}
@@ -745,6 +759,8 @@ const SuggestFieldOption = ({fieldRef, close, setValue, value}) => {
 const RenderSuggest = ({
   fieldid,
   type,
+  autoFocus,
+  autoComplete,
   name,
   value,
   onChange,
@@ -805,6 +821,8 @@ const RenderSuggest = ({
       {renderNormal({
         fieldid,
         type,
+        autoFocus,
+        autoComplete,
         name,
         value,
         onChange: handleChange,
@@ -891,6 +909,8 @@ const MultiSelectFieldValue = ({rmValue, value}) => {
 const RenderMultiSelect = ({
   fieldid,
   type,
+  autoFocus,
+  autoComplete,
   name,
   value,
   onChange,
@@ -967,6 +987,8 @@ const RenderMultiSelect = ({
       {renderNormal({
         fieldid,
         type,
+        autoFocus,
+        autoComplete,
         value: search,
         onChange: handleSearch,
         onKeyDown,
