@@ -62,7 +62,7 @@ option {
 
 /* normal */
 .formfield {
-  & > input.normal {
+  & > .field-row > .field > input.normal {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -85,18 +85,26 @@ option {
     }
   }
 
-  &.error > input.normal {
+  & > .field-row > .icon.left {
+    padding-right: 4px;
+  }
+
+  & > .field-row > .icon.right {
+    padding-left: 4px;
+  }
+
+  &.error > .field-row > .field > input.normal {
     border-color: $color-danger-light;
   }
 
-  &.valid > input.normal {
+  &.valid > .field-row > .field > input.normal {
     border-color: $color-success-light;
   }
 
   &:focus-within,
   &.error:focus-within,
   &.valid:focus-within {
-    & > input.normal {
+    & > .field-row > .field > input.normal {
       border-color: $color-back-primary;
       box-shadow: inset 0 1px 1px 0 $color-back-dark-3,
         0 0 0 2px $color-back-primary-2;
@@ -105,23 +113,23 @@ option {
 }
 
 .dark .formfield {
-  & > input.normal {
+  & > .field-row > .field > input.normal {
     border-color: $color-back-light-3;
     box-shadow: inset 0 1px 2px 0 $color-back-light-3, 0 0 0 2px transparent;
   }
 
-  &.error > input.normal {
+  &.error > .field-row > .field > input.normal {
     border-color: $color-danger-light;
   }
 
-  &.valid > input.normal {
+  &.valid > .field-row > .field > input.normal {
     border-color: $color-success-light;
   }
 
   &:focus-within,
   &.error:focus-within,
   &.valid:focus-within {
-    & > input.normal {
+    & > .field-row > .field > input.normal {
       border-color: $color-back-primary;
       box-shadow: inset 0 1px 1px 0 $color-back-light-3,
         0 0 0 2px $color-back-primary-2;
@@ -157,7 +165,7 @@ option {
     transition: $transition-normal;
   }
 
-  & > textarea {
+  & > .field-row > .field > textarea {
     background: transparent;
     outline: none;
     color: unset;
@@ -177,18 +185,26 @@ option {
     }
   }
 
-  &.error > textarea {
+  & > .field-row > .icon.left {
+    padding-right: 4px;
+  }
+
+  & > .field-row > .icon.right {
+    padding-left: 4px;
+  }
+
+  &.error > .field-row > .field > textarea {
     border-color: $color-danger-light;
   }
 
-  &.valid > textarea {
+  &.valid > .field-row > .field > textarea {
     border-color: $color-success-light;
   }
 
   &:focus-within,
   &.error:focus-within,
   &.valid:focus-within {
-    & > textarea {
+    & > .field-row > .field > textarea {
       border-color: $color-back-primary;
       box-shadow: inset 0 1px 1px 0 $color-back-dark-3,
         0 0 0 2px $color-back-primary-2;
@@ -201,23 +217,23 @@ option {
     color: $color-text-light-2;
   }
 
-  & > textarea {
+  & > .field-row > .field > textarea {
     border-color: $color-back-light-3;
     box-shadow: inset 0 1px 2px 0 $color-back-light-3, 0 0 0 2px transparent;
   }
 
-  &.error > textarea {
+  &.error > .field-row > .field > textarea {
     border-color: $color-danger-light;
   }
 
-  &.valid > textarea {
+  &.valid > .field-row > .field > textarea {
     border-color: $color-success-light;
   }
 
   &:focus-within,
   &.error:focus-within,
   &.valid:focus-within {
-    & > textarea {
+    & > .field-row > .field > textarea {
       border-color: $color-back-primary;
       box-shadow: inset 0 1px 1px 0 $color-back-light-3,
         0 0 0 2px $color-back-primary-2;
@@ -483,8 +499,6 @@ option {
 
 /* select */
 .formfield.select {
-  position: relative;
-
   & > label {
     display: block;
     width: 100%;
@@ -494,58 +508,70 @@ option {
     transition: $transition-normal;
   }
 
-  & > select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    outline: none;
-    background: transparent;
-    color: unset;
+  & > .field-row > .field {
+    position: relative;
 
-    display: block;
-    width: 100%;
-    height: 3em;
-    padding: 1px 8px;
-    border-radius: 4px;
-    border: 1px solid $color-back-dark-2;
-    box-shadow: 0 0 0 2px transparent;
-    transition: $transition-normal;
-
-    & ~ .arrow {
-      content: '';
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 0;
-      height: 0;
-      border-style: solid;
-      border-width: 6px 6px 0 6px;
-      border-color: transparent;
-      border-top-color: $color-back-dark-2;
-      pointer-events: none;
-    }
-
-    & > option {
-      -moz-appearance: none;
+    & > select {
       -webkit-appearance: none;
+      -moz-appearance: none;
       appearance: none;
-      color: $color-text-dark-1;
+      outline: none;
+      background: transparent;
+      color: unset;
+
+      display: block;
+      width: 100%;
+      height: 3em;
+      padding: 1px 8px;
+      border-radius: 4px;
+      border: 1px solid $color-back-dark-2;
+      box-shadow: 0 0 0 2px transparent;
+      transition: $transition-normal;
+
+      & ~ .arrow {
+        content: '';
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 6px 6px 0 6px;
+        border-color: transparent;
+        border-top-color: $color-back-dark-2;
+        pointer-events: none;
+      }
+
+      & > option {
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        appearance: none;
+        color: $color-text-dark-1;
+      }
     }
   }
 
-  &.error > select {
+  & > .field-row > .icon.left {
+    padding-right: 4px;
+  }
+
+  & > .field-row > .icon.right {
+    padding-left: 4px;
+  }
+
+  &.error > .field-row > .field > select {
     border-color: $color-danger-light;
   }
 
-  &.valid > select {
+  &.valid > .field-row > .field > select {
     border-color: $color-success-light;
   }
 
   &:focus-within,
   &.error:focus-within,
   &.valid:focus-within {
-    & > select {
+    & > .field-row > .field > select {
       border-color: $color-back-primary;
       box-shadow: 0 0 0 2px $color-back-primary-2;
     }
@@ -557,7 +583,7 @@ option {
     color: $color-text-light-2;
   }
 
-  & > select {
+  & > .field-row > .field > select {
     border-color: $color-back-light-2;
 
     & ~ .arrow {
@@ -565,18 +591,18 @@ option {
     }
   }
 
-  &.error > select {
+  &.error > .field-row > .field > select {
     border-color: $color-danger-light;
   }
 
-  &.valid > select {
+  &.valid > .field-row > .field > select {
     border-color: $color-success-light;
   }
 
   &:focus-within,
   &.error:focus-within,
   &.valid:focus-within {
-    & > select {
+    & > .field-row > .field > select {
       border-color: $color-back-primary;
       box-shadow: 0 0 0 2px $color-back-primary-2;
     }

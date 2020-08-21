@@ -52,26 +52,42 @@ const renderNormal = ({
   onFocus,
   onBlur,
   placeholder,
+  icon,
+  iconRight,
   disabled,
   readOnly,
   forwardedRef,
 }) => {
   return (
-    <input
-      ref={forwardedRef}
-      className="normal"
-      id={fieldid}
-      type={type}
-      name={name}
-      value={value}
-      onChange={onChange}
-      onKeyDown={onKeyDown}
-      onFocus={onFocus}
-      onBlur={onBlur}
-      disabled={disabled}
-      readOnly={readOnly}
-      placeholder={placeholder}
-    />
+    <Grid className="field-row" strict nowrap align="center">
+      {icon && (
+        <Column className="icon left" shrink="0">
+          {icon}
+        </Column>
+      )}
+      <Column className="field" fullWidth>
+        <input
+          ref={forwardedRef}
+          className="normal"
+          id={fieldid}
+          type={type}
+          name={name}
+          value={value}
+          onChange={onChange}
+          onKeyDown={onKeyDown}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          disabled={disabled}
+          readOnly={readOnly}
+          placeholder={placeholder}
+        />
+      </Column>
+      {iconRight && (
+        <Column className="icon right" shrink="0">
+          {iconRight}
+        </Column>
+      )}
+    </Grid>
   );
 };
 
@@ -93,6 +109,8 @@ const Field = ({
   options,
   label,
   placeholder,
+  icon,
+  iconRight,
   hint,
   hintRight,
   nohint,
@@ -201,6 +219,8 @@ const Field = ({
         options,
         label,
         placeholder,
+        icon,
+        iconRight,
         disabled,
         readOnly,
       },
@@ -219,6 +239,8 @@ const Field = ({
           onChange: handleChange,
           onKeyDown: handleSubmit,
           placeholder,
+          icon,
+          iconRight,
           disabled,
           readOnly,
         })}
@@ -245,6 +267,8 @@ const RenderTextarea = ({
   onChange,
   label,
   placeholder,
+  icon,
+  iconRight,
   disabled,
   readOnly,
 }) => {
@@ -258,15 +282,29 @@ const RenderTextarea = ({
   return (
     <Fragment>
       {label && <label htmlFor={fieldid}>{label}</label>}
-      <textarea
-        id={fieldid}
-        name={name}
-        value={value}
-        onChange={handleChange}
-        placeholder={placeholder}
-        disabled={disabled}
-        readOnly={readOnly}
-      />
+      <Grid className="field-row" strict nowrap align="center">
+        {icon && (
+          <Column className="icon left" shrink="0">
+            {icon}
+          </Column>
+        )}
+        <Column className="field" fullWidth>
+          <textarea
+            id={fieldid}
+            name={name}
+            value={value}
+            onChange={handleChange}
+            placeholder={placeholder}
+            disabled={disabled}
+            readOnly={readOnly}
+          />
+        </Column>
+        {iconRight && (
+          <Column className="icon right" shrink="0">
+            {iconRight}
+          </Column>
+        )}
+      </Grid>
     </Fragment>
   );
 };
@@ -602,6 +640,8 @@ const RenderSelect = ({
   onChange,
   options,
   label,
+  icon,
+  iconRight,
   disabled,
 }) => {
   const handleChange = useCallback(
@@ -613,19 +653,33 @@ const RenderSelect = ({
   return (
     <Fragment>
       {label && <label htmlFor={fieldid}>{label}</label>}
-      <select
-        id={fieldid}
-        value={value}
-        onChange={handleChange}
-        disabled={disabled}
-      >
-        {options.map((i) => (
-          <option key={i.display} value={i.value}>
-            {i.display}
-          </option>
-        ))}
-      </select>
-      <div className="arrow"></div>
+      <Grid className="field-row" strict nowrap align="center">
+        {icon && (
+          <Column className="icon left" shrink="0">
+            {icon}
+          </Column>
+        )}
+        <Column className="field" fullWidth>
+          <select
+            id={fieldid}
+            value={value}
+            onChange={handleChange}
+            disabled={disabled}
+          >
+            {options.map((i) => (
+              <option key={i.display} value={i.value}>
+                {i.display}
+              </option>
+            ))}
+          </select>
+          <div className="arrow"></div>
+        </Column>
+        {iconRight && (
+          <Column className="icon right" shrink="0">
+            {iconRight}
+          </Column>
+        )}
+      </Grid>
     </Fragment>
   );
 };
@@ -697,6 +751,8 @@ const RenderSuggest = ({
   options,
   label,
   placeholder,
+  icon,
+  iconRight,
   disabled,
   readOnly,
 }) => {
@@ -756,6 +812,8 @@ const RenderSuggest = ({
         onFocus: setVisible,
         onBlur: setHidden,
         placeholder,
+        icon,
+        iconRight,
         disabled,
         readOnly,
         forwardedRef: anchorRef,
@@ -839,6 +897,8 @@ const RenderMultiSelect = ({
   options,
   label,
   placeholder,
+  icon,
+  iconRight,
   disabled,
 }) => {
   const [anchor, anchorRef] = useStateRef(null);
@@ -913,6 +973,8 @@ const RenderMultiSelect = ({
         onFocus: setVisible,
         onBlur: setHidden,
         placeholder,
+        icon,
+        iconRight,
         disabled,
         forwardedRef: anchorRef,
       })}
