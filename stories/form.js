@@ -170,6 +170,7 @@ export const Validation = () => {
     password: '',
     confirm_password: '',
     code: 'code',
+    money: '1000',
     bio: '',
     checkbox: [],
     toggle: false,
@@ -181,7 +182,7 @@ export const Validation = () => {
     file2: undefined,
     file3: undefined,
     filemulti: [],
-    lang: '',
+    lang: 'rs',
     unixtool: '',
     unixtoollist: [],
   });
@@ -211,9 +212,17 @@ export const Validation = () => {
       />
       <Field name="confirm_password" type="password" label="Confirm password" />
       <Field name="code" label="Code" readOnly />
+      <Field
+        name="money"
+        label="Amount"
+        icon={<FaIcon icon="btc" />}
+        iconRight="BTC"
+      />
       <FieldTextarea
         name="bio"
         label="Bio"
+        icon={<FaIcon icon="user" />}
+        iconRight={<FaIcon icon="camera" />}
         hint="Tell us about yourself"
         hintRight={`${form.state.bio.length}/128`}
         wide
@@ -349,47 +358,53 @@ export const Validation = () => {
       <FieldSelect
         name="lang"
         label="Language"
-        hint="Your favorite language"
         options={languageOpts}
+        icon={<FaIcon icon="code" />}
+        iconRight={`.${form.state.lang}`}
+        hint="Your favorite language"
       />
       <FieldSelect
         name="lang"
         label="Language"
-        hint="Your favorite language"
         options={languageOpts}
+        hint="Your favorite language"
         disabled
       />
       <FieldSuggest
         name="unixtool"
         label="Unix tool"
-        hint="Your favorite unix tool"
         options={unixToolSuggestions}
+        icon={<FaIcon icon="terminal" />}
+        iconRight={<FaIcon icon="cog" />}
+        hint="Your favorite unix tool"
       />
       <FieldSuggest
         name="unixtool"
         label="Unix tool"
-        hint="Your favorite unix tool"
         options={unixToolSuggestions}
+        hint="Your favorite unix tool"
         disabled
       />
       <FieldSuggest
         name="unixtool"
         label="Unix tool"
-        hint="Your favorite unix tool"
         options={unixToolSuggestions}
+        hint="Your favorite unix tool"
         readOnly
       />
       <FieldMultiSelect
         name="unixtoollist"
         label="Unix tools"
-        hint="Your favorite unix tools"
         options={unixToolSuggestions}
+        icon={<FaIcon icon="terminal" />}
+        iconRight={<FaIcon icon="cog" />}
+        hint="Your favorite unix tools"
       />
       <FieldMultiSelect
         name="unixtoollist"
         label="Unix tools"
-        hint="Your favorite unix tools"
         options={unixToolSuggestions}
+        hint="Your favorite unix tools"
         disabled
       />
       <h3>Form state</h3>

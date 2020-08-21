@@ -398,8 +398,8 @@ const FormContainer = () => {
           <FieldSelect
             name="lang"
             label="Language"
-            hint="Your favorite language"
             options={languageOpts}
+            hint="Your favorite language"
             disabled
           />
           <FieldSuggest
@@ -413,15 +413,15 @@ const FormContainer = () => {
           <FieldSuggest
             name="unixtool"
             label="Unix tool"
-            hint="Your favorite unix tool"
             options={unixToolSuggestions}
+            hint="Your favorite unix tool"
             disabled
           />
           <FieldSuggest
             name="unixtool"
             label="Unix tool"
-            hint="Your favorite unix tool"
             options={unixToolSuggestions}
+            hint="Your favorite unix tool"
             readOnly
           />
           <FieldMultiSelect
