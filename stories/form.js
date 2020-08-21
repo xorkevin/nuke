@@ -169,6 +169,7 @@ export const Validation = () => {
     phone: '',
     password: '',
     confirm_password: '',
+    code: 'code',
     bio: '',
     checkbox: [],
     toggle: false,
@@ -209,6 +210,7 @@ export const Validation = () => {
         }
       />
       <Field name="confirm_password" type="password" label="Confirm password" />
+      <Field name="code" label="Code" readOnly />
       <FieldTextarea
         name="bio"
         label="Bio"
@@ -222,6 +224,14 @@ export const Validation = () => {
         hint="Tell us about yourself"
         hintRight={`${form.state.bio.length}/128`}
         disabled
+        wide
+      />
+      <FieldTextarea
+        name="bio"
+        label="Bio"
+        hint="Tell us about yourself"
+        hintRight={`${form.state.bio.length}/128`}
+        readOnly
         wide
       />
       <FieldCheckbox
@@ -361,6 +371,13 @@ export const Validation = () => {
         hint="Your favorite unix tool"
         options={unixToolSuggestions}
         disabled
+      />
+      <FieldSuggest
+        name="unixtool"
+        label="Unix tool"
+        hint="Your favorite unix tool"
+        options={unixToolSuggestions}
+        readOnly
       />
       <FieldMultiSelect
         name="unixtoollist"

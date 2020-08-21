@@ -53,6 +53,7 @@ const renderNormal = ({
   onBlur,
   placeholder,
   disabled,
+  readOnly,
   forwardedRef,
 }) => {
   return (
@@ -68,6 +69,7 @@ const renderNormal = ({
       onFocus={onFocus}
       onBlur={onBlur}
       disabled={disabled}
+      readOnly={readOnly}
       placeholder={placeholder}
     />
   );
@@ -95,6 +97,7 @@ const Field = ({
   hintRight,
   nohint,
   disabled,
+  readOnly,
   wide,
   fullWidth,
   noctx,
@@ -199,6 +202,7 @@ const Field = ({
         label,
         placeholder,
         disabled,
+        readOnly,
       },
       children,
     );
@@ -216,6 +220,7 @@ const Field = ({
           onKeyDown: handleSubmit,
           placeholder,
           disabled,
+          readOnly,
         })}
       </Fragment>
     );
@@ -241,6 +246,7 @@ const RenderTextarea = ({
   label,
   placeholder,
   disabled,
+  readOnly,
 }) => {
   const handleChange = useCallback(
     (e) => {
@@ -259,6 +265,7 @@ const RenderTextarea = ({
         onChange={handleChange}
         placeholder={placeholder}
         disabled={disabled}
+        readOnly={readOnly}
       />
     </Fragment>
   );
@@ -691,6 +698,7 @@ const RenderSuggest = ({
   label,
   placeholder,
   disabled,
+  readOnly,
 }) => {
   const [anchor, anchorRef] = useStateRef(null);
   const [show, setShow] = useState(false);
@@ -749,9 +757,10 @@ const RenderSuggest = ({
         onBlur: setHidden,
         placeholder,
         disabled,
+        readOnly,
         forwardedRef: anchorRef,
       })}
-      {show && filteredOpts.length > 0 && (
+      {show && !readOnly && filteredOpts.length > 0 && (
         <Popover anchor={anchor} className="field-suggest-options" matchWidth>
           {filteredOpts.map((i) => (
             <SuggestFieldOption
