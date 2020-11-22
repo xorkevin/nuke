@@ -427,7 +427,7 @@ const FormContainer = () => {
           <FieldMultiSelect
             name="unixtoollist"
             label="Unix tools"
-            options={unixToolSuggestions}
+            options={languageOpts}
             icon={<FaIcon icon="terminal" />}
             iconRight={<FaIcon icon="cog" />}
             hint="Your favorite unix tools"
@@ -435,9 +435,16 @@ const FormContainer = () => {
           <FieldMultiSelect
             name="unixtoollist"
             label="Unix tools"
+            options={languageOpts}
             hint="Your favorite unix tools"
-            options={unixToolSuggestions}
             disabled
+          />
+          <FieldMultiSelect
+            name="unixtoollist"
+            label="Unix tools"
+            options={languageOpts}
+            hint="Your favorite unix tools"
+            readOnly
           />
           <h3>Form state</h3>
           <pre>{JSON.stringify(form.state, fileStringReplacer, '  ')}</pre>

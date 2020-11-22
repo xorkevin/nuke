@@ -395,7 +395,7 @@ export const Validation = () => {
       <FieldMultiSelect
         name="unixtoollist"
         label="Unix tools"
-        options={unixToolSuggestions}
+        options={languageOpts}
         icon={<FaIcon icon="terminal" />}
         iconRight={<FaIcon icon="cog" />}
         hint="Your favorite unix tools"
@@ -403,9 +403,16 @@ export const Validation = () => {
       <FieldMultiSelect
         name="unixtoollist"
         label="Unix tools"
-        options={unixToolSuggestions}
+        options={languageOpts}
         hint="Your favorite unix tools"
         disabled
+      />
+      <FieldMultiSelect
+        name="unixtoollist"
+        label="Unix tools"
+        options={languageOpts}
+        hint="Your favorite unix tools"
+        readOnly
       />
       <h3>Form state</h3>
       <pre>{JSON.stringify(form.state, fileStringReplacer, '  ')}</pre>

@@ -867,7 +867,7 @@ const FieldSuggest = (props) => {
 
 const MAX_MULTISELECT_OPTS = 128;
 
-const multiselectOptMap = (i) => i;
+const multiselectOptMap = (i) => i.display || i.value;
 
 const MultiSelectFieldOption = ({
   selected,
@@ -875,6 +875,7 @@ const MultiSelectFieldOption = ({
   addValue,
   rmValue,
   value,
+  display,
 }) => {
   const handler = useCallback(() => {
     if (selected) {
@@ -890,18 +891,27 @@ const MultiSelectFieldOption = ({
   }
   return (
     <div className={k.join(' ')} onClick={handler} onMouseDown={preventDefault}>
-      {value}
+      {display || value}
     </div>
   );
 };
 
-const MultiSelectFieldValue = ({rmValue, value}) => {
+const MultiSelectFieldValue = ({
+  rmValue,
+  value,
+  display,
+  disabled,
+  readOnly,
+}) => {
   const handler = useCallback(() => {
+    if (disabled || readOnly) {
+      return;
+    }
     rmValue(value);
-  }, [rmValue, value]);
+  }, [disabled, readOnly, rmValue, value]);
   return (
     <Chip className="value" onClick={handler}>
-      {value} &times;
+      {display || value} &times;
     </Chip>
   );
 };
@@ -920,6 +930,7 @@ const RenderMultiSelect = ({
   icon,
   iconRight,
   disabled,
+  readOnly,
 }) => {
   const [anchor, anchorRef] = useStateRef(null);
   const [search, setSearch] = useState('');
@@ -947,12 +958,17 @@ const RenderMultiSelect = ({
     [name, onChange, value],
   );
 
+  const optionValueToDisplay = useMemo(
+    () => Object.fromEntries(options.map((i) => [i.value, i.display])),
+    [options],
+  );
+
   const filteredOpts = useMemo(
     () => fuzzyFilter(MAX_MULTISELECT_OPTS, options, multiselectOptMap, search),
     [options, search],
   );
 
-  const first = filteredOpts.length > 0 ? filteredOpts[0] : null;
+  const firstValue = filteredOpts.length > 0 ? filteredOpts[0].value : null;
 
   const handleSearch = useCallback(
     (e) => {
@@ -963,13 +979,13 @@ const RenderMultiSelect = ({
   const onKeyDown = useCallback(
     (e) => {
       if (e.key === 'Enter') {
-        if (first !== null && show) {
-          addValue(first);
+        if (firstValue !== null && show) {
+          addValue(firstValue);
           setSearch('');
         }
       }
     },
-    [show, setSearch, addValue, first],
+    [show, setSearch, addValue, firstValue],
   );
 
   const valueSet = new Set(value);
@@ -980,7 +996,14 @@ const RenderMultiSelect = ({
       {Array.isArray(value) && value.length > 0 && (
         <div className="value-list">
           {value.map((i) => (
-            <MultiSelectFieldValue key={i} rmValue={rmValue} value={i} />
+            <MultiSelectFieldValue
+              key={i}
+              rmValue={rmValue}
+              value={i}
+              display={optionValueToDisplay[i]}
+              disabled={disabled}
+              readOnly={readOnly}
+            />
           ))}
         </div>
       )}
@@ -998,9 +1021,10 @@ const RenderMultiSelect = ({
         icon,
         iconRight,
         disabled,
+        readOnly,
         forwardedRef: anchorRef,
       })}
-      {show && filteredOpts.length > 0 && (
+      {show && !readOnly && filteredOpts.length > 0 && (
         <Popover
           anchor={anchor}
           className="field-multiselect-options"
@@ -1008,12 +1032,13 @@ const RenderMultiSelect = ({
         >
           {filteredOpts.map((i) => (
             <MultiSelectFieldOption
-              key={i}
-              selected={valueSet.has(i)}
+              key={i.value}
+              selected={valueSet.has(i.value)}
               setSearch={setSearch}
               addValue={addValue}
               rmValue={rmValue}
-              value={i}
+              value={i.value}
+              display={i.display}
             />
           ))}
         </Popover>

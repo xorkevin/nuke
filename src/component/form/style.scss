@@ -712,7 +712,6 @@ option {
 
     &.selected {
       color: $color-primary-2;
-      background-color: $color-back-primary-3;
 
       &:before {
         opacity: 1;
@@ -731,7 +730,6 @@ option {
   & > .option {
     &.selected {
       color: $color-text-light-1;
-      background-color: $color-back-light-3;
     }
 
     &:hover {
