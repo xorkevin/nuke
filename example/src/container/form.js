@@ -90,6 +90,8 @@ const unixToolSuggestions = [
   'tar',
 ];
 
+const unixToolOpts = unixToolSuggestions.map((i) => ({display: i, value: i}));
+
 const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]+$/;
 const phoneRegex = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
 const formErrCheck = ({
@@ -427,7 +429,7 @@ const FormContainer = () => {
           <FieldMultiSelect
             name="unixtoollist"
             label="Unix tools"
-            options={languageOpts}
+            options={unixToolOpts}
             icon={<FaIcon icon="terminal" />}
             iconRight={<FaIcon icon="cog" />}
             hint="Your favorite unix tools"
@@ -435,14 +437,14 @@ const FormContainer = () => {
           <FieldMultiSelect
             name="unixtoollist"
             label="Unix tools"
-            options={languageOpts}
+            options={unixToolOpts}
             hint="Your favorite unix tools"
             disabled
           />
           <FieldMultiSelect
             name="unixtoollist"
             label="Unix tools"
-            options={languageOpts}
+            options={unixToolOpts}
             hint="Your favorite unix tools"
             readOnly
           />

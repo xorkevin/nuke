@@ -911,7 +911,8 @@ const MultiSelectFieldValue = ({
   }, [disabled, readOnly, rmValue, value]);
   return (
     <Chip className="value" onClick={handler}>
-      {display || value} &times;
+      {display || value}{' '}
+      {!disabled && !readOnly && <Fragment>&times;</Fragment>}
     </Chip>
   );
 };

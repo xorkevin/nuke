@@ -163,6 +163,8 @@ const unixToolSuggestions = [
   'tar',
 ];
 
+const unixToolOpts = unixToolSuggestions.map((i) => ({display: i, value: i}));
+
 export const Validation = () => {
   const form = useForm({
     email: '',
@@ -395,7 +397,7 @@ export const Validation = () => {
       <FieldMultiSelect
         name="unixtoollist"
         label="Unix tools"
-        options={languageOpts}
+        options={unixToolOpts}
         icon={<FaIcon icon="terminal" />}
         iconRight={<FaIcon icon="cog" />}
         hint="Your favorite unix tools"
@@ -403,14 +405,14 @@ export const Validation = () => {
       <FieldMultiSelect
         name="unixtoollist"
         label="Unix tools"
-        options={languageOpts}
+        options={unixToolOpts}
         hint="Your favorite unix tools"
         disabled
       />
       <FieldMultiSelect
         name="unixtoollist"
         label="Unix tools"
-        options={languageOpts}
+        options={unixToolOpts}
         hint="Your favorite unix tools"
         readOnly
       />
