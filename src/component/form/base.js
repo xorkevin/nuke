@@ -881,10 +881,10 @@ const MultiSelectFieldOption = ({
     if (selected) {
       rmValue(value);
     } else {
-      addValue(value);
+      addValue(value, display);
     }
     setSearch('');
-  }, [selected, setSearch, addValue, rmValue, value]);
+  }, [selected, setSearch, addValue, rmValue, value, display]);
   const k = ['option'];
   if (selected) {
     k.push('selected');
@@ -942,26 +942,24 @@ const RenderMultiSelect = ({
   const setHidden = useCallback(() => {
     setShow(false);
   }, [setShow]);
+  const optionValueToDisplay = useRef({});
   const addValue = useCallback(
-    (v) => {
+    (v, d) => {
+      optionValueToDisplay.current[v] = d;
       const next = new Set(value);
       next.add(v);
       onChange(name, Array.from(next).sort());
     },
-    [name, onChange, value],
+    [optionValueToDisplay, name, onChange, value],
   );
   const rmValue = useCallback(
     (v) => {
+      delete optionValueToDisplay.current[v];
       const next = new Set(value);
       next.delete(v);
       onChange(name, Array.from(next).sort());
     },
-    [name, onChange, value],
-  );
-
-  const optionValueToDisplay = useMemo(
-    () => Object.fromEntries(options.map((i) => [i.value, i.display])),
-    [options],
+    [optionValueToDisplay, name, onChange, value],
   );
 
   const filteredOpts = useMemo(
@@ -969,7 +967,7 @@ const RenderMultiSelect = ({
     [options, search],
   );
 
-  const firstValue = filteredOpts.length > 0 ? filteredOpts[0].value : null;
+  const first = filteredOpts.length > 0 ? filteredOpts[0] : null;
 
   const handleSearch = useCallback(
     (e) => {
@@ -980,13 +978,13 @@ const RenderMultiSelect = ({
   const onKeyDown = useCallback(
     (e) => {
       if (e.key === 'Enter') {
-        if (firstValue !== null && show) {
-          addValue(firstValue);
+        if (first !== null && show) {
+          addValue(first.value, first.display);
           setSearch('');
         }
       }
     },
-    [show, setSearch, addValue, firstValue],
+    [show, setSearch, addValue, first],
   );
 
   const valueSet = new Set(value);
@@ -1001,7 +999,7 @@ const RenderMultiSelect = ({
               key={i}
               rmValue={rmValue}
               value={i}
-              display={optionValueToDisplay[i]}
+              display={optionValueToDisplay.current[i]}
               disabled={disabled}
               readOnly={readOnly}
             />
