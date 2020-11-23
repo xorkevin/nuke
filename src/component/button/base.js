@@ -1,6 +1,7 @@
 import React from 'react';
 
 const Button = ({
+  id,
   className,
   fullWidth,
   fixedWidth,
@@ -23,6 +24,7 @@ const Button = ({
   return (
     <button
       ref={forwardedRef}
+      id={id}
       className={j.join(' ')}
       disabled={disabled}
       onClick={onClick}

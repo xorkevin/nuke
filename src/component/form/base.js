@@ -12,6 +12,7 @@ import {Grid, Column} from '../grid';
 import {ListGroup, ListItem} from '../listgroup';
 import ButtonSmall from '../button/small';
 import Chip from '../chip';
+import FaIcon from '../faicon';
 
 const FormContext = React.createContext();
 
@@ -836,7 +837,7 @@ const RenderSuggest = ({
         readOnly,
         forwardedRef: anchorRef,
       })}
-      {show && !readOnly && filteredOpts.length > 0 && (
+      {show && !disabled && !readOnly && filteredOpts.length > 0 && (
         <Popover anchor={anchor} className="field-suggest-options" matchWidth>
           {filteredOpts.map((i) => (
             <SuggestFieldOption
@@ -861,6 +862,174 @@ const FieldSuggest = (props) => {
   const k = Object.assign({}, props, {
     className: j.join(' '),
     render: RenderSuggest,
+  });
+  return <Field {...k} />;
+};
+
+const MAX_SEARCHSELECT_OPTS = 128;
+
+const searchselectOptMap = (i) => i.display || i.value;
+
+const SearchSelectFieldOption = ({
+  selected,
+  closePopup,
+  setValue,
+  value,
+  display,
+}) => {
+  const handler = useCallback(() => {
+    setValue(value, display);
+    closePopup();
+  }, [closePopup, setValue, value, display]);
+  const k = ['option'];
+  if (selected) {
+    k.push('selected');
+  }
+  return (
+    <div className={k.join(' ')} onClick={handler} onMouseDown={preventDefault}>
+      {display || value}
+    </div>
+  );
+};
+
+const RenderSearchSelect = ({
+  fieldid,
+  name,
+  value,
+  onChange,
+  options,
+  label,
+  placeholder,
+  icon,
+  iconRight,
+  disabled,
+  readOnly,
+}) => {
+  const [anchor, anchorRef] = useStateRef(null);
+  const [search, setSearch] = useState('');
+  const [show, setShow] = useState(false);
+  const setHidden = useCallback(() => {
+    setShow(false);
+  }, [setShow]);
+  const toggleVisible = useCallback(() => {
+    setShow((i) => !i);
+  }, [setShow]);
+  const closePopup = useCallback(() => {
+    setSearch('');
+    setHidden();
+  }, [setSearch, setHidden]);
+  const optionValueToDisplay = useRef({});
+  const setValue = useCallback(
+    (v, d) => {
+      optionValueToDisplay.current = {v: d};
+      onChange(name, v);
+    },
+    [optionValueToDisplay, name, onChange],
+  );
+
+  const filteredOpts = useMemo(
+    () =>
+      fuzzyFilter(MAX_SEARCHSELECT_OPTS, options, searchselectOptMap, search),
+    [options, search],
+  );
+
+  const first = filteredOpts.length > 0 ? filteredOpts[0] : null;
+
+  const handleSearch = useCallback(
+    (_, value) => {
+      setSearch(value);
+    },
+    [setSearch],
+  );
+  const onEnter = useCallback(() => {
+    if (first !== null && show) {
+      setValue(first.value, first.display);
+      closePopup();
+    }
+  }, [show, closePopup, setValue, first]);
+
+  const k = ['select-value'];
+  if (!value || !value.length || value.length == 0) {
+    k.push('placeholder');
+  }
+
+  return (
+    <Fragment>
+      {label && <label htmlFor={fieldid}>{label}</label>}
+      <Grid className="field-row" strict nowrap align="center">
+        {icon && (
+          <Column className="icon left" shrink="0">
+            {icon}
+          </Column>
+        )}
+        <Column className="field" fullWidth>
+          <Grid
+            className="select-anchor"
+            strict
+            nowrap
+            align="center"
+            forwardedRef={anchorRef}
+            onClick={toggleVisible}
+          >
+            <Column className={k.join(' ')} fullWidth>
+              {optionValueToDisplay.current[value] || value || placeholder}
+            </Column>
+            <Column className="select-button" shrink="0">
+              <ButtonSmall id={fieldid} disabled={disabled}>
+                <FaIcon icon="angle-down" />
+              </ButtonSmall>
+            </Column>
+          </Grid>
+        </Column>
+        {iconRight && (
+          <Column className="icon right" shrink="0">
+            {iconRight}
+          </Column>
+        )}
+      </Grid>
+      {show && !disabled && !readOnly && (
+        <Popover
+          anchor={anchor}
+          className="field-searchselect-options"
+          close={closePopup}
+          matchWidth
+        >
+          <Field
+            className="filter-box"
+            noctx
+            value={search}
+            onChange={handleSearch}
+            onSubmit={onEnter}
+            placeholder="Filter..."
+            nohint
+          />
+          {filteredOpts.map((i) => (
+            <SearchSelectFieldOption
+              key={i.value}
+              selected={i.value === value}
+              closePopup={closePopup}
+              setValue={setValue}
+              value={i.value}
+              display={i.display}
+            />
+          ))}
+          {filteredOpts.length == 0 && (
+            <div className="no-results">No results</div>
+          )}
+        </Popover>
+      )}
+    </Fragment>
+  );
+};
+
+const FieldSearchSelect = (props) => {
+  const j = ['searchselect'];
+  if (props.className) {
+    j.push(props.className);
+  }
+  const k = Object.assign({}, props, {
+    className: j.join(' '),
+    render: RenderSearchSelect,
   });
   return <Field {...k} />;
 };
@@ -1023,7 +1192,7 @@ const RenderMultiSelect = ({
         readOnly,
         forwardedRef: anchorRef,
       })}
-      {show && !readOnly && filteredOpts.length > 0 && (
+      {show && !disabled && !readOnly && filteredOpts.length > 0 && (
         <Popover
           anchor={anchor}
           className="field-multiselect-options"
@@ -1082,6 +1251,7 @@ export {
   FieldFile,
   FieldSelect,
   FieldSuggest,
+  FieldSearchSelect,
   FieldMultiSelect,
   Form,
   useForm,

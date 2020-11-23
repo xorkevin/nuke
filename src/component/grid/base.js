@@ -28,6 +28,7 @@ const Grid = ({
   justify,
   cjustify,
   align,
+  onClick,
   forwardedRef,
   children,
 }) => {
@@ -58,7 +59,7 @@ const Grid = ({
   }
 
   return (
-    <div ref={forwardedRef} className={k.join(' ')}>
+    <div ref={forwardedRef} className={k.join(' ')} onClick={onClick}>
       {children}
     </div>
   );

@@ -13,6 +13,7 @@ import {
   FieldFile,
   FieldSelect,
   FieldSuggest,
+  FieldSearchSelect,
   FieldMultiSelect,
   Form,
   useForm,
@@ -195,6 +196,7 @@ const FormContainer = () => {
     filemulti: [],
     lang: 'rs',
     unixtool: '',
+    unixtoolselect: '',
     unixtoollist: [],
   });
 
@@ -423,6 +425,29 @@ const FormContainer = () => {
             name="unixtool"
             label="Unix tool"
             options={unixToolSuggestions}
+            hint="Your favorite unix tool"
+            readOnly
+          />
+          <FieldSearchSelect
+            name="unixtoolselect"
+            label="Unix tool"
+            placeholder="Choose a tool"
+            options={unixToolOpts}
+            icon={<FaIcon icon="terminal" />}
+            iconRight={<FaIcon icon="cog" />}
+            hint="Your favorite unix tool"
+          />
+          <FieldSearchSelect
+            name="unixtoolselect"
+            label="Unix tool"
+            options={unixToolOpts}
+            hint="Your favorite unix tool"
+            disabled
+          />
+          <FieldSearchSelect
+            name="unixtoolselect"
+            label="Unix tool"
+            options={unixToolOpts}
             hint="Your favorite unix tool"
             readOnly
           />
