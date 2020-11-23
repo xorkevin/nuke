@@ -12,8 +12,6 @@ import ButtonSmall from '@xorkevin/nuke/src/component/button/small';
 
 const Stories = () => (
   <Fragment>
-    <h1>Buttons</h1>
-    <hr />
     <p>
       <code>Button</code> is used to create buttons.
     </p>

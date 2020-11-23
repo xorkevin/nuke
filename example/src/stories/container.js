@@ -16,8 +16,6 @@ export const text = (
 
 const Stories = () => (
   <Fragment>
-    <h1>Container</h1>
-    <hr />
     <p>
       <code>Container</code> is used to constrain its contents to a maximum
       width. The red borders below show the width of the <code>Container</code>{' '}

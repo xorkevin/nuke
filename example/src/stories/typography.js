@@ -4,8 +4,6 @@ import {Story} from 'docs';
 
 const Stories = () => (
   <Fragment>
-    <h1>Typography</h1>
-    <hr />
     <Story>
       <h1>
         Heading 1 <small>small</small>

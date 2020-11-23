@@ -7,8 +7,6 @@ import {comments} from 'config';
 
 const Stories = () => (
   <Fragment>
-    <h1>Comments</h1>
-    <hr />
     <p>
       <code>CommentSection</code> is used to display comment threads.
     </p>

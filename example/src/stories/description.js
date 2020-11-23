@@ -6,8 +6,6 @@ import Description from '@xorkevin/nuke/src/component/description';
 
 const Stories = () => (
   <Fragment>
-    <h1>Anchors</h1>
-    <hr />
     <p>
       <code>Description</code> is a definition list pair.
     </p>

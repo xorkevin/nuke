@@ -9,8 +9,6 @@ import ChipDanger from '@xorkevin/nuke/src/component/chip/danger';
 
 const Stories = () => (
   <Fragment>
-    <h1>Chips</h1>
-    <hr />
     <p>
       <code>Chip</code> is used to display metadata.
     </p>

@@ -9,8 +9,6 @@ import {thamesPreview} from 'config';
 
 const Stories = () => (
   <Fragment>
-    <h1>Article</h1>
-    <hr />
     <p>
       <code>Article</code> is used to display articles.
     </p>

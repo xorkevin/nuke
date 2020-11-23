@@ -9,8 +9,6 @@ import AnchorNoColor from '@xorkevin/nuke/src/component/anchor/nocolor';
 
 const Stories = () => (
   <Fragment>
-    <h1>Anchors</h1>
-    <hr />
     <p>
       <code>Anchor</code> is used to create links.
     </p>

@@ -14,8 +14,6 @@ import {thamesPreview} from 'config';
 
 const Stories = () => (
   <Fragment>
-    <h1>Cards</h1>
-    <hr />
     <p>
       <code>Card</code> is used to display content on an elevated surface.
     </p>

@@ -22,6 +22,7 @@ const storiesList = [
   'description',
   'footer',
   'form',
+  'grid',
   'typography',
 ];
 
@@ -51,6 +52,8 @@ const Stories = () => {
                 const Component = storiesComponents[i];
                 return (
                   <Route key={i} path={`${match.path}/${i}`}>
+                    <h1>{i.charAt(0).toUpperCase() + i.slice(1)}</h1>
+                    <hr />
                     <Component />
                   </Route>
                 );

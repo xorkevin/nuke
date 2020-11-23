@@ -192,8 +192,6 @@ const Stories = () => {
 
   return (
     <Fragment>
-      <h1>Form</h1>
-      <hr />
       <Story>
         <Form
           formState={form.state}

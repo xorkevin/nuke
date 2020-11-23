@@ -9,8 +9,6 @@ import FaIcon from '@xorkevin/nuke/src/component/faicon';
 
 const Stories = () => (
   <Fragment>
-    <h1>Footer</h1>
-    <hr />
     <p>
       <code>Footer</code> renders a site footer.
     </p>
