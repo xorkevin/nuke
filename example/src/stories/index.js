@@ -17,6 +17,11 @@ const storiesList = [
   'button',
   'card',
   'chip',
+  'comment',
+  'container',
+  'description',
+  'footer',
+  'form',
   'typography',
 ];
 
