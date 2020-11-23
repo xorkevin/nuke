@@ -78,6 +78,19 @@ p {
 code,
 pre {
   font-family: $typography-mono-font;
+  background-color: $color-back-dark-3;
+}
+
+code {
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+.dark {
+  code,
+  pre {
+    background-color: $color-back-light-3;
+  }
 }
 
 hr {
