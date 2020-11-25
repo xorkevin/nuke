@@ -23,8 +23,7 @@ import {
 import AnchorSecondary from '@xorkevin/nuke/src/component/anchor/secondary';
 
 const HomeContainer = lazy(() => import('container/home'));
-const FormContainer = lazy(() => import('container/form'));
-const Stories = lazy(() => import('stories'));
+//const Stories = lazy(() => import('stories'));
 
 const FallbackView = (
   <Container padded>
@@ -76,9 +75,6 @@ const App = () => {
           Home
         </NavItem>
         <NavItem scroll="typography">Typography</NavItem>
-        <NavItem local link="/form">
-          Form
-        </NavItem>
         <NavItem local link="/stories">
           Stories
         </NavItem>
@@ -89,12 +85,6 @@ const App = () => {
           <Switch>
             <Route exact path="/">
               <HomeContainer />
-            </Route>
-            <Route path="/form">
-              <FormContainer />
-            </Route>
-            <Route path="/stories">
-              <Stories />
             </Route>
             <Redirect to="/" />
           </Switch>

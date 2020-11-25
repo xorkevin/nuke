@@ -8,10 +8,11 @@ lint:
 publish: lint
 	npm publish
 
-.PHONY: dev dev-story
+.PHONY: dev build
 
 dev:
 	npm run build-dev
 
-dev-story:
-	npm run storybook
+build:
+	if [ -d example/bin ]; then rm -r example/bin; fi
+	npm run build
