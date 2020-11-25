@@ -1,6 +1,6 @@
 {
   "name": "@xorkevin/nuke",
-  "version": "0.1.13-10",
+  "version": "0.1.13-11",
   "description": "a reactive ui toolkit",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
@@ -46,7 +46,7 @@
     "react": "^16.9.0",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
-    "recoil": "0.0.10"
+    "recoil": "^0.1.2"
   },
   "dependencies": {}
 }
