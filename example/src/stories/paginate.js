@@ -1,10 +1,11 @@
 import React, {Fragment, useEffect} from 'react';
-import {usePaginate} from 'src/component/paginate';
-import Button from 'src/component/button';
 
-export default {title: 'Paginate'};
+import {Story} from 'docs';
 
-export const Plain = () => {
+import {usePaginate} from '@xorkevin/nuke/src/component/paginate';
+import Button from '@xorkevin/nuke/src/component/button';
+
+const Plain = () => {
   const {
     index,
     page,
@@ -37,7 +38,7 @@ export const Plain = () => {
   );
 };
 
-export const EndToggle = () => {
+const EndToggle = () => {
   const {
     index,
     page,
@@ -78,7 +79,7 @@ export const EndToggle = () => {
   );
 };
 
-export const FixedEnd = () => {
+const FixedEnd = () => {
   const {
     index,
     page,
@@ -110,3 +111,29 @@ export const FixedEnd = () => {
     </Fragment>
   );
 };
+
+const Stories = () => (
+  <Fragment>
+    <p>
+      <code>usePaginate</code> is used to create pagination.
+    </p>
+    <Story>
+      <Plain />
+    </Story>
+    <p>
+      <code>setAtEnd</code> may be manually called to set at the last page.
+    </p>
+    <Story>
+      <EndToggle />
+    </Story>
+    <p>
+      A fixed end number may be provided to inform <code>usePaginate</code> of
+      the last page.
+    </p>
+    <Story>
+      <FixedEnd />
+    </Story>
+  </Fragment>
+);
+
+export default Stories;

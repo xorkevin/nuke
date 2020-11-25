@@ -5,3 +5,12 @@
 .home-header {
   text-shadow: 0 2px 16px rgba(#000000, 0.0625), 0 2px 8px rgba(#000000, 0.0625);
 }
+
+.stories-sidebar {
+  position: sticky;
+  top: 72px;
+}
+
+.story-body {
+  position: relative;
+}

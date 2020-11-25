@@ -6,7 +6,9 @@ const Story = ({children}) => {
   return (
     <Container padded>
       <Card>
-        <Container padded>{children}</Container>
+        <Container className="story-body" padded>
+          {children}
+        </Container>
       </Card>
     </Container>
   );

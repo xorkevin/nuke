@@ -1,8 +1,9 @@
 import React, {Fragment, useState, useCallback} from 'react';
-import {Popover, useStateRef} from 'src/component/popover';
-import Button from 'src/component/button';
 
-export default {title: 'Popover'};
+import {Story} from 'docs';
+
+import {Popover, useStateRef} from '@xorkevin/nuke/src/component/popover';
+import Button from '@xorkevin/nuke/src/component/button';
 
 export const Plain = () => {
   const [anchor, anchorRef] = useStateRef(null);
@@ -95,3 +96,21 @@ export const Right = () => {
     </Fragment>
   );
 };
+
+const Stories = () => (
+  <Fragment>
+    <p>
+      <code>Popover</code> is used to create popovers. The <code>position</code>{' '}
+      prop may be used to position it on the <code>bottom</code>,{' '}
+      <code>top</code>, <code>left</code>, or <code>right</code> of the anchor.
+    </p>
+    <Story>
+      <Plain />
+      <Top />
+      <Left />
+      <Right />
+    </Story>
+  </Fragment>
+);
+
+export default Stories;

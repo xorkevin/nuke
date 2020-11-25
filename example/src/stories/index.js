@@ -23,6 +23,19 @@ const storiesList = [
   'footer',
   'form',
   'grid',
+  'image',
+  'listgroup',
+  'menu',
+  'navbar',
+  'paginate',
+  'popover',
+  'section',
+  'sidebar',
+  'snackbar',
+  'tabbar',
+  'table',
+  'time',
+  'tooltip',
   'typography',
 ];
 
@@ -37,7 +50,7 @@ const Stories = () => {
       <Container padded narrow>
         <Grid>
           <Column fullWidth md={6}>
-            <Sidebar>
+            <Sidebar className="stories-sidebar">
               <SidebarHeader>Stories</SidebarHeader>
               {storiesList.map((i) => (
                 <SidebarItem key={i} link={`${match.path}/${i}`} local>
