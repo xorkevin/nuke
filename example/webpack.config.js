@@ -14,7 +14,10 @@ const createConfig = (env, argv) => {
       main: ['main.js'],
     },
     resolve: {
-      modules: [path.resolve(__dirname, 'src'), 'node_modules'],
+      modules: [
+        path.resolve(__dirname, 'src'),
+        path.resolve(__dirname, '../node_modules'),
+      ],
       alias: {
         '@xorkevin/nuke': path.resolve(__dirname, '..'),
       },
@@ -85,7 +88,7 @@ const createConfig = (env, argv) => {
     },
 
     devServer: {
-      contentBase: path.resolve(__dirname, 'public'),
+      contentBase: 'public',
       compress: true,
       host: '0.0.0.0',
       port: 3000,
