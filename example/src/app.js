@@ -74,7 +74,6 @@ const App = () => {
         <NavItem local link="/">
           Home
         </NavItem>
-        <NavItem scroll="typography">Typography</NavItem>
         <NavItem local link="/stories">
           Stories
         </NavItem>
