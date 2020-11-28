@@ -4,9 +4,9 @@
   "lang": "en-US",
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#224A7F",
-  "background_color": "#FCFCFC",
-  "description": "governor frontend",
+  "theme_color": "#0d47a1",
+  "background_color": "#fdfdfd",
+  "description": "nuke",
   "icons": [
     {
       "src": "/static/icon/xorkevinlogo064.png",
