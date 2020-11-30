@@ -1,5 +1,3 @@
-import React from 'react';
-
 const Description = ({className, label, item}) => {
   return (
     <dl className={className}>

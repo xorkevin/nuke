@@ -1,4 +1,3 @@
-import React from 'react';
 import {Container, Grid, Img} from '@xorkevin/nuke';
 
 import {thamesPreview} from 'config';

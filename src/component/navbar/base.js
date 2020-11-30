@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useMemo} from 'react';
+import {useState, useEffect, useMemo} from 'react';
 import Container from '../container';
 import {Grid, Column} from '../grid';
 import Anchor from '../anchor';

@@ -1,4 +1,4 @@
-import React, {Fragment, useCallback} from 'react';
+import {Fragment, useCallback} from 'react';
 
 import {Story} from 'docs';
 

@@ -1,4 +1,6 @@
-import React, {
+import {
+  createElement,
+  createContext,
   Fragment,
   useState,
   useCallback,
@@ -14,7 +16,7 @@ import ButtonSmall from '../button/small';
 import Chip from '../chip';
 import FaIcon from '../faicon';
 
-const FormContext = React.createContext();
+const FormContext = createContext();
 
 const Form = ({
   formState,
@@ -213,7 +215,7 @@ const Field = ({
 
   let inp = null;
   if (render) {
-    inp = React.createElement(
+    inp = createElement(
       render,
       {
         fieldid,

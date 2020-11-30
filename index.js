@@ -1,3 +1,5 @@
+import {ComposeMiddleware} from './src/middleware';
+
 import Anchor from './src/component/anchor';
 import Article from './src/component/article';
 import {Button, ButtonGroup} from './src/component/button';
@@ -9,7 +11,7 @@ import {
   DarkModeDefaultOpts,
   DarkModeCtx,
   DarkModeState,
-  makeInitDarkModeState,
+  DarkModeMiddleware,
   useDarkModeValue,
   useSetDarkMode,
 } from './src/component/darkmode';
@@ -55,6 +57,7 @@ import {
 import {
   SnackbarDefaultOpts,
   SnackbarCtx,
+  SnackbarMiddleware,
   SnackbarState,
   useSnackbarValue,
   useSnackbar,
@@ -68,6 +71,7 @@ import Time from './src/component/time';
 import Tooltip from './src/component/tooltip';
 
 export {
+  ComposeMiddleware,
   Anchor,
   Article,
   Button,
@@ -79,7 +83,7 @@ export {
   DarkModeDefaultOpts,
   DarkModeCtx,
   DarkModeState,
-  makeInitDarkModeState,
+  DarkModeMiddleware,
   useDarkModeValue,
   useSetDarkMode,
   Description,
@@ -122,6 +126,7 @@ export {
   SidebarDivider,
   SnackbarDefaultOpts,
   SnackbarCtx,
+  SnackbarMiddleware,
   SnackbarState,
   useSnackbarValue,
   useSnackbar,

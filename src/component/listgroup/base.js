@@ -1,5 +1,3 @@
-import React from 'react';
-
 const ListItem = ({children}) => {
   return <div className="item">{children}</div>;
 };

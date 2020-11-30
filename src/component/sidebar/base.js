@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import {useMemo} from 'react';
 import {Grid, Column} from '../grid';
 import Anchor from '../anchor';
 

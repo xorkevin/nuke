@@ -1,4 +1,3 @@
-import React from 'react';
 import {Grid, Column} from '../grid';
 import Chip from '../chip';
 import Time from '../time';

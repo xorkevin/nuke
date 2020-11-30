@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useContext} from 'react';
+import {createContext, useCallback, useRef, useContext} from 'react';
 import {atom, useRecoilValue, useSetRecoilState} from 'recoil';
 
 // Constants
@@ -10,7 +10,7 @@ const SnackbarDefaultOpts = Object.freeze({
   timer: null,
 });
 
-const SnackbarCtx = React.createContext(Object.assign({}, SnackbarDefaultOpts));
+const SnackbarCtx = createContext(Object.assign({}, SnackbarDefaultOpts));
 
 const defaultState = Object.freeze({
   show: false,
@@ -21,6 +21,15 @@ const SnackbarState = atom({
   key: 'nuke:snackbar_state',
   default: defaultState,
 });
+
+const SnackbarMiddleware = (value) => {
+  const v = Object.assign({}, SnackbarDefaultOpts, value);
+  return {
+    ctxProvider: ({children}) => (
+      <SnackbarCtx.Provider value={v}>{children}</SnackbarCtx.Provider>
+    ),
+  };
+};
 
 // Hooks
 
@@ -120,6 +129,7 @@ export {
   SnackbarDefaultOpts,
   SnackbarCtx,
   SnackbarState,
+  SnackbarMiddleware,
   useSnackbarValue,
   useSnackbar,
   useSnackbarView,

@@ -1,4 +1,4 @@
-import React, {useCallback, useContext} from 'react';
+import {createContext, useCallback, useContext} from 'react';
 import {atom, useRecoilValue, useSetRecoilState} from 'recoil';
 
 const valueEnabled = 'enabled';
@@ -31,7 +31,7 @@ const DarkModeDefaultOpts = Object.freeze({
   storageKey: 'dark_mode',
 });
 
-const DarkModeCtx = React.createContext(DarkModeDefaultOpts);
+const DarkModeCtx = createContext(DarkModeDefaultOpts);
 
 const defaultDarkMode = Object.freeze({
   dark: false,
@@ -49,6 +49,16 @@ const makeInitDarkModeState = ({storageKey}) => ({set}) => {
   }
   setBodyDarkMode(storageKey, state.dark);
   return set(DarkModeState, state);
+};
+
+const DarkModeMiddleware = (value) => {
+  const v = Object.assign({}, DarkModeDefaultOpts, value);
+  return {
+    ctxProvider: ({children}) => (
+      <DarkModeCtx.Provider value={v}>{children}</DarkModeCtx.Provider>
+    ),
+    initState: makeInitDarkModeState(v),
+  };
 };
 
 // Hooks
@@ -84,7 +94,7 @@ export {
   DarkModeDefaultOpts,
   DarkModeCtx,
   DarkModeState,
-  makeInitDarkModeState,
+  DarkModeMiddleware,
   useDarkModeValue,
   useSetDarkMode,
 };

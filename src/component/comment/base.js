@@ -1,4 +1,4 @@
-import React, {Fragment, useState, useCallback} from 'react';
+import {Fragment, useState, useCallback} from 'react';
 import Container from '../container';
 import Anchor from '../anchor/text';
 import AS from '../anchor/secondary';

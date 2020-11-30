@@ -1,5 +1,3 @@
-import React from 'react';
-
 const positionSet = new Set(['left', 'right', 'top', 'bottom']);
 const positionDefault = 'top';
 

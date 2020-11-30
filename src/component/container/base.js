@@ -1,5 +1,3 @@
-import React from 'react';
-
 const Container = ({className, fill, padded, narrow, children}) => {
   const k = ['container'];
   if (fill) {

@@ -1,5 +1,3 @@
-import React from 'react';
-
 const gridDirectionSet = new Set([
   'row',
   'row-reverse',

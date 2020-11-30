@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {Container, Card} from '@xorkevin/nuke';
 
 const Story = ({children}) => {

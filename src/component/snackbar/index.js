@@ -1,6 +1,7 @@
 import {
   SnackbarDefaultOpts,
   SnackbarCtx,
+  SnackbarMiddleware,
   SnackbarState,
   useSnackbarValue,
   useSnackbar,
@@ -12,6 +13,7 @@ export {
   SnackbarContainer as default,
   SnackbarDefaultOpts,
   SnackbarCtx,
+  SnackbarMiddleware,
   SnackbarState,
   useSnackbarValue,
   useSnackbar,

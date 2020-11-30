@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import {useState, useCallback} from 'react';
 import {Popover, useStateRef} from '../popover';
 import {Grid, Column} from '../grid';
 import Anchor from '../anchor';

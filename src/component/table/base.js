@@ -1,5 +1,3 @@
-import React from 'react';
-
 const TableRow = ({className, children}) => {
   return <tr className={className}>{children}</tr>;
 };
