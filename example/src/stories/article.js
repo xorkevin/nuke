@@ -131,6 +131,12 @@ const Stories = () => (
           sapien. Aliquam erat volutpat. Phasellus vitae cursus turpis, posuere
           viverra diam.
         </p>
+        <blockquote>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <blockquote>
+            <p>Integer fringilla aliquet condimentum.</p>
+          </blockquote>
+        </blockquote>
         <p>
           Fusce mollis consectetur ligula. <code>Code: Hello, World</code>
         </p>
