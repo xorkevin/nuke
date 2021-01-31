@@ -684,7 +684,7 @@ const RenderSelect = ({
             disabled={disabled}
           >
             {options.map((i) => (
-              <option key={i.display} value={i.value}>
+              <option key={i.value} value={i.value}>
                 {i.display}
               </option>
             ))}
@@ -870,7 +870,7 @@ const FieldSuggest = (props) => {
 
 const MAX_SEARCHSELECT_OPTS = 128;
 
-const searchselectOptMap = (i) => i.display || i.value;
+const searchselectOptMap = (i) => i.display;
 
 const SearchSelectFieldOption = ({
   selected,
@@ -880,16 +880,16 @@ const SearchSelectFieldOption = ({
   display,
 }) => {
   const handler = useCallback(() => {
-    setValue(value, display);
+    setValue(value);
     closePopup();
-  }, [closePopup, setValue, value, display]);
+  }, [closePopup, setValue, value]);
   const k = ['option'];
   if (selected) {
     k.push('selected');
   }
   return (
     <div className={k.join(' ')} onClick={handler} onMouseDown={preventDefault}>
-      {display || value}
+      {display}
     </div>
   );
 };
@@ -920,19 +920,21 @@ const RenderSearchSelect = ({
     setSearch('');
     setHidden();
   }, [setSearch, setHidden]);
-  const optionValueToDisplay = useRef({});
   const setValue = useCallback(
-    (v, d) => {
-      optionValueToDisplay.current = {v: d};
+    (v) => {
       onChange(name, v);
     },
-    [optionValueToDisplay, name, onChange],
+    [name, onChange],
   );
 
   const filteredOpts = useMemo(
     () =>
       fuzzyFilter(MAX_SEARCHSELECT_OPTS, options, searchselectOptMap, search),
     [options, search],
+  );
+  const optionValueToDisplay = useMemo(
+    () => Object.fromEntries(options.map((i) => [i.value, i.display])),
+    [options],
   );
 
   const first = filteredOpts.length > 0 ? filteredOpts[0] : null;
@@ -945,7 +947,7 @@ const RenderSearchSelect = ({
   );
   const onEnter = useCallback(() => {
     if (first !== null && show) {
-      setValue(first.value, first.display);
+      setValue(first.value);
       closePopup();
     }
   }, [show, closePopup, setValue, first]);
@@ -974,7 +976,7 @@ const RenderSearchSelect = ({
             onClick={toggleVisible}
           >
             <Column className={k.join(' ')} fullWidth>
-              {optionValueToDisplay.current[value] || value || placeholder}
+              {optionValueToDisplay[value] || placeholder}
             </Column>
             <Column className="select-button" shrink="0">
               <ButtonSmall id={fieldid} disabled={disabled}>
@@ -1038,7 +1040,7 @@ const FieldSearchSelect = (props) => {
 
 const MAX_MULTISELECT_OPTS = 128;
 
-const multiselectOptMap = (i) => i.display || i.value;
+const multiselectOptMap = (i) => i.display;
 
 const MultiSelectFieldOption = ({
   selected,
@@ -1052,17 +1054,17 @@ const MultiSelectFieldOption = ({
     if (selected) {
       rmValue(value);
     } else {
-      addValue(value, display);
+      addValue(value);
     }
     setSearch('');
-  }, [selected, setSearch, addValue, rmValue, value, display]);
+  }, [selected, setSearch, addValue, rmValue, value]);
   const k = ['option'];
   if (selected) {
     k.push('selected');
   }
   return (
     <div className={k.join(' ')} onClick={handler} onMouseDown={preventDefault}>
-      {display || value}
+      {display}
     </div>
   );
 };
@@ -1082,8 +1084,7 @@ const MultiSelectFieldValue = ({
   }, [disabled, readOnly, rmValue, value]);
   return (
     <Chip className="value" onClick={handler}>
-      {display || value}{' '}
-      {!disabled && !readOnly && <Fragment>&times;</Fragment>}
+      {display} {!disabled && !readOnly && <Fragment>&times;</Fragment>}
     </Chip>
   );
 };
@@ -1113,29 +1114,30 @@ const RenderMultiSelect = ({
   const setHidden = useCallback(() => {
     setShow(false);
   }, [setShow]);
-  const optionValueToDisplay = useRef({});
   const addValue = useCallback(
-    (v, d) => {
-      optionValueToDisplay.current[v] = d;
+    (v) => {
       const next = new Set(value);
       next.add(v);
       onChange(name, Array.from(next).sort());
     },
-    [optionValueToDisplay, name, onChange, value],
+    [name, onChange, value],
   );
   const rmValue = useCallback(
     (v) => {
-      delete optionValueToDisplay.current[v];
       const next = new Set(value);
       next.delete(v);
       onChange(name, Array.from(next).sort());
     },
-    [optionValueToDisplay, name, onChange, value],
+    [name, onChange, value],
   );
 
   const filteredOpts = useMemo(
     () => fuzzyFilter(MAX_MULTISELECT_OPTS, options, multiselectOptMap, search),
     [options, search],
+  );
+  const optionValueToDisplay = useMemo(
+    () => Object.fromEntries(options.map((i) => [i.value, i.display])),
+    [options],
   );
 
   const first = filteredOpts.length > 0 ? filteredOpts[0] : null;
@@ -1150,7 +1152,7 @@ const RenderMultiSelect = ({
     (e) => {
       if (e.key === 'Enter') {
         if (first !== null && show) {
-          addValue(first.value, first.display);
+          addValue(first.value);
           setSearch('');
         }
       }
@@ -1170,7 +1172,7 @@ const RenderMultiSelect = ({
               key={i}
               rmValue={rmValue}
               value={i}
-              display={optionValueToDisplay.current[i]}
+              display={optionValueToDisplay[i]}
               disabled={disabled}
               readOnly={readOnly}
             />
