@@ -1006,6 +1006,7 @@ const RenderSearchSelect = ({
             onSubmit={onEnter}
             placeholder="Filter..."
             nohint
+            fullWidth
           />
           {filteredOpts.map((i) => (
             <SearchSelectFieldOption
