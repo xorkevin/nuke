@@ -163,6 +163,7 @@ const formValidCheck = ({
 const Stories = () => {
   const form = useForm({
     name: '',
+    num: '',
     email: '',
     phone: '',
     password: '',
@@ -200,6 +201,7 @@ const Stories = () => {
           validCheck={formValidCheck}
         >
           <Field name="name" label="Name" />
+          <Field name="num" label="Number" inputMode="numeric" />
           <Field name="email" label="Email" placeholder="name@example.com" />
           <Field
             name="email"

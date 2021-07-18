@@ -48,6 +48,7 @@ const Form = ({
 const renderNormal = ({
   fieldid,
   type,
+  inputMode,
   autoFocus,
   autoComplete,
   name,
@@ -76,6 +77,7 @@ const renderNormal = ({
           className="normal"
           id={fieldid}
           type={type}
+          inputMode={inputMode}
           autoFocus={autoFocus}
           autoComplete={autoComplete}
           name={name}
@@ -106,6 +108,7 @@ const Field = ({
   className,
   render,
   type,
+  inputMode,
   autoFocus,
   autoComplete,
   name,
@@ -220,6 +223,7 @@ const Field = ({
       {
         fieldid,
         type,
+        inputMode,
         autoFocus,
         autoComplete,
         name,
@@ -245,6 +249,7 @@ const Field = ({
         {renderNormal({
           fieldid,
           type,
+          inputMode,
           autoFocus,
           autoComplete,
           name,
@@ -542,103 +547,97 @@ const FileFieldItem = ({index, file, handleDelete}) => {
   );
 };
 
-const renderFile = ({accept, capture, multiple}) => ({
-  fieldid,
-  name,
-  onChange,
-  label,
-  disabled,
-  children,
-}) => {
-  const fileinput = useRef(null);
-  const [files, setFiles] = useState([]);
-  const handleDelete = useCallback(
-    (index) => {
-      if (!multiple) {
-        setFiles([]);
-        onChange(name, undefined);
-        return;
-      }
-      const next = files.slice(0);
-      next.splice(index, 1);
-      setFiles(next);
-      onChange(
-        name,
-        next.map((i) => i.file),
-      );
-    },
-    [onChange, name, files, setFiles],
-  );
-  const handleChange = useCallback(
-    (e) => {
-      const k = e.target.files;
-      if (!multiple) {
-        if (k.length < 1) {
+const renderFile =
+  ({accept, capture, multiple}) =>
+  ({fieldid, name, onChange, label, disabled, children}) => {
+    const fileinput = useRef(null);
+    const [files, setFiles] = useState([]);
+    const handleDelete = useCallback(
+      (index) => {
+        if (!multiple) {
+          setFiles([]);
+          onChange(name, undefined);
           return;
         }
-        const next = k[0];
-        setFiles([{key: randomID(), file: k[0]}]);
-        onChange(name, next);
-        return;
+        const next = files.slice(0);
+        next.splice(index, 1);
+        setFiles(next);
+        onChange(
+          name,
+          next.map((i) => i.file),
+        );
+      },
+      [onChange, name, files, setFiles],
+    );
+    const handleChange = useCallback(
+      (e) => {
+        const k = e.target.files;
+        if (!multiple) {
+          if (k.length < 1) {
+            return;
+          }
+          const next = k[0];
+          setFiles([{key: randomID(), file: k[0]}]);
+          onChange(name, next);
+          return;
+        }
+        const next = files.slice(0);
+        for (let i = 0; i < k.length; i++) {
+          next.push({key: randomID(), file: k[i]});
+        }
+        setFiles(next);
+        onChange(
+          name,
+          next.map((i) => i.file),
+        );
+      },
+      [onChange, name, files, setFiles],
+    );
+    const handleClick = useCallback(() => {
+      if (fileinput.current) {
+        fileinput.current.click();
       }
-      const next = files.slice(0);
-      for (let i = 0; i < k.length; i++) {
-        next.push({key: randomID(), file: k[i]});
-      }
-      setFiles(next);
-      onChange(
-        name,
-        next.map((i) => i.file),
-      );
-    },
-    [onChange, name, files, setFiles],
-  );
-  const handleClick = useCallback(() => {
-    if (fileinput.current) {
-      fileinput.current.click();
-    }
-  }, [fileinput]);
-  return (
-    <Fragment>
-      {label && <div className="label">{label}</div>}
-      <label htmlFor={fieldid} onClick={handleClick}>
-        {children}
-      </label>
-      <input
-        ref={fileinput}
-        id={fieldid}
-        tabIndex="-1"
-        type="file"
-        name={name}
-        onChange={handleChange}
-        accept={accept}
-        capture={capture}
-        multiple={multiple}
-        disabled={disabled}
-      />
-      {files.length > 0 && (
-        <ListGroup className="filelist">
-          {files.map((i, index) => (
-            <FileFieldItem
-              key={i.key}
-              index={index}
-              file={i.file}
-              handleDelete={handleDelete}
-            />
-          ))}
-        </ListGroup>
-      )}
-    </Fragment>
-  );
-};
+    }, [fileinput]);
+    return (
+      <Fragment>
+        {label && <div className="label">{label}</div>}
+        <label htmlFor={fieldid} onClick={handleClick}>
+          {children}
+        </label>
+        <input
+          ref={fileinput}
+          id={fieldid}
+          tabIndex="-1"
+          type="file"
+          name={name}
+          onChange={handleChange}
+          accept={accept}
+          capture={capture}
+          multiple={multiple}
+          disabled={disabled}
+        />
+        {files.length > 0 && (
+          <ListGroup className="filelist">
+            {files.map((i, index) => (
+              <FileFieldItem
+                key={i.key}
+                index={index}
+                file={i.file}
+                handleDelete={handleDelete}
+              />
+            ))}
+          </ListGroup>
+        )}
+      </Fragment>
+    );
+  };
 
 const FieldFile = (props) => {
   const {accept, capture, multiple} = props;
-  const render = useMemo(() => renderFile({accept, capture, multiple}), [
-    accept,
-    capture,
-    multiple,
-  ]);
+  const render = useMemo(
+    () => renderFile({accept, capture, multiple}),
+    [accept, capture, multiple],
+  );
   const j = ['file'];
   if (props.className) {
     j.push(props.className);
@@ -762,6 +761,7 @@ const SuggestFieldOption = ({fieldRef, close, setValue, value}) => {
 const RenderSuggest = ({
   fieldid,
   type,
+  inputMode,
   autoFocus,
   autoComplete,
   name,
@@ -824,6 +824,7 @@ const RenderSuggest = ({
       {renderNormal({
         fieldid,
         type,
+        inputMode,
         autoFocus,
         autoComplete,
         name,
@@ -1093,6 +1094,7 @@ const MultiSelectFieldValue = ({
 const RenderMultiSelect = ({
   fieldid,
   type,
+  inputMode,
   autoFocus,
   autoComplete,
   name,
@@ -1183,6 +1185,7 @@ const RenderMultiSelect = ({
       {renderNormal({
         fieldid,
         type,
+        inputMode,
         autoFocus,
         autoComplete,
         value: search,
