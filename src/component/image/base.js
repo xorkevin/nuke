@@ -36,10 +36,11 @@ const useImg = (src) => {
 const useViewIntersectOnce = (refelem, callback) => {
   const [intersected, setIntersect] = useState(false);
   useEffect(() => {
-    if (intersected) {
+    if (!refelem.current) {
       return;
     }
-    if (!refelem.current) {
+    if (intersected) {
+      callback();
       return;
     }
 
@@ -47,7 +48,6 @@ const useViewIntersectOnce = (refelem, callback) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           setIntersect(true);
-          callback();
         }
       });
     });
