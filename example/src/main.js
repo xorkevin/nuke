@@ -10,6 +10,7 @@ import {
   ComposeMiddleware,
   DarkModeMiddleware,
   SnackbarMiddleware,
+  PopoverMiddleware,
 } from '@xorkevin/nuke';
 
 import App from 'app';
@@ -17,6 +18,9 @@ import App from 'app';
 const Middleware = ComposeMiddleware(
   DarkModeMiddleware(),
   SnackbarMiddleware(),
+  PopoverMiddleware({
+    root: document.getElementById('popover-portal'),
+  }),
 );
 
 ReactDOM.render(

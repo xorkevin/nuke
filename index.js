@@ -51,7 +51,13 @@ import {
 } from './src/component/menu';
 import {Navbar, NavItem, NavDivider} from './src/component/navbar';
 import usePaginate from './src/component/paginate';
-import {Popover, useStateRef} from './src/component/popover';
+import {
+  PopoverDefaultOpts,
+  PopoverCtx,
+  PopoverMiddleware,
+  Popover,
+  useStateRef,
+} from './src/component/popover';
 import Section from './src/component/section';
 import {
   Sidebar,
@@ -124,6 +130,9 @@ export {
   NavItem,
   NavDivider,
   usePaginate,
+  PopoverDefaultOpts,
+  PopoverCtx,
+  PopoverMiddleware,
   Popover,
   useStateRef,
   Section,

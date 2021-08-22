@@ -1,4 +1,10 @@
-import {useState, useEffect, useCallback} from 'react';
+import {
+  createContext,
+  useState,
+  useEffect,
+  useCallback,
+  useContext,
+} from 'react';
 import ReactDOM from 'react-dom';
 
 const getViewBounds = () => ({
@@ -143,6 +149,21 @@ const useStateRef = (val = null) => {
   return [ref, cbRef];
 };
 
+const PopoverDefaultOpts = Object.freeze({
+  root: document.body,
+});
+
+const PopoverCtx = createContext(PopoverDefaultOpts);
+
+const PopoverMiddleware = (value) => {
+  const v = Object.assign({}, PopoverDefaultOpts, value);
+  return {
+    ctxProvider: ({children}) => (
+      <PopoverCtx.Provider value={v}>{children}</PopoverCtx.Provider>
+    ),
+  };
+};
+
 const Popover = ({
   className,
   position,
@@ -151,8 +172,10 @@ const Popover = ({
   matchHeight,
   close,
   anchor,
+  onClick,
   children,
 }) => {
+  const ctx = useContext(PopoverCtx);
   const [popover, popoverRef] = useStateRef(null);
   const [anchorBounds, setAnchorBounds] = useState(null);
   const [popoverBounds, setPopoverBounds] = useState(null);
@@ -226,7 +249,7 @@ const Popover = ({
     };
   }, [popover, setPopoverBounds]);
 
-  const onClick = useCallback(
+  const clickHandler = useCallback(
     (e) => {
       if (anchor && anchor.contains(e.target)) {
         return;
@@ -242,11 +265,11 @@ const Popover = ({
   );
 
   useEffect(() => {
-    window.addEventListener('click', onClick);
+    window.addEventListener('click', clickHandler);
     return () => {
-      window.removeEventListener('click', onClick);
+      window.removeEventListener('click', clickHandler);
     };
-  }, [onClick]);
+  }, [clickHandler]);
 
   if (!anchorBounds) {
     return null;
@@ -280,12 +303,24 @@ const Popover = ({
   );
   return ReactDOM.createPortal(
     <div className="popover-root" style={s}>
-      <div ref={popoverRef} className={k.join(' ')} style={style}>
+      <div
+        ref={popoverRef}
+        className={k.join(' ')}
+        style={style}
+        onClick={onClick}
+      >
         {children}
       </div>
     </div>,
-    document.body,
+    ctx.root,
   );
 };
 
-export {Popover as default, Popover, useStateRef};
+export {
+  Popover as default,
+  PopoverDefaultOpts,
+  PopoverCtx,
+  PopoverMiddleware,
+  Popover,
+  useStateRef,
+};

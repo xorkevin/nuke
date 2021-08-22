@@ -91,7 +91,15 @@ const useMenu = () => {
   };
 };
 
-const Menu = ({className, size, position, anchor, close, children}) => {
+const Menu = ({
+  className,
+  size,
+  position,
+  anchor,
+  close,
+  onClick,
+  children,
+}) => {
   const k = ['menu'];
   if (menuSizeSet.has(size)) {
     k.push(size);
@@ -106,6 +114,7 @@ const Menu = ({className, size, position, anchor, close, children}) => {
       className={k.join(' ')}
       position={position}
       close={close}
+      onClick={onClick}
     >
       <Grid className="menu-items" strict nowrap direction="column">
         {children}

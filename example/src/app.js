@@ -47,7 +47,12 @@ const App = () => {
               <FaIcon icon="cog" /> Settings
             </NavItem>
             {menu.show && (
-              <Menu size="md" anchor={menu.anchor} close={menu.close}>
+              <Menu
+                size="md"
+                anchor={menu.anchor}
+                close={menu.close}
+                onClick={menu.close}
+              >
                 <MenuHeader>Settings</MenuHeader>
                 <MenuItem
                   onClick={toggleDark}
