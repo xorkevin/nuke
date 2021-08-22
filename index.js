@@ -35,7 +35,12 @@ import {
 } from './src/component/form';
 import {Grid, Column} from './src/component/grid';
 import Img from './src/component/image';
-import {ListGroup, ListItem} from './src/component/listgroup';
+import {
+  ListGroup,
+  ListItem,
+  ListHeader,
+  ListDivider,
+} from './src/component/listgroup';
 import MainContent from './src/component/maincontent';
 import {
   useMenu,
@@ -107,6 +112,8 @@ export {
   Img,
   ListGroup,
   ListItem,
+  ListHeader,
+  ListDivider,
   MainContent,
   useMenu,
   Menu,

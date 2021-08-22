@@ -2,7 +2,12 @@ import {Fragment} from 'react';
 
 import {Story} from 'docs';
 
-import {ListGroup, ListItem} from '@xorkevin/nuke/src/component/listgroup';
+import {
+  ListGroup,
+  ListItem,
+  ListHeader,
+  ListDivider,
+} from '@xorkevin/nuke/src/component/listgroup';
 import {Grid, Column} from '@xorkevin/nuke/src/component/grid';
 import ChipPrimary from '@xorkevin/nuke/src/component/chip/primary';
 import Time from '@xorkevin/nuke/src/component/time';
@@ -32,13 +37,15 @@ const Stories = () => (
     </p>
     <Story>
       <ListGroup size="sm" padded>
+        <ListHeader>List header</ListHeader>
         <ListItem>
           <div>here is a list</div>
         </ListItem>
         <ListItem>
           <div>of some items</div>
         </ListItem>
-        <ListItem>
+        <ListDivider />
+        <ListItem className="active">
           <div>in a list group</div>
         </ListItem>
       </ListGroup>

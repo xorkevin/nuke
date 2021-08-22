@@ -1,2 +1,2 @@
-import {ListGroup, ListItem} from './base';
-export {ListGroup as default, ListGroup, ListItem};
+import {ListGroup, ListItem, ListHeader, ListDivider} from './base';
+export {ListGroup as default, ListGroup, ListItem, ListHeader, ListDivider};
