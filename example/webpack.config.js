@@ -87,12 +87,16 @@ const createConfig = (env, argv) => {
       ignored: /node_modules/,
     },
 
+    devtool: 'source-map',
+
     devServer: {
-      contentBase: 'public',
+      static: {
+        directory: 'public',
+        watch: true,
+      },
       compress: true,
       host: '0.0.0.0',
       port: 3000,
-      disableHostCheck: true,
       historyApiFallback: true,
       hot: false,
     },

@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 article {
   font-size: $article-font-size;
   font-family: $typography-base-font;
@@ -11,15 +13,15 @@ article {
   }
 
   & > *.inset-half {
-    width: $article-width/2;
+    width: math.div($article-width, 2);
   }
 
   & > *.inset {
-    width: $article-width * 2/3;
+    width: math.div($article-width * 2, 3);
   }
 
   & > *.outset {
-    width: $article-width * 4/3;
+    width: math.div($article-width * 4, 3);
   }
 
   & > *.outset-double {
@@ -96,12 +98,12 @@ article {
   }
 
   .author {
-    width: $article-width/2;
+    width: math.div($article-width, 2);
     max-width: 100%;
 
     & > .image {
-      width: $article-width/8;
-      height: $article-width/8;
+      width: math.div($article-width, 8);
+      height: math.div($article-width, 8);
       max-width: 100%;
       padding: 4px;
     }

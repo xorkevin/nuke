@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 .card {
   max-width: 100%;
   height: 100%;
@@ -31,13 +33,13 @@
   }
 
   &.height-sm > .title {
-    height: $card-sm-size * 2 / 3;
+    height: math.div($card-sm-size * 2, 3);
   }
   &.height-md > .title {
-    height: $card-md-size * 2 / 3;
+    height: math.div($card-md-size * 2, 3);
   }
   &.height-lg > .title {
-    height: $card-lg-size * 2 / 3;
+    height: math.div($card-lg-size * 2, 3);
   }
   &.width-sm {
     width: $card-sm-size;
