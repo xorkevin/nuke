@@ -49,6 +49,13 @@ import {
   MenuHeader,
   MenuDivider,
 } from './src/component/menu';
+import {
+  ModalDefaultOpts,
+  ModalCtx,
+  ModalMiddleware,
+  Modal,
+  useModal,
+} from './src/component/modal';
 import {Navbar, NavItem, NavDivider} from './src/component/navbar';
 import usePaginate from './src/component/paginate';
 import {
@@ -126,6 +133,11 @@ export {
   MenuItem,
   MenuHeader,
   MenuDivider,
+  ModalDefaultOpts,
+  ModalCtx,
+  ModalMiddleware,
+  Modal,
+  useModal,
   Navbar,
   NavItem,
   NavDivider,

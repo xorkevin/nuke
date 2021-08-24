@@ -1,0 +1,32 @@
+.modal {
+  position: fixed;
+  max-width: calc(100vw - 16px);
+  max-height: calc(100vh - 16px);
+  z-index: 112;
+
+  &.horizontal-center {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &.horizontal-start {
+    left: 8px;
+  }
+
+  &.horizontal-end {
+    right: 8px;
+  }
+
+  &.vertical-center {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  &.vertical-start {
+    top: 8px;
+  }
+
+  &.vertical-end {
+    bottom: 8px;
+  }
+}

@@ -9,18 +9,22 @@ import {RecoilRoot} from 'recoil';
 import {
   ComposeMiddleware,
   DarkModeMiddleware,
-  SnackbarMiddleware,
+  ModalMiddleware,
   PopoverMiddleware,
+  SnackbarMiddleware,
 } from '@xorkevin/nuke';
 
 import App from 'app';
 
 const Middleware = ComposeMiddleware(
   DarkModeMiddleware(),
-  SnackbarMiddleware(),
+  ModalMiddleware({
+    root: document.getElementById('popover-portal'),
+  }),
   PopoverMiddleware({
     root: document.getElementById('popover-portal'),
   }),
+  SnackbarMiddleware(),
 );
 
 ReactDOM.render(
