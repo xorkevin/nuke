@@ -18,7 +18,6 @@ import {
   Form,
   useForm,
   useFormSearch,
-  useFormDisplay,
   Button,
   FaIcon,
 } from '@xorkevin/nuke';
@@ -235,7 +234,6 @@ const Stories = () => {
   }, [form.state]);
 
   const toolSearch = useFormSearch(searchTools, 256);
-  const toolDisplay = useFormDisplay({});
 
   return (
     <Fragment>
@@ -245,6 +243,9 @@ const Stories = () => {
           onChange={form.update}
           errCheck={formErrCheck}
           validCheck={formValidCheck}
+          displays={form.displays}
+          addDisplay={form.addDisplay}
+          compactDisplays={form.compactDisplays}
         >
           <Field name="name" label="Name" />
           <Field name="num" label="Number" inputMode="numeric" />
@@ -502,9 +503,6 @@ const Stories = () => {
             label="Unix tools"
             onSearch={toolSearch.setSearch}
             options={toolSearch.opts}
-            optionDisplays={toolDisplay.displays}
-            addDisplay={toolDisplay.addDisplay}
-            compactDisplays={toolDisplay.compactDisplays}
             icon={<FaIcon icon="terminal" />}
             iconRight={<FaIcon icon="cog" />}
             hint="Your favorite unix tools"
@@ -514,11 +512,6 @@ const Stories = () => {
             label="Unix tools"
             onSearch={toolSearch.setSearch}
             options={toolSearch.opts}
-            optionDisplays={toolDisplay.displays}
-            addDisplay={toolDisplay.addDisplay}
-            compactDisplays={toolDisplay.compactDisplays}
-            icon={<FaIcon icon="terminal" />}
-            iconRight={<FaIcon icon="cog" />}
             hint="Your favorite unix tools"
             disabled
           />
@@ -527,11 +520,6 @@ const Stories = () => {
             label="Unix tools"
             onSearch={toolSearch.setSearch}
             options={toolSearch.opts}
-            optionDisplays={toolDisplay.displays}
-            addDisplay={toolDisplay.addDisplay}
-            compactDisplays={toolDisplay.compactDisplays}
-            icon={<FaIcon icon="terminal" />}
-            iconRight={<FaIcon icon="cog" />}
             hint="Your favorite unix tools"
             readOnly
           />

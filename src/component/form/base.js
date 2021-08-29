@@ -25,6 +25,9 @@ const Form = ({
   onSubmit,
   errCheck,
   validCheck,
+  displays,
+  addDisplay,
+  compactDisplays,
   children,
 }) => {
   let error = useMemo(() => {
@@ -40,7 +43,18 @@ const Form = ({
     return {};
   }, [validCheck, formState]);
   return (
-    <FormContext.Provider value={{formState, onChange, onSubmit, error, valid}}>
+    <FormContext.Provider
+      value={{
+        formState,
+        onChange,
+        onSubmit,
+        error,
+        valid,
+        displays,
+        addDisplay,
+        compactDisplays,
+      }}
+    >
       {children}
     </FormContext.Provider>
   );
@@ -156,6 +170,15 @@ const Field = ({
     }
     if (ctx.valid) {
       valid = ctx.valid[name];
+    }
+    if (ctx.displays) {
+      optionDisplays = ctx.displays[name];
+    }
+    if (ctx.addDisplay) {
+      addDisplay = ctx.addDisplay;
+    }
+    if (ctx.compactDisplays) {
+      compactDisplays = ctx.compactDisplays;
     }
   }
 
@@ -1290,7 +1313,7 @@ const RenderDynMultiSelect = ({
       if (addDisplay && Array.isArray(options)) {
         const k = options.find((i) => i.value === v);
         if (k) {
-          addDisplay(v, k.display);
+          addDisplay(name, v, k.display);
         }
       }
       onChange(name, Array.from(next).sort());
@@ -1304,7 +1327,7 @@ const RenderDynMultiSelect = ({
       const k = Array.from(next).sort();
       onChange(name, k);
       if (compactDisplays) {
-        compactDisplays(k);
+        compactDisplays(name, k);
       }
     },
     [name, onChange, compactDisplays, value],
@@ -1407,7 +1430,7 @@ const FieldDynMultiSelect = (props) => {
   return <Field {...k} />;
 };
 
-const useForm = (initState = {}) => {
+const useForm = (initState = {}, initDisplay = {}) => {
   const [state, setState] = useState(initState);
   const update = useCallback(
     (name, val) => setState((prev) => Object.assign({}, prev, {[name]: val})),
@@ -1417,7 +1440,60 @@ const useForm = (initState = {}) => {
     (val) => setState((prev) => Object.assign({}, prev, val)),
     [setState],
   );
-  return {state, setState, update, assign};
+
+  const [displays, setDisplays] = useState(initDisplay);
+  const addDisplay = useCallback(
+    (name, value, display) => {
+      setDisplays((prev) =>
+        Object.assign({}, prev, {
+          [name]: Object.assign({}, prev[name], {[value]: display}),
+        }),
+      );
+    },
+    [setDisplays],
+  );
+  const assignDisplays = useCallback(
+    (name, val) => {
+      setDisplays((prev) =>
+        Object.assign({}, prev, {[name]: Object.assign({}, prev[name], val)}),
+      );
+    },
+    [setDisplays],
+  );
+  const compactDisplays = useCallback(
+    (name, values) => {
+      if (!Array.isArray(values)) {
+        return;
+      }
+      setDisplays((prev) => {
+        if (!prev) {
+          return prev;
+        }
+        const k = prev[name];
+        if (!k) {
+          return prev;
+        }
+        return Object.assign({}, prev, {
+          [name]: Object.fromEntries(
+            values.filter((i) => k[i]).map((i) => [i, k[i]]),
+          ),
+        });
+      });
+    },
+    [setDisplays],
+  );
+
+  return {
+    state,
+    setState,
+    update,
+    assign,
+    displays,
+    setDisplays,
+    addDisplay,
+    assignDisplays,
+    compactDisplays,
+  };
 };
 
 const sleep = async (ms) => {
@@ -1461,42 +1537,6 @@ const useFormSearch = (searchFn, debounce = 256) => {
   };
 };
 
-const useFormDisplay = (initDisplay = {}) => {
-  const [displays, setDisplays] = useState(initDisplay);
-  const addDisplay = useCallback(
-    (value, display) => {
-      setDisplays((prev) => Object.assign({}, prev, {[value]: display}));
-    },
-    [setDisplays],
-  );
-  const assignDisplays = useCallback(
-    (val) => {
-      setDisplays((prev) => Object.assign({}, prev, val));
-    },
-    [setDisplays],
-  );
-  const compactDisplays = useCallback(
-    (values) => {
-      if (!Array.isArray(values)) {
-        return;
-      }
-      setDisplays((prev) =>
-        Object.fromEntries(
-          values.filter((i) => prev[i]).map((i) => [i, prev[i]]),
-        ),
-      );
-    },
-    [setDisplays],
-  );
-  return {
-    displays,
-    setDisplays,
-    addDisplay,
-    assignDisplays,
-    compactDisplays,
-  };
-};
-
 export {
   Field as default,
   Field,
@@ -1514,6 +1554,5 @@ export {
   Form,
   useForm,
   useFormSearch,
-  useFormDisplay,
   fuzzyFilter,
 };

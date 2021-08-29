@@ -14,7 +14,6 @@ import {
   Form,
   useForm,
   useFormSearch,
-  useFormDisplay,
   fuzzyFilter,
 } from './base';
 export {
@@ -34,6 +33,5 @@ export {
   Form,
   useForm,
   useFormSearch,
-  useFormDisplay,
   fuzzyFilter,
 };
