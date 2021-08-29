@@ -509,6 +509,32 @@ const Stories = () => {
             iconRight={<FaIcon icon="cog" />}
             hint="Your favorite unix tools"
           />
+          <FieldDynMultiSelect
+            name="unixtools"
+            label="Unix tools"
+            onSearch={toolSearch.setSearch}
+            options={toolSearch.opts}
+            optionDisplays={toolDisplay.displays}
+            addDisplay={toolDisplay.addDisplay}
+            compactDisplays={toolDisplay.compactDisplays}
+            icon={<FaIcon icon="terminal" />}
+            iconRight={<FaIcon icon="cog" />}
+            hint="Your favorite unix tools"
+            disabled
+          />
+          <FieldDynMultiSelect
+            name="unixtools"
+            label="Unix tools"
+            onSearch={toolSearch.setSearch}
+            options={toolSearch.opts}
+            optionDisplays={toolDisplay.displays}
+            addDisplay={toolDisplay.addDisplay}
+            compactDisplays={toolDisplay.compactDisplays}
+            icon={<FaIcon icon="terminal" />}
+            iconRight={<FaIcon icon="cog" />}
+            hint="Your favorite unix tools"
+            readOnly
+          />
           <h3>Form state</h3>
           <pre>{JSON.stringify(form.state, fileStringReplacer, '  ')}</pre>
         </Form>
