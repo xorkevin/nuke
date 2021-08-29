@@ -1421,6 +1421,7 @@ const useFormSearch = (search, debounce = 256) => {
     [setSearchVal],
   );
   const [opts, setOpts] = useState([]);
+  const [displays, setDisplays] = useState({});
   useEffect(() => {
     if (searchVal === '') {
       setOpts([]);
@@ -1436,15 +1437,26 @@ const useFormSearch = (search, debounce = 256) => {
       if (cancelRef.current) {
         return;
       }
+      if (!Array.isArray(res)) {
+        return;
+      }
       setOpts(res);
+      setDisplays((prev) =>
+        Object.assign(
+          {},
+          prev,
+          Object.fromEntries(res.map((i) => [i.value, i.display])),
+        ),
+      );
     })();
     return () => {
       cancelRef.current = true;
     };
-  }, [searchVal, debounce, search, setOpts]);
+  }, [searchVal, debounce, search, setOpts, setDisplays]);
   return {
     setSearch,
     opts,
+    displays,
   };
 };
 

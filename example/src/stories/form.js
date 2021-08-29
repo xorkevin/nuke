@@ -500,6 +500,7 @@ const Stories = () => {
             label="Unix tools"
             searchFn={toolSearch.setSearch}
             options={toolSearch.opts}
+            optionDisplays={toolSearch.displays}
             icon={<FaIcon icon="terminal" />}
             iconRight={<FaIcon icon="cog" />}
             hint="Your favorite unix tools"
