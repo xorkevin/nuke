@@ -12,7 +12,9 @@ import {
   FieldFile,
   FieldSelect,
   FieldSuggest,
+  FieldDynSuggest,
   FieldSearchSelect,
+  FieldDynSearchSelect,
   FieldMultiSelect,
   FieldDynMultiSelect,
   Form,
@@ -113,6 +115,11 @@ const sleep = async (ms) => {
       resolve();
     }, ms);
   });
+};
+
+const searchToolsSuggest = async (search) => {
+  await sleep(256);
+  return fuzzyFilter(8, unixToolSuggestions, (i) => i, search);
 };
 
 const searchTools = async (search) => {
@@ -224,16 +231,20 @@ const Stories = () => {
     filemulti: [],
     lang: 'rs',
     unixtool: '',
+    dynunixtool: '',
     unixtoolselect: '',
+    dynunixtoolselect: '',
     unixtoollist: [],
-    unixtools: [],
+    dynunixtoollist: [],
   });
 
   const logFormState = useCallback(() => {
     console.log(form.state);
   }, [form.state]);
 
-  const toolSearch = useFormSearch(searchTools, 256);
+  const toolSearchSuggest = useFormSearch(searchToolsSuggest, 256);
+  const toolSearchSelect = useFormSearch(searchTools, 256);
+  const toolSearchMulti = useFormSearch(searchTools, 256);
 
   return (
     <Fragment>
@@ -244,6 +255,7 @@ const Stories = () => {
           errCheck={formErrCheck}
           validCheck={formValidCheck}
           displays={form.displays}
+          putDisplays={form.putDisplays}
           addDisplay={form.addDisplay}
           compactDisplays={form.compactDisplays}
         >
@@ -433,7 +445,7 @@ const Stories = () => {
           />
           <FieldSuggest
             name="unixtool"
-            label="Unix tool"
+            label="Unix tool suggest"
             options={unixToolSuggestions}
             icon={<FaIcon icon="terminal" />}
             iconRight={<FaIcon icon="cog" />}
@@ -441,21 +453,46 @@ const Stories = () => {
           />
           <FieldSuggest
             name="unixtool"
-            label="Unix tool"
+            label="Unix tool suggest"
             options={unixToolSuggestions}
             hint="Your favorite unix tool"
             disabled
           />
           <FieldSuggest
             name="unixtool"
-            label="Unix tool"
+            label="Unix tool suggest"
             options={unixToolSuggestions}
+            hint="Your favorite unix tool"
+            readOnly
+          />
+          <FieldDynSuggest
+            name="dynunixtool"
+            label="Unix tool dyn suggest"
+            onSearch={toolSearchSuggest.setSearch}
+            options={toolSearchSuggest.opts}
+            icon={<FaIcon icon="terminal" />}
+            iconRight={<FaIcon icon="cog" />}
+            hint="Your favorite unix tool"
+          />
+          <FieldDynSuggest
+            name="dynunixtool"
+            label="Unix tool dyn suggest"
+            onSearch={toolSearchSuggest.setSearch}
+            options={toolSearchSuggest.opts}
+            hint="Your favorite unix tool"
+            disabled
+          />
+          <FieldDynSuggest
+            name="dynunixtool"
+            label="Unix tool dyn suggest"
+            onSearch={toolSearchSuggest.setSearch}
+            options={toolSearchSuggest.opts}
             hint="Your favorite unix tool"
             readOnly
           />
           <FieldSearchSelect
             name="unixtoolselect"
-            label="Unix tool"
+            label="Unix tool search select"
             placeholder="Choose a tool"
             options={unixToolOpts}
             icon={<FaIcon icon="terminal" />}
@@ -464,21 +501,51 @@ const Stories = () => {
           />
           <FieldSearchSelect
             name="unixtoolselect"
-            label="Unix tool"
+            label="Unix tool search select"
+            placeholder="Choose a tool"
             options={unixToolOpts}
             hint="Your favorite unix tool"
             disabled
           />
           <FieldSearchSelect
             name="unixtoolselect"
-            label="Unix tool"
+            label="Unix tool search select"
+            placeholder="Choose a tool"
             options={unixToolOpts}
+            hint="Your favorite unix tool"
+            readOnly
+          />
+          <FieldDynSearchSelect
+            name="dynunixtoolselect"
+            label="Unix tool dyn search select"
+            placeholder="Choose a tool"
+            onSearch={toolSearchSelect.setSearch}
+            options={toolSearchSelect.opts}
+            icon={<FaIcon icon="terminal" />}
+            iconRight={<FaIcon icon="cog" />}
+            hint="Your favorite unix tool"
+          />
+          <FieldDynSearchSelect
+            name="dynunixtoolselect"
+            label="Unix tool dyn search select"
+            placeholder="Choose a tool"
+            onSearch={toolSearchSelect.setSearch}
+            options={toolSearchSelect.opts}
+            hint="Your favorite unix tool"
+            disabled
+          />
+          <FieldDynSearchSelect
+            name="dynunixtoolselect"
+            label="Unix tool dyn search select"
+            placeholder="Choose a tool"
+            onSearch={toolSearchSelect.setSearch}
+            options={toolSearchSelect.opts}
             hint="Your favorite unix tool"
             readOnly
           />
           <FieldMultiSelect
             name="unixtoollist"
-            label="Unix tools"
+            label="Unix tools multiselect"
             options={unixToolOpts}
             icon={<FaIcon icon="terminal" />}
             iconRight={<FaIcon icon="cog" />}
@@ -486,40 +553,40 @@ const Stories = () => {
           />
           <FieldMultiSelect
             name="unixtoollist"
-            label="Unix tools"
+            label="Unix tools multiselect"
             options={unixToolOpts}
             hint="Your favorite unix tools"
             disabled
           />
           <FieldMultiSelect
             name="unixtoollist"
-            label="Unix tools"
+            label="Unix tools multiselect"
             options={unixToolOpts}
             hint="Your favorite unix tools"
             readOnly
           />
           <FieldDynMultiSelect
-            name="unixtools"
-            label="Unix tools"
-            onSearch={toolSearch.setSearch}
-            options={toolSearch.opts}
+            name="dynunixtoollist"
+            label="Unix tools dyn multiselect"
+            onSearch={toolSearchMulti.setSearch}
+            options={toolSearchMulti.opts}
             icon={<FaIcon icon="terminal" />}
             iconRight={<FaIcon icon="cog" />}
             hint="Your favorite unix tools"
           />
           <FieldDynMultiSelect
-            name="unixtools"
-            label="Unix tools"
-            onSearch={toolSearch.setSearch}
-            options={toolSearch.opts}
+            name="dynunixtoollist"
+            label="Unix tools dyn multiselect"
+            onSearch={toolSearchMulti.setSearch}
+            options={toolSearchMulti.opts}
             hint="Your favorite unix tools"
             disabled
           />
           <FieldDynMultiSelect
-            name="unixtools"
-            label="Unix tools"
-            onSearch={toolSearch.setSearch}
-            options={toolSearch.opts}
+            name="dynunixtoollist"
+            label="Unix tools dyn multiselect"
+            onSearch={toolSearchMulti.setSearch}
+            options={toolSearchMulti.opts}
             hint="Your favorite unix tools"
             readOnly
           />

@@ -26,6 +26,7 @@ const Form = ({
   errCheck,
   validCheck,
   displays,
+  putDisplays,
   addDisplay,
   compactDisplays,
   children,
@@ -51,6 +52,7 @@ const Form = ({
         error,
         valid,
         displays,
+        putDisplays,
         addDisplay,
         compactDisplays,
       }}
@@ -136,6 +138,7 @@ const Field = ({
   onSearch,
   options,
   optionDisplays,
+  putDisplays,
   addDisplay,
   compactDisplays,
   label,
@@ -173,6 +176,9 @@ const Field = ({
     }
     if (ctx.displays) {
       optionDisplays = ctx.displays[name];
+    }
+    if (ctx.putDisplays) {
+      putDisplays = ctx.putDisplays;
     }
     if (ctx.addDisplay) {
       addDisplay = ctx.addDisplay;
@@ -262,6 +268,7 @@ const Field = ({
         onSearch,
         options,
         optionDisplays,
+        putDisplays,
         addDisplay,
         compactDisplays,
         label,
@@ -889,6 +896,122 @@ const RenderSuggest = ({
   );
 };
 
+const RenderDynSuggest = ({
+  fieldid,
+  type,
+  inputMode,
+  autoFocus,
+  autoComplete,
+  name,
+  value,
+  onChange,
+  onSearch,
+  options,
+  label,
+  placeholder,
+  icon,
+  iconRight,
+  disabled,
+  readOnly,
+}) => {
+  const [anchor, anchorRef] = useStateRef(null);
+  const [show, setShow] = useState(false);
+  const setVisible = useCallback(() => {
+    setShow(true);
+  }, [setShow]);
+  const setHidden = useCallback(() => {
+    setShow(false);
+  }, [setShow]);
+  const setValue = useCallback(
+    (v) => {
+      onChange(name, v);
+      if (onSearch) {
+        onSearch(v);
+      }
+    },
+    [name, onChange, onSearch],
+  );
+
+  const first =
+    Array.isArray(options) && options.length > 0 ? options[0] : null;
+
+  const handleChange = useCallback(
+    (e) => {
+      setValue(e.target.value);
+    },
+    [setValue],
+  );
+  const onKeyDown = useCallback(
+    (e) => {
+      if (e.key === 'Enter') {
+        if (first !== null && show) {
+          setValue(first);
+          setShow(false);
+          if (anchor) {
+            anchor.blur();
+          }
+        }
+      }
+    },
+    [anchor, show, setShow, setValue, first],
+  );
+
+  return (
+    <Fragment>
+      {label && <label htmlFor={fieldid}>{label}</label>}
+      {renderNormal({
+        fieldid,
+        type,
+        inputMode,
+        autoFocus,
+        autoComplete,
+        name,
+        value,
+        onChange: handleChange,
+        onKeyDown,
+        onFocus: setVisible,
+        onBlur: setHidden,
+        placeholder,
+        icon,
+        iconRight,
+        disabled,
+        readOnly,
+        forwardedRef: anchorRef,
+      })}
+      {show &&
+        !disabled &&
+        !readOnly &&
+        Array.isArray(options) &&
+        options.length > 0 && (
+          <Popover anchor={anchor} className="field-suggest-options" matchWidth>
+            {Array.isArray(options) &&
+              options.map((i) => (
+                <SuggestFieldOption
+                  key={i}
+                  fieldRef={anchor}
+                  close={setHidden}
+                  setValue={setValue}
+                  value={i}
+                />
+              ))}
+          </Popover>
+        )}
+    </Fragment>
+  );
+};
+
+const FieldDynSuggest = (props) => {
+  const j = ['suggest'];
+  if (props.className) {
+    j.push(props.className);
+  }
+  const k = Object.assign({}, props, {
+    className: j.join(' '),
+    render: RenderDynSuggest,
+  });
+  return <Field {...k} />;
+};
+
 const FieldSuggest = (props) => {
   const j = ['suggest'];
   if (props.className) {
@@ -985,8 +1108,9 @@ const RenderSearchSelect = ({
     }
   }, [show, closePopup, setValue, first]);
 
+  const isPlaceholder = !value || !value.length || value.length == 0;
   const k = ['select-value'];
-  if (!value || !value.length || value.length == 0) {
+  if (isPlaceholder) {
     k.push('placeholder');
   }
 
@@ -1009,7 +1133,7 @@ const RenderSearchSelect = ({
             onClick={toggleVisible}
           >
             <Column className={k.join(' ')} fullWidth>
-              {optionValueToDisplay[value] || placeholder}
+              {isPlaceholder ? placeholder : optionValueToDisplay[value]}
             </Column>
             <Column className="select-button" shrink="0">
               <ButtonSmall id={fieldid} disabled={disabled}>
@@ -1068,6 +1192,164 @@ const FieldSearchSelect = (props) => {
   const k = Object.assign({}, props, {
     className: j.join(' '),
     render: RenderSearchSelect,
+  });
+  return <Field {...k} />;
+};
+
+const RenderDynSearchSelect = ({
+  fieldid,
+  name,
+  value,
+  onChange,
+  onSearch,
+  options,
+  optionDisplays,
+  putDisplays,
+  label,
+  placeholder,
+  icon,
+  iconRight,
+  disabled,
+  readOnly,
+}) => {
+  const [anchor, anchorRef] = useStateRef(null);
+  const [search, setSearch] = useState('');
+  const [show, setShow] = useState(false);
+  const setHidden = useCallback(() => {
+    setShow(false);
+  }, [setShow]);
+  const toggleVisible = useCallback(() => {
+    setShow((i) => !i);
+  }, [setShow]);
+  const setSearchVal = useCallback(
+    (v) => {
+      setSearch(v);
+      if (onSearch) {
+        onSearch(v);
+      }
+    },
+    [setSearch, onSearch],
+  );
+  const closePopup = useCallback(() => {
+    setSearchVal('');
+    setHidden();
+  }, [setSearchVal, setHidden]);
+  const setValue = useCallback(
+    (v) => {
+      onChange(name, v);
+      if (putDisplays && Array.isArray(options)) {
+        const k = options.find((i) => i.value === v);
+        if (k) {
+          putDisplays(name, {[v]: k.display});
+        }
+      }
+    },
+    [name, onChange, putDisplays, options],
+  );
+
+  const first =
+    Array.isArray(options) && options.length > 0 ? options[0] : null;
+
+  const handleSearch = useCallback(
+    (_, value) => {
+      setSearchVal(value);
+    },
+    [setSearchVal],
+  );
+  const onEnter = useCallback(() => {
+    if (first !== null && show) {
+      setValue(first.value);
+      closePopup();
+    }
+  }, [show, closePopup, setValue, first]);
+
+  const isPlaceholder = !value || !value.length || value.length == 0;
+  const k = ['select-value'];
+  if (isPlaceholder) {
+    k.push('placeholder');
+  }
+
+  return (
+    <Fragment>
+      {label && <label htmlFor={fieldid}>{label}</label>}
+      <Grid className="field-row" strict nowrap align="center">
+        {icon && (
+          <Column className="icon left" shrink="0">
+            {icon}
+          </Column>
+        )}
+        <Column className="field" fullWidth>
+          <Grid
+            className="select-anchor"
+            strict
+            nowrap
+            align="center"
+            forwardedRef={anchorRef}
+            onClick={toggleVisible}
+          >
+            <Column className={k.join(' ')} fullWidth>
+              {isPlaceholder
+                ? placeholder
+                : optionDisplays && optionDisplays[value]}
+            </Column>
+            <Column className="select-button" shrink="0">
+              <ButtonSmall id={fieldid} disabled={disabled}>
+                <FaIcon icon="angle-down" />
+              </ButtonSmall>
+            </Column>
+          </Grid>
+        </Column>
+        {iconRight && (
+          <Column className="icon right" shrink="0">
+            {iconRight}
+          </Column>
+        )}
+      </Grid>
+      {show && !disabled && !readOnly && (
+        <Popover
+          anchor={anchor}
+          className="field-searchselect-options"
+          close={closePopup}
+          matchWidth
+        >
+          <Field
+            className="filter-box"
+            noctx
+            value={search}
+            onChange={handleSearch}
+            onSubmit={onEnter}
+            placeholder="Filter..."
+            nohint
+            fullWidth
+          />
+          {Array.isArray(options) &&
+            options.map((i) => (
+              <SearchSelectFieldOption
+                key={i.value}
+                selected={i.value === value}
+                closePopup={closePopup}
+                setValue={setValue}
+                value={i.value}
+                display={i.display}
+              />
+            ))}
+          {Array.isArray(options) && options.length == 0 && (
+            <div className="no-results">No results</div>
+          )}
+        </Popover>
+      )}
+    </Fragment>
+  );
+};
+
+const FieldDynSearchSelect = (props) => {
+  const j = ['searchselect'];
+  if (props.className) {
+    j.push(props.className);
+  }
+  const k = Object.assign({}, props, {
+    className: j.join(' '),
+    render: RenderDynSearchSelect,
   });
   return <Field {...k} />;
 };
@@ -1442,6 +1724,12 @@ const useForm = (initState = {}, initDisplay = {}) => {
   );
 
   const [displays, setDisplays] = useState(initDisplay);
+  const putDisplays = useCallback(
+    (name, val) => {
+      setDisplays((prev) => Object.assign({}, prev, {[name]: val}));
+    },
+    [setDisplays],
+  );
   const addDisplay = useCallback(
     (name, value, display) => {
       setDisplays((prev) =>
@@ -1490,6 +1778,7 @@ const useForm = (initState = {}, initDisplay = {}) => {
     assign,
     displays,
     setDisplays,
+    putDisplays,
     addDisplay,
     assignDisplays,
     compactDisplays,
@@ -1514,7 +1803,9 @@ const useFormSearch = (searchFn, debounce = 256) => {
     }
     const cancelRef = {current: false};
     (async () => {
-      await sleep(debounce);
+      if (debounce > 0) {
+        await sleep(debounce);
+      }
       if (cancelRef.current) {
         return;
       }
@@ -1548,7 +1839,9 @@ export {
   FieldFile,
   FieldSelect,
   FieldSuggest,
+  FieldDynSuggest,
   FieldSearchSelect,
+  FieldDynSearchSelect,
   FieldMultiSelect,
   FieldDynMultiSelect,
   Form,
