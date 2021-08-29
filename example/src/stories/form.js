@@ -18,6 +18,7 @@ import {
   Form,
   useForm,
   useFormSearch,
+  useFormDisplay,
   Button,
   FaIcon,
 } from '@xorkevin/nuke';
@@ -234,6 +235,7 @@ const Stories = () => {
   }, [form.state]);
 
   const toolSearch = useFormSearch(searchTools, 256);
+  const toolDisplay = useFormDisplay({});
 
   return (
     <Fragment>
@@ -498,9 +500,11 @@ const Stories = () => {
           <FieldDynMultiSelect
             name="unixtools"
             label="Unix tools"
-            searchFn={toolSearch.setSearch}
+            onSearch={toolSearch.setSearch}
             options={toolSearch.opts}
-            optionDisplays={toolSearch.displays}
+            optionDisplays={toolDisplay.displays}
+            addDisplay={toolDisplay.addDisplay}
+            compactDisplays={toolDisplay.compactDisplays}
             icon={<FaIcon icon="terminal" />}
             iconRight={<FaIcon icon="cog" />}
             hint="Your favorite unix tools"

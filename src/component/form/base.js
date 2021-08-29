@@ -119,9 +119,11 @@ const Field = ({
   error,
   valid,
   option,
-  searchFn,
+  onSearch,
   options,
   optionDisplays,
+  addDisplay,
+  compactDisplays,
   label,
   placeholder,
   icon,
@@ -234,9 +236,11 @@ const Field = ({
         onChange: changeFunc,
         onSubmit: submitFunc,
         option,
-        searchFn,
+        onSearch,
         options,
         optionDisplays,
+        addDisplay,
+        compactDisplays,
         label,
         placeholder,
         icon,
@@ -1249,9 +1253,11 @@ const RenderDynMultiSelect = ({
   name,
   value,
   onChange,
-  searchFn,
+  onSearch,
   options,
   optionDisplays,
+  addDisplay,
+  compactDisplays,
   label,
   placeholder,
   icon,
@@ -1271,27 +1277,37 @@ const RenderDynMultiSelect = ({
   const setSearchVal = useCallback(
     (v) => {
       setSearch(v);
-      if (searchFn) {
-        searchFn(v);
+      if (onSearch) {
+        onSearch(v);
       }
     },
-    [setSearch, searchFn],
+    [setSearch, onSearch],
   );
   const addValue = useCallback(
     (v) => {
       const next = new Set(value);
       next.add(v);
+      if (addDisplay && Array.isArray(options)) {
+        const k = options.find((i) => i.value === v);
+        if (k) {
+          addDisplay(v, k.display);
+        }
+      }
       onChange(name, Array.from(next).sort());
     },
-    [name, onChange, value],
+    [name, onChange, addDisplay, value, options],
   );
   const rmValue = useCallback(
     (v) => {
       const next = new Set(value);
       next.delete(v);
-      onChange(name, Array.from(next).sort());
+      const k = Array.from(next).sort();
+      onChange(name, k);
+      if (compactDisplays) {
+        compactDisplays(k);
+      }
     },
-    [name, onChange, value],
+    [name, onChange, compactDisplays, value],
   );
 
   const first =
@@ -1401,7 +1417,7 @@ const useForm = (initState = {}) => {
     (val) => setState((prev) => Object.assign({}, prev, val)),
     [setState],
   );
-  return {state, update, assign};
+  return {state, setState, update, assign};
 };
 
 const sleep = async (ms) => {
@@ -1412,18 +1428,11 @@ const sleep = async (ms) => {
   });
 };
 
-const useFormSearch = (search, debounce = 256) => {
-  const [searchVal, setSearchVal] = useState('');
-  const setSearch = useCallback(
-    (v) => {
-      setSearchVal(v);
-    },
-    [setSearchVal],
-  );
+const useFormSearch = (searchFn, debounce = 256) => {
+  const [search, setSearch] = useState('');
   const [opts, setOpts] = useState([]);
-  const [displays, setDisplays] = useState({});
   useEffect(() => {
-    if (searchVal === '') {
+    if (search === '') {
       setOpts([]);
       return;
     }
@@ -1433,7 +1442,7 @@ const useFormSearch = (search, debounce = 256) => {
       if (cancelRef.current) {
         return;
       }
-      const res = await search(searchVal);
+      const res = await searchFn(search);
       if (cancelRef.current) {
         return;
       }
@@ -1441,22 +1450,50 @@ const useFormSearch = (search, debounce = 256) => {
         return;
       }
       setOpts(res);
-      setDisplays((prev) =>
-        Object.assign(
-          {},
-          prev,
-          Object.fromEntries(res.map((i) => [i.value, i.display])),
-        ),
-      );
     })();
     return () => {
       cancelRef.current = true;
     };
-  }, [searchVal, debounce, search, setOpts, setDisplays]);
+  }, [search, debounce, searchFn, setOpts]);
   return {
     setSearch,
     opts,
+  };
+};
+
+const useFormDisplay = (initDisplay = {}) => {
+  const [displays, setDisplays] = useState(initDisplay);
+  const addDisplay = useCallback(
+    (value, display) => {
+      setDisplays((prev) => Object.assign({}, prev, {[value]: display}));
+    },
+    [setDisplays],
+  );
+  const assignDisplays = useCallback(
+    (val) => {
+      setDisplays((prev) => Object.assign({}, prev, val));
+    },
+    [setDisplays],
+  );
+  const compactDisplays = useCallback(
+    (values) => {
+      if (!Array.isArray(values)) {
+        return;
+      }
+      setDisplays((prev) =>
+        Object.fromEntries(
+          values.filter((i) => prev[i]).map((i) => [i, prev[i]]),
+        ),
+      );
+    },
+    [setDisplays],
+  );
+  return {
     displays,
+    setDisplays,
+    addDisplay,
+    assignDisplays,
+    compactDisplays,
   };
 };
 
@@ -1477,5 +1514,6 @@ export {
   Form,
   useForm,
   useFormSearch,
+  useFormDisplay,
   fuzzyFilter,
 };

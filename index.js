@@ -34,6 +34,7 @@ import {
   Form,
   useForm,
   useFormSearch,
+  useFormDisplay,
 } from './src/component/form';
 import {Grid, Column} from './src/component/grid';
 import Img from './src/component/image';
@@ -124,6 +125,7 @@ export {
   Form,
   useForm,
   useFormSearch,
+  useFormDisplay,
   Grid,
   Column,
   Img,
