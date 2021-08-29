@@ -3,6 +3,7 @@ import {
   createContext,
   Fragment,
   useState,
+  useEffect,
   useCallback,
   useMemo,
   useContext,
@@ -118,7 +119,9 @@ const Field = ({
   error,
   valid,
   option,
+  searchFn,
   options,
+  optionDisplays,
   label,
   placeholder,
   icon,
@@ -231,7 +234,9 @@ const Field = ({
         onChange: changeFunc,
         onSubmit: submitFunc,
         option,
+        searchFn,
         options,
+        optionDisplays,
         label,
         placeholder,
         icon,
@@ -1235,6 +1240,157 @@ const FieldMultiSelect = (props) => {
   return <Field {...k} />;
 };
 
+const RenderDynMultiSelect = ({
+  fieldid,
+  type,
+  inputMode,
+  autoFocus,
+  autoComplete,
+  name,
+  value,
+  onChange,
+  searchFn,
+  options,
+  optionDisplays,
+  label,
+  placeholder,
+  icon,
+  iconRight,
+  disabled,
+  readOnly,
+}) => {
+  const [anchor, anchorRef] = useStateRef(null);
+  const [search, setSearch] = useState('');
+  const [show, setShow] = useState(false);
+  const setVisible = useCallback(() => {
+    setShow(true);
+  }, [setShow]);
+  const setHidden = useCallback(() => {
+    setShow(false);
+  }, [setShow]);
+  const setSearchVal = useCallback(
+    (v) => {
+      setSearch(v);
+      if (searchFn) {
+        searchFn(v);
+      }
+    },
+    [setSearch, searchFn],
+  );
+  const addValue = useCallback(
+    (v) => {
+      const next = new Set(value);
+      next.add(v);
+      onChange(name, Array.from(next).sort());
+    },
+    [name, onChange, value],
+  );
+  const rmValue = useCallback(
+    (v) => {
+      const next = new Set(value);
+      next.delete(v);
+      onChange(name, Array.from(next).sort());
+    },
+    [name, onChange, value],
+  );
+
+  const first =
+    Array.isArray(options) && options.length > 0 ? options[0] : null;
+
+  const handleSearch = useCallback(
+    (e) => {
+      setSearchVal(e.target.value);
+    },
+    [setSearchVal],
+  );
+  const onKeyDown = useCallback(
+    (e) => {
+      if (e.key === 'Enter') {
+        if (first !== null && show) {
+          addValue(first.value);
+          setSearchVal('');
+        }
+      }
+    },
+    [show, setSearchVal, addValue, first],
+  );
+
+  const valueSet = new Set(value);
+
+  return (
+    <Fragment>
+      {label && <label htmlFor={fieldid}>{label}</label>}
+      {Array.isArray(value) && value.length > 0 && (
+        <div className="value-list">
+          {value.map((i) => (
+            <MultiSelectFieldValue
+              key={i}
+              rmValue={rmValue}
+              value={i}
+              display={optionDisplays && optionDisplays[i]}
+              disabled={disabled}
+              readOnly={readOnly}
+            />
+          ))}
+        </div>
+      )}
+      {renderNormal({
+        fieldid,
+        type,
+        inputMode,
+        autoFocus,
+        autoComplete,
+        value: search,
+        onChange: handleSearch,
+        onKeyDown,
+        onFocus: setVisible,
+        onBlur: setHidden,
+        placeholder,
+        icon,
+        iconRight,
+        disabled,
+        readOnly,
+        forwardedRef: anchorRef,
+      })}
+      {show &&
+        !disabled &&
+        !readOnly &&
+        Array.isArray(options) &&
+        options.length > 0 && (
+          <Popover
+            anchor={anchor}
+            className="field-multiselect-options"
+            matchWidth
+          >
+            {options.map((i) => (
+              <MultiSelectFieldOption
+                key={i.value}
+                selected={valueSet.has(i.value)}
+                setSearch={setSearchVal}
+                addValue={addValue}
+                rmValue={rmValue}
+                value={i.value}
+                display={i.display}
+              />
+            ))}
+          </Popover>
+        )}
+    </Fragment>
+  );
+};
+
+const FieldDynMultiSelect = (props) => {
+  const j = ['multiselect'];
+  if (props.className) {
+    j.push(props.className);
+  }
+  const k = Object.assign({}, props, {
+    className: j.join(' '),
+    render: RenderDynMultiSelect,
+  });
+  return <Field {...k} />;
+};
+
 const useForm = (initState = {}) => {
   const [state, setState] = useState(initState);
   const update = useCallback(
@@ -1246,6 +1402,50 @@ const useForm = (initState = {}) => {
     [setState],
   );
   return {state, update, assign};
+};
+
+const sleep = async (ms) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, ms);
+  });
+};
+
+const useFormSearch = (search, debounce = 256) => {
+  const [searchVal, setSearchVal] = useState('');
+  const setSearch = useCallback(
+    (v) => {
+      setSearchVal(v);
+    },
+    [setSearchVal],
+  );
+  const [opts, setOpts] = useState([]);
+  useEffect(() => {
+    if (searchVal === '') {
+      setOpts([]);
+      return;
+    }
+    const cancelRef = {current: false};
+    (async () => {
+      await sleep(debounce);
+      if (cancelRef.current) {
+        return;
+      }
+      const res = await search(searchVal);
+      if (cancelRef.current) {
+        return;
+      }
+      setOpts(res);
+    })();
+    return () => {
+      cancelRef.current = true;
+    };
+  }, [searchVal, debounce, search, setOpts]);
+  return {
+    setSearch,
+    opts,
+  };
 };
 
 export {
@@ -1261,7 +1461,9 @@ export {
   FieldSuggest,
   FieldSearchSelect,
   FieldMultiSelect,
+  FieldDynMultiSelect,
   Form,
   useForm,
+  useFormSearch,
   fuzzyFilter,
 };

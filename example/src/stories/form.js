@@ -14,8 +14,10 @@ import {
   FieldSuggest,
   FieldSearchSelect,
   FieldMultiSelect,
+  FieldDynMultiSelect,
   Form,
   useForm,
+  useFormSearch,
   Button,
   FaIcon,
 } from '@xorkevin/nuke';
@@ -78,6 +80,45 @@ const unixToolSuggestions = [
 ];
 
 const unixToolOpts = unixToolSuggestions.map((i) => ({display: i, value: i}));
+
+const matchChars = (from, to) => {
+  let j = 0;
+  for (let i = 0; i < from.length; i++) {
+    while (j < to.length && to[j] !== from[i]) {
+      j++;
+    }
+    if (j >= to.length) {
+      return false;
+    }
+    j++;
+  }
+  return true;
+};
+
+const fuzzyFilter = (count, options, map, search = '') => {
+  const s = typeof search === 'string' ? search.toLowerCase() : '';
+  const matches = [];
+  for (let i = 0; i < options.length && matches.length < count; i++) {
+    const k = options[i];
+    if (matchChars(s, map(k).toLowerCase())) {
+      matches.push(k);
+    }
+  }
+  return matches;
+};
+
+const sleep = async (ms) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, ms);
+  });
+};
+
+const searchTools = async (search) => {
+  await sleep(256);
+  return fuzzyFilter(8, unixToolOpts, (i) => i.display, search);
+};
 
 const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]+$/;
 const phoneRegex = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
@@ -185,11 +226,14 @@ const Stories = () => {
     unixtool: '',
     unixtoolselect: '',
     unixtoollist: [],
+    unixtools: [],
   });
 
   const logFormState = useCallback(() => {
     console.log(form.state);
   }, [form.state]);
+
+  const toolSearch = useFormSearch(searchTools, 256);
 
   return (
     <Fragment>
@@ -450,6 +494,15 @@ const Stories = () => {
             options={unixToolOpts}
             hint="Your favorite unix tools"
             readOnly
+          />
+          <FieldDynMultiSelect
+            name="unixtools"
+            label="Unix tools"
+            searchFn={toolSearch.setSearch}
+            options={toolSearch.opts}
+            icon={<FaIcon icon="terminal" />}
+            iconRight={<FaIcon icon="cog" />}
+            hint="Your favorite unix tools"
           />
           <h3>Form state</h3>
           <pre>{JSON.stringify(form.state, fileStringReplacer, '  ')}</pre>

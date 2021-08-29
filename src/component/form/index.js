@@ -10,8 +10,10 @@ import {
   FieldSuggest,
   FieldSearchSelect,
   FieldMultiSelect,
+  FieldDynMultiSelect,
   Form,
   useForm,
+  useFormSearch,
   fuzzyFilter,
 } from './base';
 export {
@@ -27,7 +29,9 @@ export {
   FieldSuggest,
   FieldSearchSelect,
   FieldMultiSelect,
+  FieldDynMultiSelect,
   Form,
   useForm,
+  useFormSearch,
   fuzzyFilter,
 };

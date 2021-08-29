@@ -30,8 +30,10 @@ import {
   FieldSuggest,
   FieldSearchSelect,
   FieldMultiSelect,
+  FieldDynMultiSelect,
   Form,
   useForm,
+  useFormSearch,
 } from './src/component/form';
 import {Grid, Column} from './src/component/grid';
 import Img from './src/component/image';
@@ -118,8 +120,10 @@ export {
   FieldSuggest,
   FieldSearchSelect,
   FieldMultiSelect,
+  FieldDynMultiSelect,
   Form,
   useForm,
+  useFormSearch,
   Grid,
   Column,
   Img,
