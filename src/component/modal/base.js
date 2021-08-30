@@ -110,11 +110,45 @@ const Modal = ({
   );
 };
 
+const modalSizeSet = new Set(['sm', 'md', 'lg']);
+
+const ModalSurface = ({
+  className,
+  size,
+  alignx,
+  aligny,
+  close,
+  anchor,
+  onClick,
+  children,
+}) => {
+  const k = ['modal-surface'];
+  if (modalSizeSet.has(size)) {
+    k.push(size);
+  }
+  if (className) {
+    k.push(className);
+  }
+  return (
+    <Modal
+      className={k.join(' ')}
+      alignx={alignx}
+      aligny={aligny}
+      close={close}
+      anchor={anchor}
+      onClick={onClick}
+    >
+      {children}
+    </Modal>
+  );
+};
+
 export {
   Modal as default,
   ModalDefaultOpts,
   ModalCtx,
   ModalMiddleware,
   Modal,
+  ModalSurface,
   useModal,
 };

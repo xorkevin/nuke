@@ -1,7 +1,8 @@
 .modal {
   position: fixed;
-  max-width: calc(100vw - 16px);
-  max-height: calc(100vh - 16px);
+  max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 32px);
+  overflow: auto;
   z-index: 112;
 
   &.horizontal-center {
@@ -10,11 +11,11 @@
   }
 
   &.horizontal-start {
-    left: 8px;
+    left: 16px;
   }
 
   &.horizontal-end {
-    right: 8px;
+    right: 16px;
   }
 
   &.vertical-center {
@@ -22,11 +23,38 @@
     transform: translateY(-50%);
   }
 
+  &.horizontal-center.vertical-center {
+    transform: translate(-50%, -50%);
+  }
+
   &.vertical-start {
-    top: 8px;
+    top: 16px;
   }
 
   &.vertical-end {
-    bottom: 8px;
+    bottom: 16px;
   }
+}
+
+.modal-surface {
+  padding: 16px;
+  background-color: $white;
+  border-radius: 4px;
+  @include shadow-box(14px);
+
+  &.sm {
+    width: $modal-sm-size;
+  }
+
+  &.md {
+    width: $modal-md-size;
+  }
+
+  &.lg {
+    width: $modal-lg-size;
+  }
+}
+
+.dark .modal-surface {
+  background-color: $color-primary-dark-1;
 }

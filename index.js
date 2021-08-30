@@ -58,6 +58,7 @@ import {
   ModalCtx,
   ModalMiddleware,
   Modal,
+  ModalSurface,
   useModal,
 } from './src/component/modal';
 import {Navbar, NavItem, NavDivider} from './src/component/navbar';
@@ -145,6 +146,7 @@ export {
   ModalCtx,
   ModalMiddleware,
   Modal,
+  ModalSurface,
   useModal,
   Navbar,
   NavItem,

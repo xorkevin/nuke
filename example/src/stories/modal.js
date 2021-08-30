@@ -2,8 +2,9 @@ import {Fragment} from 'react';
 
 import {Story} from 'docs';
 
-import {Modal, useModal} from '@xorkevin/nuke/src/component/modal';
+import {ModalSurface, useModal} from '@xorkevin/nuke/src/component/modal';
 import Button from '@xorkevin/nuke/src/component/button';
+import Section from '@xorkevin/nuke/src/component/section';
 
 export const Plain = () => {
   const modal = useModal();
@@ -13,9 +14,52 @@ export const Plain = () => {
         Anchor
       </Button>
       {modal.show && (
-        <Modal anchor={modal.anchor} close={modal.close}>
-          <div style={{padding: '16px'}}>Hello, world!</div>
-        </Modal>
+        <ModalSurface size="lg" anchor={modal.anchor} close={modal.close}>
+          <Section id="section1">
+            <h1>Section Title</h1>
+            <hr />
+            <p style={{height: '256px'}}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
+              fringilla aliquet condimentum. Nunc facilisis orci dui, sit amet
+              dictum massa porta at. Mauris augue nisi, scelerisque ac suscipit
+              sit amet, egestas ut risus. In hac habitasse platea dictumst.
+              Vivamus nibh enim, dignissim quis consequat at, sagittis in magna.
+            </p>
+          </Section>
+          <Section id="section2">
+            <h1>Section Title</h1>
+            <hr />
+            <p style={{height: '256px'}}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
+              fringilla aliquet condimentum. Nunc facilisis orci dui, sit amet
+              dictum massa porta at. Mauris augue nisi, scelerisque ac suscipit
+              sit amet, egestas ut risus. In hac habitasse platea dictumst.
+              Vivamus nibh enim, dignissim quis consequat at, sagittis in magna.
+            </p>
+          </Section>
+          <Section id="section3">
+            <h1>Section Title</h1>
+            <hr />
+            <p style={{height: '256px'}}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
+              fringilla aliquet condimentum. Nunc facilisis orci dui, sit amet
+              dictum massa porta at. Mauris augue nisi, scelerisque ac suscipit
+              sit amet, egestas ut risus. In hac habitasse platea dictumst.
+              Vivamus nibh enim, dignissim quis consequat at, sagittis in magna.
+            </p>
+          </Section>
+          <Section id="section4">
+            <h1>Section Title</h1>
+            <hr />
+            <p style={{height: '256px'}}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
+              fringilla aliquet condimentum. Nunc facilisis orci dui, sit amet
+              dictum massa porta at. Mauris augue nisi, scelerisque ac suscipit
+              sit amet, egestas ut risus. In hac habitasse platea dictumst.
+              Vivamus nibh enim, dignissim quis consequat at, sagittis in magna.
+            </p>
+          </Section>
+        </ModalSurface>
       )}
     </Fragment>
   );
@@ -29,14 +73,16 @@ export const TopRight = () => {
         Anchor
       </Button>
       {modal.show && (
-        <Modal
+        <ModalSurface
+          size="md"
           alignx="end"
           aligny="start"
           anchor={modal.anchor}
           close={modal.close}
         >
-          <div style={{padding: '16px'}}>Hello, world!</div>
-        </Modal>
+          {' '}
+          Hello, world!
+        </ModalSurface>
       )}
     </Fragment>
   );
@@ -50,14 +96,15 @@ export const BottomLeft = () => {
         Anchor
       </Button>
       {modal.show && (
-        <Modal
+        <ModalSurface
+          size="sm"
           alignx="start"
           aligny="end"
           anchor={modal.anchor}
           close={modal.close}
         >
-          <div style={{padding: '16px'}}>Hello, world!</div>
-        </Modal>
+          Hello, world!
+        </ModalSurface>
       )}
     </Fragment>
   );

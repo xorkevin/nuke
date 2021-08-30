@@ -3,6 +3,7 @@ import {
   ModalCtx,
   ModalMiddleware,
   Modal,
+  ModalSurface,
   useModal,
 } from './base';
 export {
@@ -11,5 +12,6 @@ export {
   ModalCtx,
   ModalMiddleware,
   Modal,
+  ModalSurface,
   useModal,
 };
