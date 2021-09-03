@@ -68,6 +68,10 @@ const Modal = ({
 
   const clickHandler = useCallback(
     (e) => {
+      if (!document.body.contains(e.target)) {
+        // element has been removed from render
+        return;
+      }
       if (anchor && anchor.contains(e.target)) {
         return;
       }
