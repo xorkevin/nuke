@@ -3,6 +3,7 @@ import {
   useState,
   useEffect,
   useCallback,
+  useRef,
   useContext,
 } from 'react';
 import ReactDOM from 'react-dom';
@@ -249,8 +250,14 @@ const Popover = ({
     };
   }, [popover, setPopoverBounds]);
 
+  const clickInPopover = useRef(false);
+
   const clickHandler = useCallback(
     (e) => {
+      if (clickInPopover.current) {
+        clickInPopover.current = false;
+        return;
+      }
       if (anchor && anchor.contains(e.target)) {
         return;
       }
@@ -261,7 +268,7 @@ const Popover = ({
         close();
       }
     },
-    [anchor, popover, close],
+    [clickInPopover, anchor, popover, close],
   );
 
   useEffect(() => {
@@ -270,6 +277,10 @@ const Popover = ({
       window.removeEventListener('click', clickHandler);
     };
   }, [clickHandler]);
+
+  const onClickCapture = useCallback(() => {
+    clickInPopover.current = true;
+  }, [clickInPopover]);
 
   if (!anchorBounds) {
     return null;
@@ -308,6 +319,7 @@ const Popover = ({
         className={k.join(' ')}
         style={style}
         onClick={onClick}
+        onClickCapture={onClickCapture}
       >
         {children}
       </div>

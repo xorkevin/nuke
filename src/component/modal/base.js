@@ -3,6 +3,7 @@ import {
   useState,
   useEffect,
   useCallback,
+  useRef,
   useContext,
 } from 'react';
 import ReactDOM from 'react-dom';
@@ -66,8 +67,14 @@ const Modal = ({
   const ctx = useContext(ModalCtx);
   const [modal, modalRef] = useStateRef(null);
 
+  const clickInModal = useRef(false);
+
   const clickHandler = useCallback(
     (e) => {
+      if (clickInModal.current) {
+        clickInModal.current = false;
+        return;
+      }
       if (anchor && anchor.contains(e.target)) {
         return;
       }
@@ -78,7 +85,7 @@ const Modal = ({
         close();
       }
     },
-    [anchor, modal, close],
+    [clickInModal, anchor, modal, close],
   );
 
   useEffect(() => {
@@ -87,6 +94,10 @@ const Modal = ({
       window.removeEventListener('click', clickHandler);
     };
   }, [clickHandler]);
+
+  const onClickCapture = useCallback(() => {
+    clickInModal.current = true;
+  }, [clickInModal]);
 
   const k = ['modal'];
   if (positionSet.has(alignx)) {
@@ -103,7 +114,12 @@ const Modal = ({
     k.push(className);
   }
   return ReactDOM.createPortal(
-    <div ref={modalRef} className={k.join(' ')} onClick={onClick}>
+    <div
+      ref={modalRef}
+      className={k.join(' ')}
+      onClick={onClick}
+      onClickCapture={onClickCapture}
+    >
       {children}
     </div>,
     ctx.root,
