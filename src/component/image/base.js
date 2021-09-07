@@ -45,11 +45,9 @@ const useViewIntersectOnce = (refelem, callback) => {
     }
 
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setIntersect(true);
-        }
-      });
+      if (entries.some((i) => i.isIntersecting)) {
+        setIntersect(true);
+      }
     });
     observer.observe(refelem.current);
 
