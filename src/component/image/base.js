@@ -17,17 +17,17 @@ const useImg = (src) => {
       return;
     }
 
-    const cancelRef = {current: false};
+    const controller = new AbortController();
     (async () => {
       const img = await getImg(src);
-      if (cancelRef.current) {
+      if (controller.signal.aborted) {
         return;
       }
       setImg(img);
     })();
 
     return () => {
-      cancelRef.current = true;
+      controller.abort();
     };
   }, [src, setImg]);
   return img;

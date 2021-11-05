@@ -1801,16 +1801,16 @@ const useFormSearch = (searchFn, debounce = 256) => {
       setOpts([]);
       return;
     }
-    const cancelRef = {current: false};
+    const controller = new AbortController();
     (async () => {
       if (debounce > 0) {
         await sleep(debounce);
       }
-      if (cancelRef.current) {
+      if (controller.signal.aborted) {
         return;
       }
-      const res = await searchFn(search);
-      if (cancelRef.current) {
+      const res = await searchFn({signal: controller.signal}, search);
+      if (controller.signal.aborted) {
         return;
       }
       if (!Array.isArray(res)) {
@@ -1819,7 +1819,7 @@ const useFormSearch = (searchFn, debounce = 256) => {
       setOpts(res);
     })();
     return () => {
-      cancelRef.current = true;
+      controller.abort();
     };
   }, [search, debounce, searchFn, setOpts]);
   return {
