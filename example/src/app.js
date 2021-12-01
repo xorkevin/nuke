@@ -1,5 +1,5 @@
 import {Fragment, lazy, Suspense} from 'react';
-import {Switch, Route, Redirect} from 'react-router-dom';
+import {Routes, Route, Navigate} from 'react-router-dom';
 
 import {
   useDarkModeValue,
@@ -86,15 +86,11 @@ const App = () => {
 
       <MainContent>
         <Suspense fallback={FallbackView}>
-          <Switch>
-            <Route exact path="/">
-              <HomeContainer />
-            </Route>
-            <Route path="/stories">
-              <Stories />
-            </Route>
-            <Redirect to="/" />
-          </Switch>
+          <Routes>
+            <Route path="/" element={<HomeContainer />} />
+            <Route path="/stories/*" element={<Stories />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
         </Suspense>
       </MainContent>
 

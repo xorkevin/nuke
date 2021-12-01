@@ -1,5 +1,5 @@
-import {lazy} from 'react';
-import {Switch, Route, Redirect, useRouteMatch} from 'react-router-dom';
+import {Fragment, lazy} from 'react';
+import {Routes, Route, Navigate} from 'react-router-dom';
 
 import {
   Container,
@@ -45,7 +45,6 @@ const storiesComponents = Object.fromEntries(
 );
 
 const Stories = () => {
-  const match = useRouteMatch();
   return (
     <Section>
       <Container padded narrow>
@@ -54,28 +53,37 @@ const Stories = () => {
             <Sidebar className="stories-sidebar">
               <SidebarHeader>Stories</SidebarHeader>
               {storiesList.map((i) => (
-                <SidebarItem key={i} link={`${match.path}/${i}`} local>
+                <SidebarItem key={i} link={i} local>
                   {i}
                 </SidebarItem>
               ))}
             </Sidebar>
           </Column>
           <Column fullWidth md={18}>
-            <Switch>
+            <Routes>
               {storiesList.map((i) => {
                 const Component = storiesComponents[i];
                 return (
-                  <Route key={i} path={`${match.path}/${i}`}>
-                    <h1>{i.charAt(0).toUpperCase() + i.slice(1)}</h1>
-                    <hr />
-                    <Component />
-                  </Route>
+                  <Route
+                    key={i}
+                    path={i}
+                    element={
+                      <Fragment>
+                        <h1>{i.charAt(0).toUpperCase() + i.slice(1)}</h1>
+                        <hr />
+                        <Component />
+                      </Fragment>
+                    }
+                  />
                 );
               })}
               {storiesList.length > 0 && (
-                <Redirect to={`${match.path}/${storiesList[0]}`} />
+                <Route
+                  path="*"
+                  element={<Navigate to={storiesList[0]} replace />}
+                />
               )}
-            </Switch>
+            </Routes>
           </Column>
         </Grid>
       </Container>
