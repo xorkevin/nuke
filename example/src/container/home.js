@@ -1,14 +1,14 @@
 import {Container, Grid, Img} from '@xorkevin/nuke';
 
-import {thamesPreview} from 'config';
+import {shanghaiPreview} from 'config';
 
 const HomeContainer = () => {
   return (
     <div>
       <Img
         className="dark"
-        src="/static/thames.jpg"
-        preview={thamesPreview}
+        src="/static/shanghai.jpg"
+        preview={shanghaiPreview}
         size="full"
       >
         <Container fill padded narrow>

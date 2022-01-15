@@ -10,7 +10,7 @@ import Section from '@xorkevin/nuke/src/component/section';
 import Button from '@xorkevin/nuke/src/component/button';
 import FaIcon from '@xorkevin/nuke/src/component/faicon';
 import Description from '@xorkevin/nuke/src/component/description';
-import {thamesPreview} from 'config';
+import {shanghaiPreview} from 'config';
 
 const Stories = () => (
   <Fragment>
@@ -25,8 +25,8 @@ const Stories = () => (
           <Img
             className="card-border dark"
             size="fill"
-            src="/static/thames.jpg"
-            preview={thamesPreview}
+            src="/static/shangai.jpg"
+            preview={shanghaiPreview}
           >
             <Container fill padded>
               <Grid
@@ -76,8 +76,8 @@ const Stories = () => (
             <Img
               className="card-border dark"
               size="fill"
-              src="/static/thames.jpg"
-              preview={thamesPreview}
+              src="/static/shangai.jpg"
+              preview={shanghaiPreview}
             >
               <Container fill padded>
                 <Grid
@@ -117,8 +117,8 @@ const Stories = () => (
             <Img
               className="card-border dark"
               size="fill"
-              src="/static/thames.jpg"
-              preview={thamesPreview}
+              src="/static/shangai.jpg"
+              preview={shanghaiPreview}
             >
               <Container fill padded>
                 <Grid
@@ -157,8 +157,8 @@ const Stories = () => (
             <Img
               className="card-border dark"
               size="fill"
-              src="/static/thames.jpg"
-              preview={thamesPreview}
+              src="/static/shangai.jpg"
+              preview={shanghaiPreview}
             >
               <Container fill padded>
                 <Grid

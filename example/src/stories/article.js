@@ -5,7 +5,7 @@ import {Story} from 'docs';
 import Article from '@xorkevin/nuke/src/component/article';
 import {Grid, Column} from '@xorkevin/nuke/src/component/grid';
 import Img from '@xorkevin/nuke/src/component/image';
-import {thamesPreview} from 'config';
+import {shanghaiPreview} from 'config';
 
 const Stories = () => (
   <Fragment>
@@ -18,10 +18,9 @@ const Stories = () => (
         subtitle="Dolor sit amet"
         author={{
           name: 'Kevin Wang',
-          bio:
-            'Tech evangelist and web dev. Experiences decision fatigue daily.',
-          img: '/static/thames.jpg',
-          imgpreview: thamesPreview,
+          bio: 'Tech evangelist and web dev. Experiences decision fatigue daily.',
+          img: '/static/shanghai.jpg',
+          imgpreview: shanghaiPreview,
         }}
         time={Date.now() - 86400000}
         tags={['list', 'of', 'tags']}
@@ -47,43 +46,43 @@ const Stories = () => (
         </p>
         <Img
           className="fullwidth"
-          src="/static/thames.jpg"
-          preview={thamesPreview}
+          src="/static/shanghai.jpg"
+          preview={shanghaiPreview}
         />
         <Img
           className="outset"
-          src="/static/thames.jpg"
-          preview={thamesPreview}
+          src="/static/shanghai.jpg"
+          preview={shanghaiPreview}
         />
         <div className="caption">Hello, World</div>
-        <Img src="/static/thames.jpg" preview={thamesPreview} />
+        <Img src="/static/shanghai.jpg" preview={shanghaiPreview} />
         <Img
           className="inset"
-          src="/static/thames.jpg"
-          preview={thamesPreview}
+          src="/static/shanghai.jpg"
+          preview={shanghaiPreview}
         />
         <Img
           className="inset-half"
-          src="/static/thames.jpg"
-          preview={thamesPreview}
+          src="/static/shanghai.jpg"
+          preview={shanghaiPreview}
         />
         <Grid className="outset" nowrap>
           <Column grow="1">
-            <Img src="/static/thames.jpg" preview={thamesPreview} />
+            <Img src="/static/shanghai.jpg" preview={shanghaiPreview} />
           </Column>
           <Column grow="1">
-            <Img src="/static/thames.jpg" preview={thamesPreview} />
+            <Img src="/static/shanghai.jpg" preview={shanghaiPreview} />
           </Column>
         </Grid>
         <Grid className="outset-double" nowrap>
           <Column grow="1">
-            <Img src="/static/thames.jpg" preview={thamesPreview} />
+            <Img src="/static/shanghai.jpg" preview={shanghaiPreview} />
           </Column>
           <Column grow="1">
-            <Img src="/static/thames.jpg" preview={thamesPreview} />
+            <Img src="/static/shanghai.jpg" preview={shanghaiPreview} />
           </Column>
           <Column grow="1">
-            <Img src="/static/thames.jpg" preview={thamesPreview} />
+            <Img src="/static/shanghai.jpg" preview={shanghaiPreview} />
           </Column>
         </Grid>
         <p>
