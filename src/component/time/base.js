@@ -134,7 +134,7 @@ const genTimeData = (tms) => {
   };
 };
 
-const Time = ({className, position, value, relDuration}) => {
+const Time = ({className, position, value, relDuration, updateInterval}) => {
   const {date, relTime, isoString, localeString, shortLocaleString} = useMemo(
     () => genTimeData(value),
     [value],
@@ -152,12 +152,16 @@ const Time = ({className, position, value, relDuration}) => {
     const handler = () => {
       setRelTime(relativeTime(date));
     };
-    const interval = window.setInterval(handler, 60000);
+    let k = 60000;
+    if (typeof updateInterval === 'number') {
+      k = updateInterval;
+    }
+    const interval = window.setInterval(handler, k);
     handler();
     return () => {
       window.clearInterval(interval);
     };
-  }, [date, setRelTime, before]);
+  }, [date, setRelTime, before, updateInterval]);
 
   return (
     <Tooltip className={className} position={position} tooltip={localeString}>
@@ -168,4 +172,4 @@ const Time = ({className, position, value, relDuration}) => {
   );
 };
 
-export default Time;
+export {Time as default, relativeTime};

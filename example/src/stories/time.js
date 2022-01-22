@@ -16,6 +16,10 @@ const Stories = () => (
     <Story>
       <Time value={Date.now() - 86400000} relDuration={0} />
     </Story>
+    <p>The update interval may be changed.</p>
+    <Story>
+      <Time value={Date.now()} updateInterval={1000} />
+    </Story>
     <p>
       The tooltip may be positioned the same as <code>Tooltip</code>.
     </p>
