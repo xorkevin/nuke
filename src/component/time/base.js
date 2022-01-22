@@ -4,7 +4,7 @@ import Tooltip from '../tooltip';
 
 const Formatter = () => {
   if (Intl && Intl.DateTimeFormat) {
-    return new Intl.DateTimeFormat(undefined, {
+    return new Intl.DateTimeFormat([], {
       weekday: 'short',
       month: 'short',
       day: 'numeric',
@@ -22,9 +22,27 @@ const Formatter = () => {
   };
 };
 
+const ShortFormatter = () => {
+  if (Intl && Intl.DateTimeFormat) {
+    return new Intl.DateTimeFormat([], {
+      dateStyle: 'short',
+      timeStyle: 'short',
+    });
+  }
+  return {
+    format: (date) => {
+      return date.toString();
+    },
+  };
+};
+
 const timeFormatter = Formatter();
 const dateToLocale = (date) => {
   return timeFormatter.format(date);
+};
+const shortTimeFormatter = ShortFormatter();
+const dateToShortLocale = (date) => {
+  return shortTimeFormatter.format(date);
 };
 
 const relativeTimeFormatStrings = [
@@ -112,17 +130,25 @@ const genTimeData = (tms) => {
     relTime: relativeTime(k),
     isoString: k.toISOString(),
     localeString: dateToLocale(k),
+    shortLocaleString: dateToShortLocale(k),
   };
 };
 
-const Time = ({value}) => {
-  const {date, relTime, isoString, localeString} = useMemo(
+const Time = ({className, position, value, relDuration}) => {
+  const {date, relTime, isoString, localeString, shortLocaleString} = useMemo(
     () => genTimeData(value),
     [value],
   );
   const [relTimeState, setRelTime] = useState(relTime);
 
+  const before =
+    typeof relDuration === 'number' &&
+    Date.now() - date.getTime() > relDuration;
+
   useEffect(() => {
+    if (before) {
+      return;
+    }
     const handler = () => {
       setRelTime(relativeTime(date));
     };
@@ -131,11 +157,13 @@ const Time = ({value}) => {
     return () => {
       window.clearInterval(interval);
     };
-  }, [date, setRelTime]);
+  }, [date, setRelTime, before]);
 
   return (
-    <Tooltip tooltip={localeString}>
-      <time dateTime={isoString}>{relTimeState}</time>
+    <Tooltip className={className} position={position} tooltip={localeString}>
+      <time dateTime={isoString}>
+        {before ? shortLocaleString : relTimeState}
+      </time>
     </Tooltip>
   );
 };

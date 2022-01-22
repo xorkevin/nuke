@@ -38,7 +38,7 @@
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off"
   },
-  "ignorePatterns": ["example/webpack.config.js"],
+  "ignorePatterns": ["example/bin/**", "example/webpack.config.js"],
   "settings": {
     "react": {
       "version": "detect"
