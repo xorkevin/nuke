@@ -19,11 +19,23 @@ const Stories = () => (
     </Story>
 
     <p>
-      <code>Img</code> may be supplied a <code>height/width</code> ratio instead
-      of a preview placeholder.
+      <code>Img</code> may be supplied a <code>width / height</code> ratio
+      instead of a preview placeholder.
     </p>
     <Story>
-      <Img src="/static/shanghai.jpg" ratio={1080 / 1920} />
+      <Img src="/static/shanghai.jpg" ratio="1920 / 1080" />
+    </Story>
+
+    <p>
+      <code>Img</code> aspect ratio means that it may be sized by setting only
+      the height.
+    </p>
+    <Story>
+      <Img
+        src="/static/shanghai.jpg"
+        ratio="1920 / 1080"
+        style={{height: '256px'}}
+      />
     </Story>
 
     <p>

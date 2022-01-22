@@ -60,16 +60,13 @@ const useViewIntersectOnce = (refelem, callback) => {
 
 const ImgSizeSet = new Set(['full', 'fill']);
 
-const getImgPercentage = (img) => {
+const getImgRatio = (img) => {
   const w = img.naturalWidth;
   const h = img.naturalHeight;
-  if (w == 0) {
-    return '';
-  }
-  return (h / w).toFixed(4) * 100 + '%';
+  return `${w} / ${h}`;
 };
 
-const Img = ({className, src, preview, ratio, size, children}) => {
+const Img = ({className, style, src, preview, ratio, size, children}) => {
   const [imgsrc, setImgsrc] = useState(null);
   const imgref = useRef(null);
   const intersectCb = useCallback(async () => {
@@ -92,27 +89,25 @@ const Img = ({className, src, preview, ratio, size, children}) => {
     k.push('loaded');
   }
 
-  const j = {};
+  const j = Object.assign({}, style);
   if (!size) {
     if (img) {
-      j.paddingBottom = getImgPercentage(img);
+      j.aspectRatio = getImgRatio(img);
     } else if (previewImg) {
-      j.paddingBottom = getImgPercentage(previewImg);
+      j.aspectRatio = getImgRatio(previewImg);
     } else if (ratio) {
-      j.paddingBottom = ratio.toFixed(4) * 100 + '%';
+      j.aspectRatio = ratio;
     } else {
       // guess a placeholder space
-      j.paddingBottom = '50%';
+      j.aspectRatio = '2 / 1';
     }
   }
 
   return (
-    <div className={k.join(' ')} ref={imgref}>
-      <div className="inner" style={j}>
-        {children && <div className="children">{children}</div>}
-        <img className="image" src={imgsrc} />
-        {preview && <img className="image preview" src={preview} />}
-      </div>
+    <div className={k.join(' ')} style={j} ref={imgref}>
+      {children && <div className="children">{children}</div>}
+      <img className="image" src={imgsrc} />
+      {preview && <img className="image preview" src={preview} />}
     </div>
   );
 };
