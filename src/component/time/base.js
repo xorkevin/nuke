@@ -172,4 +172,4 @@ const Time = ({className, position, value, relDuration, updateInterval}) => {
   );
 };
 
-export {Time as default, relativeTime};
+export {Time as default, Time, relativeTime};

@@ -90,7 +90,7 @@ import {
 } from './src/component/snackbar';
 import {Tabbar, TabItem, TabDivider} from './src/component/tabbar';
 import {Table, TableRow, TableHead, TableData} from './src/component/table';
-import Time from './src/component/time';
+import {Time, relativeTime} from './src/component/time';
 import Tooltip from './src/component/tooltip';
 
 export {
@@ -179,5 +179,6 @@ export {
   TableHead,
   TableData,
   Time,
+  relativeTime,
   Tooltip,
 };
