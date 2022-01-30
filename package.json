@@ -1,6 +1,6 @@
 {
   "name": "@xorkevin/nuke",
-  "version": "0.1.27",
+  "version": "0.1.28",
   "description": "a reactive ui toolkit",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
