@@ -58,6 +58,7 @@ const NavItem = ({
       forwardedRef={forwardedRef}
       className={k.join(' ')}
       onClick={clickHandler}
+      shrink="0"
     >
       {children}
     </Column>
@@ -139,14 +140,14 @@ const Navbar = ({
   return (
     <nav className={k.join(' ')}>
       <Container className="nav-container" fill>
-        <Grid className="nav-elements" fill justify="space-between">
-          <Column className="element">
-            <Grid className="nav-items" strict fill>
+        <Grid className="nav-elements" fill justify="space-between" nowrap>
+          <Column className="element" shrink="0">
+            <Grid className="nav-items" nowrap strict fill>
               {children}
             </Grid>
           </Column>
-          <Column className="element">
-            <Grid className="nav-items" strict fill>
+          <Column className="element" shrink="0">
+            <Grid className="nav-items" nowrap strict fill>
               {right}
             </Grid>
           </Column>
