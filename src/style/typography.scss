@@ -75,19 +75,34 @@ p {
   margin-bottom: 1em;
 }
 
-code,
+code {
+  font-family: $typography-mono-font;
+  background-color: $color-back-dark-3;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
 pre {
   font-family: $typography-mono-font;
   background-color: $color-back-dark-3;
 }
 
-code {
-  padding-left: 2px;
-  padding-right: 2px;
+samp {
+  font-family: $typography-mono-font;
+}
+
+kbd {
+  font-family: $typography-mono-font;
+  padding: 4px;
+  border: 1px solid currentColor;
+  border-radius: 4px;
 }
 
 .dark {
-  code,
+  code {
+    background-color: $color-back-light-3;
+  }
+
   pre {
     background-color: $color-back-light-3;
   }

@@ -26,11 +26,14 @@ const Stories = () => (
             <SidebarItem
               className="active"
               icon={<FaIcon icon="bolt" />}
-              label="Ctrl+B"
+              label={<kbd>^B</kbd>}
             >
               Dark Mode
             </SidebarItem>
-            <SidebarItem icon={<FaIcon icon="question" />} label="Ctrl+H">
+            <SidebarItem
+              icon={<FaIcon icon="question" />}
+              label={<kbd>^H</kbd>}
+            >
               Help
             </SidebarItem>
             <SidebarDivider />

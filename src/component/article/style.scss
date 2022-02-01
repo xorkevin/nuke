@@ -63,7 +63,7 @@ article {
 
   blockquote {
     padding-left: 8px;
-    border-left: 4px solid $color-text-dark-2;
+    border-left: 4px solid currentColor;
 
     p {
       margin: $article-font-size auto;
@@ -125,9 +125,5 @@ article {
 .dark article {
   .subtitle {
     color: $color-text-light-2;
-  }
-
-  blockquote {
-    border-color: $color-text-light-2;
   }
 }

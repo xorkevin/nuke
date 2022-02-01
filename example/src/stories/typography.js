@@ -29,6 +29,15 @@ const Stories = () => (
       <div>
         <code>Code: Hello, World</code>
       </div>
+      <div>
+        <pre>Code: Hello, World</pre>
+      </div>
+      <div>
+        <samp>Code: Hello, World</samp>
+      </div>
+      <div>
+        <kbd>^B</kbd>
+      </div>
     </Story>
   </Fragment>
 );
