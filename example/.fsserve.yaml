@@ -1,3 +1,4 @@
+base: ./bin
 routes:
   - prefix: /static/icon/
     dir: true
