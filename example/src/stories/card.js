@@ -25,7 +25,7 @@ const Stories = () => (
           <Img
             className="card-border dark"
             size="fill"
-            src="/static/shangai.jpg"
+            src="/static/shanghai.jpg"
             preview={shanghaiPreview}
           >
             <Container fill padded>
@@ -76,7 +76,7 @@ const Stories = () => (
             <Img
               className="card-border dark"
               size="fill"
-              src="/static/shangai.jpg"
+              src="/static/shanghai.jpg"
               preview={shanghaiPreview}
             >
               <Container fill padded>
@@ -117,7 +117,7 @@ const Stories = () => (
             <Img
               className="card-border dark"
               size="fill"
-              src="/static/shangai.jpg"
+              src="/static/shanghai.jpg"
               preview={shanghaiPreview}
             >
               <Container fill padded>
@@ -157,7 +157,7 @@ const Stories = () => (
             <Img
               className="card-border dark"
               size="fill"
-              src="/static/shangai.jpg"
+              src="/static/shanghai.jpg"
               preview={shanghaiPreview}
             >
               <Container fill padded>
