@@ -1,11 +1,11 @@
 {
-  "name": "@xorkevin/nuke-workspaces",
-  "version": "0.1.0",
-  "description": "workspaces for the nuke project",
-  "private": true,
+  "name": "@xorkevin/nuke",
+  "version": "0.1.29",
+  "description": "a reactive ui toolkit",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xorkevin/nuke.git"
+    "url": "git+https://github.com/xorkevin/nuke.git",
+    "directory": "packages/nuke"
   },
   "author": "Kevin Wang <kevin@xorkevin.com>",
   "license": "MPL-2.0",
@@ -13,9 +13,10 @@
     "url": "https://github.com/xorkevin/nuke/issues"
   },
   "homepage": "https://github.com/xorkevin/nuke#readme",
-  "workspaces": [
-    "packages/nuke"
-  ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
