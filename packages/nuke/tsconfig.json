@@ -7,5 +7,10 @@
     },
     "outDir": "dist"
   },
-  "include": ["lib/**/*"]
+  "include": [
+    "lib/**/*.ts",
+    "lib/**/*.tsx",
+    "lib/**/*.d.ts",
+    "lib/**/*.module.css"
+  ]
 }
