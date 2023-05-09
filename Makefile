@@ -1,12 +1,9 @@
-.PHONY: all build clean publish
+.PHONY: all build clean
 
 all: build
 
 build:
-	npm run build
+	npm run --workspaces --if-present build
 
 clean:
-	npm run clean
-
-publish: lint
-	npm publish
+	npm run --workspaces --if-present clean
