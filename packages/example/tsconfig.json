@@ -5,7 +5,8 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "outDir": "dist"
+    "outDir": "dist",
+    "tsBuildInfoFile": ".tsbuildinfo"
   },
   "include": ["src/**/*"]
 }

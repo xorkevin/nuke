@@ -1,7 +1,7 @@
 import type {MouseEventHandler, Ref, ReactNode} from 'react';
 import styles from './styles.module.css';
 
-type Props = {
+export type Props = {
   id?: string;
   className?: string;
   fullWidth?: boolean;
