@@ -2,3 +2,4 @@ node_modules/
 *.tgz
 packages/*/dist/
 packages/*/.tsbuildinfo
+packages/*/.rollup.cache

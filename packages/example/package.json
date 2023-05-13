@@ -16,7 +16,8 @@
   "homepage": "https://github.com/xorkevin/nuke#readme",
   "type": "module",
   "scripts": {
-    "build": "tsc --build",
+    "build": "NODE_ENV=production rollup --config",
+    "build:dev": "NODE_ENV=development rollup --config",
     "clean": "rm -rf dist .tsbuildinfo",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -26,5 +27,18 @@
     "@xorkevin/nuke": "^0.1.29",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-html": "^1.0.2",
+    "@rollup/plugin-node-resolve": "^15.0.2",
+    "@rollup/plugin-replace": "^5.0.2",
+    "@rollup/plugin-terser": "^0.4.1",
+    "@rollup/plugin-typescript": "^11.1.1",
+    "postcss": "^8.4.23",
+    "rollup": "^3.21.6",
+    "rollup-plugin-postcss": "^4.0.2",
+    "typescript": "^5.0.4",
+    "typescript-plugin-css-modules": "^5.0.1"
   }
 }

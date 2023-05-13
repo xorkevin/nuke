@@ -19,10 +19,12 @@
   "type": "module",
   "exports": {
     ".": "./dist/lib/index.js",
+    "./component/*": "./dist/lib/component/*/index.js",
     "./*": "./dist/lib/*.js"
   },
   "scripts": {
     "build": "tsc --build && node scripts/build.js",
+    "build:dev": "tsc --build && node scripts/build.js",
     "clean": "rm -rf dist .tsbuildinfo",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
