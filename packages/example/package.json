@@ -16,9 +16,9 @@
   "homepage": "https://github.com/xorkevin/nuke#readme",
   "type": "module",
   "scripts": {
-    "build": "NODE_ENV=production rollup --config",
-    "build:dev": "NODE_ENV=development rollup --config",
-    "clean": "rm -rf dist .tsbuildinfo .rollup.cache",
+    "build": "webpack --mode production --progress --color",
+    "build:dev": "webpack serve --mode development --progress --color",
+    "clean": "rm -rf dist .tsbuildinfo",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -29,16 +29,14 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^25.0.0",
-    "@rollup/plugin-html": "^1.0.2",
-    "@rollup/plugin-node-resolve": "^15.0.2",
-    "@rollup/plugin-replace": "^5.0.2",
-    "@rollup/plugin-terser": "^0.4.1",
-    "@rollup/plugin-typescript": "^11.1.1",
-    "postcss": "^8.4.23",
-    "rollup": "^3.21.6",
-    "rollup-plugin-postcss": "^4.0.2",
+    "css-loader": "^6.7.3",
+    "html-webpack-plugin": "^5.5.1",
+    "mini-css-extract-plugin": "^2.7.5",
+    "ts-loader": "^9.4.2",
     "typescript": "^5.0.4",
-    "typescript-plugin-css-modules": "^5.0.1"
+    "typescript-plugin-css-modules": "^5.0.1",
+    "webpack": "^5.82.1",
+    "webpack-cli": "^5.1.1",
+    "webpack-dev-server": "^4.15.0"
   }
 }

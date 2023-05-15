@@ -17,6 +17,7 @@
     "registry": "https://npm.pkg.github.com/"
   },
   "type": "module",
+  "sideEffects": false,
   "exports": {
     ".": "./dist/lib/index.js",
     "./component/*": "./dist/lib/component/*/index.js",
