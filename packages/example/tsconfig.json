@@ -6,7 +6,8 @@
       "@/*": ["./src/*"]
     },
     "outDir": "dist",
-    "tsBuildInfoFile": ".tsbuildinfo"
+    "rootDir": ".",
+    "composite": false
   },
   "include": [
     "src/**/*.ts",

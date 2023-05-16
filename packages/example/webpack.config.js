@@ -33,7 +33,6 @@ export default (env, argv) => {
     },
 
     resolve: {
-      extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.wasm'],
       extensionAlias: {
         '.js': ['.js', '.jsx', '.ts', '.tsx'],
       },
@@ -66,10 +65,13 @@ export default (env, argv) => {
 
     plugins: [
       new HtmlPlugin({
-        title: 'Nuke',
         filename: 'index.html',
-        inject: 'body',
         template: 'index.html',
+        scriptLoading: 'module',
+        title: 'Nuke',
+        meta: {
+          viewport: 'width=device-width, initial-scale=1',
+        },
       }),
       new MiniCssExtractPlugin({
         filename: 'static/[name]-[contenthash].css',
