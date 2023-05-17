@@ -26,7 +26,8 @@
   "scripts": {
     "build": "tsc --build && node scripts/build.js",
     "build:dev": "tsc --build && node scripts/build.js",
-    "lint": "eslint .",
+    "lint": "eslint . && prettier --ignore-path ../../.prettierignore --check .",
+    "format": "prettier --ignore-path ../../.prettierignore --write .",
     "clean": "rm -rf dist .tsbuildinfo",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -39,6 +40,7 @@
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "prettier": "^2.8.8",
     "typescript": "^5.0.4",
     "typescript-plugin-css-modules": "^5.0.1"
   },

@@ -18,7 +18,8 @@
   "scripts": {
     "build": "webpack --mode production --progress --color",
     "build:dev": "webpack serve --mode development --progress --color",
-    "lint": "eslint .",
+    "lint": "eslint . && prettier --ignore-path ../../.prettierignore --check .",
+    "format": "prettier --ignore-path ../../.prettierignore --write .",
     "clean": "rm -rf dist .tsbuildinfo",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -41,6 +42,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "html-webpack-plugin": "^5.5.1",
     "mini-css-extract-plugin": "^2.7.5",
+    "prettier": "^2.8.8",
     "ts-loader": "^9.4.2",
     "typescript": "^5.0.4",
     "typescript-plugin-css-modules": "^5.0.1",

@@ -1,4 +1,4 @@
-.PHONY: all build dev lint clean devserve
+.PHONY: all build dev lint format clean devserve
 
 all: build
 
@@ -10,6 +10,9 @@ dev:
 
 lint:
 	npm run --workspaces --if-present lint
+
+format:
+	npm run --workspaces --if-present format
 
 clean:
 	npm run --workspaces --if-present clean
