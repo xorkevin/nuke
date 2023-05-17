@@ -13,6 +13,7 @@
     "url": "https://github.com/xorkevin/nuke/issues"
   },
   "homepage": "https://github.com/xorkevin/nuke#readme",
+  "type": "module",
   "workspaces": [
     "packages/nuke",
     "packages/example"
