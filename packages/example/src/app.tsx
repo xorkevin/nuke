@@ -1,5 +1,5 @@
-import {HelloWorld} from '@xorkevin/nuke/hello';
 import Button from '@xorkevin/nuke/component/button';
+import {HelloWorld} from '@xorkevin/nuke/hello';
 
 const App = () => {
   return (

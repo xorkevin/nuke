@@ -1,4 +1,4 @@
-import type {MouseEventHandler, Ref, ReactNode} from 'react';
+import type {JSX, MouseEventHandler, ReactNode, Ref} from 'react';
 import styles from './styles.module.css';
 
 export type Props = {
@@ -13,7 +13,7 @@ export type Props = {
   children?: ReactNode;
 };
 
-const Button: React.FC<Props> = ({
+const Button = ({
   id,
   className,
   fullWidth,
@@ -23,7 +23,7 @@ const Button: React.FC<Props> = ({
   onClick,
   forwardedRef,
   children,
-}) => {
+}: Props): JSX.Element => {
   const j = [styles['button']];
   if (fullWidth) {
     j.push('full-width');

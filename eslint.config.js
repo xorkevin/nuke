@@ -13,7 +13,10 @@ const mergePlugins = (arr) => mergeConfig(arr, (v) => v.plugins);
 const mergeRules = (arr) => mergeConfig(arr, (v) => v.rules);
 
 const tsCompatConfig = compat.config({
-  extends: ['plugin:@typescript-eslint/recommended-requiring-type-checking'],
+  extends: [
+    'plugin:@typescript-eslint/strict-type-checked',
+    'plugin:@typescript-eslint/stylistic-type-checked',
+  ],
   plugins: ['@typescript-eslint'],
 });
 const tsCompatPlugins = mergePlugins(tsCompatConfig);
@@ -61,6 +64,43 @@ export default [
       ...reactRecommended.rules,
       ...reactJSXRuntime.rules,
       ...prettierCompatRules,
+
+      // add additional rules
+      'no-constructor-return': 'error',
+      'no-duplicate-imports': 'error',
+      'no-new-native-nonconstructor': 'error',
+      'no-promise-executor-return': 'error',
+      'no-unused-private-class-members': 'error',
+      'no-use-before-define': 'error',
+      'require-atomic-updates': 'error',
+      'block-scoped-var': 'error',
+      curly: 'error',
+      'default-param-last': 'error',
+      eqeqeq: 'error',
+      'no-eval': 'error',
+      'no-extra-bind': 'error',
+      'no-extra-label': 'error',
+      'no-implicit-coercion': 'error',
+      'no-implied-eval': 'error',
+      'no-label-var': 'error',
+      'no-multi-assign': 'error',
+      'no-new-func': 'error',
+      'no-new-wrappers': 'error',
+      'no-object-constructor': 'error',
+      'no-return-assign': 'error',
+      'no-sequences': 'error',
+      'no-useless-computed-key': 'error',
+      'no-var': 'error',
+      'prefer-const': 'error',
+      'prefer-object-has-own': 'error',
+      'prefer-rest-params': 'error',
+      'prefer-spread': 'error',
+      'sort-imports': ['error', {allowSeparatedGroups: true}],
+
+      // override recommended
+      '@typescript-eslint/consistent-type-definitions': 'off',
+      '@typescript-eslint/no-empty-function': 'off',
+      '@typescript-eslint/consistent-indexed-object-style': 'off',
       'react/prop-types': 'off',
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'error',
