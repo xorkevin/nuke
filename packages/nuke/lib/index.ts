@@ -1,1 +1,1 @@
-export {HelloWorld} from '@/hello.js';
+export {HelloWorld} from '#internal/hello.js';

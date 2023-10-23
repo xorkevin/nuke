@@ -32,6 +32,10 @@ export default (env, argv) => {
       },
     },
 
+    cache: {
+      type: 'filesystem',
+    },
+
     resolve: {
       extensionAlias: {
         '.js': ['.js', '.jsx', '.ts', '.tsx'],

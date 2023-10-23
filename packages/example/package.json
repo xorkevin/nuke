@@ -20,8 +20,7 @@
     "build:dev": "webpack serve --mode development --progress --color",
     "lint": "eslint . && prettier --ignore-path ../../.prettierignore --check .",
     "format": "eslint --fix . && prettier --ignore-path ../../.prettierignore --write .",
-    "clean": "rm -rf dist .tsbuildinfo",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "rm -rf dist .tsbuildinfo"
   },
   "dependencies": {
     "@types/react": "^18.2.31",

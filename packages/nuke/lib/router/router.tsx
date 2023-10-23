@@ -2,7 +2,7 @@ import {
   type ComponentType,
   type FC,
   type JSX,
-  type ReactNode,
+  type PropsWithChildren,
   createContext,
   useCallback,
   useContext,
@@ -11,7 +11,7 @@ import {
   useState,
 } from 'react';
 
-import {mapOption} from '@/util.js';
+import {mapOption} from '#internal/util.js';
 
 const cleanPath = (pathname: string): string => {
   if (pathname.endsWith('/')) {
@@ -27,10 +27,10 @@ const RouterContext = createContext<{
   pathname: string;
   navigate: (url: string) => void;
 }>({
-  url: new URL(window.location.href),
-  href: window.location.href,
+  url: new URL('http://localhost:3000'),
+  href: 'http://localhost:3000',
   base: '',
-  pathname: cleanPath(window.location.pathname),
+  pathname: '',
   navigate: () => {},
 });
 
@@ -50,10 +50,12 @@ const RouteContext = createContext<{
 
 export type RouterProps = {
   base?: string;
-  children: ReactNode;
 };
 
-export const Router: FC<RouterProps> = ({base = '', children}) => {
+export const Router: FC<PropsWithChildren<RouterProps>> = ({
+  base = '',
+  children,
+}) => {
   const [href, setHref] = useState(window.location.href);
   const url = useMemo(() => new URL(href), [href]);
 
@@ -68,6 +70,7 @@ export const Router: FC<RouterProps> = ({base = '', children}) => {
 
   useEffect(() => {
     const controller = new AbortController();
+    console.log('signal', controller, controller.signal);
     window.addEventListener(
       'popstate',
       () => {

@@ -1,4 +1,4 @@
-.PHONY: all build dev lint format clean devserve
+.PHONY: all build dev lint format clean test devserve
 
 all: build
 
@@ -16,6 +16,9 @@ format:
 
 clean:
 	npm run --workspaces --if-present clean
+
+test: build
+	npm run --workspaces --if-present test
 
 devserve:
 	fsserve serve --config ./packages/example/fsserve.json --base ./packages/example/dist

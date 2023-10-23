@@ -3,7 +3,7 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "paths": {
-      "@/*": ["./lib/*"]
+      "#internal/*": ["./lib/*"]
     },
     "outDir": "dist",
     "tsBuildInfoFile": ".tsbuildinfo"

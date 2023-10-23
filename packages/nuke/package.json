@@ -24,17 +24,22 @@
     "./router": "./dist/lib/router/index.js",
     "./hello": "./dist/lib/hello.js"
   },
+  "imports": {
+    "#internal/*": "./dist/lib/*"
+  },
   "scripts": {
-    "build": "tsc --build && node scripts/build.js",
-    "build:dev": "tsc --build && node scripts/build.js",
+    "build": "tsc --build --verbose && node scripts/build.js",
+    "build:dev": "tsc --build --verbose && node scripts/build.js",
     "lint": "eslint . && prettier --ignore-path ../../.prettierignore --check .",
     "format": "eslint --fix . && prettier --ignore-path ../../.prettierignore --write .",
     "clean": "rm -rf dist .tsbuildinfo",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test ./dist/lib/**/*.test.js"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^2.1.2",
     "@eslint/js": "^8.52.0",
+    "@testing-library/react": "^14.0.0",
+    "@types/jsdom": "^21.1.4",
     "@types/react": "^18.2.31",
     "@typescript-eslint/eslint-plugin": "^6.8.0",
     "@typescript-eslint/parser": "^6.8.0",
@@ -42,6 +47,7 @@
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "global-jsdom": "^9.1.0",
     "prettier": "^3.0.3",
     "react": "^18.2.0",
     "typescript": "^5.2.2",
