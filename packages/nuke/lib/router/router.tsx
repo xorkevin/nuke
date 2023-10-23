@@ -27,10 +27,10 @@ const RouterContext = createContext<{
   pathname: string;
   navigate: (url: string) => void;
 }>({
-  url: new URL('http://localhost:3000'),
-  href: 'http://localhost:3000',
+  url: new URL(window.location.href),
+  href: window.location.href,
   base: '',
-  pathname: '',
+  pathname: cleanPath(window.location.pathname),
   navigate: () => {},
 });
 
@@ -69,8 +69,7 @@ export const Router: FC<PropsWithChildren<RouterProps>> = ({
   );
 
   useEffect(() => {
-    const controller = new AbortController();
-    console.log('signal', controller, controller.signal);
+    const controller = new window.AbortController();
     window.addEventListener(
       'popstate',
       () => {
