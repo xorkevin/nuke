@@ -13,6 +13,47 @@ import {
 
 import {mapOption} from '#internal/util.js';
 
+export interface Cancellable {
+  cancel(): void;
+}
+
+export interface HistoryAPI {
+  url(): string;
+  origin(): string;
+  navigate(u: string): void;
+  onNavigate(handler: (u: string) => void): Cancellable;
+}
+
+class BrowserHistory {
+  url(): string {
+    return window.location.href;
+  }
+
+  origin(): string {
+    return window.location.origin;
+  }
+
+  navigate(u: string): void {
+    window.history.pushState({}, '', u);
+  }
+
+  onNavigate(handler: (u: string) => void): Cancellable {
+    const controller = new AbortController();
+    window.addEventListener(
+      'popstate',
+      () => {
+        handler(window.location.href);
+      },
+      {signal: controller.signal},
+    );
+    return {
+      cancel: () => {
+        controller.abort();
+      },
+    };
+  }
+}
+
 const cleanPath = (pathname: string): string => {
   if (pathname.endsWith('/')) {
     return pathname.slice(0, -1);
@@ -27,10 +68,10 @@ const RouterContext = createContext<{
   pathname: string;
   navigate: (url: string) => void;
 }>({
-  url: new URL(window.location.href),
-  href: window.location.href,
+  url: new URL(window?.location?.href ?? 'http://localhost:8080'),
+  href: window?.location?.href ?? 'http://localhost:8080',
   base: '',
-  pathname: cleanPath(window.location.pathname),
+  pathname: cleanPath(window?.location?.pathname ?? ''),
   navigate: () => {},
 });
 
@@ -50,37 +91,36 @@ const RouteContext = createContext<{
 
 export type RouterProps = {
   base?: string;
+  history?: HistoryAPI;
 };
+
+const defaultHistory = new BrowserHistory();
 
 export const Router: FC<PropsWithChildren<RouterProps>> = ({
   base = '',
+  history = defaultHistory,
   children,
 }) => {
-  const [href, setHref] = useState(window.location.href);
+  const [href, setHref] = useState(history.url());
   const url = useMemo(() => new URL(href), [href]);
 
   const navigate = useCallback(
     (url: string) => {
-      const u = new URL(url, window.location.origin + base).href;
-      window.history.pushState({}, '', u);
+      const u = history.origin() + base + url;
+      history.navigate(u);
       setHref(u);
     },
-    [setHref, base],
+    [setHref, base, history],
   );
 
   useEffect(() => {
-    const controller = new window.AbortController();
-    window.addEventListener(
-      'popstate',
-      () => {
-        setHref(window.location.href);
-      },
-      {signal: controller.signal},
-    );
+    const sub = history.onNavigate((u) => {
+      setHref(u);
+    });
     return () => {
-      controller.abort();
+      sub.cancel();
     };
-  }, [setHref]);
+  }, [setHref, history]);
 
   const pathname = useMemo(() => {
     if (base.endsWith('/')) {
