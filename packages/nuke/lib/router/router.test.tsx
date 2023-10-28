@@ -8,31 +8,31 @@ import {cleanup, render} from '@testing-library/react';
 import {Router, Routes} from './router.js';
 
 class TestHistory {
-  private location: URL;
-  private readonly emitter: EventTarget;
+  #location: URL;
+  readonly #emitter: EventTarget;
 
   constructor() {
-    this.location = new URL('http://localhost:8080');
-    this.emitter = new EventTarget();
+    this.#location = new URL('http://localhost:8080');
+    this.#emitter = new EventTarget();
   }
 
   url(): string {
-    return this.location.href;
+    return this.#location.href;
   }
 
   origin(): string {
-    return this.location.origin;
+    return this.#location.origin;
   }
 
   navigate(u: string): void {
-    this.location = new URL(u);
+    this.#location = new URL(u);
   }
 
   onNavigate(handler: (u: string) => void, signal: AbortSignal): void {
-    this.emitter.addEventListener(
+    this.#emitter.addEventListener(
       'popstate',
       () => {
-        handler(this.location.href);
+        handler(this.#location.href);
       },
       {signal},
     );
@@ -43,8 +43,8 @@ class TestHistory {
   }
 
   setLocation(u: string): void {
-    this.location = new URL(u);
-    this.emitter.dispatchEvent(new Event('popstate'));
+    this.#location = new URL(u);
+    this.#emitter.dispatchEvent(new Event('popstate'));
   }
 }
 
