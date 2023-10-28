@@ -5,11 +5,11 @@ import '#internal/testutil.js';
 
 import {cleanup, render} from '@testing-library/react';
 
-import {Cancellable, Router, Routes} from './router.js';
+import {Router, Routes} from './router.js';
 
 class TestHistory {
-  location: URL;
-  emitter: EventTarget;
+  private location: URL;
+  private readonly emitter: EventTarget;
 
   constructor() {
     this.location = new URL('http://localhost:8080');
@@ -28,20 +28,18 @@ class TestHistory {
     this.location = new URL(u);
   }
 
-  onNavigate(handler: (u: string) => void): Cancellable {
-    const controller = new AbortController();
+  onNavigate(handler: (u: string) => void, signal: AbortSignal): void {
     this.emitter.addEventListener(
       'popstate',
       () => {
         handler(this.location.href);
       },
-      {signal: controller.signal},
+      {signal},
     );
-    return {
-      cancel: () => {
-        controller.abort();
-      },
-    };
+  }
+
+  abortController(): AbortController {
+    return new AbortController();
   }
 
   setLocation(u: string): void {

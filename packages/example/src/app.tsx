@@ -1,7 +1,9 @@
+import {type FC} from 'react';
+
 import Button from '@xorkevin/nuke/component/button';
 import {HelloWorld} from '@xorkevin/nuke/hello';
 
-const App = () => {
+const App: FC = () => {
   return (
     <h1>
       <Button>{HelloWorld}</Button>

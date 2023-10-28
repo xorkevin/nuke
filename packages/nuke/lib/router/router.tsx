@@ -13,15 +13,12 @@ import {
 
 import {mapOption} from '#internal/util.js';
 
-export interface Cancellable {
-  cancel(): void;
-}
-
 export interface HistoryAPI {
   url(): string;
   origin(): string;
   navigate(u: string): void;
-  onNavigate(handler: (u: string) => void): Cancellable;
+  onNavigate(handler: (u: string) => void, signal: AbortSignal): void;
+  abortController(): AbortController;
 }
 
 class BrowserHistory {
@@ -37,20 +34,18 @@ class BrowserHistory {
     window.history.pushState({}, '', u);
   }
 
-  onNavigate(handler: (u: string) => void): Cancellable {
-    const controller = new AbortController();
+  onNavigate(handler: (u: string) => void, signal: AbortSignal) {
     window.addEventListener(
       'popstate',
       () => {
         handler(window.location.href);
       },
-      {signal: controller.signal},
+      {signal},
     );
-    return {
-      cancel: () => {
-        controller.abort();
-      },
-    };
+  }
+
+  abortController(): AbortController {
+    return new AbortController();
   }
 }
 
@@ -68,9 +63,12 @@ const RouterContext = createContext<{
   pathname: string;
   navigate: (url: string) => void;
 }>({
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   url: new URL(window?.location?.href ?? 'http://localhost:8080'),
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   href: window?.location?.href ?? 'http://localhost:8080',
   base: '',
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   pathname: cleanPath(window?.location?.pathname ?? ''),
   navigate: () => {},
 });
@@ -114,11 +112,12 @@ export const Router: FC<PropsWithChildren<RouterProps>> = ({
   );
 
   useEffect(() => {
-    const sub = history.onNavigate((u) => {
+    const controller = history.abortController();
+    history.onNavigate((u) => {
       setHref(u);
-    });
+    }, controller.signal);
     return () => {
-      sub.cancel();
+      controller.abort();
     };
   }, [setHref, history]);
 
@@ -202,7 +201,7 @@ const compilePattern = (pattern: string): CompiledPatternSegment[] | null => {
   return segments.reduce<CompiledPatternSegment[]>((acc, v) => {
     const match = SEGMENT_PATTERN_REGEX.exec(v);
     const key = match?.groups?.['key'];
-    if (!key) {
+    if (key === undefined) {
       const last = acc.at(-1);
       if (last?.kind === 'str') {
         last.match += '/' + v;

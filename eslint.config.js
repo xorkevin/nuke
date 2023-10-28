@@ -97,6 +97,38 @@ export default [
       'prefer-spread': 'error',
       'sort-imports': ['error', {allowSeparatedGroups: true}],
 
+      '@typescript-eslint/consistent-type-exports': [
+        'error',
+        {fixMixedExportsWithInlineTypeSpecifier: true},
+      ],
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        {
+          prefer: 'type-imports',
+          fixStyle: 'inline-type-imports',
+          disallowTypeAnnotations: true,
+        },
+      ],
+      '@typescript-eslint/explicit-module-boundary-types': 'error',
+      '@typescript-eslint/no-useless-empty-export': 'error',
+      '@typescript-eslint/prefer-readonly': 'error',
+      '@typescript-eslint/promise-function-async': 'error',
+      '@typescript-eslint/return-await': ['error', 'always'],
+      '@typescript-eslint/strict-boolean-expressions': [
+        'error',
+        {
+          allowString: false,
+          allowNumber: false,
+          allowNullableObject: true,
+          allowNullableBoolean: false,
+          allowNullableString: false,
+          allowNullableNumber: false,
+          allowNullableEnum: false,
+          allowAny: false,
+        },
+      ],
+      '@typescript-eslint/switch-exhaustiveness-check': 'error',
+
       // override recommended
       '@typescript-eslint/consistent-type-definitions': 'off',
       '@typescript-eslint/no-empty-function': 'off',

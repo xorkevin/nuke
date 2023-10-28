@@ -25,13 +25,13 @@ const Button = ({
   children,
 }: Props): JSX.Element => {
   const j = [styles['button']];
-  if (fullWidth) {
+  if (fullWidth ?? false) {
     j.push('full-width');
   }
-  if (fixedWidth) {
+  if (fixedWidth ?? false) {
     j.push('fixed-width');
   }
-  if (className) {
+  if (className !== undefined) {
     j.push(className);
   }
   return (

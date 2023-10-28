@@ -1,4 +1,5 @@
 export {
+  type HistoryAPI,
   type RouteParams,
   type RouterProps,
   Router,
