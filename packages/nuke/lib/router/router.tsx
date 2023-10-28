@@ -56,13 +56,15 @@ const cleanPath = (pathname: string): string => {
   return pathname;
 };
 
-const RouterContext = createContext<{
+type RouterCtx = {
   url: URL;
   href: string;
   base: string;
   pathname: string;
   navigate: (url: string) => void;
-}>({
+};
+
+const RouterContext = createContext<RouterCtx>({
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   url: new URL(window?.location?.href ?? 'http://localhost:8080'),
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
@@ -77,14 +79,18 @@ export type RouteParams = {
   [key: string]: string;
 };
 
-const RouteContext = createContext<{
+export type RouteCtx = {
   prefix: string;
   params: RouteParams;
   rest: string;
-}>({
+  navigate: (url: string) => void;
+};
+
+const RouteContext = createContext<RouteCtx>({
   prefix: '',
   params: {},
   rest: '',
+  navigate: () => {},
 });
 
 export type RouterProps = {
@@ -104,11 +110,20 @@ export const Router: FC<PropsWithChildren<RouterProps>> = ({
 
   const navigate = useCallback(
     (url: string) => {
-      const u = history.origin() + base + url;
+      const u = (() => {
+        const u = history.origin() + base;
+        if (url === '' || url === '/') {
+          return u;
+        }
+        if (url.startsWith('/')) {
+          return u + url;
+        }
+        return u + '/' + url;
+      })();
       history.navigate(u);
       setHref(u);
     },
-    [setHref, base, history],
+    [base, history, setHref],
   );
 
   useEffect(() => {
@@ -157,8 +172,9 @@ export const Router: FC<PropsWithChildren<RouterProps>> = ({
       prefix: '',
       params: {},
       rest: pathname ?? '',
+      navigate,
     }),
-    [pathname],
+    [pathname, navigate],
   );
 
   if (pathname === null) {
@@ -315,19 +331,45 @@ export const Routes: FC<RoutesProps> = ({routes, fallbackRedir, fallback}) => {
     return null;
   }, [compiledRoutes, rest]);
 
+  const routeNotFound = match === null;
   useEffect(() => {
-    if (match === null && fallbackRedir !== undefined) {
-      navigate(prefix + fallbackRedir);
+    if (routeNotFound && fallbackRedir !== undefined) {
+      if (fallbackRedir === '') {
+        navigate(prefix);
+      } else if (fallbackRedir.startsWith('/')) {
+        navigate(fallbackRedir);
+      } else {
+        navigate(prefix + '/' + fallbackRedir);
+      }
     }
-  }, [navigate, prefix, match, fallbackRedir]);
+  }, [routeNotFound, fallbackRedir, navigate, prefix]);
+
+  const subPrefix = prefix + (match?.prefix ?? '');
+
+  const subNavigate = useCallback(
+    (url: string) => {
+      const u = (() => {
+        if (url === '') {
+          return subPrefix;
+        }
+        if (url.startsWith('/')) {
+          return url;
+        }
+        return subPrefix + '/' + url;
+      })();
+      navigate(u);
+    },
+    [subPrefix, navigate],
+  );
 
   const subRouteCtx = useMemo(
     () => ({
-      prefix: prefix + (match?.prefix ?? ''),
-      params: Object.assign({}, match?.params, params),
+      prefix: subPrefix,
+      params: Object.assign({}, params, match?.params),
       rest: match?.rest ?? '',
+      navigate: subNavigate,
     }),
-    [prefix, params, match],
+    [subPrefix, params, match, subNavigate],
   );
 
   if (match === null) {
@@ -344,4 +386,12 @@ export const Routes: FC<RoutesProps> = ({routes, fallbackRedir, fallback}) => {
       <ChildComponent />
     </RouteContext.Provider>
   );
+};
+
+export const useRouter = (): RouterCtx => {
+  return useContext(RouterContext);
+};
+
+export const useRoute = (): RouteCtx => {
+  return useContext(RouteContext);
 };

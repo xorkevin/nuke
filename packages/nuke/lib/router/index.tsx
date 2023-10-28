@@ -6,4 +6,6 @@ export {
   type Route,
   type RoutesProps,
   Routes,
+  useRoute,
+  useRouter,
 } from './router.js';

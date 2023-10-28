@@ -3,9 +3,11 @@ import test from 'node:test';
 
 import '#internal/testutil.js';
 
-import {cleanup, render} from '@testing-library/react';
+import {act, cleanup, render} from '@testing-library/react';
+import {userEvent} from '@testing-library/user-event';
 
-import {Router, Routes} from './router.js';
+import {Router, Routes, useRoute} from './router.js';
+import {useCallback} from 'react';
 
 class TestHistory {
   #location: URL;
@@ -54,23 +56,43 @@ await test('Router', async (t) => {
   });
 
   const testHistory = new TestHistory();
-  testHistory.setLocation('http://localhost:3000/comp1');
+  testHistory.setLocation('http://localhost:3000/comp1/hello');
 
-  const Comp1 = () => <div>Component 1</div>;
-  const Comp2 = () => <div>Component 2</div>;
+  const Comp1 = () => {
+    const {params, rest, navigate} = useRoute();
+    const goToHello = useCallback(() => {
+      navigate('remainder');
+    }, [navigate]);
+    const goToComp2 = useCallback(() => {
+      navigate('/comp2/bye');
+    }, [navigate]);
+    return (
+      <div>
+        Component 1 {params['id'] ?? 'not exist'} {rest}
+        <button onClick={goToComp2}>go to comp 2</button>
+        <button onClick={goToHello}>go to hello</button>
+      </div>
+    );
+  };
+  const Comp2 = () => {
+    const {params} = useRoute();
+    return <div>Component 2 {params['c2'] ?? 'not exist'}</div>;
+  };
 
   const routes = [
     {
-      path: '/comp1',
+      path: '/comp1/{id}',
       component: Comp1,
     },
     {
-      path: '/comp2',
+      path: '/comp2/{c2}',
       component: Comp2,
     },
   ];
 
   const fallback = <div>404 Not found</div>;
+
+  const user = userEvent.setup();
 
   const elem = render(
     <Router history={testHistory}>
@@ -78,14 +100,19 @@ await test('Router', async (t) => {
     </Router>,
   );
 
-  assert.ok(await elem.findByText('Component 1'));
+  assert.ok(await elem.findByText('Component 1 hello'));
 
-  testHistory.setLocation('http://localhost:3000/comp2');
-  elem.rerender(
-    <Router history={testHistory}>
-      <Routes routes={routes} fallback={fallback} />
-    </Router>,
-  );
+  await user.click(await elem.findByRole('button', {name: 'go to hello'}));
 
-  assert.ok(await elem.findByText('Component 2'));
+  assert.ok(await elem.findByText('Component 1 hello /remainder'));
+
+  await user.click(await elem.findByRole('button', {name: 'go to comp 2'}));
+
+  assert.ok(await elem.findByText('Component 2 bye'));
+
+  act(() => {
+    testHistory.setLocation('http://localhost:3000/comp1/again');
+  });
+
+  assert.ok(await elem.findByText('Component 1 again'));
 });
