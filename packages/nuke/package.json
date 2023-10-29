@@ -31,7 +31,6 @@
   },
   "scripts": {
     "build": "tsc --build --verbose && node scripts/build.js",
-    "build:dev": "tsc --build --verbose && node scripts/build.js",
     "lint": "eslint ./lib && prettier --ignore-path ../../.prettierignore --check .",
     "format": "eslint --fix ./lib && prettier --ignore-path ../../.prettierignore --write .",
     "clean": "rm -rf dist .tsbuildinfo",

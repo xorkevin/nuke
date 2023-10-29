@@ -1,3 +1,4 @@
+import {Buffer} from 'node:buffer';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -49,9 +50,15 @@ async function filesEqual(fname1, fname2) {
     const buf1 = Buffer.alloc(bufSize);
     const buf2 = Buffer.alloc(bufSize);
     while (true) {
-      const [r1, r2] = await Promise.all([f1.read(buf1), f2.read(buf2)]);
+      const [r1, r2] = await Promise.all([
+        f1.read({buffer: buf1}),
+        f2.read({buffer: buf2}),
+      ]);
       if (r1.bytesRead !== r2.bytesRead) {
-        throw new Error('Mismatched file reads');
+        return false;
+      }
+      if (r1.bytesRead === 0) {
+        break;
       }
       if (buf1.compare(buf2, 0, r2.bytesRead, 0, r1.bytesRead) !== 0) {
         return false;

@@ -1,12 +1,15 @@
-.PHONY: all build dev lint format clean test devserve
+.PHONY: all build buildlib dev lint format clean test devserve
 
 all: build
 
 build:
 	npm run --workspaces --if-present build
 
-dev:
-	npm run --workspaces --if-present build:dev
+buildlib:
+	npm run -w @xorkevin/nuke build
+
+dev: buildlib
+	npm run -w @xorkevin/nuke-example build:dev
 
 lint:
 	npm run --workspaces --if-present lint

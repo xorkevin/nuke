@@ -72,6 +72,13 @@ export default (env, argv) => {
             },
           ],
         },
+        {
+          test: /\.(ttf|otf|woff|woff2|svg|eot)/,
+          type: 'asset/resource',
+          generator: {
+            filename: 'static/fonts/[name].[contenthash][ext]',
+          },
+        },
       ],
     },
 
