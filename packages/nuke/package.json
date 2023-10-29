@@ -21,8 +21,7 @@
   "exports": {
     ".": "./dist/lib/index.js",
     "./component/*": "./dist/lib/component/*/index.js",
-    "./router": "./dist/lib/router/index.js",
-    "./hello": "./dist/lib/hello.js"
+    "./router": "./dist/lib/router/index.js"
   },
   "imports": {
     "#internal/*": "./dist/lib/*"

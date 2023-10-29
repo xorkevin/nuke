@@ -207,6 +207,9 @@ type CompiledPatternSegment =
 const SEGMENT_PATTERN_REGEX = /^{(?<key>[^}]*)}$/;
 
 const compilePattern = (pattern: string): CompiledPatternSegment[] | null => {
+  if (pattern === '') {
+    return [];
+  }
   if (!pattern.startsWith('/')) {
     return null;
   }
@@ -332,6 +335,7 @@ export const Routes: FC<RoutesProps> = ({routes, fallbackRedir, fallback}) => {
   }, [compiledRoutes, rest]);
 
   const routeNotFound = match === null;
+
   useEffect(() => {
     if (routeNotFound && fallbackRedir !== undefined) {
       if (fallbackRedir === '') {
@@ -372,7 +376,7 @@ export const Routes: FC<RoutesProps> = ({routes, fallbackRedir, fallback}) => {
     [subPrefix, params, match, subNavigate],
   );
 
-  if (match === null) {
+  if (routeNotFound) {
     if (fallback) {
       return fallback;
     }

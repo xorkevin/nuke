@@ -1,13 +1,28 @@
-import {type FC} from 'react';
+import {type FC, Suspense, lazy} from 'react';
 
-import Button from '@xorkevin/nuke/component/button';
-import {HelloWorld} from '@xorkevin/nuke/hello';
+import {type Route, Routes} from '@xorkevin/nuke/router';
+
+const fallbackView = <div>Loading</div>;
+
+const routes: Route[] = [
+  {
+    path: '',
+    exact: true,
+    component: lazy(async () => await import('./container/home.js')),
+  },
+  {
+    path: '/stories',
+    component: lazy(async () => await import('./container/stories/index.js')),
+  },
+];
 
 const App: FC = () => {
   return (
-    <h1>
-      <Button>{HelloWorld}</Button>
-    </h1>
+    <main>
+      <Suspense fallback={fallbackView}>
+        <Routes routes={routes} />
+      </Suspense>
+    </main>
   );
 };
 
