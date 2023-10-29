@@ -53,7 +53,19 @@ export default (env, argv) => {
           test: /\.css$/,
           use: [
             MiniCssExtractPlugin.loader,
-            {loader: 'css-loader', options: {modules: true}},
+            {
+              loader: 'css-loader',
+              options: {
+                modules: {
+                  mode: 'local',
+                  localIdentName: '[hash]',
+                  localIdentHashFunction: 'sha256',
+                  localIdentHashDigest: 'base64url',
+                  localIdentHashDigestLength: 16,
+                  hashStrategy: 'resource-path-and-local-name',
+                },
+              },
+            },
           ],
         },
       ],
