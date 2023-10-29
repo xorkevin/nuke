@@ -34,6 +34,9 @@ export default (env, argv) => {
 
     cache: {
       type: 'filesystem',
+      cacheDirectory: fileURLToPath(
+        new URL('./node_modules/.cache/webpack', import.meta.url),
+      ),
     },
 
     resolve: {
@@ -57,6 +60,7 @@ export default (env, argv) => {
               loader: 'css-loader',
               options: {
                 modules: {
+                  auto: true,
                   mode: 'local',
                   localIdentName: '[hash]',
                   localIdentHashFunction: 'sha256',

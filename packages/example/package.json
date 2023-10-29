@@ -20,7 +20,7 @@
     "build:dev": "webpack serve --mode development --progress --color",
     "lint": "eslint ./src && prettier --ignore-path ../../.prettierignore --check .",
     "format": "eslint --fix ./src && prettier --ignore-path ../../.prettierignore --write .",
-    "clean": "rm -rf dist .tsbuildinfo"
+    "clean": "rm -rf dist .tsbuildinfo node_modules/.cache/webpack"
   },
   "dependencies": {
     "@types/react": "^18.2.31",

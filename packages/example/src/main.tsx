@@ -1,5 +1,6 @@
 import {createRoot} from 'react-dom/client';
 
+import '@xorkevin/nuke/styles/normalize.css';
 import {Router} from '@xorkevin/nuke/router';
 
 import App from './app.js';

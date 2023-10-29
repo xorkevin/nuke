@@ -17,11 +17,14 @@
     "registry": "https://npm.pkg.github.com/"
   },
   "type": "module",
-  "sideEffects": false,
+  "sideEffects": [
+    "./dist/lib/styles/*.css"
+  ],
   "exports": {
     ".": "./dist/lib/index.js",
     "./component/*": "./dist/lib/component/*/index.js",
-    "./router": "./dist/lib/router/index.js"
+    "./router": "./dist/lib/router/index.js",
+    "./styles/*.css": "./dist/lib/styles/*.css"
   },
   "imports": {
     "#internal/*": "./dist/lib/*"

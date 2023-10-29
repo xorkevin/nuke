@@ -71,7 +71,7 @@ async function filesEqual(fname1, fname2) {
   }
 }
 
-const cssRegex = /\.module\.css$/;
+const cssRegex = /\.css$/;
 for await (const p of walk('lib')) {
   if (cssRegex.test(p)) {
     const dest = path.join('dist', p);
@@ -81,6 +81,7 @@ for await (const p of walk('lib')) {
       continue;
     }
     console.log(`copying ${p} to ${dest}`);
+    await fs.promises.mkdir(path.dirname(dest), {recursive: true});
     await fs.promises.copyFile(p, dest);
   }
 }
