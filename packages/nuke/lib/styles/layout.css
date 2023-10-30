@@ -1,0 +1,5 @@
+:root {
+  --nuke-layout-small: 512px;
+  --nuke-layout-medium: calc(var(--nuke-layout-small) * 1.5);
+  --nuke-layout-large: calc(var(--nuke-layout-medium) * 1.5);
+}

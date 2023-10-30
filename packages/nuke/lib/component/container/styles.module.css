@@ -1,0 +1,44 @@
+.container {
+  width: 100%;
+  margin: auto;
+  padding: var(--nuke-container-padding, 16px);
+
+  &.small {
+    max-width: var(--nuke-layout-small);
+  }
+
+  &.medium {
+    max-width: var(--nuke-layout-medium);
+  }
+
+  &.large {
+    max-width: var(--nuke-layout-large);
+  }
+}
+
+@media (min-width: 512px) {
+  .container {
+    &.small,
+    &.medium,
+    &.large {
+      --nuke-container-padding: 32px;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    &.medium,
+    &.large {
+      --nuke-container-padding: 40px;
+    }
+  }
+}
+
+@media (min-width: 1152px) {
+  .container {
+    &.large {
+      --nuke-container-padding: 48px;
+    }
+  }
+}
