@@ -1,5 +1,7 @@
 import {type FC, type PropsWithChildren} from 'react';
 
+import {modClassNames} from '#internal/computil/index.js';
+
 import styles from './styles.module.css';
 
 export type ContainerProps = {
@@ -12,8 +14,12 @@ export const Container: FC<PropsWithChildren<ContainerProps>> = ({
   padded,
   children,
 }) => {
-  const cn = `${styles['container']} ${padded ? styles['padded'] : ''} ${
-    size ? styles[size] : ''
-  }`;
-  return <div className={cn}>{children}</div>;
+  const c = modClassNames(styles, {
+    container: true,
+    padded: padded ?? false,
+    small: size === 'small',
+    medium: size === 'medium',
+    large: size === 'large',
+  });
+  return <div className={c}>{children}</div>;
 };

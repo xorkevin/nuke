@@ -16,10 +16,10 @@ async function* walk(dir) {
 async function statFile(name) {
   try {
     const s = await fs.promises.stat(name);
-    return [s, null];
+    return [s, undefined];
   } catch (err) {
     if (err.code === 'ENOENT') {
-      return [null, new Error(`File ${name} does not exist`)];
+      return [undefined, new Error(`File ${name} does not exist`)];
     }
     throw err;
   }
@@ -28,12 +28,12 @@ async function statFile(name) {
 async function filesEqual(fname1, fname2) {
   {
     const [s1, err1] = await statFile(fname1);
-    if (err1 !== null) {
+    if (err1 !== undefined) {
       // file 1 is assumed to exist
       throw err1;
     }
     const [s2, err2] = await statFile(fname2);
-    if (err2 !== null) {
+    if (err2 !== undefined) {
       // file 2 may not exist
       return false;
     }

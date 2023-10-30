@@ -138,21 +138,21 @@ export const Router: FC<PropsWithChildren<RouterProps>> = ({
 
   const pathname = useMemo(() => {
     if (base.endsWith('/')) {
-      return null;
+      return undefined;
     }
     let pathname = cleanPath(url.pathname);
     if (base === '') {
       return pathname;
     }
     if (!pathname.startsWith(base)) {
-      return null;
+      return undefined;
     }
     pathname = cleanPath(pathname.slice(base.length));
     if (pathname === '') {
       return '';
     }
     if (!pathname.startsWith('/')) {
-      return null;
+      return undefined;
     }
     return pathname;
   }, [base, url.pathname]);
@@ -177,8 +177,8 @@ export const Router: FC<PropsWithChildren<RouterProps>> = ({
     [pathname, navigate],
   );
 
-  if (pathname === null) {
-    return null;
+  if (pathname === undefined) {
+    return undefined;
   }
 
   return (
@@ -206,16 +206,18 @@ type CompiledPatternSegment =
 
 const SEGMENT_PATTERN_REGEX = /^{(?<key>[^}]*)}$/;
 
-const compilePattern = (pattern: string): CompiledPatternSegment[] | null => {
+const compilePattern = (
+  pattern: string,
+): CompiledPatternSegment[] | undefined => {
   if (pattern === '') {
     return [];
   }
   if (!pattern.startsWith('/')) {
-    return null;
+    return undefined;
   }
   const segments = pattern.slice(1).split('/');
   if (segments.some((v) => v === '' || v === '{}')) {
-    return null;
+    return undefined;
   }
   return segments.reduce<CompiledPatternSegment[]>((acc, v) => {
     const match = SEGMENT_PATTERN_REGEX.exec(v);
@@ -246,10 +248,10 @@ type CompiledRoute = {
   component: ComponentType;
 };
 
-const compileRoute = (route: Route): CompiledRoute | null => {
+const compileRoute = (route: Route): CompiledRoute | undefined => {
   const match = compilePattern(route.path);
-  if (match === null) {
-    return null;
+  if (match === undefined) {
+    return undefined;
   }
   return {
     match,
@@ -262,17 +264,17 @@ const matchRoute = (
   pathname: string,
   match: CompiledPatternSegment[],
   exact: boolean,
-): {prefix: string; params: RouteParams; rest: string} | null => {
+): {prefix: string; params: RouteParams; rest: string} | undefined => {
   const params: RouteParams = {};
   let rest = pathname;
   for (const segment of match) {
     if (rest.at(0) !== '/') {
-      return null;
+      return undefined;
     }
     rest = rest.slice(1);
     if (segment.kind === 'str') {
       if (!rest.startsWith(segment.match)) {
-        return null;
+        return undefined;
       }
       rest = rest.slice(segment.match.length);
     } else {
@@ -288,7 +290,7 @@ const matchRoute = (
   }
   if (exact) {
     if (rest !== '') {
-      return null;
+      return undefined;
     }
     return {
       prefix: pathname,
@@ -321,7 +323,7 @@ export const Routes: FC<RoutesProps> = ({routes, fallbackRedir, fallback}) => {
   const match = useMemo(() => {
     for (const route of compiledRoutes) {
       const match = matchRoute(rest, route.match, route.exact);
-      if (match === null) {
+      if (match === undefined) {
         continue;
       }
       return {
@@ -331,10 +333,10 @@ export const Routes: FC<RoutesProps> = ({routes, fallbackRedir, fallback}) => {
         rest: match.rest,
       };
     }
-    return null;
+    return undefined;
   }, [compiledRoutes, rest]);
 
-  const routeNotFound = match === null;
+  const routeNotFound = match === undefined;
 
   useEffect(() => {
     if (routeNotFound && fallbackRedir !== undefined) {
@@ -380,7 +382,7 @@ export const Routes: FC<RoutesProps> = ({routes, fallbackRedir, fallback}) => {
     if (fallback) {
       return fallback;
     }
-    return null;
+    return undefined;
   }
 
   const ChildComponent = match.component;

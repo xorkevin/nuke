@@ -1,19 +1,19 @@
 import {type FC} from 'react';
 
 import {Container} from '@xorkevin/nuke/component/container';
-import {TextStyles} from '@xorkevin/nuke/component/text';
+import {TextClasses} from '@xorkevin/nuke/component/text';
 
 const Home: FC = () => {
   return (
     <Container size="large" padded>
       <hgroup>
         <h1
-          className={TextStyles.Display}
+          className={TextClasses.Display}
           style={{'--nuke-text-display-size': '5rem'}}
         >
           Nuke
         </h1>
-        <p className={TextStyles.Subtitle}>a reactive frontend toolkit</p>
+        <p className={TextClasses.Subtitle}>a reactive frontend toolkit</p>
       </hgroup>
     </Container>
   );

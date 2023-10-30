@@ -1,6 +1,6 @@
 import styles from './styles.module.css';
 
-export const TextStyles = {
+export const TextClasses = {
   TitleSmall: `${styles['title']} ${styles['small']}`,
   TitleMedium: `${styles['title']} ${styles['medium']}`,
   TitleLarge: `${styles['title']} ${styles['large']}`,

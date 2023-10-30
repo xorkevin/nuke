@@ -1,1 +1,1 @@
-export {TextStyles} from './base.js';
+export {TextClasses} from './base.js';

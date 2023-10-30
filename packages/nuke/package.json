@@ -24,6 +24,7 @@
     ".": "./dist/lib/index.js",
     "./component/*": "./dist/lib/component/*/index.js",
     "./router": "./dist/lib/router/index.js",
+    "./computil": "./dist/lib/computil/index.js",
     "./styles/*.css": "./dist/lib/styles/*.css"
   },
   "imports": {
