@@ -5,7 +5,7 @@ import {TextStyles} from '@xorkevin/nuke/component/text';
 
 const Home: FC = () => {
   return (
-    <Container>
+    <Container size="large" padded>
       <hgroup>
         <h1
           className={TextStyles.Display}

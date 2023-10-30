@@ -16,7 +16,7 @@
 
 html,
 body {
-  font-family: var(--nuke-text-base-font);
+  font-family: var(--nuke-text-body-font);
   font-size: var(--nuke-text-body-size);
   line-height: var(--nuke-text-body-lineheight);
   font-weight: var(--nuke-text-body-weight);

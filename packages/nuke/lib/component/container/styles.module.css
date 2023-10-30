@@ -1,18 +1,32 @@
+:root {
+  --nuke-layout-container-small: 512px;
+  --nuke-layout-container-medium: calc(
+    var(--nuke-layout-container-small) * 1.5
+  );
+  --nuke-layout-container-large: calc(
+    var(--nuke-layout-container-medium) * 1.5
+  );
+}
+
 .container {
   width: 100%;
+  max-width: var(--nuke-container-maxwidth, 100%);
   margin: auto;
-  padding: var(--nuke-container-padding, 16px);
+
+  &.padded {
+    padding: var(--nuke-container-padding, 16px);
+  }
 
   &.small {
-    max-width: var(--nuke-layout-small);
+    --nuke-container-maxwidth: var(--nuke-layout-container-small);
   }
 
   &.medium {
-    max-width: var(--nuke-layout-medium);
+    --nuke-container-maxwidth: var(--nuke-layout-container-medium);
   }
 
   &.large {
-    max-width: var(--nuke-layout-large);
+    --nuke-container-maxwidth: var(--nuke-layout-container-large);
   }
 }
 
@@ -26,7 +40,7 @@
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: calc(512px * 1.5)) {
   .container {
     &.medium,
     &.large {
@@ -35,7 +49,7 @@
   }
 }
 
-@media (min-width: 1152px) {
+@media (min-width: calc(512px * 1.5 * 1.5)) {
   .container {
     &.large {
       --nuke-container-padding: 48px;

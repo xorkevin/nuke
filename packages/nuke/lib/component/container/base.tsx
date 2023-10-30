@@ -4,13 +4,16 @@ import styles from './styles.module.css';
 
 export type ContainerProps = {
   size?: 'small' | 'medium' | 'large';
+  padded?: boolean;
 };
 
 export const Container: FC<PropsWithChildren<ContainerProps>> = ({
-  size = 'medium',
+  size,
+  padded,
   children,
 }) => {
-  return (
-    <div className={`${styles['container']} ${styles[size]}`}>{children}</div>
-  );
+  const cn = `${styles['container']} ${padded ? styles['padded'] : ''} ${
+    size ? styles[size] : ''
+  }`;
+  return <div className={cn}>{children}</div>;
 };
