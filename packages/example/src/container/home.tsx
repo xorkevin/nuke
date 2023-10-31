@@ -1,4 +1,4 @@
-import {type FC} from 'react';
+import type {FC} from 'react';
 
 import {Container} from '@xorkevin/nuke/component/container';
 import {TextClasses} from '@xorkevin/nuke/component/text';

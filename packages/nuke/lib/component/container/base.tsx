@@ -1,11 +1,11 @@
-import {type FC, type PropsWithChildren} from 'react';
+import type {FC, PropsWithChildren} from 'react';
 
 import {modClassNames} from '#internal/computil/index.js';
 
 import styles from './styles.module.css';
 
 export type ContainerProps = {
-  size?: 'small' | 'medium' | 'large';
+  size?: 'large' | 'medium' | 'small';
   padded?: boolean;
 };
 

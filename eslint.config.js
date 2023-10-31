@@ -109,11 +109,15 @@ export default [
           disallowTypeAnnotations: true,
         },
       ],
+      '@typescript-eslint/explicit-member-accessibility': 'error',
       '@typescript-eslint/explicit-module-boundary-types': 'error',
+      '@typescript-eslint/method-signature-style': 'error',
+      '@typescript-eslint/no-import-type-side-effects': 'error',
       '@typescript-eslint/no-useless-empty-export': 'error',
       '@typescript-eslint/prefer-readonly': 'error',
       '@typescript-eslint/promise-function-async': 'error',
       '@typescript-eslint/return-await': ['error', 'always'],
+      '@typescript-eslint/sort-type-constituents': 'error',
       '@typescript-eslint/strict-boolean-expressions': [
         'error',
         {

@@ -13,24 +13,24 @@ class TestHistory {
   #location: URL;
   readonly #emitter: EventTarget;
 
-  constructor() {
+  public constructor() {
     this.#location = new URL('http://localhost:8080');
     this.#emitter = new EventTarget();
   }
 
-  url(): string {
+  public url(): string {
     return this.#location.href;
   }
 
-  origin(): string {
+  public origin(): string {
     return this.#location.origin;
   }
 
-  navigate(u: string): void {
+  public navigate(u: string): void {
     this.#location = new URL(u);
   }
 
-  onNavigate(handler: (u: string) => void, signal: AbortSignal): void {
+  public onNavigate(handler: (u: string) => void, signal: AbortSignal): void {
     this.#emitter.addEventListener(
       'popstate',
       () => {
@@ -40,11 +40,11 @@ class TestHistory {
     );
   }
 
-  abortController(): AbortController {
+  public abortController(): AbortController {
     return new AbortController();
   }
 
-  setLocation(u: string): void {
+  public setLocation(u: string): void {
     this.#location = new URL(u);
     this.#emitter.dispatchEvent(new Event('popstate'));
   }

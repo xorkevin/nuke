@@ -14,27 +14,30 @@ import {
 import {mapOption} from '#internal/util.js';
 
 export interface HistoryAPI {
-  url(): string;
-  origin(): string;
-  navigate(u: string): void;
-  onNavigate(handler: (u: string) => void, signal: AbortSignal): void;
-  abortController(): AbortController;
+  readonly url: () => string;
+  readonly origin: () => string;
+  readonly navigate: (u: string) => void;
+  readonly onNavigate: (
+    handler: (u: string) => void,
+    signal: AbortSignal,
+  ) => void;
+  readonly abortController: () => AbortController;
 }
 
 class BrowserHistory {
-  url(): string {
+  public url(): string {
     return window.location.href;
   }
 
-  origin(): string {
+  public origin(): string {
     return window.location.origin;
   }
 
-  navigate(u: string): void {
+  public navigate(u: string): void {
     window.history.pushState({}, '', u);
   }
 
-  onNavigate(handler: (u: string) => void, signal: AbortSignal) {
+  public onNavigate(handler: (u: string) => void, signal: AbortSignal) {
     window.addEventListener(
       'popstate',
       () => {
@@ -44,7 +47,7 @@ class BrowserHistory {
     );
   }
 
-  abortController(): AbortController {
+  public abortController(): AbortController {
     return new AbortController();
   }
 }
@@ -196,12 +199,12 @@ export type Route = {
 
 type CompiledPatternSegment =
   | {
-      kind: 'str';
-      match: string;
-    }
-  | {
       kind: 'param';
       key: string;
+    }
+  | {
+      kind: 'str';
+      match: string;
     };
 
 const SEGMENT_PATTERN_REGEX = /^{(?<key>[^}]*)}$/;

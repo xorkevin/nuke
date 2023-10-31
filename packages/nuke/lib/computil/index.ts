@@ -1,10 +1,10 @@
 export type ConditionalClass =
+  | ConditionalClass[]
   | string
-  | undefined
   | {
       [key: string]: boolean;
     }
-  | ConditionalClass[];
+  | undefined;
 
 const classNamesRec = (
   classes: string[],
