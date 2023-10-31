@@ -24,7 +24,7 @@ export interface HistoryAPI {
   readonly abortController: () => AbortController;
 }
 
-class BrowserHistory {
+class BrowserHistory implements HistoryAPI {
   public url(): string {
     return window.location.href;
   }

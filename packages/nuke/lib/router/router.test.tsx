@@ -6,10 +6,10 @@ import '#internal/testutil.js';
 import {act, cleanup, render} from '@testing-library/react';
 import {userEvent} from '@testing-library/user-event';
 
-import {Router, Routes, useRoute} from './router.js';
+import {type HistoryAPI, Router, Routes, useRoute} from './router.js';
 import {useCallback} from 'react';
 
-class TestHistory {
+class TestHistory implements HistoryAPI {
   #location: URL;
   readonly #emitter: EventTarget;
 
@@ -18,19 +18,23 @@ class TestHistory {
     this.#emitter = new EventTarget();
   }
 
-  public url(): string {
+  public url(this: this): string {
     return this.#location.href;
   }
 
-  public origin(): string {
+  public origin(this: this): string {
     return this.#location.origin;
   }
 
-  public navigate(u: string): void {
+  public navigate(this: this, u: string): void {
     this.#location = new URL(u);
   }
 
-  public onNavigate(handler: (u: string) => void, signal: AbortSignal): void {
+  public onNavigate(
+    this: this,
+    handler: (u: string) => void,
+    signal: AbortSignal,
+  ): void {
     this.#emitter.addEventListener(
       'popstate',
       () => {
