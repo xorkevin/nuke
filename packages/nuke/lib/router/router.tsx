@@ -25,19 +25,23 @@ export interface HistoryAPI {
 }
 
 class BrowserHistory implements HistoryAPI {
-  public url(): string {
+  public url(this: this): string {
     return window.location.href;
   }
 
-  public origin(): string {
+  public origin(this: this): string {
     return window.location.origin;
   }
 
-  public navigate(u: string): void {
+  public navigate(this: this, u: string): void {
     window.history.pushState({}, '', u);
   }
 
-  public onNavigate(handler: (u: string) => void, signal: AbortSignal) {
+  public onNavigate(
+    this: this,
+    handler: (u: string) => void,
+    signal: AbortSignal,
+  ) {
     window.addEventListener(
       'popstate',
       () => {
@@ -47,7 +51,7 @@ class BrowserHistory implements HistoryAPI {
     );
   }
 
-  public abortController(): AbortController {
+  public abortController(this: this): AbortController {
     return new AbortController();
   }
 }
