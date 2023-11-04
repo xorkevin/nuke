@@ -3,7 +3,7 @@ import test from 'node:test';
 
 import '#internal/testutil.js';
 
-import {act, cleanup, render} from '@testing-library/react';
+import {act, cleanup, render, screen} from '@testing-library/react';
 import {userEvent} from '@testing-library/user-event';
 
 import {type HistoryAPI, Router, Routes, useRoute} from './router.js';
@@ -98,25 +98,25 @@ await test('Router', async (t) => {
 
   const user = userEvent.setup();
 
-  const elem = render(
+  render(
     <Router history={testHistory}>
       <Routes routes={routes} fallback={fallback} />
     </Router>,
   );
 
-  assert.ok(await elem.findByText('Component 1 hello'));
+  assert.ok(screen.getByText('Component 1 hello'));
 
-  await user.click(await elem.findByRole('button', {name: 'go to hello'}));
+  await user.click(screen.getByRole('button', {name: 'go to hello'}));
 
-  assert.ok(await elem.findByText('Component 1 hello /remainder'));
+  assert.ok(await screen.findByText('Component 1 hello /remainder'));
 
-  await user.click(await elem.findByRole('button', {name: 'go to comp 2'}));
+  await user.click(screen.getByRole('button', {name: 'go to comp 2'}));
 
-  assert.ok(await elem.findByText('Component 2 bye'));
+  assert.ok(screen.findByText('Component 2 bye'));
 
   act(() => {
     testHistory.setLocation('http://localhost:3000/comp1/again');
   });
 
-  assert.ok(await elem.findByText('Component 1 again'));
+  assert.ok(await screen.findByText('Component 1 again'));
 });
