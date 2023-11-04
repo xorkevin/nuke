@@ -1,11 +1,11 @@
 import type {FC} from 'react';
 
-import {Container} from '@xorkevin/nuke/component/container';
+import {Container, ContainerSize} from '@xorkevin/nuke/component/container';
 import {TextClasses} from '@xorkevin/nuke/component/text';
 
 const Home: FC = () => {
   return (
-    <Container size="large" padded>
+    <Container size={ContainerSize.S5} padded>
       <hgroup>
         <h1
           className={TextClasses.Display}

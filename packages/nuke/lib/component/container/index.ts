@@ -1,1 +1,1 @@
-export {type ContainerProps, Container} from './base.js';
+export {type ContainerProps, Container, ContainerSize} from './base.js';
