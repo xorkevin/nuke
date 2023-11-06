@@ -1,5 +1,4 @@
 import {type FC, Suspense, lazy} from 'react';
-
 import {type Route, Routes} from '@xorkevin/nuke/router';
 
 const fallbackView = <div>Loading</div>;

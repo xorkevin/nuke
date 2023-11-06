@@ -25,12 +25,17 @@ const tsCompatRules = mergeRules(tsCompatConfig);
 const reactHooksCompatConfig = compat.config({
   plugins: ['react-hooks'],
 });
-const reactHooksPlugins = mergePlugins(reactHooksCompatConfig);
+const reactHooksCompatPlugins = mergePlugins(reactHooksCompatConfig);
 
 const prettierCompatConfig = compat.config({
   extends: ['prettier'],
 });
 const prettierCompatRules = mergeRules(prettierCompatConfig);
+
+const importCompatConfig = compat.config({
+  extends: ['plugin:import/recommended', 'plugin:import/typescript'],
+});
+const importCompatPlugins = mergePlugins(importCompatConfig);
 
 export default [
   {
@@ -51,12 +56,19 @@ export default [
     plugins: {
       ...tsCompatPlugins,
       react,
-      ...reactHooksPlugins,
+      ...reactHooksCompatPlugins,
+      ...importCompatPlugins,
     },
     settings: {
       react: {
         version: 'detect',
       },
+      'import/resolver': {
+        typescript: {
+          project: 'packages/*/tsconfig.json',
+        },
+      },
+      'import/internal-regex': '^#internal/',
     },
     rules: {
       ...js.configs.recommended.rules,
@@ -95,7 +107,15 @@ export default [
       'prefer-object-has-own': 'error',
       'prefer-rest-params': 'error',
       'prefer-spread': 'error',
-      'sort-imports': ['error', {allowSeparatedGroups: true}],
+      'sort-imports': [
+        'error',
+        {
+          ignoreCase: false,
+          ignoreDeclarationSort: true,
+          ignoreMemberSort: false,
+          allowSeparatedGroups: true,
+        },
+      ],
 
       '@typescript-eslint/consistent-type-exports': [
         'error',
@@ -132,6 +152,35 @@ export default [
         },
       ],
       '@typescript-eslint/switch-exhaustiveness-check': 'error',
+
+      'import/order': [
+        'error',
+        {
+          groups: [
+            'builtin',
+            'external',
+            'internal',
+            ['parent', 'sibling', 'index'],
+          ],
+          pathGroups: [
+            {pattern: 'react', group: 'external', position: 'before'},
+            {pattern: 'react-dom/*', group: 'external', position: 'before'},
+            {
+              pattern: '@testing-library/*',
+              group: 'external',
+              position: 'before',
+            },
+          ],
+          pathGroupsExcludedImportTypes: ['builtin'],
+          distinctGroup: false,
+          'newlines-between': 'always',
+          alphabetize: {
+            order: 'asc',
+            orderImportKind: 'asc',
+            caseInsensitive: false,
+          },
+        },
+      ],
 
       // override recommended
       '@typescript-eslint/consistent-type-definitions': 'off',

@@ -1,8 +1,8 @@
-import {createRoot} from 'react-dom/client';
-
 import '@fontsource-variable/inter/standard.css';
 import '@xorkevin/nuke/styles/normalize.css';
 import '@xorkevin/nuke/styles/typography.css';
+
+import {createRoot} from 'react-dom/client';
 import {Router} from '@xorkevin/nuke/router';
 
 import App from './app.js';

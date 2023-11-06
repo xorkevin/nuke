@@ -1,1 +1,8 @@
-export {TextClasses} from './base.js';
+export {
+  TextClasses,
+  ColorClasses,
+  ColorFG,
+  ColorFGClasses,
+  ColorBG,
+  ColorBGClasses,
+} from './base.js';

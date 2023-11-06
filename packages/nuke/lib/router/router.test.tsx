@@ -1,13 +1,13 @@
+import '#internal/testutil.js';
+
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import '#internal/testutil.js';
-
+import {useCallback} from 'react';
 import {act, cleanup, render, screen} from '@testing-library/react';
 import {userEvent} from '@testing-library/user-event';
 
 import {type HistoryAPI, Router, Routes, useRoute} from './router.js';
-import {useCallback} from 'react';
 
 class TestHistory implements HistoryAPI {
   #location: URL;

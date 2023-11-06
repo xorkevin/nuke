@@ -24,15 +24,15 @@
   font-weight: var(--nuke-text-title-weight);
 
   &.small {
-    --nuke-text-title-size: var(--nuke-text-title-size-small);
+    font-size: var(--nuke-text-title-size-small);
   }
 
   &.medium {
-    --nuke-text-title-size: var(--nuke-text-title-size-medium);
+    font-size: var(--nuke-text-title-size-medium);
   }
 
   &.large {
-    --nuke-text-title-size: var(--nuke-text-title-size-large);
+    font-size: var(--nuke-text-title-size-large);
   }
 }
 
@@ -48,4 +48,44 @@
   font-size: var(--nuke-text-display-size);
   line-height: var(--nuke-text-display-lineheight);
   font-weight: var(--nuke-text-display-weight);
+}
+
+.f1 {
+  color: var(--nuke-color-fg-1);
+}
+
+.f2 {
+  color: var(--nuke-color-fg-2);
+}
+
+.f3 {
+  color: var(--nuke-color-fg-3);
+}
+
+.fi {
+  color: var(--nuke-color-fg-invert);
+}
+
+.fa {
+  color: var(--nuke-color-fg-accent);
+}
+
+.b1 {
+  background-color: var(--nuke-color-bg-1);
+}
+
+.b2 {
+  background-color: var(--nuke-color-bg-2);
+}
+
+.b3 {
+  background-color: var(--nuke-color-bg-3);
+}
+
+.bi {
+  background-color: var(--nuke-color-bg-invert);
+}
+
+.ba {
+  background-color: var(--nuke-color-bg-accent);
 }
