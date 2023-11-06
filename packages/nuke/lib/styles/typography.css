@@ -29,15 +29,15 @@
 }
 
 .dark {
-  --nuke-color-fg-1: oklch(100% 0 var(--nuke-color-accent-hue));
-  --nuke-color-fg-2: oklch(87.5% 0.01 var(--nuke-color-accent-hue));
-  --nuke-color-fg-3: oklch(75% 0.01 var(--nuke-color-accent-hue));
+  --nuke-color-fg-1: oklch(93% 0 var(--nuke-color-accent-hue));
+  --nuke-color-fg-2: oklch(75% 0.01 var(--nuke-color-accent-hue));
+  --nuke-color-fg-3: oklch(50% 0.01 var(--nuke-color-accent-hue));
   --nuke-color-fg-invert: oklch(17% 0 var(--nuke-color-accent-hue));
 
   --nuke-color-bg-1: oklch(0% 0 var(--nuke-color-accent-hue));
   --nuke-color-bg-2: oklch(17% 0 var(--nuke-color-accent-hue));
   --nuke-color-bg-3: oklch(25% 0.01 var(--nuke-color-accent-hue));
-  --nuke-color-bg-invert: oklch(87.5% 0.01 var(--nuke-color-accent-hue));
+  --nuke-color-bg-invert: oklch(93% 0.01 var(--nuke-color-accent-hue));
   --nuke-color-bg-accent: oklch(25% 0.03 var(--nuke-color-accent-hue));
 
   color: var(--nuke-color-fg-1);
