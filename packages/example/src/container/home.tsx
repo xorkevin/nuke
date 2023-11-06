@@ -1,4 +1,4 @@
-import type {FC, PropsWithChildren} from 'react';
+import {useId, type FC, type PropsWithChildren} from 'react';
 import {Container, ContainerSize} from '@xorkevin/nuke/component/container';
 import {
   ColorBG,
@@ -15,6 +15,7 @@ type SwatchProps = {
   bg: ColorBG;
 };
 const Swatch: FC<SwatchProps> = ({fg, bg}) => {
+  const captionId = useId();
   const c = classNames([ColorFGClasses[fg], ColorBGClasses[bg]]);
   return (
     <div
@@ -28,6 +29,8 @@ const Swatch: FC<SwatchProps> = ({fg, bg}) => {
         margin: '8px',
         borderRadius: '8px',
       }}
+      role="figure"
+      aria-labelledby={captionId}
     >
       <div
         className={c}
@@ -43,7 +46,7 @@ const Swatch: FC<SwatchProps> = ({fg, bg}) => {
       >
         <div className={TextClasses.TitleLarge}>Aa</div>
       </div>
-      <code style={{marginTop: '8px'}}>{`${fg}, ${bg}`}</code>
+      <code id={captionId} style={{marginTop: '8px'}}>{`${fg}, ${bg}`}</code>
     </div>
   );
 };
