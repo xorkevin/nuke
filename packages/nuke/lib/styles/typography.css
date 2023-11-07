@@ -26,6 +26,38 @@
   --nuke-color-bg-3: oklch(93% 0.01 var(--nuke-color-accent-hue));
   --nuke-color-bg-invert: oklch(17% 0 var(--nuke-color-accent-hue));
   --nuke-color-bg-accent: oklch(93% 0.03 var(--nuke-color-accent-hue));
+
+  @media (prefers-color-scheme: dark) {
+    & {
+      --nuke-color-fg-1: oklch(97% 0 var(--nuke-color-accent-hue));
+      --nuke-color-fg-2: oklch(75% 0.01 var(--nuke-color-accent-hue));
+      --nuke-color-fg-3: oklch(50% 0.01 var(--nuke-color-accent-hue));
+      --nuke-color-fg-invert: oklch(17% 0 var(--nuke-color-accent-hue));
+      --nuke-color-fg-accent: oklch(53% 0.24 262);
+
+      --nuke-color-bg-1: oklch(0% 0 var(--nuke-color-accent-hue));
+      --nuke-color-bg-2: oklch(17% 0 var(--nuke-color-accent-hue));
+      --nuke-color-bg-3: oklch(25% 0.01 var(--nuke-color-accent-hue));
+      --nuke-color-bg-invert: oklch(97% 0.005 var(--nuke-color-accent-hue));
+      --nuke-color-bg-accent: oklch(25% 0.03 var(--nuke-color-accent-hue));
+    }
+  }
+}
+
+.light {
+  --nuke-color-fg-1: oklch(17% 0 var(--nuke-color-accent-hue));
+  --nuke-color-fg-2: oklch(42% 0.01 var(--nuke-color-accent-hue));
+  --nuke-color-fg-3: oklch(67% 0.01 var(--nuke-color-accent-hue));
+  --nuke-color-fg-invert: oklch(100% 0 var(--nuke-color-accent-hue));
+  --nuke-color-fg-accent: oklch(53% 0.24 262);
+
+  --nuke-color-bg-1: oklch(100% 0 var(--nuke-color-accent-hue));
+  --nuke-color-bg-2: oklch(97% 0.005 var(--nuke-color-accent-hue));
+  --nuke-color-bg-3: oklch(93% 0.01 var(--nuke-color-accent-hue));
+  --nuke-color-bg-invert: oklch(17% 0 var(--nuke-color-accent-hue));
+  --nuke-color-bg-accent: oklch(93% 0.03 var(--nuke-color-accent-hue));
+
+  color: var(--nuke-color-fg-1);
 }
 
 .dark {
@@ -33,6 +65,7 @@
   --nuke-color-fg-2: oklch(75% 0.01 var(--nuke-color-accent-hue));
   --nuke-color-fg-3: oklch(50% 0.01 var(--nuke-color-accent-hue));
   --nuke-color-fg-invert: oklch(17% 0 var(--nuke-color-accent-hue));
+  --nuke-color-fg-accent: oklch(53% 0.24 262);
 
   --nuke-color-bg-1: oklch(0% 0 var(--nuke-color-accent-hue));
   --nuke-color-bg-2: oklch(17% 0 var(--nuke-color-accent-hue));

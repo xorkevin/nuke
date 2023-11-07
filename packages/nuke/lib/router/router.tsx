@@ -112,7 +112,7 @@ export const Router: FC<PropsWithChildren<RouterProps>> = ({
   history = defaultHistory,
   children,
 }) => {
-  const [href, setHref] = useState(history.url());
+  const [href, setHref] = useState(() => history.url());
   const url = useMemo(() => new URL(href), [href]);
 
   const navigate = useCallback(

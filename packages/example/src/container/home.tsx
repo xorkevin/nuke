@@ -1,4 +1,4 @@
-import {useId, type FC, type PropsWithChildren} from 'react';
+import {type FC, type PropsWithChildren, useCallback, useId} from 'react';
 import {Container, ContainerSize} from '@xorkevin/nuke/component/container';
 import {
   ColorBG,
@@ -6,7 +6,9 @@ import {
   ColorClasses,
   ColorFG,
   ColorFGClasses,
+  ColorScheme,
   TextClasses,
+  useDarkMode,
 } from '@xorkevin/nuke/component/text';
 import {classNames} from '@xorkevin/nuke/computil';
 
@@ -65,16 +67,10 @@ const SwatchRow: FC<PropsWithChildren> = ({children}) => {
   );
 };
 
-type SwatchesProps = {
-  dark?: boolean;
-};
-const Swatches: FC<PropsWithChildren<SwatchesProps>> = ({dark, children}) => {
+const Swatches: FC<PropsWithChildren> = ({children}) => {
   return (
     <div
-      className={classNames({
-        dark: dark ?? false,
-        [ColorClasses.B2]: true,
-      })}
+      className={ColorClasses.B2}
       style={{
         display: 'flex',
         alignItems: 'center',
@@ -90,6 +86,18 @@ const Swatches: FC<PropsWithChildren<SwatchesProps>> = ({dark, children}) => {
 };
 
 const Home: FC = () => {
+  const {isDark, colorScheme, setMode} = useDarkMode({
+    persistLocalStorage: true,
+  });
+  const setModeSystem = useCallback(() => {
+    setMode(ColorScheme.System);
+  }, [setMode]);
+  const setModeLight = useCallback(() => {
+    setMode(ColorScheme.Light);
+  }, [setMode]);
+  const setModeDark = useCallback(() => {
+    setMode(ColorScheme.Dark);
+  }, [setMode]);
   return (
     <Container size={ContainerSize.S4} padded>
       <Container padded>
@@ -103,37 +111,14 @@ const Home: FC = () => {
           <p className={TextClasses.Subtitle}>a reactive frontend toolkit</p>
         </hgroup>
       </Container>
+      <div>
+        <code>{isDark ? 'dark' : 'light'}</code>
+        <code>{colorScheme}</code>
+        <button onClick={setModeLight}>Light</button>
+        <button onClick={setModeDark}>Dark</button>
+        <button onClick={setModeSystem}>System</button>
+      </div>
       <Swatches>
-        <SwatchRow>
-          <Swatch fg={ColorFG.F1} bg={ColorBG.B1} />
-          <Swatch fg={ColorFG.F2} bg={ColorBG.B1} />
-          <Swatch fg={ColorFG.F3} bg={ColorBG.B1} />
-          <Swatch fg={ColorFG.FA} bg={ColorBG.B1} />
-        </SwatchRow>
-        <SwatchRow>
-          <Swatch fg={ColorFG.F1} bg={ColorBG.B2} />
-          <Swatch fg={ColorFG.F2} bg={ColorBG.B2} />
-          <Swatch fg={ColorFG.F3} bg={ColorBG.B2} />
-          <Swatch fg={ColorFG.FA} bg={ColorBG.B2} />
-        </SwatchRow>
-        <SwatchRow>
-          <Swatch fg={ColorFG.F1} bg={ColorBG.B3} />
-          <Swatch fg={ColorFG.F2} bg={ColorBG.B3} />
-          <Swatch fg={ColorFG.F3} bg={ColorBG.B3} />
-          <Swatch fg={ColorFG.FA} bg={ColorBG.B3} />
-        </SwatchRow>
-        <SwatchRow>
-          <Swatch fg={ColorFG.F1} bg={ColorBG.BA} />
-          <Swatch fg={ColorFG.F2} bg={ColorBG.BA} />
-          <Swatch fg={ColorFG.F3} bg={ColorBG.BA} />
-          <Swatch fg={ColorFG.FA} bg={ColorBG.BA} />
-        </SwatchRow>
-        <SwatchRow>
-          <Swatch fg={ColorFG.FI} bg={ColorBG.BI} />
-          <Swatch fg={ColorFG.FA} bg={ColorBG.BI} />
-        </SwatchRow>
-      </Swatches>
-      <Swatches dark>
         <SwatchRow>
           <Swatch fg={ColorFG.F1} bg={ColorBG.B1} />
           <Swatch fg={ColorFG.F2} bg={ColorBG.B1} />
