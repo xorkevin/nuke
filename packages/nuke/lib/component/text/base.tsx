@@ -1,5 +1,7 @@
 import {useCallback, useEffect, useMemo, useState} from 'react';
 
+import {strToEnum} from '#internal/computil/index.js';
+
 import styles from './styles.module.css';
 
 export const TextClasses = {
@@ -131,17 +133,13 @@ export const useDarkMode = ({
   );
 
   useEffect(() => {
-    const mode = (() => {
-      switch (localStorage.getItem(localStorageKey)) {
-        case ColorScheme.Light:
-          return ColorScheme.Light;
-        case ColorScheme.Dark:
-          return ColorScheme.Dark;
-        default:
-          return ColorScheme.System;
-      }
-    })();
-    setScheme(mode);
+    setScheme(
+      strToEnum(
+        ColorScheme,
+        ColorScheme.System,
+        localStorage.getItem(localStorageKey) ?? '',
+      ),
+    );
   }, [localStorageKey, setScheme]);
 
   const res = useMemo(

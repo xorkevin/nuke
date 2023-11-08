@@ -1,4 +1,10 @@
-import {type FC, type PropsWithChildren, useCallback, useId} from 'react';
+import {
+  type ChangeEventHandler,
+  type FC,
+  type PropsWithChildren,
+  useCallback,
+  useId,
+} from 'react';
 import {Container, ContainerSize} from '@xorkevin/nuke/component/container';
 import {
   ColorBG,
@@ -10,7 +16,7 @@ import {
   TextClasses,
   useDarkMode,
 } from '@xorkevin/nuke/component/text';
-import {classNames} from '@xorkevin/nuke/computil';
+import {classNames, strToEnum} from '@xorkevin/nuke/computil';
 
 type SwatchProps = {
   fg: ColorFG;
@@ -89,15 +95,12 @@ const Home: FC = () => {
   const {isDark, colorScheme, setMode} = useDarkMode({
     persistLocalStorage: true,
   });
-  const setModeSystem = useCallback(() => {
-    setMode(ColorScheme.System);
-  }, [setMode]);
-  const setModeLight = useCallback(() => {
-    setMode(ColorScheme.Light);
-  }, [setMode]);
-  const setModeDark = useCallback(() => {
-    setMode(ColorScheme.Dark);
-  }, [setMode]);
+  const onModeChange = useCallback<ChangeEventHandler<HTMLSelectElement>>(
+    (e) => {
+      setMode(strToEnum(ColorScheme, ColorScheme.System, e.target.value));
+    },
+    [setMode],
+  );
   return (
     <Container size={ContainerSize.S4} padded>
       <Container padded>
@@ -112,11 +115,12 @@ const Home: FC = () => {
         </hgroup>
       </Container>
       <div>
+        <select value={colorScheme} onChange={onModeChange}>
+          <option value={ColorScheme.System}>System</option>
+          <option value={ColorScheme.Light}>Light</option>
+          <option value={ColorScheme.Dark}>Dark</option>
+        </select>
         <code>{isDark ? 'dark' : 'light'}</code>
-        <code>{colorScheme}</code>
-        <button onClick={setModeLight}>Light</button>
-        <button onClick={setModeDark}>Dark</button>
-        <button onClick={setModeSystem}>System</button>
       </div>
       <Swatches>
         <SwatchRow>

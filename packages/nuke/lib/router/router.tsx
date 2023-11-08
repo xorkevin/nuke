@@ -11,7 +11,7 @@ import {
   useState,
 } from 'react';
 
-import {mapOption} from '#internal/util.js';
+import {isNonNullable} from '#internal/computil/index.js';
 
 export interface HistoryAPI {
   readonly url: () => string;
@@ -323,7 +323,7 @@ export const Routes: FC<RoutesProps> = ({routes, fallbackRedir, fallback}) => {
   const {prefix, params, rest} = useContext(RouteContext);
 
   const compiledRoutes = useMemo(
-    () => routes.flatMap((v) => mapOption(compileRoute(v))),
+    () => routes.map(compileRoute).filter(isNonNullable),
     [routes],
   );
 

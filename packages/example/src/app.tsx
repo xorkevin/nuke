@@ -17,7 +17,7 @@ const routes: Route[] = [
 
 const App: FC = () => {
   return (
-    <main>
+    <main style={{minHeight: '100vh'}}>
       <Suspense fallback={fallbackView}>
         <Routes routes={routes} />
       </Suspense>

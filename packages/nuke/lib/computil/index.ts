@@ -1,3 +1,25 @@
+export const isNonNullable = <T>(v: T): v is NonNullable<T> => {
+  return v !== null && v !== undefined;
+};
+
+export const isStrEnum = <T extends {[key: string]: string}>(
+  e: T,
+  val: string,
+): val is T[keyof T] => {
+  return Object.values(e).includes(val);
+};
+
+export const strToEnum = <T extends {[key: string]: string}>(
+  e: T,
+  fallback: T[keyof T],
+  val: string,
+): T[keyof T] => {
+  if (isStrEnum(e, val)) {
+    return val;
+  }
+  return fallback;
+};
+
 export type ConditionalClass =
   | ConditionalClass[]
   | string
