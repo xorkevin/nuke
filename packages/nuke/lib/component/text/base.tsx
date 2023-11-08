@@ -69,78 +69,97 @@ const cssClassDark = 'dark';
 const isSystemPrefersDark = () =>
   window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-const isDocDark = () => {
-  if (document.body.classList.contains('light')) {
-    return false;
-  }
-  if (document.body.classList.contains('dark')) {
-    return true;
-  }
-  return isSystemPrefersDark();
-};
-
 export const useDarkMode = ({
-  persistLocalStorage = false,
   localStorageKey = 'nuke:darkmode',
 }: {persistLocalStorage?: boolean; localStorageKey?: string} = {}): {
   isDark: boolean;
   colorScheme: ColorScheme;
   setMode: (mode: ColorScheme) => void;
 } => {
-  const [isDark, setIsDark] = useState(isDocDark);
+  const [sysPref, setSysPref] = useState(isSystemPrefersDark);
   const [colorScheme, setColorScheme] = useState(ColorScheme.System);
 
-  const setScheme = useCallback(
-    (mode: ColorScheme) => {
-      const dark = (() => {
-        switch (mode) {
-          case ColorScheme.System:
-            return isSystemPrefersDark();
-          case ColorScheme.Light:
-            return false;
-          case ColorScheme.Dark:
-            return true;
+  useEffect(() => {
+    const controller = new AbortController();
+    const match = window.matchMedia('(prefers-color-scheme: dark)');
+    match.addEventListener(
+      'change',
+      (e) => {
+        setSysPref(e.matches);
+      },
+      {signal: controller.signal},
+    );
+    setSysPref(match.matches);
+    return () => {
+      controller.abort();
+    };
+  }, [setSysPref]);
+
+  useEffect(() => {
+    const setFromStorage = (v: string | null | undefined) => {
+      setColorScheme(
+        strToEnum(ColorScheme, ColorScheme.System, v ?? ColorScheme.System),
+      );
+    };
+    const controller = new AbortController();
+    window.addEventListener(
+      'storage',
+      (e) => {
+        if (e.storageArea !== localStorage) {
+          return;
         }
-      })();
-      setColorScheme(mode);
-      setIsDark(dark);
-      if (mode === ColorScheme.System) {
-        document.body.classList.remove(cssClassLight, cssClassDark);
-      } else {
-        const v = dark ? cssClassDark : cssClassLight;
-        const alt = dark ? cssClassLight : cssClassDark;
-        if (!document.body.classList.replace(alt, v)) {
-          document.body.classList.add(v);
+        // key is null from storage clear method
+        if (e.key !== localStorageKey && e.key !== null) {
+          return;
         }
+        setFromStorage(e.newValue);
+      },
+      {signal: controller.signal},
+    );
+    setFromStorage(localStorage.getItem(localStorageKey));
+    return () => {
+      controller.abort();
+    };
+  }, [localStorageKey, setColorScheme]);
+
+  useEffect(() => {
+    if (colorScheme === ColorScheme.System) {
+      document.body.classList.remove(cssClassLight, cssClassDark);
+    } else {
+      const v = colorScheme === ColorScheme.Dark ? cssClassDark : cssClassLight;
+      const alt =
+        colorScheme === ColorScheme.Dark ? cssClassLight : cssClassDark;
+      if (!document.body.classList.replace(alt, v)) {
+        document.body.classList.add(v);
       }
-      return dark;
-    },
-    [setColorScheme, setIsDark],
-  );
+    }
+  }, [colorScheme]);
+
+  useEffect(() => {
+    if (colorScheme === ColorScheme.System) {
+      localStorage.removeItem(localStorageKey);
+    } else {
+      localStorage.setItem(localStorageKey, colorScheme);
+    }
+  }, [localStorageKey, colorScheme]);
+
+  const isDark = useMemo(() => {
+    switch (colorScheme) {
+      case ColorScheme.System:
+        return sysPref;
+      case ColorScheme.Light:
+        return false;
+      case ColorScheme.Dark:
+        return true;
+    }
+  }, [sysPref, colorScheme]);
 
   const setMode = useCallback(
     (mode: ColorScheme) => {
-      setScheme(mode);
-      if (persistLocalStorage) {
-        if (mode === ColorScheme.System) {
-          localStorage.removeItem(localStorageKey);
-        } else {
-          localStorage.setItem(localStorageKey, mode);
-        }
-      }
+      setColorScheme(mode);
     },
-    [persistLocalStorage, localStorageKey, setScheme],
+    [setColorScheme],
   );
-
-  useEffect(() => {
-    setScheme(
-      strToEnum(
-        ColorScheme,
-        ColorScheme.System,
-        localStorage.getItem(localStorageKey) ?? '',
-      ),
-    );
-  }, [localStorageKey, setScheme]);
 
   const res = useMemo(
     () => ({isDark, colorScheme, setMode}),

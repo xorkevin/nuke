@@ -92,9 +92,7 @@ const Swatches: FC<PropsWithChildren> = ({children}) => {
 };
 
 const Home: FC = () => {
-  const {isDark, colorScheme, setMode} = useDarkMode({
-    persistLocalStorage: true,
-  });
+  const {isDark, colorScheme, setMode} = useDarkMode();
   const onModeChange = useCallback<ChangeEventHandler<HTMLSelectElement>>(
     (e) => {
       setMode(strToEnum(ColorScheme, ColorScheme.System, e.target.value));

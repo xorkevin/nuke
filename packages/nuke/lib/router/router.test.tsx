@@ -44,10 +44,6 @@ class TestHistory implements HistoryAPI {
     );
   }
 
-  public abortController(): AbortController {
-    return new AbortController();
-  }
-
   public setLocation(u: string): void {
     this.#location = new URL(u);
     this.#emitter.dispatchEvent(new Event('popstate'));

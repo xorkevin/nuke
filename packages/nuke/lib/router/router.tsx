@@ -21,7 +21,6 @@ export interface HistoryAPI {
     handler: (u: string) => void,
     signal: AbortSignal,
   ) => void;
-  readonly abortController: () => AbortController;
 }
 
 class BrowserHistory implements HistoryAPI {
@@ -49,10 +48,6 @@ class BrowserHistory implements HistoryAPI {
       },
       {signal},
     );
-  }
-
-  public abortController(this: this): AbortController {
-    return new AbortController();
   }
 }
 
@@ -134,7 +129,7 @@ export const Router: FC<PropsWithChildren<RouterProps>> = ({
   );
 
   useEffect(() => {
-    const controller = history.abortController();
+    const controller = new AbortController();
     history.onNavigate((u) => {
       setHref(u);
     }, controller.signal);
