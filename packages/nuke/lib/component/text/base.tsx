@@ -63,8 +63,8 @@ export enum ColorScheme {
   Dark = 'dark',
 }
 
-const cssClassLight = 'light';
-const cssClassDark = 'dark';
+const cssClassLight = 'nuke__light';
+const cssClassDark = 'nuke__dark';
 
 const isSystemPrefersDark = () =>
   window.matchMedia('(prefers-color-scheme: dark)').matches;

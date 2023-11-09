@@ -5,7 +5,7 @@ import {
   useCallback,
   useId,
 } from 'react';
-import {Container, ContainerSize} from '@xorkevin/nuke/component/container';
+import {Box, BoxSize} from '@xorkevin/nuke/component/box';
 import {
   ColorBG,
   ColorBGClasses,
@@ -100,8 +100,8 @@ const Home: FC = () => {
     [setMode],
   );
   return (
-    <Container size={ContainerSize.S4} padded>
-      <Container padded>
+    <Box size={BoxSize.S4} padded>
+      <Box padded>
         <hgroup>
           <h1
             className={TextClasses.Display}
@@ -111,7 +111,7 @@ const Home: FC = () => {
           </h1>
           <p className={TextClasses.Subtitle}>a reactive frontend toolkit</p>
         </hgroup>
-      </Container>
+      </Box>
       <div>
         <select value={colorScheme} onChange={onModeChange}>
           <option value={ColorScheme.System}>System</option>
@@ -150,7 +150,7 @@ const Home: FC = () => {
           <Swatch fg={ColorFG.FA} bg={ColorBG.BI} />
         </SwatchRow>
       </Swatches>
-    </Container>
+    </Box>
   );
 };
 

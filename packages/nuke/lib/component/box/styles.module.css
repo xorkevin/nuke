@@ -9,7 +9,7 @@
   margin: auto;
 
   &.padded {
-    padding: var(--nuke-container-padding, var(--nuke-container-padding-unit));
+    padding: var(--nuke-container-padding-unit);
 
     @media (min-width: 768px) {
       &.s2,

@@ -44,7 +44,7 @@
   }
 }
 
-.light {
+.nuke__light {
   --nuke-color-fg-1: oklch(17% 0 var(--nuke-color-accent-hue));
   --nuke-color-fg-2: oklch(42% 0.01 var(--nuke-color-accent-hue));
   --nuke-color-fg-3: oklch(67% 0.01 var(--nuke-color-accent-hue));
@@ -60,7 +60,7 @@
   color: var(--nuke-color-fg-1);
 }
 
-.dark {
+.nuke__dark {
   --nuke-color-fg-1: oklch(97% 0 var(--nuke-color-accent-hue));
   --nuke-color-fg-2: oklch(75% 0.01 var(--nuke-color-accent-hue));
   --nuke-color-fg-3: oklch(50% 0.01 var(--nuke-color-accent-hue));

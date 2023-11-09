@@ -4,7 +4,7 @@ import {modClassNames} from '#internal/computil/index.js';
 
 import styles from './styles.module.css';
 
-export enum ContainerSize {
+export enum BoxSize {
   S1 = 's1',
   S2 = 's2',
   S3 = 's3',
@@ -13,12 +13,12 @@ export enum ContainerSize {
   S6 = 's6',
 }
 
-export type ContainerProps = {
-  size?: ContainerSize;
+export type BoxProps = {
+  size?: BoxSize;
   padded?: boolean;
 };
 
-export const Container: FC<PropsWithChildren<ContainerProps>> = ({
+export const Box: FC<PropsWithChildren<BoxProps>> = ({
   size,
   padded,
   children,
