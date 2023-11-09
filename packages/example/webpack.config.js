@@ -62,7 +62,8 @@ export default (env, argv) => {
                 modules: {
                   auto: true,
                   mode: 'local',
-                  localIdentName: '[hash]',
+                  localIdentName:
+                    argv.mode === 'development' ? '[local]__[hash]' : '[hash]',
                   localIdentHashFunction: 'sha256',
                   localIdentHashDigest: 'base64url',
                   localIdentHashDigestLength: 16,

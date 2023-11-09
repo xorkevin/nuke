@@ -11,13 +11,12 @@ export const isStrEnum = <T extends {[key: string]: string}>(
 
 export const strToEnum = <T extends {[key: string]: string}>(
   e: T,
-  fallback: T[keyof T],
   val: string,
-): T[keyof T] => {
+): T[keyof T] | undefined => {
   if (isStrEnum(e, val)) {
     return val;
   }
-  return fallback;
+  return undefined;
 };
 
 export type ConditionalClass =

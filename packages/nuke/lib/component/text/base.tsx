@@ -98,7 +98,7 @@ export const useDarkMode = ({
   useEffect(() => {
     const setFromStorage = (v: string | null | undefined) => {
       setColorScheme(
-        strToEnum(ColorScheme, ColorScheme.System, v ?? ColorScheme.System),
+        strToEnum(ColorScheme, v ?? ColorScheme.System) ?? ColorScheme.System,
       );
     };
     const controller = new AbortController();

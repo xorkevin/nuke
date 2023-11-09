@@ -23,15 +23,12 @@ export const Container: FC<PropsWithChildren<ContainerProps>> = ({
   padded,
   children,
 }) => {
-  const c = modClassNames(styles, {
-    container: true,
-    padded: padded ?? false,
-    s1: size === ContainerSize.S1,
-    s2: size === ContainerSize.S2,
-    s3: size === ContainerSize.S3,
-    s4: size === ContainerSize.S4,
-    s5: size === ContainerSize.S5,
-    s6: size === ContainerSize.S6,
-  });
+  const c = modClassNames(styles, [
+    {
+      container: true,
+      padded: padded ?? false,
+    },
+    size,
+  ]);
   return <div className={c}>{children}</div>;
 };

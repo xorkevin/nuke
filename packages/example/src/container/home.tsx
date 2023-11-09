@@ -95,7 +95,7 @@ const Home: FC = () => {
   const {isDark, colorScheme, setMode} = useDarkMode();
   const onModeChange = useCallback<ChangeEventHandler<HTMLSelectElement>>(
     (e) => {
-      setMode(strToEnum(ColorScheme, ColorScheme.System, e.target.value));
+      setMode(strToEnum(ColorScheme, e.target.value) ?? ColorScheme.System);
     },
     [setMode],
   );
