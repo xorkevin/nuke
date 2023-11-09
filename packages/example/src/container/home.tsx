@@ -5,7 +5,16 @@ import {
   useCallback,
   useId,
 } from 'react';
-import {Box, BoxSize} from '@xorkevin/nuke/component/box';
+import {
+  Box,
+  BoxClasses,
+  BoxSize,
+  Flex,
+  FlexAlignItems,
+  FlexDir,
+  FlexJustifyContent,
+  FlexWrap,
+} from '@xorkevin/nuke/component/box';
 import {
   ColorBG,
   ColorBGClasses,
@@ -61,33 +70,25 @@ const Swatch: FC<SwatchProps> = ({fg, bg}) => {
 
 const SwatchRow: FC<PropsWithChildren> = ({children}) => {
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        flexWrap: 'wrap',
-      }}
-    >
+    <Flex justifyContent={FlexJustifyContent.Center} wrap={FlexWrap.Wrap}>
       {children}
-    </div>
+    </Flex>
   );
 };
 
 const Swatches: FC<PropsWithChildren> = ({children}) => {
   return (
-    <div
-      className={ColorClasses.B2}
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        flexDirection: 'column',
-        padding: '16px',
-        borderRadius: '8px',
-        marginTop: '8px',
-      }}
+    <Flex
+      className={classNames(
+        ColorClasses.B2,
+        BoxClasses.PadSmall,
+        BoxClasses.BorderRound,
+      )}
+      alignItems={FlexAlignItems.Center}
+      dir={FlexDir.Col}
     >
       {children}
-    </div>
+    </Flex>
   );
 };
 
@@ -103,23 +104,20 @@ const Home: FC = () => {
     <Box size={BoxSize.S4} padded>
       <Box padded>
         <hgroup>
-          <h1
-            className={TextClasses.Display}
-            style={{'--nuke-text-display-size': '5rem'}}
-          >
+          <h1 className={TextClasses.Display} style={{fontSize: '5rem'}}>
             Nuke
           </h1>
           <p className={TextClasses.Subtitle}>a reactive frontend toolkit</p>
         </hgroup>
       </Box>
-      <div>
+      <Box padded>
         <select value={colorScheme} onChange={onModeChange}>
           <option value={ColorScheme.System}>System</option>
           <option value={ColorScheme.Light}>Light</option>
           <option value={ColorScheme.Dark}>Dark</option>
         </select>
         <code>{isDark ? 'dark' : 'light'}</code>
-      </div>
+      </Box>
       <Swatches>
         <SwatchRow>
           <Swatch fg={ColorFG.F1} bg={ColorBG.B1} />

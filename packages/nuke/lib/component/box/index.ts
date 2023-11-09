@@ -1,1 +1,17 @@
-export {BoxSize, type BoxProps, Box} from './base.js';
+export {
+  BoxClasses,
+  BoxSize,
+  type BoxProps,
+  Box,
+  FlexClasses,
+  FlexDir,
+  FlexWrap,
+  FlexAlignItems,
+  FlexAlignContent,
+  FlexJustifyContent,
+  FlexGrow,
+  FlexShrink,
+  FlexBasis,
+  type FlexProps,
+  Flex,
+} from './base.js';

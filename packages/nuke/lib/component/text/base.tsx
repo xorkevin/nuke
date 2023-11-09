@@ -5,9 +5,9 @@ import {strToEnum} from '#internal/computil/index.js';
 import styles from './styles.module.css';
 
 export const TextClasses = {
-  TitleSmall: `${styles['title']} ${styles['small']}`,
-  TitleMedium: `${styles['title']} ${styles['medium']}`,
-  TitleLarge: `${styles['title']} ${styles['large']}`,
+  TitleSmall: `${styles['title']} ${styles['title-small']}`,
+  TitleMedium: `${styles['title']} ${styles['title-medium']}`,
+  TitleLarge: `${styles['title']} ${styles['title-large']}`,
   Subtitle: `${styles['subtitle']}`,
   Display: `${styles['display']}`,
 };

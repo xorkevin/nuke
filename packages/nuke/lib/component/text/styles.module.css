@@ -19,19 +19,19 @@
 
 .title {
   font-family: var(--nuke-text-title-font);
-  font-size: var(--nuke-text-title-size, var(--nuke-text-title-size-small));
+  font-size: var(--nuke-text-title-size-small);
   line-height: var(--nuke-text-title-lineheight);
   font-weight: var(--nuke-text-title-weight);
 
-  &.small {
+  &.title-small {
     font-size: var(--nuke-text-title-size-small);
   }
 
-  &.medium {
+  &.title-medium {
     font-size: var(--nuke-text-title-size-medium);
   }
 
-  &.large {
+  &.title-large {
     font-size: var(--nuke-text-title-size-large);
   }
 }
