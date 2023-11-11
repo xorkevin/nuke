@@ -1,91 +1,93 @@
-:root {
-  --nuke-text-title-font: var(--nuke-text-base-font);
-  --nuke-text-title-size-large: 2rem;
-  --nuke-text-title-size-medium: 1.25rem;
-  --nuke-text-title-size-small: 1rem;
-  --nuke-text-title-lineheight: 1.5;
-  --nuke-text-title-weight: var(--nuke-text-weight-bold);
+@layer xorkevin.nuke {
+  :root {
+    --nuke-text-title-font: var(--nuke-text-base-font);
+    --nuke-text-title-size-large: 2rem;
+    --nuke-text-title-size-medium: 1.25rem;
+    --nuke-text-title-size-small: 1rem;
+    --nuke-text-title-lineheight: 1.5;
+    --nuke-text-title-weight: var(--nuke-text-weight-bold);
 
-  --nuke-text-subtitle-font: var(--nuke-text-base-font);
-  --nuke-text-subtitle-size: 1.25rem;
-  --nuke-text-subtitle-lineheight: 1.5;
-  --nuke-text-subtitle-weight: var(--nuke-text-weight-medium);
+    --nuke-text-subtitle-font: var(--nuke-text-base-font);
+    --nuke-text-subtitle-size: 1.25rem;
+    --nuke-text-subtitle-lineheight: 1.5;
+    --nuke-text-subtitle-weight: var(--nuke-text-weight-medium);
 
-  --nuke-text-display-font: var(--nuke-text-base-font);
-  --nuke-text-display-size: 2.5rem;
-  --nuke-text-display-lineheight: 1.5;
-  --nuke-text-display-weight: var(--nuke-text-weight-semibold);
-}
+    --nuke-text-display-font: var(--nuke-text-base-font);
+    --nuke-text-display-size: 2.5rem;
+    --nuke-text-display-lineheight: 1.5;
+    --nuke-text-display-weight: var(--nuke-text-weight-semibold);
+  }
 
-.title {
-  font-family: var(--nuke-text-title-font);
-  font-size: var(--nuke-text-title-size-small);
-  line-height: var(--nuke-text-title-lineheight);
-  font-weight: var(--nuke-text-title-weight);
-
-  &.title-small {
+  .title {
+    font-family: var(--nuke-text-title-font);
     font-size: var(--nuke-text-title-size-small);
+    line-height: var(--nuke-text-title-lineheight);
+    font-weight: var(--nuke-text-title-weight);
+
+    &.title-small {
+      font-size: var(--nuke-text-title-size-small);
+    }
+
+    &.title-medium {
+      font-size: var(--nuke-text-title-size-medium);
+    }
+
+    &.title-large {
+      font-size: var(--nuke-text-title-size-large);
+    }
   }
 
-  &.title-medium {
-    font-size: var(--nuke-text-title-size-medium);
+  .subtitle {
+    font-family: var(--nuke-text-subtitle-font);
+    font-size: var(--nuke-text-subtitle-size);
+    line-height: var(--nuke-text-subtitle-lineheight);
+    font-weight: var(--nuke-text-subtitle-weight);
   }
 
-  &.title-large {
-    font-size: var(--nuke-text-title-size-large);
+  .display {
+    font-family: var(--nuke-text-display-font);
+    font-size: var(--nuke-text-display-size);
+    line-height: var(--nuke-text-display-lineheight);
+    font-weight: var(--nuke-text-display-weight);
   }
-}
 
-.subtitle {
-  font-family: var(--nuke-text-subtitle-font);
-  font-size: var(--nuke-text-subtitle-size);
-  line-height: var(--nuke-text-subtitle-lineheight);
-  font-weight: var(--nuke-text-subtitle-weight);
-}
+  .f1 {
+    color: var(--nuke-color-fg-1);
+  }
 
-.display {
-  font-family: var(--nuke-text-display-font);
-  font-size: var(--nuke-text-display-size);
-  line-height: var(--nuke-text-display-lineheight);
-  font-weight: var(--nuke-text-display-weight);
-}
+  .f2 {
+    color: var(--nuke-color-fg-2);
+  }
 
-.f1 {
-  color: var(--nuke-color-fg-1);
-}
+  .f3 {
+    color: var(--nuke-color-fg-3);
+  }
 
-.f2 {
-  color: var(--nuke-color-fg-2);
-}
+  .fi {
+    color: var(--nuke-color-fg-invert);
+  }
 
-.f3 {
-  color: var(--nuke-color-fg-3);
-}
+  .fa {
+    color: var(--nuke-color-fg-accent);
+  }
 
-.fi {
-  color: var(--nuke-color-fg-invert);
-}
+  .b1 {
+    background-color: var(--nuke-color-bg-1);
+  }
 
-.fa {
-  color: var(--nuke-color-fg-accent);
-}
+  .b2 {
+    background-color: var(--nuke-color-bg-2);
+  }
 
-.b1 {
-  background-color: var(--nuke-color-bg-1);
-}
+  .b3 {
+    background-color: var(--nuke-color-bg-3);
+  }
 
-.b2 {
-  background-color: var(--nuke-color-bg-2);
-}
+  .bi {
+    background-color: var(--nuke-color-bg-invert);
+  }
 
-.b3 {
-  background-color: var(--nuke-color-bg-3);
-}
-
-.bi {
-  background-color: var(--nuke-color-bg-invert);
-}
-
-.ba {
-  background-color: var(--nuke-color-bg-accent);
+  .ba {
+    background-color: var(--nuke-color-bg-accent);
+  }
 }

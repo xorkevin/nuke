@@ -43,6 +43,9 @@ export default (env, argv) => {
       extensionAlias: {
         '.js': ['.js', '.jsx', '.ts', '.tsx'],
       },
+      alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
+      },
     },
 
     module: {

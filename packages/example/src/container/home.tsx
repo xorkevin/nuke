@@ -81,7 +81,12 @@ const Home: FC = () => {
     <Box size={BoxSize.S4} padded>
       <Box padded>
         <hgroup>
-          <h1 className={TextClasses.Display} style={{fontSize: '5rem'}}>
+          <h1
+            className={classNames(
+              TextClasses.Display,
+              styles['heading-display'],
+            )}
+          >
             Nuke
           </h1>
           <p className={TextClasses.Subtitle}>a reactive frontend toolkit</p>

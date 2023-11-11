@@ -1,89 +1,91 @@
-:root {
-  --nuke-text-base-font: 'Inter Variable', sans-serif;
-  --nuke-text-mono-font: monospace;
+@layer xorkevin.nuke {
+  :root {
+    --nuke-text-base-font: 'Inter Variable', sans-serif;
+    --nuke-text-mono-font: monospace;
 
-  --nuke-text-weight-light: 300;
-  --nuke-text-weight-normal: 400;
-  --nuke-text-weight-medium: 500;
-  --nuke-text-weight-semibold: 600;
-  --nuke-text-weight-bold: 700;
+    --nuke-text-weight-light: 300;
+    --nuke-text-weight-normal: 400;
+    --nuke-text-weight-medium: 500;
+    --nuke-text-weight-semibold: 600;
+    --nuke-text-weight-bold: 700;
 
-  --nuke-text-body-font: var(--nuke-text-base-font);
-  --nuke-text-body-size: 1rem;
-  --nuke-text-body-lineheight: 1.5;
-  --nuke-text-body-weight: var(--nuke-text-weight-normal);
+    --nuke-text-body-font: var(--nuke-text-base-font);
+    --nuke-text-body-size: 1rem;
+    --nuke-text-body-lineheight: 1.5;
+    --nuke-text-body-weight: var(--nuke-text-weight-normal);
 
-  --nuke-color-accent-hue: 243;
+    --nuke-color-accent-hue: 243;
 
-  --nuke-color-fg-1: oklch(17% 0 var(--nuke-color-accent-hue));
-  --nuke-color-fg-2: oklch(42% 0.01 var(--nuke-color-accent-hue));
-  --nuke-color-fg-3: oklch(67% 0.01 var(--nuke-color-accent-hue));
-  --nuke-color-fg-invert: oklch(100% 0 var(--nuke-color-accent-hue));
-  --nuke-color-fg-accent: oklch(53% 0.24 262);
+    --nuke-color-fg-1: oklch(17% 0 var(--nuke-color-accent-hue));
+    --nuke-color-fg-2: oklch(42% 0.01 var(--nuke-color-accent-hue));
+    --nuke-color-fg-3: oklch(67% 0.01 var(--nuke-color-accent-hue));
+    --nuke-color-fg-invert: oklch(100% 0 var(--nuke-color-accent-hue));
+    --nuke-color-fg-accent: oklch(53% 0.24 262);
 
-  --nuke-color-bg-1: oklch(100% 0 var(--nuke-color-accent-hue));
-  --nuke-color-bg-2: oklch(97% 0.005 var(--nuke-color-accent-hue));
-  --nuke-color-bg-3: oklch(93% 0.01 var(--nuke-color-accent-hue));
-  --nuke-color-bg-invert: oklch(17% 0 var(--nuke-color-accent-hue));
-  --nuke-color-bg-accent: oklch(93% 0.03 var(--nuke-color-accent-hue));
+    --nuke-color-bg-1: oklch(100% 0 var(--nuke-color-accent-hue));
+    --nuke-color-bg-2: oklch(97% 0.005 var(--nuke-color-accent-hue));
+    --nuke-color-bg-3: oklch(93% 0.01 var(--nuke-color-accent-hue));
+    --nuke-color-bg-invert: oklch(17% 0 var(--nuke-color-accent-hue));
+    --nuke-color-bg-accent: oklch(93% 0.03 var(--nuke-color-accent-hue));
 
-  @media (prefers-color-scheme: dark) {
-    & {
-      --nuke-color-fg-1: oklch(97% 0 var(--nuke-color-accent-hue));
-      --nuke-color-fg-2: oklch(75% 0.01 var(--nuke-color-accent-hue));
-      --nuke-color-fg-3: oklch(50% 0.01 var(--nuke-color-accent-hue));
-      --nuke-color-fg-invert: oklch(17% 0 var(--nuke-color-accent-hue));
-      --nuke-color-fg-accent: oklch(53% 0.24 262);
+    @media (prefers-color-scheme: dark) {
+      & {
+        --nuke-color-fg-1: oklch(97% 0 var(--nuke-color-accent-hue));
+        --nuke-color-fg-2: oklch(75% 0.01 var(--nuke-color-accent-hue));
+        --nuke-color-fg-3: oklch(50% 0.01 var(--nuke-color-accent-hue));
+        --nuke-color-fg-invert: oklch(17% 0 var(--nuke-color-accent-hue));
+        --nuke-color-fg-accent: oklch(53% 0.24 262);
 
-      --nuke-color-bg-1: oklch(0% 0 var(--nuke-color-accent-hue));
-      --nuke-color-bg-2: oklch(17% 0 var(--nuke-color-accent-hue));
-      --nuke-color-bg-3: oklch(25% 0.01 var(--nuke-color-accent-hue));
-      --nuke-color-bg-invert: oklch(97% 0.005 var(--nuke-color-accent-hue));
-      --nuke-color-bg-accent: oklch(25% 0.03 var(--nuke-color-accent-hue));
+        --nuke-color-bg-1: oklch(0% 0 var(--nuke-color-accent-hue));
+        --nuke-color-bg-2: oklch(17% 0 var(--nuke-color-accent-hue));
+        --nuke-color-bg-3: oklch(25% 0.01 var(--nuke-color-accent-hue));
+        --nuke-color-bg-invert: oklch(97% 0.005 var(--nuke-color-accent-hue));
+        --nuke-color-bg-accent: oklch(25% 0.03 var(--nuke-color-accent-hue));
+      }
     }
   }
-}
 
-.nuke__light {
-  --nuke-color-fg-1: oklch(17% 0 var(--nuke-color-accent-hue));
-  --nuke-color-fg-2: oklch(42% 0.01 var(--nuke-color-accent-hue));
-  --nuke-color-fg-3: oklch(67% 0.01 var(--nuke-color-accent-hue));
-  --nuke-color-fg-invert: oklch(100% 0 var(--nuke-color-accent-hue));
-  --nuke-color-fg-accent: oklch(53% 0.24 262);
+  .nuke__light {
+    --nuke-color-fg-1: oklch(17% 0 var(--nuke-color-accent-hue));
+    --nuke-color-fg-2: oklch(42% 0.01 var(--nuke-color-accent-hue));
+    --nuke-color-fg-3: oklch(67% 0.01 var(--nuke-color-accent-hue));
+    --nuke-color-fg-invert: oklch(100% 0 var(--nuke-color-accent-hue));
+    --nuke-color-fg-accent: oklch(53% 0.24 262);
 
-  --nuke-color-bg-1: oklch(100% 0 var(--nuke-color-accent-hue));
-  --nuke-color-bg-2: oklch(97% 0.005 var(--nuke-color-accent-hue));
-  --nuke-color-bg-3: oklch(93% 0.01 var(--nuke-color-accent-hue));
-  --nuke-color-bg-invert: oklch(17% 0 var(--nuke-color-accent-hue));
-  --nuke-color-bg-accent: oklch(93% 0.03 var(--nuke-color-accent-hue));
+    --nuke-color-bg-1: oklch(100% 0 var(--nuke-color-accent-hue));
+    --nuke-color-bg-2: oklch(97% 0.005 var(--nuke-color-accent-hue));
+    --nuke-color-bg-3: oklch(93% 0.01 var(--nuke-color-accent-hue));
+    --nuke-color-bg-invert: oklch(17% 0 var(--nuke-color-accent-hue));
+    --nuke-color-bg-accent: oklch(93% 0.03 var(--nuke-color-accent-hue));
 
-  color: var(--nuke-color-fg-1);
-}
+    color: var(--nuke-color-fg-1);
+  }
 
-.nuke__dark {
-  --nuke-color-fg-1: oklch(97% 0 var(--nuke-color-accent-hue));
-  --nuke-color-fg-2: oklch(75% 0.01 var(--nuke-color-accent-hue));
-  --nuke-color-fg-3: oklch(50% 0.01 var(--nuke-color-accent-hue));
-  --nuke-color-fg-invert: oklch(17% 0 var(--nuke-color-accent-hue));
-  --nuke-color-fg-accent: oklch(53% 0.24 262);
+  .nuke__dark {
+    --nuke-color-fg-1: oklch(97% 0 var(--nuke-color-accent-hue));
+    --nuke-color-fg-2: oklch(75% 0.01 var(--nuke-color-accent-hue));
+    --nuke-color-fg-3: oklch(50% 0.01 var(--nuke-color-accent-hue));
+    --nuke-color-fg-invert: oklch(17% 0 var(--nuke-color-accent-hue));
+    --nuke-color-fg-accent: oklch(53% 0.24 262);
 
-  --nuke-color-bg-1: oklch(0% 0 var(--nuke-color-accent-hue));
-  --nuke-color-bg-2: oklch(17% 0 var(--nuke-color-accent-hue));
-  --nuke-color-bg-3: oklch(25% 0.01 var(--nuke-color-accent-hue));
-  --nuke-color-bg-invert: oklch(97% 0.005 var(--nuke-color-accent-hue));
-  --nuke-color-bg-accent: oklch(25% 0.03 var(--nuke-color-accent-hue));
+    --nuke-color-bg-1: oklch(0% 0 var(--nuke-color-accent-hue));
+    --nuke-color-bg-2: oklch(17% 0 var(--nuke-color-accent-hue));
+    --nuke-color-bg-3: oklch(25% 0.01 var(--nuke-color-accent-hue));
+    --nuke-color-bg-invert: oklch(97% 0.005 var(--nuke-color-accent-hue));
+    --nuke-color-bg-accent: oklch(25% 0.03 var(--nuke-color-accent-hue));
 
-  color: var(--nuke-color-fg-1);
-}
+    color: var(--nuke-color-fg-1);
+  }
 
-html,
-body {
-  font-family: var(--nuke-text-body-font);
-  font-size: var(--nuke-text-body-size);
-  line-height: var(--nuke-text-body-lineheight);
-  font-weight: var(--nuke-text-body-weight);
-  overflow-wrap: break-word;
+  html,
+  body {
+    font-family: var(--nuke-text-body-font);
+    font-size: var(--nuke-text-body-size);
+    line-height: var(--nuke-text-body-lineheight);
+    font-weight: var(--nuke-text-body-weight);
+    overflow-wrap: break-word;
 
-  background-color: var(--nuke-color-bg-1);
-  color: var(--nuke-color-fg-1);
+    background-color: var(--nuke-color-bg-1);
+    color: var(--nuke-color-fg-1);
+  }
 }

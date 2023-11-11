@@ -1,206 +1,208 @@
-:root {
-  --nuke-box-unit: 256px;
-  --nuke-box-padding-unit: 16px;
-  --nuke-box-border-radius: 8px;
-}
+@layer xorkevin.nuke {
+  :root {
+    --nuke-box-unit: 256px;
+    --nuke-box-padding-unit: 16px;
+    --nuke-box-border-radius: 8px;
+  }
 
-.pad {
-  padding: var(--nuke-box-padding-unit);
-
-  &.pad-small {
+  .pad {
     padding: var(--nuke-box-padding-unit);
-  }
 
-  @media (min-width: 768px) {
-    &.pad-medium,
-    &.pad-large {
-      padding: calc(var(--nuke-box-padding-unit) * 2);
+    &.pad-small {
+      padding: var(--nuke-box-padding-unit);
     }
-  }
-
-  @media (min-width: calc(768px * 2)) {
-    &.pad-large {
-      padding: calc(var(--nuke-box-padding-unit) * 3);
-    }
-  }
-}
-
-.border-round {
-  border-radius: var(--nuke-box-border-radius);
-}
-
-.box {
-  max-width: 100%;
-  margin: auto;
-
-  &.padded {
-    padding: var(--nuke-box-padding-unit);
 
     @media (min-width: 768px) {
-      &.s2,
-      &.s3,
-      &.s4,
-      &.s5,
-      &.s6 {
+      &.pad-medium,
+      &.pad-large {
         padding: calc(var(--nuke-box-padding-unit) * 2);
       }
     }
 
     @media (min-width: calc(768px * 2)) {
-      &.s4,
-      &.s5,
-      &.s6 {
+      &.pad-large {
         padding: calc(var(--nuke-box-padding-unit) * 3);
       }
     }
   }
 
-  &.s1 {
-    max-width: var(--nuke-box-unit);
+  .border-round {
+    border-radius: var(--nuke-box-border-radius);
   }
 
-  &.s2 {
-    max-width: calc(var(--nuke-box-unit) * 2);
+  .box {
+    max-width: 100%;
+    margin: auto;
+
+    &.padded {
+      padding: var(--nuke-box-padding-unit);
+
+      @media (min-width: 768px) {
+        &.s2,
+        &.s3,
+        &.s4,
+        &.s5,
+        &.s6 {
+          padding: calc(var(--nuke-box-padding-unit) * 2);
+        }
+      }
+
+      @media (min-width: calc(768px * 2)) {
+        &.s4,
+        &.s5,
+        &.s6 {
+          padding: calc(var(--nuke-box-padding-unit) * 3);
+        }
+      }
+    }
+
+    &.s1 {
+      max-width: var(--nuke-box-unit);
+    }
+
+    &.s2 {
+      max-width: calc(var(--nuke-box-unit) * 2);
+    }
+
+    &.s3 {
+      max-width: calc(var(--nuke-box-unit) * 3);
+    }
+
+    &.s4 {
+      max-width: calc(var(--nuke-box-unit) * 4);
+    }
+
+    &.s5 {
+      max-width: calc(var(--nuke-box-unit) * 5);
+    }
+
+    &.s6 {
+      max-width: calc(var(--nuke-box-unit) * 6);
+    }
   }
 
-  &.s3 {
-    max-width: calc(var(--nuke-box-unit) * 3);
-  }
+  .flex {
+    max-width: 100%;
+    display: flex;
 
-  &.s4 {
-    max-width: calc(var(--nuke-box-unit) * 4);
-  }
+    &.dir-row {
+      flex-direction: row;
+    }
 
-  &.s5 {
-    max-width: calc(var(--nuke-box-unit) * 5);
-  }
+    &.dir-row-rev {
+      flex-direction: row-reverse;
+    }
 
-  &.s6 {
-    max-width: calc(var(--nuke-box-unit) * 6);
-  }
-}
+    &.dir-col {
+      flex-direction: column;
+    }
 
-.flex {
-  max-width: 100%;
-  display: flex;
+    &.dir-col-rev {
+      flex-direction: column-reverse;
+    }
 
-  &.dir-row {
-    flex-direction: row;
-  }
+    &.wrap {
+      flex-wrap: wrap;
+    }
 
-  &.dir-row-rev {
-    flex-direction: row-reverse;
-  }
+    &.wrap-rev {
+      flex-wrap: wrap-reverse;
+    }
 
-  &.dir-col {
-    flex-direction: column;
-  }
+    &.no-wrap {
+      flex-wrap: nowrap;
+    }
 
-  &.dir-col-rev {
-    flex-direction: column-reverse;
-  }
+    &.align-items-start {
+      align-items: flex-start;
+    }
 
-  &.wrap {
-    flex-wrap: wrap;
-  }
+    &.align-items-end {
+      align-items: flex-end;
+    }
 
-  &.wrap-rev {
-    flex-wrap: wrap-reverse;
-  }
+    &.align-items-center {
+      align-items: center;
+    }
 
-  &.no-wrap {
-    flex-wrap: nowrap;
-  }
+    &.align-items-stretch {
+      align-items: stretch;
+    }
 
-  &.align-items-start {
-    align-items: flex-start;
-  }
+    &.align-content-start {
+      align-content: flex-start;
+    }
 
-  &.align-items-end {
-    align-items: flex-end;
-  }
+    &.align-content-end {
+      align-content: flex-end;
+    }
 
-  &.align-items-center {
-    align-items: center;
-  }
+    &.align-content-center {
+      align-content: center;
+    }
 
-  &.align-items-stretch {
-    align-items: stretch;
-  }
+    &.align-content-space-between {
+      align-content: space-between;
+    }
 
-  &.align-content-start {
-    align-content: flex-start;
-  }
+    &.align-content-space-around {
+      align-content: space-around;
+    }
 
-  &.align-content-end {
-    align-content: flex-end;
-  }
+    &.align-content-space-evenly {
+      align-content: space-evenly;
+    }
 
-  &.align-content-center {
-    align-content: center;
-  }
+    &.align-content-stretch {
+      align-content: stretch;
+    }
 
-  &.align-content-space-between {
-    align-content: space-between;
-  }
+    &.justify-content-start {
+      justify-content: flex-start;
+    }
 
-  &.align-content-space-around {
-    align-content: space-around;
-  }
+    &.justify-content-end {
+      justify-content: flex-end;
+    }
 
-  &.align-content-space-evenly {
-    align-content: space-evenly;
-  }
+    &.justify-content-center {
+      justify-content: center;
+    }
 
-  &.align-content-stretch {
-    align-content: stretch;
-  }
+    &.justify-content-space-between {
+      justify-content: space-between;
+    }
 
-  &.justify-content-start {
-    justify-content: flex-start;
-  }
+    &.justify-content-space-around {
+      justify-content: space-around;
+    }
 
-  &.justify-content-end {
-    justify-content: flex-end;
-  }
+    &.justify-content-space-evenly {
+      justify-content: space-evenly;
+    }
 
-  &.justify-content-center {
-    justify-content: center;
-  }
+    &.justify-content-stretch {
+      justify-content: stretch;
+    }
 
-  &.justify-content-space-between {
-    justify-content: space-between;
-  }
+    &.grow {
+      flex-grow: 1;
+    }
 
-  &.justify-content-space-around {
-    justify-content: space-around;
-  }
+    &.grow-0 {
+      flex-grow: 0;
+    }
 
-  &.justify-content-space-evenly {
-    justify-content: space-evenly;
-  }
+    &.shrink {
+      flex-shrink: 1;
+    }
 
-  &.justify-content-stretch {
-    justify-content: stretch;
-  }
+    &.shrink-0 {
+      flex-shrink: 0;
+    }
 
-  &.grow {
-    flex-grow: 1;
-  }
-
-  &.grow-0 {
-    flex-grow: 0;
-  }
-
-  &.shrink {
-    flex-shrink: 1;
-  }
-
-  &.shrink-0 {
-    flex-shrink: 0;
-  }
-
-  &.basis-0 {
-    flex-basis: 0;
+    &.basis-0 {
+      flex-basis: 0;
+    }
   }
 }

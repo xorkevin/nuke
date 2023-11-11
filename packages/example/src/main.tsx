@@ -1,4 +1,5 @@
 import '@fontsource-variable/inter/standard.css';
+import '@/styles/main.css';
 import '@xorkevin/nuke/styles/normalize.css';
 import '@xorkevin/nuke/styles/typography.css';
 
