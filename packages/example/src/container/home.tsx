@@ -5,16 +5,7 @@ import {
   useCallback,
   useId,
 } from 'react';
-import {
-  Box,
-  BoxClasses,
-  BoxSize,
-  Flex,
-  FlexAlignItems,
-  FlexDir,
-  FlexJustifyContent,
-  FlexWrap,
-} from '@xorkevin/nuke/component/box';
+import {Box, BoxClasses, BoxSize} from '@xorkevin/nuke/component/box';
 import {
   ColorBG,
   ColorBGClasses,
@@ -27,68 +18,52 @@ import {
 } from '@xorkevin/nuke/component/text';
 import {classNames, strToEnum} from '@xorkevin/nuke/computil';
 
+import styles from './home.module.css';
+
 type SwatchProps = {
   fg: ColorFG;
   bg: ColorBG;
 };
 const Swatch: FC<SwatchProps> = ({fg, bg}) => {
   const captionId = useId();
-  const c = classNames([ColorFGClasses[fg], ColorBGClasses[bg]]);
   return (
     <div
-      className={ColorClasses.B1}
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
-        padding: '8px',
-        margin: '8px',
-        borderRadius: '8px',
-      }}
+      className={classNames(
+        ColorClasses.B1,
+        styles['text-color-swatch-figure'],
+      )}
       role="figure"
       aria-labelledby={captionId}
     >
       <div
-        className={c}
-        style={{
-          width: '96px',
-          height: '96px',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'column',
-          borderRadius: '8px',
-        }}
+        className={classNames(
+          [ColorFGClasses[fg], ColorBGClasses[bg]],
+          styles['text-color-swatch'],
+        )}
       >
         <div className={TextClasses.TitleLarge}>Aa</div>
       </div>
-      <code id={captionId} style={{marginTop: '8px'}}>{`${fg}, ${bg}`}</code>
+      <code id={captionId}>{`${fg}, ${bg}`}</code>
     </div>
   );
 };
 
 const SwatchRow: FC<PropsWithChildren> = ({children}) => {
-  return (
-    <Flex justifyContent={FlexJustifyContent.Center} wrap={FlexWrap.Wrap}>
-      {children}
-    </Flex>
-  );
+  return <div className={styles['text-color-swatch-row']}>{children}</div>;
 };
 
 const Swatches: FC<PropsWithChildren> = ({children}) => {
   return (
-    <Flex
+    <div
       className={classNames(
         ColorClasses.B2,
         BoxClasses.PadSmall,
         BoxClasses.BorderRound,
+        styles['text-color-swatches'],
       )}
-      alignItems={FlexAlignItems.Center}
-      dir={FlexDir.Col}
     >
       {children}
-    </Flex>
+    </div>
   );
 };
 
@@ -100,6 +75,8 @@ const Home: FC = () => {
     },
     [setMode],
   );
+  const darkModeSelectorId = useId();
+  const darkModeStateId = useId();
   return (
     <Box size={BoxSize.S4} padded>
       <Box padded>
@@ -111,12 +88,20 @@ const Home: FC = () => {
         </hgroup>
       </Box>
       <Box padded>
-        <select value={colorScheme} onChange={onModeChange}>
+        <label htmlFor={darkModeSelectorId}>dark mode</label>
+        <select
+          id={darkModeSelectorId}
+          value={colorScheme}
+          onChange={onModeChange}
+        >
           <option value={ColorScheme.System}>System</option>
           <option value={ColorScheme.Light}>Light</option>
           <option value={ColorScheme.Dark}>Dark</option>
         </select>
-        <code>{isDark ? 'dark' : 'light'}</code>
+        <span id={darkModeStateId}>State</span>
+        <code aria-labelledby={darkModeStateId}>
+          {isDark ? 'dark' : 'light'}
+        </code>
       </Box>
       <Swatches>
         <SwatchRow>

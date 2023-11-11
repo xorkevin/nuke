@@ -1,4 +1,4 @@
-import type {FC, PropsWithChildren} from 'react';
+import {type HTMLAttributes, type PropsWithChildren, forwardRef} from 'react';
 
 import {classNames, modClassNames} from '#internal/computil/index.js';
 
@@ -23,15 +23,12 @@ export enum BoxSize {
 export type BoxProps = {
   size?: BoxSize;
   padded?: boolean;
-  className?: string;
 };
 
-export const Box: FC<PropsWithChildren<BoxProps>> = ({
-  size,
-  padded,
-  className,
-  children,
-}) => {
+export const Box = forwardRef<
+  HTMLDivElement,
+  PropsWithChildren<BoxProps & HTMLAttributes<HTMLDivElement>>
+>(({size, padded, className, children, ...props}, ref) => {
   const c = classNames(
     modClassNames(
       styles,
@@ -43,8 +40,12 @@ export const Box: FC<PropsWithChildren<BoxProps>> = ({
     ),
     className,
   );
-  return <div className={c}>{children}</div>;
-};
+  return (
+    <div ref={ref} className={c} {...props}>
+      {children}
+    </div>
+  );
+});
 
 export const FlexClasses = {
   Flex: `${styles['flex']}`,
@@ -143,25 +144,14 @@ export type FlexProps = {
   grow?: FlexGrow;
   shrink?: FlexShrink;
   basis?: FlexBasis;
-  className?: string;
 };
 
-export const Flex: FC<PropsWithChildren<FlexProps>> = ({
-  dir,
-  wrap,
-  alignItems,
-  alignContent,
-  justifyContent,
-  grow,
-  shrink,
-  basis,
-  className,
-  children,
-}) => {
-  const c = classNames(
-    modClassNames(
-      styles,
-      'flex',
+export const Flex = forwardRef<
+  HTMLDivElement,
+  PropsWithChildren<FlexProps & HTMLAttributes<HTMLDivElement>>
+>(
+  (
+    {
       dir,
       wrap,
       alignItems,
@@ -170,8 +160,31 @@ export const Flex: FC<PropsWithChildren<FlexProps>> = ({
       grow,
       shrink,
       basis,
-    ),
-    className,
-  );
-  return <div className={c}>{children}</div>;
-};
+      className,
+      children,
+      ...props
+    },
+    ref,
+  ) => {
+    const c = classNames(
+      modClassNames(
+        styles,
+        'flex',
+        dir,
+        wrap,
+        alignItems,
+        alignContent,
+        justifyContent,
+        grow,
+        shrink,
+        basis,
+      ),
+      className,
+    );
+    return (
+      <div ref={ref} className={c} {...props}>
+        {children}
+      </div>
+    );
+  },
+);
