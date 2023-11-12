@@ -1,9 +1,12 @@
 import {
+  type AnchorHTMLAttributes,
   type ComponentType,
   type FC,
   type JSX,
+  type MouseEventHandler,
   type PropsWithChildren,
   createContext,
+  forwardRef,
   useCallback,
   useContext,
   useEffect,
@@ -11,7 +14,11 @@ import {
   useState,
 } from 'react';
 
-import {type Mutable, isNonNullable} from '#internal/computil/index.js';
+import {
+  type Mutable,
+  classNames,
+  isNonNullable,
+} from '#internal/computil/index.js';
 
 export interface HistoryAPI {
   readonly url: () => string;
@@ -63,6 +70,7 @@ export type RouterCtx = {
   readonly href: string;
   readonly base: string;
   readonly pathname: string;
+  readonly join: (url: string) => string;
   readonly navigate: (url: string) => void;
 };
 
@@ -75,6 +83,7 @@ const RouterContext = createContext<RouterCtx>(
     base: '',
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     pathname: cleanPath(window?.location?.pathname ?? ''),
+    join: (url: string) => url,
     navigate: () => {},
   }),
 );
@@ -87,6 +96,7 @@ export type RouteCtx = {
   readonly prefix: string;
   readonly params: RouteParams;
   readonly rest: string;
+  readonly join: (url: string) => string;
   readonly navigate: (url: string) => void;
 };
 
@@ -95,6 +105,7 @@ const RouteContext = createContext<RouteCtx>(
     prefix: '',
     params: {},
     rest: '',
+    join: (url: string) => url,
     navigate: () => {},
   }),
 );
@@ -114,22 +125,26 @@ export const Router: FC<PropsWithChildren<RouterProps>> = ({
   const [href, setHref] = useState(() => history.url());
   const url = useMemo(() => new URL(href), [href]);
 
+  const join = useCallback(
+    (url: string): string => {
+      if (url.startsWith('/')) {
+        return url;
+      }
+      if (url === '') {
+        return base;
+      }
+      return base + '/' + url;
+    },
+    [base],
+  );
+
   const navigate = useCallback(
     (url: string) => {
-      const u = (() => {
-        const u = history.origin() + base;
-        if (url === '' || url === '/') {
-          return u;
-        }
-        if (url.startsWith('/')) {
-          return u + url;
-        }
-        return u + '/' + url;
-      })();
+      const u = history.origin() + join(url);
       history.navigate(u);
       setHref(u);
     },
-    [base, history, setHref],
+    [history, join, setHref],
   );
 
   useEffect(() => {
@@ -146,21 +161,14 @@ export const Router: FC<PropsWithChildren<RouterProps>> = ({
     if (base.endsWith('/')) {
       return undefined;
     }
-    let pathname = cleanPath(url.pathname);
+    const pathname = cleanPath(url.pathname);
     if (base === '') {
       return pathname;
     }
-    if (!pathname.startsWith(base)) {
+    if (pathname !== base && !pathname.startsWith(base + '/')) {
       return undefined;
     }
-    pathname = cleanPath(pathname.slice(base.length));
-    if (pathname === '') {
-      return '';
-    }
-    if (!pathname.startsWith('/')) {
-      return undefined;
-    }
-    return pathname;
+    return pathname.slice(base.length);
   }, [base, url.pathname]);
 
   const routerCtx = useMemo(
@@ -170,20 +178,22 @@ export const Router: FC<PropsWithChildren<RouterProps>> = ({
         href,
         base,
         pathname: pathname ?? '',
+        join,
         navigate,
       }),
-    [href, url, base, pathname, navigate],
+    [href, url, base, pathname, join, navigate],
   );
 
   const routeCtx = useMemo(
     () =>
       Object.freeze({
-        prefix: '',
+        prefix: base,
         params: {},
         rest: pathname ?? '',
+        join,
         navigate,
       }),
-    [pathname, navigate],
+    [base, pathname, join, navigate],
   );
 
   if (pathname === undefined) {
@@ -277,12 +287,12 @@ const matchRoute = (
   const params: Mutable<RouteParams> = {};
   let rest = pathname;
   for (const segment of match) {
-    if (rest.at(0) !== '/') {
+    if (!rest.startsWith('/')) {
       return undefined;
     }
     rest = rest.slice(1);
     if (segment.kind === 'str') {
-      if (!rest.startsWith(segment.match)) {
+      if (rest !== segment.match && !rest.startsWith(segment.match + '/')) {
         return undefined;
       }
       rest = rest.slice(segment.match.length);
@@ -361,20 +371,24 @@ export const Routes: FC<RoutesProps> = ({routes, fallbackRedir, fallback}) => {
 
   const subPrefix = prefix + (match?.prefix ?? '');
 
+  const subJoin = useCallback(
+    (url: string): string => {
+      if (url.startsWith('/')) {
+        return url;
+      }
+      if (url === '') {
+        return subPrefix;
+      }
+      return subPrefix + '/' + url;
+    },
+    [subPrefix],
+  );
+
   const subNavigate = useCallback(
     (url: string) => {
-      const u = (() => {
-        if (url === '') {
-          return subPrefix;
-        }
-        if (url.startsWith('/')) {
-          return url;
-        }
-        return subPrefix + '/' + url;
-      })();
-      navigate(u);
+      navigate(subJoin(url));
     },
-    [subPrefix, navigate],
+    [subJoin, navigate],
   );
 
   const subRouteCtx = useMemo(
@@ -383,9 +397,10 @@ export const Routes: FC<RoutesProps> = ({routes, fallbackRedir, fallback}) => {
         prefix: subPrefix,
         params: Object.freeze(Object.assign({}, params, match?.params)),
         rest: match?.rest ?? '',
+        join: subJoin,
         navigate: subNavigate,
       }),
-    [subPrefix, params, match, subNavigate],
+    [subPrefix, params, match, subJoin, subNavigate],
   );
 
   if (routeNotFound) {
@@ -411,3 +426,100 @@ export const useRouter = (): RouterCtx => {
 export const useRoute = (): RouteCtx => {
   return useContext(RouteContext);
 };
+
+const matchURL = (pathname: string, match: string, exact: boolean): boolean => {
+  if (match !== '') {
+    if (match.startsWith('/')) {
+      // TODO handle absolute paths
+      return false;
+    }
+    if (!pathname.startsWith('/')) {
+      return false;
+    }
+    pathname = pathname.slice(1);
+    if (pathname !== match && !pathname.startsWith(match + '/')) {
+      return false;
+    }
+    pathname = pathname.slice(match.length);
+  }
+  if (exact) {
+    return pathname === '';
+  }
+  return true;
+};
+
+export type NavAnchorHook = {
+  readonly href: string | undefined;
+  readonly matches: boolean;
+  readonly nav: () => void;
+};
+
+export const useNavAnchor = (
+  url: string | undefined,
+  exact: boolean,
+): NavAnchorHook => {
+  const {rest, join, navigate} = useRoute();
+
+  const href = useMemo(
+    () => (url === undefined ? undefined : join(url)),
+    [url, join],
+  );
+
+  const nav = useCallback(() => {
+    if (url === undefined) {
+      return;
+    }
+    navigate(url);
+  }, [url, navigate]);
+
+  const matches = useMemo(
+    () => (url === undefined ? false : matchURL(rest, url, exact)),
+    [rest, url, exact],
+  );
+
+  const res = useMemo(() => ({href, matches, nav}), [href, matches, nav]);
+  return res;
+};
+
+export type NavAnchorProps = {
+  readonly matchesClassName: string;
+  readonly matchesClassNameExact?: boolean;
+};
+
+export const NavAnchor = forwardRef<
+  HTMLAnchorElement,
+  PropsWithChildren<AnchorHTMLAttributes<HTMLAnchorElement> & NavAnchorProps>
+>(
+  (
+    {
+      matchesClassName = 'nuke-nav-anchor-matches',
+      matchesClassNameExact = false,
+      className,
+      href = '#',
+      children,
+      ...props
+    },
+    ref,
+  ) => {
+    const {
+      href: fullHref,
+      matches,
+      nav,
+    } = useNavAnchor(href, matchesClassNameExact);
+    const c = classNames(className, {
+      [matchesClassName]: matches,
+    });
+    const onClick = useCallback<MouseEventHandler<HTMLAnchorElement>>(
+      (e) => {
+        e.preventDefault();
+        nav();
+      },
+      [nav],
+    );
+    return (
+      <a ref={ref} className={c} href={fullHref} onClick={onClick} {...props}>
+        {children}
+      </a>
+    );
+  },
+);

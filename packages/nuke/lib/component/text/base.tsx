@@ -71,7 +71,7 @@ const isSystemPrefersDark = () =>
 
 export const useDarkMode = ({
   localStorageKey = 'nuke:darkmode',
-}: {persistLocalStorage?: boolean; localStorageKey?: string} = {}): {
+}: {localStorageKey?: string} = {}): {
   isDark: boolean;
   colorScheme: ColorScheme;
   setMode: (mode: ColorScheme) => void;

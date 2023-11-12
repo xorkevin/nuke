@@ -1,9 +1,9 @@
 import {Buffer} from 'node:buffer';
-import fs from 'node:fs';
+import fs from 'node:fs/promises';
 import path from 'node:path';
 
 async function* walk(dir) {
-  for await (const f of await fs.promises.opendir(dir)) {
+  for await (const f of await fs.opendir(dir)) {
     const entry = path.join(dir, f.name);
     if (f.isDirectory()) {
       yield* walk(entry);
@@ -15,7 +15,7 @@ async function* walk(dir) {
 
 async function statFile(name) {
   try {
-    const s = await fs.promises.stat(name);
+    const s = await fs.stat(name);
     return [s, undefined];
   } catch (err) {
     if (err.code === 'ENOENT') {
@@ -45,8 +45,8 @@ async function filesEqual(fname1, fname2) {
   const bufSize = 1024 * 16;
   let f1, f2;
   try {
-    f1 = await fs.promises.open(fname1);
-    f2 = await fs.promises.open(fname2);
+    f1 = await fs.open(fname1);
+    f2 = await fs.open(fname2);
     const buf1 = Buffer.alloc(bufSize);
     const buf2 = Buffer.alloc(bufSize);
     while (true) {
@@ -88,7 +88,7 @@ for await (const p of walk('lib')) {
       continue;
     }
     console.log(`copying ${p} to ${dest}`);
-    await fs.promises.mkdir(path.dirname(dest), {recursive: true});
-    await fs.promises.copyFile(p, dest);
+    await fs.mkdir(path.dirname(dest), {recursive: true});
+    await fs.copyFile(p, dest);
   }
 }

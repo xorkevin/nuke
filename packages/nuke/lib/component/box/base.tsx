@@ -28,13 +28,13 @@ export type BoxProps = {
 export const Box = forwardRef<
   HTMLDivElement,
   PropsWithChildren<BoxProps & HTMLAttributes<HTMLDivElement>>
->(({size, padded, className, children, ...props}, ref) => {
+>(({size, padded = false, className, children, ...props}, ref) => {
   const c = classNames(
     modClassNames(
       styles,
       'box',
       {
-        padded: padded ?? false,
+        padded,
       },
       size,
     ),
