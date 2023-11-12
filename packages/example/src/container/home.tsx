@@ -76,7 +76,6 @@ const Home: FC = () => {
     [setMode],
   );
   const darkModeSelectorId = useId();
-  const darkModeStateId = useId();
   return (
     <Box size={BoxSize.S4} padded>
       <Box padded>
@@ -93,20 +92,22 @@ const Home: FC = () => {
         </hgroup>
       </Box>
       <Box padded>
-        <label htmlFor={darkModeSelectorId}>dark mode</label>
-        <select
-          id={darkModeSelectorId}
-          value={colorScheme}
-          onChange={onModeChange}
-        >
-          <option value={ColorScheme.System}>System</option>
-          <option value={ColorScheme.Light}>Light</option>
-          <option value={ColorScheme.Dark}>Dark</option>
-        </select>
-        <span id={darkModeStateId}>State</span>
-        <code aria-labelledby={darkModeStateId}>
-          {isDark ? 'dark' : 'light'}
-        </code>
+        <form>
+          <label htmlFor={darkModeSelectorId}>dark mode</label>
+          <select
+            id={darkModeSelectorId}
+            name="scheme"
+            value={colorScheme}
+            onChange={onModeChange}
+          >
+            <option value={ColorScheme.System}>System</option>
+            <option value={ColorScheme.Light}>Light</option>
+            <option value={ColorScheme.Dark}>Dark</option>
+          </select>
+          <output name="isDark" htmlFor={darkModeSelectorId}>
+            {isDark ? 'dark' : 'light'}
+          </output>
+        </form>
       </Box>
       <Swatches>
         <SwatchRow>

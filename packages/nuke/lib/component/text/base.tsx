@@ -4,15 +4,15 @@ import {strToEnum} from '#internal/computil/index.js';
 
 import styles from './styles.module.css';
 
-export const TextClasses = {
+export const TextClasses = Object.freeze({
   TitleSmall: `${styles['title']} ${styles['title-small']}`,
   TitleMedium: `${styles['title']} ${styles['title-medium']}`,
   TitleLarge: `${styles['title']} ${styles['title-large']}`,
   Subtitle: `${styles['subtitle']}`,
   Display: `${styles['display']}`,
-};
+} as const);
 
-export const ColorClasses = {
+export const ColorClasses = Object.freeze({
   F1: `${styles['f1']}`,
   F2: `${styles['f2']}`,
   F3: `${styles['f3']}`,
@@ -23,7 +23,7 @@ export const ColorClasses = {
   B3: `${styles['b3']}`,
   BI: `${styles['bi']}`,
   BA: `${styles['ba']}`,
-};
+} as const);
 
 export enum ColorFG {
   F1 = 'f1',
@@ -33,13 +33,13 @@ export enum ColorFG {
   FA = 'fa',
 }
 
-export const ColorFGClasses = {
+export const ColorFGClasses = Object.freeze({
   [ColorFG.F1]: ColorClasses.F1,
   [ColorFG.F2]: ColorClasses.F2,
   [ColorFG.F3]: ColorClasses.F3,
   [ColorFG.FI]: ColorClasses.FI,
   [ColorFG.FA]: ColorClasses.FA,
-};
+} as const);
 
 export enum ColorBG {
   B1 = 'b1',
@@ -49,13 +49,13 @@ export enum ColorBG {
   BA = 'ba',
 }
 
-export const ColorBGClasses = {
+export const ColorBGClasses = Object.freeze({
   [ColorBG.B1]: ColorClasses.B1,
   [ColorBG.B2]: ColorClasses.B2,
   [ColorBG.B3]: ColorClasses.B3,
   [ColorBG.BI]: ColorClasses.BI,
   [ColorBG.BA]: ColorClasses.BA,
-};
+} as const);
 
 export enum ColorScheme {
   System = 'system',
@@ -63,8 +63,10 @@ export enum ColorScheme {
   Dark = 'dark',
 }
 
-const cssClassLight = 'nuke__light';
-const cssClassDark = 'nuke__dark';
+export const ColorSchemeClasses = Object.freeze({
+  Light: 'nuke__color-scheme-light',
+  Dark: 'nuke__color-scheme-dark',
+} as const);
 
 const isSystemPrefersDark = () =>
   window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -124,11 +126,19 @@ export const useDarkMode = ({
 
   useEffect(() => {
     if (colorScheme === ColorScheme.System) {
-      document.body.classList.remove(cssClassLight, cssClassDark);
+      document.body.classList.remove(
+        ColorSchemeClasses.Light,
+        ColorSchemeClasses.Dark,
+      );
     } else {
-      const v = colorScheme === ColorScheme.Dark ? cssClassDark : cssClassLight;
+      const v =
+        colorScheme === ColorScheme.Dark
+          ? ColorSchemeClasses.Dark
+          : ColorSchemeClasses.Light;
       const alt =
-        colorScheme === ColorScheme.Dark ? cssClassLight : cssClassDark;
+        colorScheme === ColorScheme.Dark
+          ? ColorSchemeClasses.Light
+          : ColorSchemeClasses.Dark;
       if (!document.body.classList.replace(alt, v)) {
         document.body.classList.add(v);
       }

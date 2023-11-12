@@ -4,12 +4,12 @@ import {classNames, modClassNames} from '#internal/computil/index.js';
 
 import styles from './styles.module.css';
 
-export const BoxClasses = {
+export const BoxClasses = Object.freeze({
   PadSmall: `${styles['pad']} ${styles['pad-small']}`,
   PadMedium: `${styles['pad']} ${styles['pad-medium']}`,
   PadLarge: `${styles['pad']} ${styles['pad-large']}`,
   BorderRound: `${styles['border-round']}`,
-};
+} as const);
 
 export enum BoxSize {
   S1 = 's1',
@@ -21,8 +21,8 @@ export enum BoxSize {
 }
 
 export type BoxProps = {
-  size?: BoxSize;
-  padded?: boolean;
+  readonly size?: BoxSize;
+  readonly padded?: boolean;
 };
 
 export const Box = forwardRef<
@@ -47,7 +47,7 @@ export const Box = forwardRef<
   );
 });
 
-export const FlexClasses = {
+export const FlexClasses = Object.freeze({
   Flex: `${styles['flex']}`,
   DirRow: `${styles['dir-row']}`,
   DirRowRev: `${styles['dir-row-rev']}`,
@@ -79,7 +79,7 @@ export const FlexClasses = {
   Shrink: `${styles['shrink']}`,
   Shrink0: `${styles['shrink-0']}`,
   Basis0: `${styles['basis-0']}`,
-};
+} as const);
 
 export enum FlexDir {
   Row = 'dir-row',
@@ -136,14 +136,14 @@ export enum FlexBasis {
 }
 
 export type FlexProps = {
-  dir?: FlexDir;
-  wrap?: FlexWrap;
-  alignItems?: FlexAlignItems;
-  alignContent?: FlexAlignContent;
-  justifyContent?: FlexJustifyContent;
-  grow?: FlexGrow;
-  shrink?: FlexShrink;
-  basis?: FlexBasis;
+  readonly dir?: FlexDir;
+  readonly wrap?: FlexWrap;
+  readonly alignItems?: FlexAlignItems;
+  readonly alignContent?: FlexAlignContent;
+  readonly justifyContent?: FlexJustifyContent;
+  readonly grow?: FlexGrow;
+  readonly shrink?: FlexShrink;
+  readonly basis?: FlexBasis;
 };
 
 export const Flex = forwardRef<

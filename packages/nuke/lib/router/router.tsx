@@ -540,7 +540,7 @@ export const useNavAnchor = (
   return res;
 };
 
-export const AnchorMatchesClassName = 'nuke-nav-anchor-matches';
+export const AnchorMatchesClassName = 'nuke__nav-anchor-matches';
 
 export type NavAnchorProps = {
   readonly matchesClassName?: string;

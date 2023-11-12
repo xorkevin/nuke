@@ -6,5 +6,6 @@ export {
   ColorBG,
   ColorBGClasses,
   ColorScheme,
+  ColorSchemeClasses,
   useDarkMode,
 } from './base.js';
