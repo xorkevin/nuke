@@ -61,6 +61,9 @@ class BrowserHistory implements HistoryAPI {
 const MULTI_SLASH_REGEX = /\/+/;
 
 const stripSlash = (path: string): string => {
+  if (path === '' || path === '/') {
+    return '';
+  }
   if (path.endsWith('/')) {
     return path.slice(0, -1);
   }
@@ -68,13 +71,10 @@ const stripSlash = (path: string): string => {
 };
 
 const cleanPath = (path: string): string => {
-  if (path === '') {
+  if (path === '' || path === '/') {
     return '';
   }
   path = path.replaceAll(RegExp(MULTI_SLASH_REGEX, 'g'), '/');
-  if (path === '/') {
-    return '';
-  }
   return stripSlash(path);
 };
 
@@ -127,7 +127,7 @@ const RouterContext = createContext<RouterCtx>(
     href: window?.location?.href ?? 'http://localhost:8080',
     base: '',
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    pathname: cleanPath(window?.location?.pathname ?? ''),
+    pathname: toAbsolutePath(window?.location?.pathname ?? ''),
     join: (url: string) => url,
     navigate: () => {},
   }),
@@ -174,7 +174,11 @@ export const Router: FC<PropsWithChildren<RouterProps>> = ({
   const join = useCallback(
     (url: string): string => {
       if (isPathAbsolute(url)) {
-        return cleanPath(url);
+        url = cleanPath(url);
+        if (url === '') {
+          return '/';
+        }
+        return url;
       }
       return joinPaths(base, url);
     },
@@ -201,7 +205,7 @@ export const Router: FC<PropsWithChildren<RouterProps>> = ({
   }, [setHref, history]);
 
   const pathname = useMemo(() => {
-    const pathname = cleanPath(url.pathname);
+    const pathname = toAbsolutePath(url.pathname);
     if (base === '') {
       return pathname;
     }
@@ -411,7 +415,11 @@ export const Routes: FC<RoutesProps> = ({routes, fallbackRedir, fallback}) => {
   const subJoin = useCallback(
     (url: string): string => {
       if (isPathAbsolute(url)) {
-        return cleanPath(url);
+        url = cleanPath(url);
+        if (url === '') {
+          return '/';
+        }
+        return url;
       }
       return joinPaths(subPrefix, url);
     },
