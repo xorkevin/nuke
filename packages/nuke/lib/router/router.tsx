@@ -527,7 +527,7 @@ export const useNavAnchor = (
 };
 
 export type NavAnchorProps = {
-  readonly matchesClassName: string;
+  readonly matchesClassName?: string;
   readonly matchesClassNameExact?: boolean;
 };
 
@@ -541,6 +541,7 @@ export const NavAnchor = forwardRef<
       matchesClassNameExact = false,
       className,
       href,
+      onClick,
       children,
       ...props
     },
@@ -554,15 +555,24 @@ export const NavAnchor = forwardRef<
     const c = classNames(className, {
       [matchesClassName]: matches,
     });
-    const onClick = useCallback<MouseEventHandler<HTMLAnchorElement>>(
+    const handleClick = useCallback<MouseEventHandler<HTMLAnchorElement>>(
       (e) => {
         e.preventDefault();
         nav();
+        if (onClick !== undefined) {
+          onClick(e);
+        }
       },
-      [nav],
+      [nav, onClick],
     );
     return (
-      <a ref={ref} className={c} href={fullHref} onClick={onClick} {...props}>
+      <a
+        ref={ref}
+        className={c}
+        href={fullHref}
+        onClick={handleClick}
+        {...props}
+      >
         {children}
       </a>
     );

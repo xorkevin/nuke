@@ -65,17 +65,23 @@ const classNamesRec = (
   }
 };
 
-export const classNames = (...args: ConditionalClass[]): string => {
+export const classNames = (...args: ConditionalClass[]): string | undefined => {
   const classes: string[] = [];
   classNamesRec(classes, (c) => c, args);
+  if (classes.length === 0) {
+    return undefined;
+  }
   return classes.join(' ');
 };
 
 export const modClassNames = (
   styleMod: {[key: string]: string},
   ...args: ConditionalClass[]
-): string => {
+): string | undefined => {
   const classes: string[] = [];
   classNamesRec(classes, (c) => styleMod[c], args);
+  if (classes.length === 0) {
+    return undefined;
+  }
   return classes.join(' ');
 };

@@ -3,11 +3,17 @@ import '#internal/testutil.js';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import {useCallback} from 'react';
 import {act, cleanup, render, screen} from '@testing-library/react';
 import {userEvent} from '@testing-library/user-event';
 
-import {type HistoryAPI, Router, Routes, useRoute} from './router.js';
+import {
+  type HistoryAPI,
+  NavAnchor,
+  Router,
+  Routes,
+  useRoute,
+  useRouter,
+} from './router.js';
 
 class TestHistory implements HistoryAPI {
   #location: URL;
@@ -59,18 +65,13 @@ await test('Router', async (t) => {
   testHistory.setLocation('http://localhost:3000/comp1/hello');
 
   const Comp1 = () => {
-    const {params, rest, navigate} = useRoute();
-    const goToHello = useCallback(() => {
-      navigate('remainder');
-    }, [navigate]);
-    const goToComp2 = useCallback(() => {
-      navigate('/comp2/bye');
-    }, [navigate]);
+    const {base} = useRouter();
+    const {params, rest} = useRoute();
     return (
       <div>
         Component 1 {params['id'] ?? 'not exist'} {rest}
-        <button onClick={goToComp2}>go to comp 2</button>
-        <button onClick={goToHello}>go to hello</button>
+        <NavAnchor href={base + '/comp2/bye'}>go to comp 2</NavAnchor>
+        <NavAnchor href="remainder">go to hello</NavAnchor>
       </div>
     );
   };
@@ -102,13 +103,22 @@ await test('Router', async (t) => {
 
   assert.ok(screen.getByText('Component 1 hello'));
 
-  await user.click(screen.getByRole('button', {name: 'go to hello'}));
+  assert.equal(screen.getByRole('link', {name: 'go to hello'}).className, '');
+  assert.equal(screen.getByRole('link', {name: 'go to comp 2'}).className, '');
+
+  await user.click(screen.getByRole('link', {name: 'go to hello'}));
 
   assert.ok(await screen.findByText('Component 1 hello /remainder'));
 
-  await user.click(screen.getByRole('button', {name: 'go to comp 2'}));
+  assert.equal(
+    screen.getByRole('link', {name: 'go to hello'}).className,
+    'nuke-nav-anchor-matches',
+  );
+  assert.equal(screen.getByRole('link', {name: 'go to comp 2'}).className, '');
 
-  assert.ok(screen.findByText('Component 2 bye'));
+  await user.click(screen.getByRole('link', {name: 'go to comp 2'}));
+
+  assert.ok(await screen.findByText('Component 2 bye'));
 
   act(() => {
     testHistory.setLocation('http://localhost:3000/comp1/again');
