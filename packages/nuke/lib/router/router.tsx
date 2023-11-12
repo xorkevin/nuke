@@ -11,7 +11,7 @@ import {
   useState,
 } from 'react';
 
-import {isNonNullable} from '#internal/computil/index.js';
+import {type Mutable, isNonNullable} from '#internal/computil/index.js';
 
 export interface HistoryAPI {
   readonly url: () => string;
@@ -58,46 +58,50 @@ const cleanPath = (pathname: string): string => {
   return pathname;
 };
 
-type RouterCtx = {
-  url: URL;
-  href: string;
-  base: string;
-  pathname: string;
-  navigate: (url: string) => void;
+export type RouterCtx = {
+  readonly url: URL;
+  readonly href: string;
+  readonly base: string;
+  readonly pathname: string;
+  readonly navigate: (url: string) => void;
 };
 
-const RouterContext = createContext<RouterCtx>({
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-  url: new URL(window?.location?.href ?? 'http://localhost:8080'),
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-  href: window?.location?.href ?? 'http://localhost:8080',
-  base: '',
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-  pathname: cleanPath(window?.location?.pathname ?? ''),
-  navigate: () => {},
-});
+const RouterContext = createContext<RouterCtx>(
+  Object.freeze({
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    url: new URL(window?.location?.href ?? 'http://localhost:8080'),
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    href: window?.location?.href ?? 'http://localhost:8080',
+    base: '',
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    pathname: cleanPath(window?.location?.pathname ?? ''),
+    navigate: () => {},
+  }),
+);
 
 export type RouteParams = {
-  [key: string]: string;
+  readonly [key: string]: string;
 };
 
 export type RouteCtx = {
-  prefix: string;
-  params: RouteParams;
-  rest: string;
-  navigate: (url: string) => void;
+  readonly prefix: string;
+  readonly params: RouteParams;
+  readonly rest: string;
+  readonly navigate: (url: string) => void;
 };
 
-const RouteContext = createContext<RouteCtx>({
-  prefix: '',
-  params: {},
-  rest: '',
-  navigate: () => {},
-});
+const RouteContext = createContext<RouteCtx>(
+  Object.freeze({
+    prefix: '',
+    params: {},
+    rest: '',
+    navigate: () => {},
+  }),
+);
 
 export type RouterProps = {
-  base?: string;
-  history?: HistoryAPI;
+  readonly base?: string;
+  readonly history?: HistoryAPI;
 };
 
 const defaultHistory = new BrowserHistory();
@@ -159,23 +163,26 @@ export const Router: FC<PropsWithChildren<RouterProps>> = ({
     return pathname;
   }, [base, url.pathname]);
 
-  const routerCtx = useMemo(() => {
-    return {
-      url,
-      href,
-      base,
-      pathname: pathname ?? '',
-      navigate,
-    };
-  }, [href, url, base, pathname, navigate]);
+  const routerCtx = useMemo(
+    () =>
+      Object.freeze({
+        url,
+        href,
+        base,
+        pathname: pathname ?? '',
+        navigate,
+      }),
+    [href, url, base, pathname, navigate],
+  );
 
   const routeCtx = useMemo(
-    () => ({
-      prefix: '',
-      params: {},
-      rest: pathname ?? '',
-      navigate,
-    }),
+    () =>
+      Object.freeze({
+        prefix: '',
+        params: {},
+        rest: pathname ?? '',
+        navigate,
+      }),
     [pathname, navigate],
   );
 
@@ -191,9 +198,9 @@ export const Router: FC<PropsWithChildren<RouterProps>> = ({
 };
 
 export type Route = {
-  path: string;
-  exact?: boolean;
-  component: ComponentType;
+  readonly path: string;
+  readonly exact?: boolean;
+  readonly component: ComponentType;
 };
 
 type CompiledPatternSegment =
@@ -267,7 +274,7 @@ const matchRoute = (
   match: CompiledPatternSegment[],
   exact: boolean,
 ): {prefix: string; params: RouteParams; rest: string} | undefined => {
-  const params: RouteParams = {};
+  const params: Mutable<RouteParams> = {};
   let rest = pathname;
   for (const segment of match) {
     if (rest.at(0) !== '/') {
@@ -308,9 +315,9 @@ const matchRoute = (
 };
 
 export type RoutesProps = {
-  routes: Route[];
-  fallbackRedir?: string;
-  fallback?: JSX.Element;
+  readonly routes: Route[];
+  readonly fallbackRedir?: string;
+  readonly fallback?: JSX.Element;
 };
 
 export const Routes: FC<RoutesProps> = ({routes, fallbackRedir, fallback}) => {
@@ -371,12 +378,13 @@ export const Routes: FC<RoutesProps> = ({routes, fallbackRedir, fallback}) => {
   );
 
   const subRouteCtx = useMemo(
-    () => ({
-      prefix: subPrefix,
-      params: Object.assign({}, params, match?.params),
-      rest: match?.rest ?? '',
-      navigate: subNavigate,
-    }),
+    () =>
+      Object.freeze({
+        prefix: subPrefix,
+        params: Object.freeze(Object.assign({}, params, match?.params)),
+        rest: match?.rest ?? '',
+        navigate: subNavigate,
+      }),
     [subPrefix, params, match, subNavigate],
   );
 
