@@ -58,11 +58,56 @@ class BrowserHistory implements HistoryAPI {
   }
 }
 
-const cleanPath = (pathname: string): string => {
-  if (pathname.endsWith('/')) {
-    return pathname.slice(0, -1);
+const MULTI_SLASH_REGEX = /\/+/;
+
+const stripSlash = (path: string): string => {
+  if (path.endsWith('/')) {
+    return path.slice(0, -1);
   }
-  return pathname;
+  return path;
+};
+
+const cleanPath = (path: string): string => {
+  if (path === '') {
+    return '';
+  }
+  path = path.replaceAll(RegExp(MULTI_SLASH_REGEX, 'g'), '/');
+  if (path === '/') {
+    return '';
+  }
+  return stripSlash(path);
+};
+
+const isPathAbsolute = (path: string) => path.startsWith('/');
+
+const toAbsolutePath = (path: string) => {
+  path = cleanPath(path);
+  if (path === '') {
+    return '';
+  }
+  if (isPathAbsolute(path)) {
+    return path;
+  }
+  return '/' + path;
+};
+
+const isPathPrefix = (path: string, prefix: string) =>
+  prefix === '' || path === prefix || path.startsWith(prefix + '/');
+
+const joinPaths = (head: string, ...tail: string[]): string => {
+  head = cleanPath(head);
+  for (let s of tail) {
+    s = cleanPath(s);
+    if (s === '') {
+      continue;
+    }
+    if (s.startsWith('/')) {
+      head += s;
+    } else {
+      head += '/' + s;
+    }
+  }
+  return head;
 };
 
 export type RouterCtx = {
@@ -122,25 +167,23 @@ export const Router: FC<PropsWithChildren<RouterProps>> = ({
   history = defaultHistory,
   children,
 }) => {
+  base = toAbsolutePath(base);
   const [href, setHref] = useState(() => history.url());
   const url = useMemo(() => new URL(href), [href]);
 
   const join = useCallback(
     (url: string): string => {
-      if (url.startsWith('/')) {
-        return url;
+      if (isPathAbsolute(url)) {
+        return cleanPath(url);
       }
-      if (url === '') {
-        return base;
-      }
-      return base + '/' + url;
+      return joinPaths(base, url);
     },
     [base],
   );
 
   const navigate = useCallback(
     (url: string) => {
-      const u = history.origin() + join(url);
+      const u = stripSlash(history.origin()) + join(url);
       history.navigate(u);
       setHref(u);
     },
@@ -158,17 +201,14 @@ export const Router: FC<PropsWithChildren<RouterProps>> = ({
   }, [setHref, history]);
 
   const pathname = useMemo(() => {
-    if (base.endsWith('/')) {
-      return undefined;
-    }
     const pathname = cleanPath(url.pathname);
     if (base === '') {
       return pathname;
     }
-    if (pathname !== base && !pathname.startsWith(base + '/')) {
-      return undefined;
+    if (isPathPrefix(pathname, base)) {
+      return pathname.slice(base.length);
     }
-    return pathname.slice(base.length);
+    return undefined;
   }, [base, url.pathname]);
 
   const routerCtx = useMemo(
@@ -228,16 +268,11 @@ const SEGMENT_PATTERN_REGEX = /^{(?<key>[^}]*)}$/;
 const compilePattern = (
   pattern: string,
 ): CompiledPatternSegment[] | undefined => {
+  pattern = toAbsolutePath(pattern);
   if (pattern === '') {
     return [];
   }
-  if (!pattern.startsWith('/')) {
-    return undefined;
-  }
   const segments = pattern.slice(1).split('/');
-  if (segments.some((v) => v === '' || v === '{}')) {
-    return undefined;
-  }
   return segments.reduce<CompiledPatternSegment[]>((acc, v) => {
     const match = SEGMENT_PATTERN_REGEX.exec(v);
     const key = match?.groups?.['key'];
@@ -267,15 +302,19 @@ type CompiledRoute = {
   component: ComponentType;
 };
 
-const compileRoute = (route: Route): CompiledRoute | undefined => {
-  const match = compilePattern(route.path);
+const compileRoute = ({
+  path,
+  exact = false,
+  component,
+}: Route): CompiledRoute | undefined => {
+  const match = compilePattern(path);
   if (match === undefined) {
     return undefined;
   }
   return {
     match,
-    exact: route.exact ?? false,
-    component: route.component,
+    exact,
+    component,
   };
 };
 
@@ -292,17 +331,21 @@ const matchRoute = (
     }
     rest = rest.slice(1);
     if (segment.kind === 'str') {
-      if (rest !== segment.match && !rest.startsWith(segment.match + '/')) {
+      if (!isPathPrefix(rest, segment.match)) {
         return undefined;
       }
       rest = rest.slice(segment.match.length);
     } else {
       const idx = rest.indexOf('/');
       if (idx < 0) {
-        params[segment.key] = rest;
+        if (segment.key !== '') {
+          params[segment.key] = rest;
+        }
         rest = '';
       } else {
-        params[segment.key] = rest.slice(0, idx);
+        if (segment.key !== '') {
+          params[segment.key] = rest.slice(0, idx);
+        }
         rest = rest.slice(idx);
       }
     }
@@ -331,8 +374,8 @@ export type RoutesProps = {
 };
 
 export const Routes: FC<RoutesProps> = ({routes, fallbackRedir, fallback}) => {
-  const {navigate} = useContext(RouterContext);
-  const {prefix, params, rest} = useContext(RouteContext);
+  const {navigate: rootNavigate} = useContext(RouterContext);
+  const {prefix, params, rest, navigate} = useContext(RouteContext);
 
   const compiledRoutes = useMemo(
     () => routes.map(compileRoute).filter(isNonNullable),
@@ -359,43 +402,37 @@ export const Routes: FC<RoutesProps> = ({routes, fallbackRedir, fallback}) => {
 
   useEffect(() => {
     if (routeNotFound && fallbackRedir !== undefined) {
-      if (fallbackRedir === '') {
-        navigate(prefix);
-      } else if (fallbackRedir.startsWith('/')) {
-        navigate(fallbackRedir);
-      } else {
-        navigate(prefix + '/' + fallbackRedir);
-      }
+      navigate(fallbackRedir);
     }
-  }, [routeNotFound, fallbackRedir, navigate, prefix]);
+  }, [routeNotFound, fallbackRedir, navigate]);
 
-  const subPrefix = prefix + (match?.prefix ?? '');
+  const subPrefix = joinPaths(prefix, match?.prefix ?? '');
 
   const subJoin = useCallback(
     (url: string): string => {
-      if (url.startsWith('/')) {
-        return url;
+      if (isPathAbsolute(url)) {
+        return cleanPath(url);
       }
-      if (url === '') {
-        return subPrefix;
-      }
-      return subPrefix + '/' + url;
+      return joinPaths(subPrefix, url);
     },
     [subPrefix],
   );
 
   const subNavigate = useCallback(
     (url: string) => {
-      navigate(subJoin(url));
+      rootNavigate(subJoin(url));
     },
-    [subJoin, navigate],
+    [subJoin, rootNavigate],
   );
 
   const subRouteCtx = useMemo(
     () =>
       Object.freeze({
         prefix: subPrefix,
-        params: Object.freeze(Object.assign({}, params, match?.params)),
+        params:
+          Object.keys(match?.params ?? {}).length > 0
+            ? Object.freeze(Object.assign({}, params, match?.params))
+            : params,
         rest: match?.rest ?? '',
         join: subJoin,
         navigate: subNavigate,
@@ -429,7 +466,7 @@ export const useRoute = (): RouteCtx => {
 
 const matchURL = (pathname: string, match: string, exact: boolean): boolean => {
   if (match !== '') {
-    if (match.startsWith('/')) {
+    if (isPathAbsolute(match)) {
       // TODO handle absolute paths
       return false;
     }
@@ -437,7 +474,7 @@ const matchURL = (pathname: string, match: string, exact: boolean): boolean => {
       return false;
     }
     pathname = pathname.slice(1);
-    if (pathname !== match && !pathname.startsWith(match + '/')) {
+    if (!isPathPrefix(pathname, match)) {
       return false;
     }
     pathname = pathname.slice(match.length);
@@ -495,7 +532,7 @@ export const NavAnchor = forwardRef<
       matchesClassName = 'nuke-nav-anchor-matches',
       matchesClassNameExact = false,
       className,
-      href = '#',
+      href,
       children,
       ...props
     },
