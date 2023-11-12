@@ -12,6 +12,7 @@ export {
   useRouter,
   type NavAnchorHook,
   useNavAnchor,
+  AnchorMatchesClassName,
   type NavAnchorProps,
   NavAnchor,
 } from './router.js';

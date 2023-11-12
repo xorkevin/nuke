@@ -472,11 +472,22 @@ export const useRoute = (): RouteCtx => {
   return useContext(RouteContext);
 };
 
-const matchURL = (pathname: string, match: string, exact: boolean): boolean => {
+const matchURL = (
+  fullpath: string,
+  pathname: string,
+  match: string,
+  exact: boolean,
+): boolean => {
   if (match !== '') {
     if (isPathAbsolute(match)) {
-      // TODO handle absolute paths
-      return false;
+      if (!isPathPrefix(fullpath, match)) {
+        return false;
+      }
+      fullpath = fullpath.slice(match.length);
+      if (exact) {
+        return pathname === '';
+      }
+      return true;
     }
     if (!pathname.startsWith('/')) {
       return false;
@@ -503,7 +514,10 @@ export const useNavAnchor = (
   url: string | undefined,
   exact: boolean,
 ): NavAnchorHook => {
+  const {url: fullURL} = useRouter();
   const {rest, join, navigate} = useRoute();
+
+  const fullpath = fullURL.pathname;
 
   const href = useMemo(
     () => (url === undefined ? undefined : join(url)),
@@ -518,17 +532,19 @@ export const useNavAnchor = (
   }, [url, navigate]);
 
   const matches = useMemo(
-    () => (url === undefined ? false : matchURL(rest, url, exact)),
-    [rest, url, exact],
+    () => (url === undefined ? false : matchURL(fullpath, rest, url, exact)),
+    [fullpath, rest, url, exact],
   );
 
   const res = useMemo(() => ({href, matches, nav}), [href, matches, nav]);
   return res;
 };
 
+export const AnchorMatchesClassName = 'nuke-nav-anchor-matches';
+
 export type NavAnchorProps = {
   readonly matchesClassName?: string;
-  readonly matchesClassNameExact?: boolean;
+  readonly exact?: boolean;
 };
 
 export const NavAnchor = forwardRef<
@@ -537,8 +553,8 @@ export const NavAnchor = forwardRef<
 >(
   (
     {
-      matchesClassName = 'nuke-nav-anchor-matches',
-      matchesClassNameExact = false,
+      matchesClassName = AnchorMatchesClassName,
+      exact = false,
       className,
       href,
       onClick,
@@ -547,11 +563,7 @@ export const NavAnchor = forwardRef<
     },
     ref,
   ) => {
-    const {
-      href: fullHref,
-      matches,
-      nav,
-    } = useNavAnchor(href, matchesClassNameExact);
+    const {href: fullHref, matches, nav} = useNavAnchor(href, exact);
     const c = classNames(className, {
       [matchesClassName]: matches,
     });

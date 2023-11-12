@@ -7,6 +7,7 @@ import {act, cleanup, render, screen} from '@testing-library/react';
 import {userEvent} from '@testing-library/user-event';
 
 import {
+  AnchorMatchesClassName,
   type HistoryAPI,
   NavAnchor,
   Router,
@@ -70,6 +71,9 @@ await test('Router', async (t) => {
     return (
       <div>
         Component 1 {params['id'] ?? 'not exist'} {rest}
+        <NavAnchor href={base + '/comp1/hello'} exact>
+          go to hello base
+        </NavAnchor>
         <NavAnchor href={base + '/comp2/bye'}>go to comp 2</NavAnchor>
         <NavAnchor href="remainder">go to hello</NavAnchor>
       </div>
@@ -103,6 +107,10 @@ await test('Router', async (t) => {
 
   assert.ok(screen.getByText('Component 1 hello'));
 
+  assert.equal(
+    screen.getByRole('link', {name: 'go to hello base'}).className,
+    AnchorMatchesClassName,
+  );
   assert.equal(screen.getByRole('link', {name: 'go to hello'}).className, '');
   assert.equal(screen.getByRole('link', {name: 'go to comp 2'}).className, '');
 
@@ -111,8 +119,12 @@ await test('Router', async (t) => {
   assert.ok(await screen.findByText('Component 1 hello /remainder'));
 
   assert.equal(
+    screen.getByRole('link', {name: 'go to hello base'}).className,
+    '',
+  );
+  assert.equal(
     screen.getByRole('link', {name: 'go to hello'}).className,
-    'nuke-nav-anchor-matches',
+    AnchorMatchesClassName,
   );
   assert.equal(screen.getByRole('link', {name: 'go to comp 2'}).className, '');
 
