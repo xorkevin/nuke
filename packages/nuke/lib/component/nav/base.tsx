@@ -1,9 +1,13 @@
 import {
+  type AriaAttributes,
   type HTMLAttributes,
   type LiHTMLAttributes,
   type PropsWithChildren,
   type Ref,
+  createContext,
   forwardRef,
+  useContext,
+  useMemo,
 } from 'react';
 
 import {classNames, modClassNames} from '#internal/computil/index.js';
@@ -13,9 +17,21 @@ import styles from './styles.module.css';
 
 export const NavClasses = Object.freeze({
   Banner: `${styles['nav-banner']}`,
+  BannerItem: `${styles['nav-banner-item']}`,
 } as const);
 
+export type NavCtx = {
+  readonly matchesAriaCurrent: AriaAttributes['aria-current'];
+};
+
+const NavContext = createContext<NavCtx>(
+  Object.freeze({
+    matchesAriaCurrent: true,
+  }),
+);
+
 export type NavProps = HTMLAttributes<HTMLElement> & {
+  readonly matchesAriaCurrent?: AriaAttributes['aria-current'];
   readonly listRef?: Ref<HTMLUListElement> | undefined;
   readonly listProps?: HTMLAttributes<HTMLUListElement> | undefined;
 };
@@ -29,27 +45,53 @@ export type NavBarLinkProps = LiHTMLAttributes<HTMLLIElement> & {
 
 export const NavBar = Object.assign(
   forwardRef<HTMLElement, PropsWithChildren<NavProps>>(
-    ({listRef, listProps, className, children, ...props}, ref) => {
+    (
+      {
+        matchesAriaCurrent = true,
+        listRef,
+        listProps,
+        className,
+        children,
+        ...props
+      },
+      ref,
+    ) => {
+      const navCtx = useMemo(
+        () =>
+          Object.freeze({
+            matchesAriaCurrent,
+          }),
+        [matchesAriaCurrent],
+      );
       const c = classNames(modClassNames(styles, 'nav-bar'), className);
       return (
-        <nav ref={ref} {...props} className={c}>
-          <ul ref={listRef} {...listProps}>
-            {children}
-          </ul>
-        </nav>
+        <NavContext.Provider value={navCtx}>
+          <nav ref={ref} {...props} className={c}>
+            <ul ref={listRef} {...listProps}>
+              {children}
+            </ul>
+          </nav>
+        </NavContext.Provider>
       );
     },
   ),
   {
     Link: forwardRef<HTMLLIElement, PropsWithChildren<NavBarLinkProps>>(
       ({href, exact, navLinkRef, navLinkProps, children, ...props}, ref) => {
+        const {matchesAriaCurrent} = useContext(NavContext);
+        const c = classNames(
+          modClassNames(styles, 'nav-bar-item'),
+          navLinkProps?.className,
+        );
         return (
           <li ref={ref} {...props}>
             <NavLink
               ref={navLinkRef}
               {...navLinkProps}
-              href={href}
+              matchesAriaCurrent={matchesAriaCurrent}
               exact={exact}
+              className={c}
+              href={href}
             >
               {children}
             </NavLink>

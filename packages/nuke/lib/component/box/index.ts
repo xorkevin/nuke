@@ -1,6 +1,7 @@
 export {
   BoxClasses,
   BoxSize,
+  BoxPadded,
   type BoxProps,
   Box,
   FlexClasses,

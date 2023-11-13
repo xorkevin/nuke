@@ -8,20 +8,60 @@
   .pad {
     padding: var(--nuke-box-padding-unit);
 
+    &.pad-lr {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+
+    &.pad-tb {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
     &.pad-small {
       padding: var(--nuke-box-padding-unit);
+
+      &.pad-lr {
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+
+      &.pad-tb {
+        padding-left: 0;
+        padding-right: 0;
+      }
     }
 
     @media (min-width: 768px) {
       &.pad-medium,
       &.pad-large {
         padding: calc(var(--nuke-box-padding-unit) * 2);
+
+        &.pad-lr {
+          padding-top: 0;
+          padding-bottom: 0;
+        }
+
+        &.pad-tb {
+          padding-left: 0;
+          padding-right: 0;
+        }
       }
     }
 
     @media (min-width: calc(768px * 2)) {
       &.pad-large {
         padding: calc(var(--nuke-box-padding-unit) * 3);
+
+        &.pad-lr {
+          padding-top: 0;
+          padding-bottom: 0;
+        }
+
+        &.pad-tb {
+          padding-left: 0;
+          padding-right: 0;
+        }
       }
     }
   }
@@ -37,6 +77,16 @@
     &.padded {
       padding: var(--nuke-box-padding-unit);
 
+      &.padded-lr {
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+
+      &.padded-tb {
+        padding-left: 0;
+        padding-right: 0;
+      }
+
       @media (min-width: 768px) {
         &.s2,
         &.s3,
@@ -44,6 +94,16 @@
         &.s5,
         &.s6 {
           padding: calc(var(--nuke-box-padding-unit) * 2);
+
+          &.padded-lr {
+            padding-top: 0;
+            padding-bottom: 0;
+          }
+
+          &.padded-tb {
+            padding-left: 0;
+            padding-right: 0;
+          }
         }
       }
 
@@ -52,6 +112,16 @@
         &.s5,
         &.s6 {
           padding: calc(var(--nuke-box-padding-unit) * 3);
+
+          &.padded-lr {
+            padding-top: 0;
+            padding-bottom: 0;
+          }
+
+          &.padded-tb {
+            padding-left: 0;
+            padding-right: 0;
+          }
         }
       }
     }

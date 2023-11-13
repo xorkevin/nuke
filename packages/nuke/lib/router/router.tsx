@@ -1,5 +1,6 @@
 import {
   type AnchorHTMLAttributes,
+  type AriaAttributes,
   type ComponentType,
   type FC,
   type JSX,
@@ -544,6 +545,7 @@ export const AnchorMatchesClassName = 'nuke__nav-anchor-matches';
 
 export type NavLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
   readonly matchesClassName?: string | undefined;
+  readonly matchesAriaCurrent?: AriaAttributes['aria-current'] | undefined;
   readonly matchesProps?: AnchorHTMLAttributes<HTMLAnchorElement> | undefined;
   readonly exact?: boolean | undefined;
 };
@@ -555,10 +557,12 @@ export const NavLink = forwardRef<
   (
     {
       matchesClassName = AnchorMatchesClassName,
+      matchesAriaCurrent = true,
       matchesProps,
       exact = false,
       className,
       href,
+      'aria-current': ariaCurrent,
       onClick,
       children,
       ...props
@@ -586,6 +590,7 @@ export const NavLink = forwardRef<
         {...(matches ? matchesProps : {})}
         className={c}
         href={fullHref}
+        aria-current={matches ? matchesAriaCurrent : ariaCurrent}
         onClick={handleClick}
       >
         {children}

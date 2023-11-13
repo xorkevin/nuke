@@ -1,6 +1,15 @@
 import {type FC, Suspense, lazy} from 'react';
 import {NavBar, NavClasses} from '@xorkevin/nuke/component/nav';
+import {
+  Box,
+  BoxClasses,
+  BoxPadded,
+  BoxSize,
+  Flex,
+  FlexAlignItems,
+} from '@xorkevin/nuke/component/box';
 import {type Route, Routes} from '@xorkevin/nuke/router';
+import {classNames} from '@xorkevin/nuke/computil';
 
 import styles from './app.module.css';
 
@@ -22,12 +31,27 @@ const App: FC = () => {
   return (
     <div className={styles['mainapp']}>
       <header className={NavClasses.Banner}>
-        <NavBar>
-          <NavBar.Link href="" exact>
-            Home
-          </NavBar.Link>
-          <NavBar.Link href="stories">Stories</NavBar.Link>
-        </NavBar>
+        <Box
+          size={BoxSize.S4}
+          padded={BoxPadded.LR}
+          className={NavClasses.BannerItem}
+        >
+          <Flex
+            alignItems={FlexAlignItems.Stretch}
+            className={classNames(
+              NavClasses.BannerItem,
+              BoxClasses.PadSmall,
+              BoxClasses.PadLR,
+            )}
+          >
+            <NavBar matchesAriaCurrent="page" aria-label="Site navigation">
+              <NavBar.Link href="" exact>
+                Home
+              </NavBar.Link>
+              <NavBar.Link href="stories">Stories</NavBar.Link>
+            </NavBar>
+          </Flex>
+        </Box>
       </header>
       <main>
         <Suspense fallback={fallbackView}>

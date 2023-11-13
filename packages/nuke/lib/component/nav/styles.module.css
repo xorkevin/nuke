@@ -1,15 +1,64 @@
 @layer xorkevin.nuke {
+  :root {
+    --nuke-nav-banner-height: 56px;
+  }
+
   .nav-banner {
     position: sticky;
     top: 0;
     z-index: 1;
+    height: var(--nuke-nav-banner-height);
+    background-color: var(--nuke-color-bg-1);
+    border-bottom: 1px solid var(--nuke-color-bg-3);
+  }
+
+  .nav-banner-item {
+    height: 100%;
   }
 
   .nav-bar {
+    display: flex;
+    align-items: stretch;
+
     & > ul {
       list-style: none;
       display: flex;
-      flex-wrap: wrap;
+      align-items: stretch;
+      gap: 8px;
+
+      & > li {
+        position: relative;
+        display: flex;
+        align-items: center;
+
+        & > .nav-bar-item {
+          text-decoration: none;
+          padding: 8px;
+          border-radius: 8px;
+          color: var(--nuke-color-fg-1);
+          background-color: transparent;
+          transition: background-color 125ms ease;
+
+          &:global(.nuke__nav-anchor-matches) {
+            font-weight: var(--nuke-text-weight-semibold);
+
+            &:after {
+              content: '';
+              position: absolute;
+              bottom: 0;
+              left: 0;
+              display: block;
+              height: 2px;
+              width: 100%;
+              background-color: var(--nuke-color-fg-accent);
+            }
+          }
+
+          &:hover {
+            background-color: var(--nuke-color-bg-3);
+          }
+        }
+      }
     }
   }
 }

@@ -1,6 +1,10 @@
 import {type HTMLAttributes, type PropsWithChildren, forwardRef} from 'react';
 
-import {classNames, modClassNames} from '#internal/computil/index.js';
+import {
+  classNames,
+  modClassNames,
+  strToEnum,
+} from '#internal/computil/index.js';
 
 import styles from './styles.module.css';
 
@@ -8,6 +12,8 @@ export const BoxClasses = Object.freeze({
   PadSmall: `${styles['pad']} ${styles['pad-small']}`,
   PadMedium: `${styles['pad']} ${styles['pad-medium']}`,
   PadLarge: `${styles['pad']} ${styles['pad-large']}`,
+  PadLR: `${styles['pad-lr']}`,
+  PadTB: `${styles['pad-tb']}`,
   BorderRound: `${styles['border-round']}`,
 } as const);
 
@@ -20,9 +26,14 @@ export enum BoxSize {
   S6 = 's6',
 }
 
+export enum BoxPadded {
+  LR = 'lr',
+  TB = 'tb',
+}
+
 export type BoxProps = HTMLAttributes<HTMLDivElement> & {
   readonly size?: BoxSize | undefined;
-  readonly padded?: boolean | undefined;
+  readonly padded?: boolean | BoxPadded | undefined;
 };
 
 export const Box = forwardRef<HTMLDivElement, PropsWithChildren<BoxProps>>(
@@ -32,7 +43,12 @@ export const Box = forwardRef<HTMLDivElement, PropsWithChildren<BoxProps>>(
         styles,
         'box',
         {
-          padded,
+          padded:
+            padded === true ||
+            (typeof padded === 'string' &&
+              strToEnum(BoxPadded, padded) !== undefined),
+          ['padded-lr']: padded === BoxPadded.LR,
+          ['padded-tb']: padded === BoxPadded.TB,
         },
         size,
       ),
