@@ -33,7 +33,7 @@ export enum BoxPadded {
 
 export type BoxProps = HTMLAttributes<HTMLDivElement> & {
   readonly size?: BoxSize | undefined;
-  readonly padded?: boolean | BoxPadded | undefined;
+  readonly padded?: BoxPadded | boolean | undefined;
 };
 
 export const Box = forwardRef<HTMLDivElement, PropsWithChildren<BoxProps>>(
@@ -47,8 +47,8 @@ export const Box = forwardRef<HTMLDivElement, PropsWithChildren<BoxProps>>(
             padded === true ||
             (typeof padded === 'string' &&
               strToEnum(BoxPadded, padded) !== undefined),
-          ['padded-lr']: padded === BoxPadded.LR,
-          ['padded-tb']: padded === BoxPadded.TB,
+          'padded-lr': padded === BoxPadded.LR,
+          'padded-tb': padded === BoxPadded.TB,
         },
         size,
       ),

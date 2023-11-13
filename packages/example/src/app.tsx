@@ -1,5 +1,4 @@
 import {type FC, Suspense, lazy} from 'react';
-import {NavBar, NavClasses} from '@xorkevin/nuke/component/nav';
 import {
   Box,
   BoxClasses,
@@ -8,8 +7,9 @@ import {
   Flex,
   FlexAlignItems,
 } from '@xorkevin/nuke/component/box';
-import {type Route, Routes} from '@xorkevin/nuke/router';
+import {NavBar, NavClasses} from '@xorkevin/nuke/component/nav';
 import {classNames} from '@xorkevin/nuke/computil';
+import {type Route, Routes} from '@xorkevin/nuke/router';
 
 import styles from './app.module.css';
 
