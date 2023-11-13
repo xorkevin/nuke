@@ -10,9 +10,9 @@ export {
   Routes,
   useRoute,
   useRouter,
-  type NavAnchorHook,
-  useNavAnchor,
+  type NavLinkHook,
+  useNavLink,
   AnchorMatchesClassName,
-  type NavAnchorProps,
-  NavAnchor,
+  type NavLinkProps,
+  NavLink,
 } from './router.js';

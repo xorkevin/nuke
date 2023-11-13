@@ -7,7 +7,7 @@ import {
 } from 'react';
 
 import {classNames, modClassNames} from '#internal/computil/index.js';
-import {NavAnchor, type NavAnchorProps} from '#internal/router/router.js';
+import {NavLink, type NavLinkProps} from '#internal/router/router.js';
 
 import styles from './styles.module.css';
 
@@ -23,8 +23,8 @@ export type NavProps = HTMLAttributes<HTMLElement> & {
 export type NavBarLinkProps = LiHTMLAttributes<HTMLLIElement> & {
   readonly href?: string | undefined;
   readonly exact?: boolean | undefined;
-  readonly navAnchorRef?: Ref<HTMLAnchorElement> | undefined;
-  readonly navAnchorProps?: NavAnchorProps | undefined;
+  readonly navLinkRef?: Ref<HTMLAnchorElement> | undefined;
+  readonly navLinkProps?: NavLinkProps | undefined;
 };
 
 export const NavBar = Object.assign(
@@ -42,20 +42,17 @@ export const NavBar = Object.assign(
   ),
   {
     Link: forwardRef<HTMLLIElement, PropsWithChildren<NavBarLinkProps>>(
-      (
-        {href, exact, navAnchorRef, navAnchorProps, children, ...props},
-        ref,
-      ) => {
+      ({href, exact, navLinkRef, navLinkProps, children, ...props}, ref) => {
         return (
           <li ref={ref} {...props}>
-            <NavAnchor
-              ref={navAnchorRef}
-              {...navAnchorProps}
+            <NavLink
+              ref={navLinkRef}
+              {...navLinkProps}
               href={href}
               exact={exact}
             >
               {children}
-            </NavAnchor>
+            </NavLink>
           </li>
         );
       },

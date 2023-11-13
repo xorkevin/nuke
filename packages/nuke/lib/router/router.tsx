@@ -504,16 +504,16 @@ const matchURL = (
   return true;
 };
 
-export type NavAnchorHook = {
+export type NavLinkHook = {
   readonly href: string | undefined;
   readonly matches: boolean;
   readonly nav: () => void;
 };
 
-export const useNavAnchor = (
+export const useNavLink = (
   url: string | undefined,
   exact: boolean,
-): NavAnchorHook => {
+): NavLinkHook => {
   const {url: fullURL} = useRouter();
   const {rest, join, navigate} = useRoute();
 
@@ -542,15 +542,15 @@ export const useNavAnchor = (
 
 export const AnchorMatchesClassName = 'nuke__nav-anchor-matches';
 
-export type NavAnchorProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
+export type NavLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
   readonly matchesClassName?: string | undefined;
   readonly matchesProps?: AnchorHTMLAttributes<HTMLAnchorElement> | undefined;
   readonly exact?: boolean | undefined;
 };
 
-export const NavAnchor = forwardRef<
+export const NavLink = forwardRef<
   HTMLAnchorElement,
-  PropsWithChildren<NavAnchorProps>
+  PropsWithChildren<NavLinkProps>
 >(
   (
     {
@@ -565,7 +565,7 @@ export const NavAnchor = forwardRef<
     },
     ref,
   ) => {
-    const {href: fullHref, matches, nav} = useNavAnchor(href, exact);
+    const {href: fullHref, matches, nav} = useNavLink(href, exact);
     const c = classNames(className, {
       [matchesClassName]: matches,
     });

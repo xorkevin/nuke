@@ -9,12 +9,12 @@ import {userEvent} from '@testing-library/user-event';
 import {
   AnchorMatchesClassName,
   type HistoryAPI,
-  NavAnchor,
+  NavLink,
   Router,
   Routes,
   useRoute,
   useRouter,
-} from './router.js';
+} from './index.js';
 
 class TestHistory implements HistoryAPI {
   #location: URL;
@@ -71,11 +71,11 @@ await test('Router', async (t) => {
     return (
       <div>
         Component 1 {params['id'] ?? 'not exist'} {rest}
-        <NavAnchor href={base + '/comp1/hello'} exact>
+        <NavLink href={base + '/comp1/hello'} exact>
           go to hello base
-        </NavAnchor>
-        <NavAnchor href={base + '/comp2/bye'}>go to comp 2</NavAnchor>
-        <NavAnchor href="remainder">go to hello</NavAnchor>
+        </NavLink>
+        <NavLink href={base + '/comp2/bye'}>go to comp 2</NavLink>
+        <NavLink href="remainder">go to hello</NavLink>
       </div>
     );
   };
