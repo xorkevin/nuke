@@ -156,8 +156,8 @@ const RouteContext = createContext<RouteCtx>(
 );
 
 export type RouterProps = {
-  readonly base?: string;
-  readonly history?: HistoryAPI;
+  readonly base?: string | undefined;
+  readonly history?: HistoryAPI | undefined;
 };
 
 const defaultHistory = new BrowserHistory();
@@ -373,8 +373,8 @@ const matchRoute = (
 
 export type RoutesProps = {
   readonly routes: Route[];
-  readonly fallbackRedir?: string;
-  readonly fallback?: JSX.Element;
+  readonly fallbackRedir?: string | undefined;
+  readonly fallback?: JSX.Element | undefined;
 };
 
 export const Routes: FC<RoutesProps> = ({routes, fallbackRedir, fallback}) => {
@@ -542,18 +542,20 @@ export const useNavAnchor = (
 
 export const AnchorMatchesClassName = 'nuke__nav-anchor-matches';
 
-export type NavAnchorProps = {
-  readonly matchesClassName?: string;
-  readonly exact?: boolean;
+export type NavAnchorProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
+  readonly matchesClassName?: string | undefined;
+  readonly matchesProps?: AnchorHTMLAttributes<HTMLAnchorElement> | undefined;
+  readonly exact?: boolean | undefined;
 };
 
 export const NavAnchor = forwardRef<
   HTMLAnchorElement,
-  PropsWithChildren<AnchorHTMLAttributes<HTMLAnchorElement> & NavAnchorProps>
+  PropsWithChildren<NavAnchorProps>
 >(
   (
     {
       matchesClassName = AnchorMatchesClassName,
+      matchesProps,
       exact = false,
       className,
       href,
@@ -580,10 +582,11 @@ export const NavAnchor = forwardRef<
     return (
       <a
         ref={ref}
+        {...props}
+        {...(matches ? matchesProps : {})}
         className={c}
         href={fullHref}
         onClick={handleClick}
-        {...props}
       >
         {children}
       </a>

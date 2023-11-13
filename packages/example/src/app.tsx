@@ -1,5 +1,6 @@
 import {type FC, Suspense, lazy} from 'react';
-import {NavAnchor, type Route, Routes} from '@xorkevin/nuke/router';
+import {NavBar, NavClasses} from '@xorkevin/nuke/component/nav';
+import {type Route, Routes} from '@xorkevin/nuke/router';
 
 import styles from './app.module.css';
 
@@ -19,17 +20,21 @@ const routes: Route[] = [
 
 const App: FC = () => {
   return (
-    <main className={styles['mainapp']}>
-      <NavAnchor href="" exact>
-        Home
-      </NavAnchor>
-      <NavAnchor href="stories" exact>
-        Stories
-      </NavAnchor>
-      <Suspense fallback={fallbackView}>
-        <Routes routes={routes} />
-      </Suspense>
-    </main>
+    <div className={styles['mainapp']}>
+      <header className={NavClasses.Banner}>
+        <NavBar>
+          <NavBar.Link href="" exact>
+            Home
+          </NavBar.Link>
+          <NavBar.Link href="stories">Stories</NavBar.Link>
+        </NavBar>
+      </header>
+      <main>
+        <Suspense fallback={fallbackView}>
+          <Routes routes={routes} />
+        </Suspense>
+      </main>
+    </div>
   );
 };
 

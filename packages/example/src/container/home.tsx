@@ -25,15 +25,12 @@ type SwatchProps = {
   bg: ColorBG;
 };
 const Swatch: FC<SwatchProps> = ({fg, bg}) => {
-  const captionId = useId();
   return (
-    <div
+    <figure
       className={classNames(
         ColorClasses.B1,
         styles['text-color-swatch-figure'],
       )}
-      role="figure"
-      aria-labelledby={captionId}
     >
       <div
         className={classNames(
@@ -43,8 +40,10 @@ const Swatch: FC<SwatchProps> = ({fg, bg}) => {
       >
         <div className={TextClasses.TitleLarge}>Aa</div>
       </div>
-      <code id={captionId}>{`${fg}, ${bg}`}</code>
-    </div>
+      <figcaption>
+        <code>{`${fg}, ${bg}`}</code>
+      </figcaption>
+    </figure>
   );
 };
 

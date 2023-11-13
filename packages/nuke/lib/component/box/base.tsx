@@ -20,32 +20,31 @@ export enum BoxSize {
   S6 = 's6',
 }
 
-export type BoxProps = {
-  readonly size?: BoxSize;
-  readonly padded?: boolean;
+export type BoxProps = HTMLAttributes<HTMLDivElement> & {
+  readonly size?: BoxSize | undefined;
+  readonly padded?: boolean | undefined;
 };
 
-export const Box = forwardRef<
-  HTMLDivElement,
-  PropsWithChildren<BoxProps & HTMLAttributes<HTMLDivElement>>
->(({size, padded = false, className, children, ...props}, ref) => {
-  const c = classNames(
-    modClassNames(
-      styles,
-      'box',
-      {
-        padded,
-      },
-      size,
-    ),
-    className,
-  );
-  return (
-    <div ref={ref} className={c} {...props}>
-      {children}
-    </div>
-  );
-});
+export const Box = forwardRef<HTMLDivElement, PropsWithChildren<BoxProps>>(
+  ({size, padded = false, className, children, ...props}, ref) => {
+    const c = classNames(
+      modClassNames(
+        styles,
+        'box',
+        {
+          padded,
+        },
+        size,
+      ),
+      className,
+    );
+    return (
+      <div ref={ref} {...props} className={c}>
+        {children}
+      </div>
+    );
+  },
+);
 
 export const FlexClasses = Object.freeze({
   Flex: `${styles['flex']}`,
@@ -135,21 +134,18 @@ export enum FlexBasis {
   Basis0 = 'basis-0',
 }
 
-export type FlexProps = {
-  readonly dir?: FlexDir;
-  readonly wrap?: FlexWrap;
-  readonly alignItems?: FlexAlignItems;
-  readonly alignContent?: FlexAlignContent;
-  readonly justifyContent?: FlexJustifyContent;
-  readonly grow?: FlexGrow;
-  readonly shrink?: FlexShrink;
-  readonly basis?: FlexBasis;
+export type FlexProps = HTMLAttributes<HTMLDivElement> & {
+  readonly dir?: FlexDir | undefined;
+  readonly wrap?: FlexWrap | undefined;
+  readonly alignItems?: FlexAlignItems | undefined;
+  readonly alignContent?: FlexAlignContent | undefined;
+  readonly justifyContent?: FlexJustifyContent | undefined;
+  readonly grow?: FlexGrow | undefined;
+  readonly shrink?: FlexShrink | undefined;
+  readonly basis?: FlexBasis | undefined;
 };
 
-export const Flex = forwardRef<
-  HTMLDivElement,
-  PropsWithChildren<FlexProps & HTMLAttributes<HTMLDivElement>>
->(
+export const Flex = forwardRef<HTMLDivElement, PropsWithChildren<FlexProps>>(
   (
     {
       dir,
@@ -182,7 +178,7 @@ export const Flex = forwardRef<
       className,
     );
     return (
-      <div ref={ref} className={c} {...props}>
+      <div ref={ref} {...props} className={c}>
         {children}
       </div>
     );
