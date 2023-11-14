@@ -71,8 +71,12 @@
   }
 
   .box {
+    width: 100%;
     max-width: 100%;
-    margin: auto;
+
+    &.center {
+      margin: auto;
+    }
 
     &.padded {
       padding: var(--nuke-box-padding-unit);

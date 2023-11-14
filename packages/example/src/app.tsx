@@ -1,4 +1,11 @@
-import {type FC, Suspense, lazy} from 'react';
+import {
+  type ChangeEventHandler,
+  type FC,
+  Suspense,
+  lazy,
+  useCallback,
+  useId,
+} from 'react';
 import {
   Box,
   BoxClasses,
@@ -6,9 +13,11 @@ import {
   BoxSize,
   Flex,
   FlexAlignItems,
+  FlexJustifyContent,
 } from '@xorkevin/nuke/component/box';
 import {NavBar, NavClasses} from '@xorkevin/nuke/component/nav';
-import {classNames} from '@xorkevin/nuke/computil';
+import {ColorScheme, useDarkMode} from '@xorkevin/nuke/component/text';
+import {classNames, strToEnum} from '@xorkevin/nuke/computil';
 import {type Route, Routes} from '@xorkevin/nuke/router';
 
 import styles from './app.module.css';
@@ -28,15 +37,25 @@ const routes: Route[] = [
 ];
 
 const App: FC = () => {
+  const {isDark, colorScheme, setMode} = useDarkMode();
+  const onModeChange = useCallback<ChangeEventHandler<HTMLSelectElement>>(
+    (e) => {
+      setMode(strToEnum(ColorScheme, e.target.value) ?? ColorScheme.System);
+    },
+    [setMode],
+  );
+  const darkModeSelectorId = useId();
   return (
     <div className={styles['mainapp']}>
       <header className={NavClasses.Banner}>
         <Box
           size={BoxSize.S4}
           padded={BoxPadded.LR}
+          center
           className={NavClasses.BannerItem}
         >
           <Flex
+            justifyContent={FlexJustifyContent.SpaceBetween}
             alignItems={FlexAlignItems.Stretch}
             className={classNames(
               NavClasses.BannerItem,
@@ -50,6 +69,24 @@ const App: FC = () => {
               </NavBar.Link>
               <NavBar.Link href="stories">Stories</NavBar.Link>
             </NavBar>
+            <Flex alignItems={FlexAlignItems.Center}>
+              <form>
+                <label htmlFor={darkModeSelectorId}>dark mode</label>
+                <select
+                  id={darkModeSelectorId}
+                  name="scheme"
+                  value={colorScheme}
+                  onChange={onModeChange}
+                >
+                  <option value={ColorScheme.System}>System</option>
+                  <option value={ColorScheme.Light}>Light</option>
+                  <option value={ColorScheme.Dark}>Dark</option>
+                </select>
+                <output name="isDark" htmlFor={darkModeSelectorId}>
+                  {isDark ? 'dark' : 'light'}
+                </output>
+              </form>
+            </Flex>
           </Flex>
         </Box>
       </header>
