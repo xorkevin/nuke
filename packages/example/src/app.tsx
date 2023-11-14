@@ -71,7 +71,7 @@ const App: FC = () => {
             </NavBar>
             <Flex alignItems={FlexAlignItems.Center}>
               <form>
-                <label htmlFor={darkModeSelectorId}>dark mode</label>
+                <label htmlFor={darkModeSelectorId}>color scheme</label>
                 <select
                   id={darkModeSelectorId}
                   name="scheme"

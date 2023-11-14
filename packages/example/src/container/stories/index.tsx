@@ -10,10 +10,16 @@ const Stories: FC = () => {
   return (
     <Flex>
       <div className={classNames(NavClasses.Sidebar, BoxClasses.PadSmall)}>
-        <h1 className={TextClasses.TitleMedium}>Stories</h1>
         <NavList matchesAriaCurrent="page" aria-label="Stories navigation">
-          <NavList.Link href="one">One</NavList.Link>
-          <NavList.Link href="two">Two</NavList.Link>
+          <NavList.Group heading="Some components">
+            <NavList.Link href="one">One</NavList.Link>
+            <NavList.Link href="two">Two</NavList.Link>
+          </NavList.Group>
+          <NavList.Divider />
+          <NavList.Group heading="Moar components">
+            <NavList.Link href="three">Three</NavList.Link>
+            <NavList.Link href="four">Four</NavList.Link>
+          </NavList.Group>
         </NavList>
       </div>
       <Box size={BoxSize.S4} padded center>

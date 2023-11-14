@@ -3,6 +3,7 @@ import {
   type HTMLAttributes,
   type LiHTMLAttributes,
   type PropsWithChildren,
+  type ReactNode,
   type Ref,
   createContext,
   forwardRef,
@@ -116,6 +117,14 @@ export type NavListLinkProps = LiHTMLAttributes<HTMLLIElement> & {
   readonly navLinkProps?: NavLinkProps | undefined;
 };
 
+export type NavListGroupProps = LiHTMLAttributes<HTMLLIElement> & {
+  readonly heading?: ReactNode;
+  readonly listRef?: Ref<HTMLUListElement> | undefined;
+  readonly listProps?: HTMLAttributes<HTMLUListElement> | undefined;
+};
+
+export type NavListDividerProps = LiHTMLAttributes<HTMLLIElement>;
+
 export const NavList = Object.assign(
   forwardRef<HTMLElement, PropsWithChildren<NavListProps>>(
     (
@@ -170,6 +179,37 @@ export const NavList = Object.assign(
             </NavLink>
           </li>
         );
+      },
+    ),
+  },
+  {
+    Group: forwardRef<HTMLLIElement, PropsWithChildren<NavListGroupProps>>(
+      ({heading, listRef, listProps, className, children, ...props}, ref) => {
+        const c = classNames(
+          modClassNames(styles, 'nav-list', 'nav-list-group'),
+          className,
+        );
+        return (
+          <li ref={ref} {...props} className={c}>
+            {heading !== undefined && (
+              <div className={styles['nav-list-heading']}>{heading}</div>
+            )}
+            <ul ref={listRef} {...listProps}>
+              {children}
+            </ul>
+          </li>
+        );
+      },
+    ),
+  },
+  {
+    Divider: forwardRef<HTMLLIElement, NavListDividerProps>(
+      ({className, ...props}, ref) => {
+        const c = classNames(
+          modClassNames(styles, 'nav-list-divider'),
+          className,
+        );
+        return <li ref={ref} {...props} className={c} />;
       },
     ),
   },
