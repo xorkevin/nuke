@@ -49,13 +49,14 @@
             width: 100%;
             background-color: transparent;
             transition: background-color 125ms ease;
+            pointer-events: none;
           }
 
           &:hover {
-            background-color: var(--nuke-color-bg-3);
+            background-color: var(--nuke-color-bg-2);
 
             &:after {
-              background-color: var(--nuke-color-bg-3);
+              background-color: var(--nuke-color-bg-2);
             }
           }
 
