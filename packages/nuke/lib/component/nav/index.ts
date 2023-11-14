@@ -5,5 +5,7 @@ export {
   NavBar,
   type NavListProps,
   type NavListLinkProps,
+  type NavListGroupProps,
+  type NavListDividerProps,
   NavList,
 } from './base.js';
