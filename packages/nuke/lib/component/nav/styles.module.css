@@ -39,23 +39,38 @@
           background-color: transparent;
           transition: background-color 125ms ease;
 
-          &:global(.nuke__nav-anchor-matches) {
-            font-weight: var(--nuke-text-weight-semibold);
-
-            &:after {
-              content: '';
-              position: absolute;
-              bottom: 0;
-              left: 0;
-              display: block;
-              height: 2px;
-              width: 100%;
-              background-color: var(--nuke-color-fg-accent);
-            }
+          &:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            display: block;
+            height: 2px;
+            width: 100%;
+            background-color: transparent;
+            transition: background-color 125ms ease;
           }
 
           &:hover {
             background-color: var(--nuke-color-bg-3);
+
+            &:after {
+              background-color: var(--nuke-color-bg-3);
+            }
+          }
+
+          &:global(.nuke__nav-anchor-matches) {
+            font-weight: var(--nuke-text-weight-semibold);
+
+            &:after {
+              background-color: var(--nuke-color-fg-accent);
+            }
+
+            &:hover {
+              &:after {
+                background-color: var(--nuke-color-fg-accent);
+              }
+            }
           }
         }
       }
