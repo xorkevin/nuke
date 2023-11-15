@@ -24,11 +24,13 @@ export const NavClasses = Object.freeze({
 
 export type NavCtx = {
   readonly matchesAriaCurrent: AriaAttributes['aria-current'];
+  readonly level: number;
 };
 
 const NavContext = createContext<NavCtx>(
   Object.freeze({
     matchesAriaCurrent: true,
+    level: 0,
   }),
 );
 
@@ -62,6 +64,7 @@ export const NavBar = Object.assign(
         () =>
           Object.freeze({
             matchesAriaCurrent,
+            level: 0,
           }),
         [matchesAriaCurrent],
       );
@@ -125,6 +128,12 @@ export type NavListGroupProps = LiHTMLAttributes<HTMLLIElement> & {
 
 export type NavListDividerProps = LiHTMLAttributes<HTMLLIElement>;
 
+export type NavListSubNavProps = LiHTMLAttributes<HTMLLIElement> & {
+  readonly heading: ReactNode;
+  readonly listRef?: Ref<HTMLUListElement> | undefined;
+  readonly listProps?: HTMLAttributes<HTMLUListElement> | undefined;
+};
+
 export const NavList = Object.assign(
   forwardRef<HTMLElement, PropsWithChildren<NavListProps>>(
     (
@@ -142,6 +151,7 @@ export const NavList = Object.assign(
         () =>
           Object.freeze({
             matchesAriaCurrent,
+            level: 0,
           }),
         [matchesAriaCurrent],
       );
@@ -181,8 +191,6 @@ export const NavList = Object.assign(
         );
       },
     ),
-  },
-  {
     Group: forwardRef<HTMLLIElement, PropsWithChildren<NavListGroupProps>>(
       ({heading, listRef, listProps, className, children, ...props}, ref) => {
         const c = classNames(
@@ -201,15 +209,46 @@ export const NavList = Object.assign(
         );
       },
     ),
-  },
-  {
     Divider: forwardRef<HTMLLIElement, NavListDividerProps>(
       ({className, ...props}, ref) => {
         const c = classNames(
           modClassNames(styles, 'nav-list-divider'),
           className,
         );
-        return <li ref={ref} {...props} className={c} />;
+        return <li ref={ref} {...props} className={c} aria-hidden={true} />;
+      },
+    ),
+    SubNav: forwardRef<HTMLLIElement, PropsWithChildren<NavListSubNavProps>>(
+      ({heading, listRef, listProps, className, children, ...props}, ref) => {
+        const navCtx = useContext(NavContext);
+        const childNavCtx = useMemo(
+          () => ({
+            ...navCtx,
+            level: navCtx.level + 1,
+          }),
+          [navCtx],
+        );
+        const c = classNames(
+          modClassNames(styles, 'nav-list', 'nav-list-subnav'),
+          className,
+        );
+        return (
+          <li ref={ref} {...props} className={c}>
+            <button className={styles['nav-list-expand']}>{heading}</button>
+            <NavContext.Provider value={childNavCtx}>
+              <ul
+                ref={listRef}
+                {...listProps}
+                style={Object.assign(
+                  {'--nuke-nav-list-nest-level': childNavCtx.level},
+                  listProps?.style,
+                )}
+              >
+                {children}
+              </ul>
+            </NavContext.Provider>
+          </li>
+        );
       },
     ),
   },

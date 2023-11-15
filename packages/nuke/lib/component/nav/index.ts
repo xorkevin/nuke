@@ -7,5 +7,6 @@ export {
   type NavListLinkProps,
   type NavListGroupProps,
   type NavListDividerProps,
+  type NavListSubNavProps,
   NavList,
 } from './base.js';

@@ -13,7 +13,13 @@ const Stories: FC = () => {
         <NavList matchesAriaCurrent="page" aria-label="Stories navigation">
           <NavList.Group heading="Some components">
             <NavList.Link href="one">One</NavList.Link>
-            <NavList.Link href="two">Two</NavList.Link>
+            <NavList.SubNav heading="Two">
+              <NavList.Link href="two/alpha">Two alpha</NavList.Link>
+              <NavList.SubNav heading="Two beta">
+                <NavList.Link href="two/beta/1">Two beta 1</NavList.Link>
+                <NavList.Link href="two/beta/2">Two beta 2</NavList.Link>
+              </NavList.SubNav>
+            </NavList.SubNav>
           </NavList.Group>
           <NavList.Divider />
           <NavList.Group heading="Moar components">
