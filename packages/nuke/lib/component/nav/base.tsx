@@ -232,18 +232,21 @@ export const NavList = Object.assign(
           modClassNames(styles, 'nav-list', 'nav-list-subnav'),
           className,
         );
+        const childNavCtxLevel = childNavCtx.level;
+        const listPropsStyle = listProps?.style;
+        const s = useMemo(
+          () =>
+            Object.assign(
+              {'--nuke-nav-list-nest-level': childNavCtxLevel},
+              listPropsStyle,
+            ),
+          [childNavCtxLevel, listPropsStyle],
+        );
         return (
           <li ref={ref} {...props} className={c}>
             <button className={styles['nav-list-expand']}>{heading}</button>
             <NavContext.Provider value={childNavCtx}>
-              <ul
-                ref={listRef}
-                {...listProps}
-                style={Object.assign(
-                  {'--nuke-nav-list-nest-level': childNavCtx.level},
-                  listProps?.style,
-                )}
-              >
+              <ul ref={listRef} {...listProps} style={s}>
                 {children}
               </ul>
             </NavContext.Provider>
