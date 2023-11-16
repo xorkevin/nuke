@@ -1,7 +1,7 @@
 @layer xorkevin.nuke {
   :root {
     --nuke-nav-banner-height: 56px;
-    --nuke-nav-sidebar-height: 288px;
+    --nuke-nav-sidebar-width: 288px;
   }
 
   .nav-banner {
@@ -80,7 +80,7 @@
   }
 
   .nav-sidebar {
-    width: var(--nuke-nav-sidebar-height);
+    width: var(--nuke-nav-sidebar-width);
   }
 
   .nav-list {
@@ -115,7 +115,7 @@
             position: absolute;
             top: 50%;
             left: -8px;
-            transform: translateY(-50%);
+            translate: 0 -50%;
             display: block;
             width: 4px;
             height: calc(100% - 8px);
@@ -157,7 +157,11 @@
 
         &.nav-list-subnav {
           & > .nav-list-expand {
-            all: unset;
+            font: unset;
+            color: unset;
+            text-align: unset;
+            appearance: unset;
+            border: unset;
             cursor: pointer;
             position: relative;
             padding: 8px;
@@ -167,17 +171,28 @@
             background-color: transparent;
             transition: background-color 125ms ease;
 
+            & > .nav-list-chevron-icon {
+              position: absolute;
+              top: 50%;
+              right: 8px;
+              translate: 0 -50%;
+              color: var(--nuke-color-fg-2);
+              transition: rotate 125ms ease;
+              pointer-events: none;
+            }
+
             &:after {
               content: '';
               position: absolute;
               top: 50%;
-              right: 8px;
-              transform: translateY(-50%);
+              left: -8px;
+              translate: 0 -50%;
               display: block;
-              width: 8px;
-              height: 8px;
-              border-radius: 2px;
-              background-color: var(--nuke-color-fg-3);
+              width: 4px;
+              height: calc(100% - 8px);
+              border-radius: 4px;
+              background-color: transparent;
+              transition: background-color 125ms ease;
               pointer-events: none;
             }
 
@@ -186,9 +201,23 @@
             }
           }
 
-          &.nav-list-subnav-hidden {
+          &.nav-list-subnav-collapsed {
             & > ul {
               display: none;
+            }
+
+            &:has(:global(.nuke__nav-anchor-matches)) {
+              & > .nav-list-expand {
+                background-color: var(--nuke-color-bg-2);
+
+                & > .nav-list-chevron-icon {
+                  rotate: -0.25turn;
+                }
+
+                &:after {
+                  background-color: var(--nuke-color-fg-accent);
+                }
+              }
             }
           }
         }

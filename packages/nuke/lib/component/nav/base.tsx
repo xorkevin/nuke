@@ -137,6 +137,23 @@ export type NavListSubNavProps = LiHTMLAttributes<HTMLLIElement> & {
   readonly listProps?: HTMLAttributes<HTMLUListElement> | undefined;
 };
 
+const ChevronDown = () => (
+  <svg
+    className={styles['nav-list-chevron-icon']}
+    aria-hidden={true}
+    width="16"
+    height="16"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+    strokeWidth="2"
+    fill="none"
+    strokeLinecap="square"
+    strokeLinejoin="miter"
+  >
+    <polyline points="6 9 12 15 18 9"></polyline>
+  </svg>
+);
+
 export const NavList = Object.assign(
   forwardRef<HTMLElement, PropsWithChildren<NavListProps>>(
     (
@@ -238,7 +255,7 @@ export const NavList = Object.assign(
         const [open, setOpen] = useState(true);
         const c = classNames(
           modClassNames(styles, 'nav-list', 'nav-list-subnav', {
-            'nav-list-subnav-hidden': !open,
+            'nav-list-subnav-collapsed': !open,
           }),
           className,
         );
@@ -265,6 +282,7 @@ export const NavList = Object.assign(
               onClick={toggleOpen}
             >
               {heading}
+              <ChevronDown />
             </button>
             <NavContext.Provider value={childNavCtx}>
               <ul ref={listRef} {...listProps} style={s}>
