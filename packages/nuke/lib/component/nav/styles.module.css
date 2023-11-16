@@ -185,6 +185,12 @@
               background-color: var(--nuke-color-bg-2);
             }
           }
+
+          &.nav-list-subnav-hidden {
+            & > ul {
+              display: none;
+            }
+          }
         }
       }
     }

@@ -7,8 +7,11 @@ import {
   type Ref,
   createContext,
   forwardRef,
+  useCallback,
   useContext,
+  useId,
   useMemo,
+  useState,
 } from 'react';
 
 import {classNames, modClassNames} from '#internal/computil/index.js';
@@ -121,7 +124,7 @@ export type NavListLinkProps = LiHTMLAttributes<HTMLLIElement> & {
 };
 
 export type NavListGroupProps = LiHTMLAttributes<HTMLLIElement> & {
-  readonly heading?: ReactNode;
+  readonly heading: ReactNode;
   readonly listRef?: Ref<HTMLUListElement> | undefined;
   readonly listProps?: HTMLAttributes<HTMLUListElement> | undefined;
 };
@@ -193,15 +196,16 @@ export const NavList = Object.assign(
     ),
     Group: forwardRef<HTMLLIElement, PropsWithChildren<NavListGroupProps>>(
       ({heading, listRef, listProps, className, children, ...props}, ref) => {
+        const id = useId();
         const c = classNames(
           modClassNames(styles, 'nav-list', 'nav-list-group'),
           className,
         );
         return (
-          <li ref={ref} {...props} className={c}>
-            {heading !== undefined && (
-              <div className={styles['nav-list-heading']}>{heading}</div>
-            )}
+          <li ref={ref} {...props} className={c} aria-labelledby={id}>
+            <div id={id} className={styles['nav-list-heading']}>
+              {heading}
+            </div>
             <ul ref={listRef} {...listProps}>
               {children}
             </ul>
@@ -228,10 +232,20 @@ export const NavList = Object.assign(
           }),
           [navCtx],
         );
+
+        const id = useId();
+
+        const [open, setOpen] = useState(true);
         const c = classNames(
-          modClassNames(styles, 'nav-list', 'nav-list-subnav'),
+          modClassNames(styles, 'nav-list', 'nav-list-subnav', {
+            'nav-list-subnav-hidden': !open,
+          }),
           className,
         );
+        const toggleOpen = useCallback(() => {
+          setOpen((v) => !v);
+        }, [setOpen]);
+
         const childNavCtxLevel = childNavCtx.level;
         const listPropsStyle = listProps?.style;
         const s = useMemo(
@@ -242,9 +256,16 @@ export const NavList = Object.assign(
             ),
           [childNavCtxLevel, listPropsStyle],
         );
+
         return (
-          <li ref={ref} {...props} className={c}>
-            <button className={styles['nav-list-expand']}>{heading}</button>
+          <li ref={ref} {...props} className={c} aria-labelledby={id}>
+            <button
+              id={id}
+              className={styles['nav-list-expand']}
+              onClick={toggleOpen}
+            >
+              {heading}
+            </button>
             <NavContext.Provider value={childNavCtx}>
               <ul ref={listRef} {...listProps} style={s}>
                 {children}
