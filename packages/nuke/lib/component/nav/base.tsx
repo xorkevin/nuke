@@ -50,6 +50,8 @@ export type NavBarLinkProps = LiHTMLAttributes<HTMLLIElement> & {
   readonly navLinkProps?: NavLinkProps | undefined;
 };
 
+export type NavBarDividerProps = LiHTMLAttributes<HTMLLIElement>;
+
 export const NavBar = Object.assign(
   forwardRef<HTMLElement, PropsWithChildren<NavBarProps>>(
     (
@@ -105,6 +107,15 @@ export const NavBar = Object.assign(
             </NavLink>
           </li>
         );
+      },
+    ),
+    Divider: forwardRef<HTMLLIElement, PropsWithChildren<NavBarDividerProps>>(
+      ({className, ...props}, ref) => {
+        const c = classNames(
+          modClassNames(styles, 'nav-bar-divider'),
+          className,
+        );
+        return <li ref={ref} {...props} className={c} aria-hidden={true} />;
       },
     ),
   },

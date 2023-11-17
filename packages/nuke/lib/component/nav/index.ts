@@ -2,6 +2,7 @@ export {
   NavClasses,
   type NavBarProps,
   type NavBarLinkProps,
+  type NavBarDividerProps,
   NavBar,
   type NavListProps,
   type NavListLinkProps,

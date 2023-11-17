@@ -75,6 +75,14 @@
             }
           }
         }
+
+        &.nav-bar-divider {
+          height: calc(100% - 24px);
+          width: 1px;
+          margin: 0 8px;
+          align-self: center;
+          background-color: var(--nuke-color-bg-3);
+        }
       }
     }
   }
@@ -206,13 +214,17 @@
               display: none;
             }
 
+            & > .nav-list-expand {
+              background-color: var(--nuke-color-bg-2);
+
+              & > .nav-list-chevron-icon {
+                rotate: -0.25turn;
+              }
+            }
+
             &:has(:global(.nuke__nav-anchor-matches)) {
               & > .nav-list-expand {
                 background-color: var(--nuke-color-bg-2);
-
-                & > .nav-list-chevron-icon {
-                  rotate: -0.25turn;
-                }
 
                 &:after {
                   background-color: var(--nuke-color-fg-accent);
