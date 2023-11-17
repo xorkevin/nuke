@@ -262,6 +262,8 @@ export const NavList = Object.assign(
         );
 
         const id = useId();
+        const idControl = `${id}-c`;
+        const idList = `${id}-l`;
 
         const [open, setOpen] = useState(true);
         const c = classNames(
@@ -286,17 +288,19 @@ export const NavList = Object.assign(
         );
 
         return (
-          <li ref={ref} {...props} className={c} aria-labelledby={id}>
+          <li ref={ref} {...props} className={c} aria-labelledby={idControl}>
             <button
-              id={id}
+              id={idControl}
               className={styles['nav-list-expand']}
               onClick={toggleOpen}
+              aria-expanded={open}
+              aria-controls={idList}
             >
               {heading}
               <ChevronDown />
             </button>
             <NavContext.Provider value={childNavCtx}>
-              <ul ref={listRef} {...listProps} style={s}>
+              <ul ref={listRef} {...listProps} id={idList} style={s}>
                 {children}
               </ul>
             </NavContext.Provider>
