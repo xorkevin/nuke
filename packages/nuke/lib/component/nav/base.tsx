@@ -52,73 +52,75 @@ export type NavBarLinkProps = LiHTMLAttributes<HTMLLIElement> & {
 
 export type NavBarDividerProps = LiHTMLAttributes<HTMLLIElement>;
 
-export const NavBar = Object.assign(
-  forwardRef<HTMLElement, PropsWithChildren<NavBarProps>>(
-    (
-      {
-        matchesAriaCurrent = true,
-        listRef,
-        listProps,
-        className,
-        children,
-        ...props
+export const NavBar = Object.freeze(
+  Object.assign(
+    forwardRef<HTMLElement, PropsWithChildren<NavBarProps>>(
+      (
+        {
+          matchesAriaCurrent = true,
+          listRef,
+          listProps,
+          className,
+          children,
+          ...props
+        },
+        ref,
+      ) => {
+        const navCtx = useMemo(
+          () =>
+            Object.freeze({
+              matchesAriaCurrent,
+              level: 0,
+            }),
+          [matchesAriaCurrent],
+        );
+        const c = classNames(modClassNames(styles, 'nav-bar'), className);
+        return (
+          <NavContext.Provider value={navCtx}>
+            <nav ref={ref} {...props} className={c}>
+              <ul ref={listRef} {...listProps}>
+                {children}
+              </ul>
+            </nav>
+          </NavContext.Provider>
+        );
       },
-      ref,
-    ) => {
-      const navCtx = useMemo(
-        () =>
-          Object.freeze({
-            matchesAriaCurrent,
-            level: 0,
-          }),
-        [matchesAriaCurrent],
-      );
-      const c = classNames(modClassNames(styles, 'nav-bar'), className);
-      return (
-        <NavContext.Provider value={navCtx}>
-          <nav ref={ref} {...props} className={c}>
-            <ul ref={listRef} {...listProps}>
-              {children}
-            </ul>
-          </nav>
-        </NavContext.Provider>
-      );
+    ),
+    {
+      Link: forwardRef<HTMLLIElement, PropsWithChildren<NavBarLinkProps>>(
+        ({href, exact, navLinkRef, navLinkProps, children, ...props}, ref) => {
+          const {matchesAriaCurrent} = useContext(NavContext);
+          const c = classNames(
+            modClassNames(styles, 'nav-bar-item'),
+            navLinkProps?.className,
+          );
+          return (
+            <li ref={ref} {...props}>
+              <NavLink
+                ref={navLinkRef}
+                {...navLinkProps}
+                matchesAriaCurrent={matchesAriaCurrent}
+                exact={exact}
+                className={c}
+                href={href}
+              >
+                {children}
+              </NavLink>
+            </li>
+          );
+        },
+      ),
+      Divider: forwardRef<HTMLLIElement, PropsWithChildren<NavBarDividerProps>>(
+        ({className, ...props}, ref) => {
+          const c = classNames(
+            modClassNames(styles, 'nav-bar-divider'),
+            className,
+          );
+          return <li ref={ref} {...props} className={c} aria-hidden={true} />;
+        },
+      ),
     },
   ),
-  {
-    Link: forwardRef<HTMLLIElement, PropsWithChildren<NavBarLinkProps>>(
-      ({href, exact, navLinkRef, navLinkProps, children, ...props}, ref) => {
-        const {matchesAriaCurrent} = useContext(NavContext);
-        const c = classNames(
-          modClassNames(styles, 'nav-bar-item'),
-          navLinkProps?.className,
-        );
-        return (
-          <li ref={ref} {...props}>
-            <NavLink
-              ref={navLinkRef}
-              {...navLinkProps}
-              matchesAriaCurrent={matchesAriaCurrent}
-              exact={exact}
-              className={c}
-              href={href}
-            >
-              {children}
-            </NavLink>
-          </li>
-        );
-      },
-    ),
-    Divider: forwardRef<HTMLLIElement, PropsWithChildren<NavBarDividerProps>>(
-      ({className, ...props}, ref) => {
-        const c = classNames(
-          modClassNames(styles, 'nav-bar-divider'),
-          className,
-        );
-        return <li ref={ref} {...props} className={c} aria-hidden={true} />;
-      },
-    ),
-  },
 );
 
 export type NavListProps = HTMLAttributes<HTMLElement> & {
@@ -165,148 +167,150 @@ const ChevronDown = () => (
   </svg>
 );
 
-export const NavList = Object.assign(
-  forwardRef<HTMLElement, PropsWithChildren<NavListProps>>(
-    (
-      {
-        matchesAriaCurrent = true,
-        listRef,
-        listProps,
-        className,
-        children,
-        ...props
-      },
-      ref,
-    ) => {
-      const navCtx = useMemo(
-        () =>
-          Object.freeze({
-            matchesAriaCurrent,
-            level: 0,
-          }),
-        [matchesAriaCurrent],
-      );
-      const c = classNames(modClassNames(styles, 'nav-list'), className);
-      return (
-        <NavContext.Provider value={navCtx}>
-          <nav ref={ref} {...props} className={c}>
-            <ul ref={listRef} {...listProps}>
-              {children}
-            </ul>
-          </nav>
-        </NavContext.Provider>
-      );
-    },
-  ),
-  {
-    Link: forwardRef<HTMLLIElement, PropsWithChildren<NavListLinkProps>>(
-      ({href, exact, navLinkRef, navLinkProps, children, ...props}, ref) => {
-        const {matchesAriaCurrent} = useContext(NavContext);
-        const c = classNames(
-          modClassNames(styles, 'nav-list-item'),
-          navLinkProps?.className,
-        );
-        return (
-          <li ref={ref} {...props}>
-            <NavLink
-              ref={navLinkRef}
-              {...navLinkProps}
-              matchesAriaCurrent={matchesAriaCurrent}
-              exact={exact}
-              className={c}
-              href={href}
-            >
-              {children}
-            </NavLink>
-          </li>
-        );
-      },
-    ),
-    Group: forwardRef<HTMLLIElement, PropsWithChildren<NavListGroupProps>>(
-      ({heading, listRef, listProps, className, children, ...props}, ref) => {
-        const id = useId();
-        const c = classNames(
-          modClassNames(styles, 'nav-list', 'nav-list-group'),
+export const NavList = Object.freeze(
+  Object.assign(
+    forwardRef<HTMLElement, PropsWithChildren<NavListProps>>(
+      (
+        {
+          matchesAriaCurrent = true,
+          listRef,
+          listProps,
           className,
-        );
-        return (
-          <li ref={ref} {...props} className={c} aria-labelledby={id}>
-            <div id={id} className={styles['nav-list-heading']}>
-              {heading}
-            </div>
-            <ul ref={listRef} {...listProps}>
-              {children}
-            </ul>
-          </li>
-        );
-      },
-    ),
-    Divider: forwardRef<HTMLLIElement, NavListDividerProps>(
-      ({className, ...props}, ref) => {
-        const c = classNames(
-          modClassNames(styles, 'nav-list-divider'),
-          className,
-        );
-        return <li ref={ref} {...props} className={c} aria-hidden={true} />;
-      },
-    ),
-    SubNav: forwardRef<HTMLLIElement, PropsWithChildren<NavListSubNavProps>>(
-      ({heading, listRef, listProps, className, children, ...props}, ref) => {
-        const navCtx = useContext(NavContext);
-        const childNavCtx = useMemo(
-          () => ({
-            ...navCtx,
-            level: navCtx.level + 1,
-          }),
-          [navCtx],
-        );
-
-        const id = useId();
-        const idControl = `${id}-c`;
-        const idList = `${id}-l`;
-
-        const [open, setOpen] = useState(true);
-        const c = classNames(
-          modClassNames(styles, 'nav-list', 'nav-list-subnav', {
-            'nav-list-subnav-collapsed': !open,
-          }),
-          className,
-        );
-        const toggleOpen = useCallback(() => {
-          setOpen((v) => !v);
-        }, [setOpen]);
-
-        const childNavCtxLevel = childNavCtx.level;
-        const listPropsStyle = listProps?.style;
-        const s = useMemo(
+          children,
+          ...props
+        },
+        ref,
+      ) => {
+        const navCtx = useMemo(
           () =>
-            Object.assign(
-              {'--nuke-nav-list-nest-level': childNavCtxLevel},
-              listPropsStyle,
-            ),
-          [childNavCtxLevel, listPropsStyle],
+            Object.freeze({
+              matchesAriaCurrent,
+              level: 0,
+            }),
+          [matchesAriaCurrent],
         );
-
+        const c = classNames(modClassNames(styles, 'nav-list'), className);
         return (
-          <li ref={ref} {...props} className={c} aria-labelledby={idControl}>
-            <button
-              id={idControl}
-              className={styles['nav-list-expand']}
-              onClick={toggleOpen}
-              aria-expanded={open}
-              aria-controls={idList}
-            >
-              {heading}
-              <ChevronDown />
-            </button>
-            <NavContext.Provider value={childNavCtx}>
-              <ul ref={listRef} {...listProps} id={idList} style={s}>
+          <NavContext.Provider value={navCtx}>
+            <nav ref={ref} {...props} className={c}>
+              <ul ref={listRef} {...listProps}>
                 {children}
               </ul>
-            </NavContext.Provider>
-          </li>
+            </nav>
+          </NavContext.Provider>
         );
       },
     ),
-  },
+    {
+      Link: forwardRef<HTMLLIElement, PropsWithChildren<NavListLinkProps>>(
+        ({href, exact, navLinkRef, navLinkProps, children, ...props}, ref) => {
+          const {matchesAriaCurrent} = useContext(NavContext);
+          const c = classNames(
+            modClassNames(styles, 'nav-list-item'),
+            navLinkProps?.className,
+          );
+          return (
+            <li ref={ref} {...props}>
+              <NavLink
+                ref={navLinkRef}
+                {...navLinkProps}
+                matchesAriaCurrent={matchesAriaCurrent}
+                exact={exact}
+                className={c}
+                href={href}
+              >
+                {children}
+              </NavLink>
+            </li>
+          );
+        },
+      ),
+      Group: forwardRef<HTMLLIElement, PropsWithChildren<NavListGroupProps>>(
+        ({heading, listRef, listProps, className, children, ...props}, ref) => {
+          const id = useId();
+          const c = classNames(
+            modClassNames(styles, 'nav-list', 'nav-list-group'),
+            className,
+          );
+          return (
+            <li ref={ref} {...props} className={c} aria-labelledby={id}>
+              <div id={id} className={styles['nav-list-heading']}>
+                {heading}
+              </div>
+              <ul ref={listRef} {...listProps}>
+                {children}
+              </ul>
+            </li>
+          );
+        },
+      ),
+      Divider: forwardRef<HTMLLIElement, NavListDividerProps>(
+        ({className, ...props}, ref) => {
+          const c = classNames(
+            modClassNames(styles, 'nav-list-divider'),
+            className,
+          );
+          return <li ref={ref} {...props} className={c} aria-hidden={true} />;
+        },
+      ),
+      SubNav: forwardRef<HTMLLIElement, PropsWithChildren<NavListSubNavProps>>(
+        ({heading, listRef, listProps, className, children, ...props}, ref) => {
+          const navCtx = useContext(NavContext);
+          const childNavCtx = useMemo(
+            () => ({
+              ...navCtx,
+              level: navCtx.level + 1,
+            }),
+            [navCtx],
+          );
+
+          const id = useId();
+          const idControl = `${id}-c`;
+          const idList = `${id}-l`;
+
+          const [open, setOpen] = useState(true);
+          const c = classNames(
+            modClassNames(styles, 'nav-list', 'nav-list-subnav', {
+              'nav-list-subnav-collapsed': !open,
+            }),
+            className,
+          );
+          const toggleOpen = useCallback(() => {
+            setOpen((v) => !v);
+          }, [setOpen]);
+
+          const childNavCtxLevel = childNavCtx.level;
+          const listPropsStyle = listProps?.style;
+          const s = useMemo(
+            () =>
+              Object.assign(
+                {'--nuke-nav-list-nest-level': childNavCtxLevel},
+                listPropsStyle,
+              ),
+            [childNavCtxLevel, listPropsStyle],
+          );
+
+          return (
+            <li ref={ref} {...props} className={c} aria-labelledby={idControl}>
+              <button
+                id={idControl}
+                className={styles['nav-list-expand']}
+                onClick={toggleOpen}
+                aria-expanded={open}
+                aria-controls={idList}
+              >
+                {heading}
+                <ChevronDown />
+              </button>
+              <NavContext.Provider value={childNavCtx}>
+                <ul ref={listRef} {...listProps} id={idList} style={s}>
+                  {children}
+                </ul>
+              </NavContext.Provider>
+            </li>
+          );
+        },
+      ),
+    },
+  ),
 );

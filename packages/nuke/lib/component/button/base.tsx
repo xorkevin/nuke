@@ -14,7 +14,7 @@ export type Props = {
   children?: ReactNode;
 };
 
-const Button = ({
+export const Button = ({
   id,
   className,
   fullWidth,
@@ -48,5 +48,3 @@ const Button = ({
     </button>
   );
 };
-
-export default Button;
