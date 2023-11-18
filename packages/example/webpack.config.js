@@ -40,6 +40,7 @@ export default (env, argv) => {
     },
 
     resolve: {
+      extensions: ['.js', '.jsx', '.ts', '.tsx', '...'],
       extensionAlias: {
         '.js': ['.js', '.jsx', '.ts', '.tsx'],
       },

@@ -32,7 +32,7 @@ const routes: Route[] = [
   },
   {
     path: '/stories',
-    component: lazy(async () => await import('./container/stories/index.js')),
+    component: lazy(async () => await import('./container/stories.js')),
   },
 ];
 

@@ -1,50 +1,22 @@
-import type {JSX, MouseEventHandler, ReactNode, Ref} from 'react';
+import {
+  type ButtonHTMLAttributes,
+  type PropsWithChildren,
+  forwardRef,
+} from 'react';
+
+import {classNames, modClassNames} from '#internal/computil/index.js';
 
 import styles from './styles.module.css';
 
-export type Props = {
-  id?: string;
-  className?: string;
-  fullWidth?: boolean;
-  fixedWidth?: boolean;
-  disabled?: boolean;
-  label?: string;
-  onClick?: MouseEventHandler;
-  forwardedRef?: Ref<HTMLButtonElement>;
-  children?: ReactNode;
-};
+export type Props = ButtonHTMLAttributes<HTMLButtonElement>;
 
-export const Button = ({
-  id,
-  className,
-  fullWidth,
-  fixedWidth,
-  disabled,
-  label,
-  onClick,
-  forwardedRef,
-  children,
-}: Props): JSX.Element => {
-  const j = [styles['button']];
-  if (fullWidth ?? false) {
-    j.push('full-width');
-  }
-  if (fixedWidth ?? false) {
-    j.push('fixed-width');
-  }
-  if (className !== undefined) {
-    j.push(className);
-  }
-  return (
-    <button
-      ref={forwardedRef}
-      id={id}
-      className={j.join(' ')}
-      disabled={disabled}
-      onClick={onClick}
-      aria-label={label}
-    >
-      {children}
-    </button>
-  );
-};
+export const Button = forwardRef<HTMLButtonElement, PropsWithChildren<Props>>(
+  ({className, children, ...props}, ref) => {
+    const c = classNames(modClassNames(styles, 'button'), className);
+    return (
+      <button ref={ref} {...props} className={c}>
+        {children}
+      </button>
+    );
+  },
+);

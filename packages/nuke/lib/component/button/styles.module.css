@@ -1,22 +1,21 @@
 @layer xorkevin.nuke {
   .button {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    outline: none;
-
-    padding: 8px 16px;
-    max-width: 100%;
-
-    text-align: center;
-    font-weight: 700;
-    font-size: 0.85rem;
-    text-transform: uppercase;
-
-    background-color: transparent;
-    border: 1px solid currentColor;
-    border-radius: 4px;
-
+    font: unset;
+    color: unset;
+    text-align: unset;
+    appearance: unset;
+    border: unset;
     cursor: pointer;
+    max-width: 100%;
+    padding: 8px 16px;
+    color: var(--nuke-color-fg-1);
+    font-weight: var(--nuke-text-weight-semibold);
+    border-radius: 4px;
+    background-color: transparent;
+    transition: background-color 125ms ease;
+
+    &:hover {
+      background-color: var(--nuke-color-bg-2);
+    }
   }
 }
