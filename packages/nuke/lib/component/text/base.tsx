@@ -23,6 +23,10 @@ export const ColorClasses = Object.freeze({
   B3: `${styles['b3']}`,
   BI: `${styles['bi']}`,
   BA: `${styles['ba']}`,
+  A1: `${styles['a1']}`,
+  A2: `${styles['a2']}`,
+  AA1: `${styles['aa1']}`,
+  AA2: `${styles['aa2']}`,
 } as const);
 
 export enum ColorFG {
@@ -47,6 +51,10 @@ export enum ColorBG {
   B3 = 'b3',
   BI = 'bi',
   BA = 'ba',
+  A1 = 'a1',
+  A2 = 'a2',
+  AA1 = 'aa1',
+  AA2 = 'aa2',
 }
 
 export const ColorBGClasses = Object.freeze({
@@ -55,6 +63,10 @@ export const ColorBGClasses = Object.freeze({
   [ColorBG.B3]: ColorClasses.B3,
   [ColorBG.BI]: ColorClasses.BI,
   [ColorBG.BA]: ColorClasses.BA,
+  [ColorBG.A1]: ColorClasses.A1,
+  [ColorBG.A2]: ColorClasses.A2,
+  [ColorBG.AA1]: ColorClasses.AA1,
+  [ColorBG.AA2]: ColorClasses.AA2,
 } as const);
 
 export enum ColorScheme {

@@ -1,1 +1,1 @@
-export {type Props, Button} from './base.js';
+export {type ButtonProps, ButtonVariant, Button} from './base.js';

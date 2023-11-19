@@ -8,14 +8,38 @@
     cursor: pointer;
     max-width: 100%;
     padding: 8px 16px;
-    color: var(--nuke-color-fg-1);
+    color: var(--nuke-button-color, var(--nuke-color-fg-1));
     font-weight: var(--nuke-text-weight-semibold);
     border-radius: 4px;
-    background-color: transparent;
+    background-color: var(--nuke-button-bg-color, transparent);
     transition: background-color 125ms ease;
 
     &:hover {
-      background-color: var(--nuke-color-bg-2);
+      background-color: var(
+        --nuke-button-color-hover,
+        var(--nuke-color-bg-alpha-1)
+      );
+    }
+
+    &:active {
+      background-color: var(
+        --nuke-button-color-active,
+        var(--nuke-color-bg-alpha-2)
+      );
+    }
+
+    &.default {
+      --nuke-button-color: var(--nuke-color-fg-1);
+      --nuke-button-bg-color: transparent;
+      --nuke-button-color-hover: var(--nuke-color-bg-alpha-1);
+      --nuke-button-color-active: var(--nuke-color-bg-alpha-2);
+    }
+
+    &.accent {
+      --nuke-button-color: var(--nuke-color-fg-accent);
+      --nuke-button-bg-color: var(transparent);
+      --nuke-button-color-hover: var(--nuke-color-bg-alpha-accent-1);
+      --nuke-button-color-active: var(--nuke-color-bg-alpha-accent-2);
     }
   }
 }

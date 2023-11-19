@@ -90,4 +90,20 @@
   .ba {
     background-color: var(--nuke-color-bg-accent);
   }
+
+  .a1 {
+    background-color: var(--nuke-color-bg-alpha-1);
+  }
+
+  .a2 {
+    background-color: var(--nuke-color-bg-alpha-2);
+  }
+
+  .aa1 {
+    background-color: var(--nuke-color-bg-alpha-accent-1);
+  }
+
+  .aa2 {
+    background-color: var(--nuke-color-bg-alpha-accent-2);
+  }
 }
