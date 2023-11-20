@@ -36,10 +36,10 @@
       94% 0.02 var(--nuke-color-accent-hue) / 50%
     );
     --nuke-color-bg-alpha-accent-2: oklch(
-      88% 0.05 var(--nuke-color-accent-hue) / 50%
+      88% 0.04 var(--nuke-color-accent-hue) / 50%
     );
     --nuke-color-bg-alpha-accent-3: oklch(
-      82% 0.08 var(--nuke-color-accent-hue) / 50%
+      82% 0.06 var(--nuke-color-accent-hue) / 50%
     );
 
     @media (prefers-color-scheme: dark) {
@@ -100,10 +100,10 @@
       94% 0.02 var(--nuke-color-accent-hue) / 50%
     );
     --nuke-color-bg-alpha-accent-2: oklch(
-      88% 0.05 var(--nuke-color-accent-hue) / 50%
+      88% 0.04 var(--nuke-color-accent-hue) / 50%
     );
     --nuke-color-bg-alpha-accent-3: oklch(
-      82% 0.08 var(--nuke-color-accent-hue) / 50%
+      82% 0.06 var(--nuke-color-accent-hue) / 50%
     );
 
     color: var(--nuke-color-fg-1);
