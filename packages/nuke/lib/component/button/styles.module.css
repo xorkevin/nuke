@@ -12,7 +12,9 @@
     font-weight: var(--nuke-text-weight-semibold);
     border-radius: 4px;
     background-color: var(--nuke-button-bg-color, transparent);
-    transition: background-color 125ms ease;
+    transition:
+      background-color 125ms ease,
+      border-color 125ms ease;
 
     &:hover {
       background-color: var(
@@ -26,6 +28,22 @@
         --nuke-button-color-active,
         var(--nuke-color-bg-alpha-2)
       );
+    }
+
+    &.tertiary {
+      border: unset;
+    }
+
+    &.secondary {
+      border: 1px solid
+        var(--nuke-button-color-hover, var(--nuke-color-bg-alpha-1));
+
+      &:active {
+        border-color: var(
+          --nuke-button-color-active,
+          var(--nuke-color-bg-alpha-2)
+        );
+      }
     }
 
     &.default {

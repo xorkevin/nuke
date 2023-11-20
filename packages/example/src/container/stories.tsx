@@ -1,4 +1,4 @@
-import {lazy, type FC, Suspense} from 'react';
+import {type FC, Suspense, lazy} from 'react';
 import {Box, BoxClasses, BoxSize, Flex} from '@xorkevin/nuke/component/box';
 import {NavClasses, NavList} from '@xorkevin/nuke/component/nav';
 import {TextClasses} from '@xorkevin/nuke/component/text';
@@ -33,7 +33,7 @@ const routes: Route[] = [
   },
   ...storyNames.map((v) => ({
     path: `/${v}`,
-    component: lazy(() => import(`./stories/${v}`)),
+    component: lazy(async () => await import(`./stories/${v}`)),
   })),
 ];
 
