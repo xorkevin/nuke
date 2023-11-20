@@ -14,6 +14,10 @@ const Story: FC = () => {
       <Button variant={ButtonVariant.Accent} rank={ButtonRank.Secondary}>
         Accent Secondary
       </Button>
+      <Button rank={ButtonRank.Primary}>Default Primary</Button>
+      <Button variant={ButtonVariant.Accent} rank={ButtonRank.Primary}>
+        Accent Primary
+      </Button>
     </Fragment>
   );
 };

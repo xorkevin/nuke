@@ -16,14 +16,14 @@
 
     &:hover {
       background-color: var(
-        --nuke-button-color-hover,
+        --nuke-button-bg-color-hover,
         var(--nuke-color-bg-alpha-2)
       );
     }
 
     &:active {
       background-color: var(
-        --nuke-button-color-active,
+        --nuke-button-bg-color-active,
         var(--nuke-color-bg-alpha-3)
       );
     }
@@ -34,14 +34,14 @@
 
       &:hover {
         background-color: var(
-          --nuke-button-color-hover,
+          --nuke-button-bg-color-hover,
           var(--nuke-color-bg-alpha-2)
         );
       }
 
       &:active {
         background-color: var(
-          --nuke-button-color-active,
+          --nuke-button-bg-color-active,
           var(--nuke-color-bg-alpha-3)
         );
       }
@@ -56,15 +56,37 @@
 
       &:hover {
         background-color: var(
-          --nuke-button-color-hover,
+          --nuke-button-bg-color-hover,
           var(--nuke-color-bg-alpha-2)
         );
       }
 
       &:active {
         background-color: var(
-          --nuke-button-color-active,
+          --nuke-button-bg-color-active,
           var(--nuke-color-bg-alpha-3)
+        );
+      }
+    }
+
+    &.primary {
+      color: var(--nuke-button-color-invert, var(--nuke-color-fg-invert));
+      background-color: var(
+        --nuke-button-bg-color-invert,
+        var(--nuke-color-bg-invert-1)
+      );
+
+      &:hover {
+        background-color: var(
+          --nuke-button-bg-color-invert-hover,
+          var(--nuke-color-bg-invert-2)
+        );
+      }
+
+      &:active {
+        background-color: var(
+          --nuke-button-bg-color-invert-active,
+          var(--nuke-color-bg-invert-3)
         );
       }
     }
@@ -72,15 +94,23 @@
     &.default {
       --nuke-button-color: var(--nuke-color-fg-1);
       --nuke-button-bg-color: var(--nuke-color-bg-alpha-1);
-      --nuke-button-color-hover: var(--nuke-color-bg-alpha-2);
-      --nuke-button-color-active: var(--nuke-color-bg-alpha-3);
+      --nuke-button-bg-color-hover: var(--nuke-color-bg-alpha-2);
+      --nuke-button-bg-color-active: var(--nuke-color-bg-alpha-3);
+      --nuke-button-color-invert: var(--nuke-color-fg-invert);
+      --nuke-button-bg-color-invert: var(--nuke-color-bg-invert-1);
+      --nuke-button-bg-color-invert-hover: var(--nuke-color-bg-invert-2);
+      --nuke-button-bg-color-invert-active: var(--nuke-color-bg-invert-3);
     }
 
     &.accent {
       --nuke-button-color: var(--nuke-color-fg-accent);
       --nuke-button-bg-color: var(--nuke-color-bg-alpha-accent-1);
-      --nuke-button-color-hover: var(--nuke-color-bg-alpha-accent-2);
-      --nuke-button-color-active: var(--nuke-color-bg-alpha-accent-3);
+      --nuke-button-bg-color-hover: var(--nuke-color-bg-alpha-accent-2);
+      --nuke-button-bg-color-active: var(--nuke-color-bg-alpha-accent-3);
+      --nuke-button-color-invert: var(--nuke-color-fg-accent-invert);
+      --nuke-button-bg-color-invert: var(--nuke-color-bg-accent-1);
+      --nuke-button-bg-color-invert-hover: var(--nuke-color-bg-accent-2);
+      --nuke-button-bg-color-invert-active: var(--nuke-color-bg-accent-3);
     }
   }
 }
