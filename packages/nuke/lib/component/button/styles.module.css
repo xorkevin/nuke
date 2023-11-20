@@ -11,53 +11,76 @@
     color: var(--nuke-button-color, var(--nuke-color-fg-1));
     font-weight: var(--nuke-text-weight-semibold);
     border-radius: 4px;
-    background-color: var(--nuke-button-bg-color, transparent);
-    transition:
-      background-color 125ms ease,
-      border-color 125ms ease;
+    background-color: transparent;
+    transition: background-color 125ms ease;
 
     &:hover {
       background-color: var(
         --nuke-button-color-hover,
-        var(--nuke-color-bg-alpha-1)
+        var(--nuke-color-bg-alpha-2)
       );
     }
 
     &:active {
       background-color: var(
         --nuke-button-color-active,
-        var(--nuke-color-bg-alpha-2)
+        var(--nuke-color-bg-alpha-3)
       );
     }
 
     &.tertiary {
-      border: unset;
+      color: var(--nuke-button-color, var(--nuke-color-fg-1));
+      background-color: transparent;
+
+      &:hover {
+        background-color: var(
+          --nuke-button-color-hover,
+          var(--nuke-color-bg-alpha-2)
+        );
+      }
+
+      &:active {
+        background-color: var(
+          --nuke-button-color-active,
+          var(--nuke-color-bg-alpha-3)
+        );
+      }
     }
 
     &.secondary {
-      border: 1px solid
-        var(--nuke-button-color-hover, var(--nuke-color-bg-alpha-1));
+      color: var(--nuke-button-color, var(--nuke-color-fg-1));
+      background-color: var(
+        --nuke-button-bg-color,
+        var(--nuke-color-bg-alpha-1)
+      );
+
+      &:hover {
+        background-color: var(
+          --nuke-button-color-hover,
+          var(--nuke-color-bg-alpha-2)
+        );
+      }
 
       &:active {
-        border-color: var(
+        background-color: var(
           --nuke-button-color-active,
-          var(--nuke-color-bg-alpha-2)
+          var(--nuke-color-bg-alpha-3)
         );
       }
     }
 
     &.default {
       --nuke-button-color: var(--nuke-color-fg-1);
-      --nuke-button-bg-color: transparent;
-      --nuke-button-color-hover: var(--nuke-color-bg-alpha-1);
-      --nuke-button-color-active: var(--nuke-color-bg-alpha-2);
+      --nuke-button-bg-color: var(--nuke-color-bg-alpha-1);
+      --nuke-button-color-hover: var(--nuke-color-bg-alpha-2);
+      --nuke-button-color-active: var(--nuke-color-bg-alpha-3);
     }
 
     &.accent {
       --nuke-button-color: var(--nuke-color-fg-accent);
-      --nuke-button-bg-color: var(transparent);
-      --nuke-button-color-hover: var(--nuke-color-bg-alpha-accent-1);
-      --nuke-button-color-active: var(--nuke-color-bg-alpha-accent-2);
+      --nuke-button-bg-color: var(--nuke-color-bg-alpha-accent-1);
+      --nuke-button-color-hover: var(--nuke-color-bg-alpha-accent-2);
+      --nuke-button-color-active: var(--nuke-color-bg-alpha-accent-3);
     }
   }
 }

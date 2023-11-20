@@ -30,12 +30,16 @@
 
     --nuke-color-bg-alpha-1: oklch(94% 0 var(--nuke-color-accent-hue) / 50%);
     --nuke-color-bg-alpha-2: oklch(88% 0 var(--nuke-color-accent-hue) / 50%);
+    --nuke-color-bg-alpha-3: oklch(82% 0 var(--nuke-color-accent-hue) / 50%);
 
     --nuke-color-bg-alpha-accent-1: oklch(
       94% 0.02 var(--nuke-color-accent-hue) / 50%
     );
     --nuke-color-bg-alpha-accent-2: oklch(
-      91% 0.04 var(--nuke-color-accent-hue) / 50%
+      88% 0.05 var(--nuke-color-accent-hue) / 50%
+    );
+    --nuke-color-bg-alpha-accent-3: oklch(
+      82% 0.08 var(--nuke-color-accent-hue) / 50%
     );
 
     @media (prefers-color-scheme: dark) {
@@ -56,14 +60,20 @@
           25% 0 var(--nuke-color-accent-hue) / 50%
         );
         --nuke-color-bg-alpha-2: oklch(
-          32% 0 var(--nuke-color-accent-hue) / 50%
+          31% 0 var(--nuke-color-accent-hue) / 50%
+        );
+        --nuke-color-bg-alpha-3: oklch(
+          37% 0 var(--nuke-color-accent-hue) / 50%
         );
 
         --nuke-color-bg-alpha-accent-1: oklch(
           25% 0.03 var(--nuke-color-accent-hue) / 50%
         );
         --nuke-color-bg-alpha-accent-2: oklch(
-          32% 0.05 var(--nuke-color-accent-hue) / 50%
+          31% 0.05 var(--nuke-color-accent-hue) / 50%
+        );
+        --nuke-color-bg-alpha-accent-3: oklch(
+          37% 0.07 var(--nuke-color-accent-hue) / 50%
         );
       }
     }
@@ -84,12 +94,16 @@
 
     --nuke-color-bg-alpha-1: oklch(94% 0 var(--nuke-color-accent-hue) / 50%);
     --nuke-color-bg-alpha-2: oklch(88% 0 var(--nuke-color-accent-hue) / 50%);
+    --nuke-color-bg-alpha-3: oklch(82% 0 var(--nuke-color-accent-hue) / 50%);
 
     --nuke-color-bg-alpha-accent-1: oklch(
       94% 0.02 var(--nuke-color-accent-hue) / 50%
     );
     --nuke-color-bg-alpha-accent-2: oklch(
-      91% 0.04 var(--nuke-color-accent-hue) / 50%
+      88% 0.05 var(--nuke-color-accent-hue) / 50%
+    );
+    --nuke-color-bg-alpha-accent-3: oklch(
+      82% 0.08 var(--nuke-color-accent-hue) / 50%
     );
 
     color: var(--nuke-color-fg-1);
@@ -109,13 +123,17 @@
     --nuke-color-bg-accent: oklch(25% 0.03 var(--nuke-color-accent-hue));
 
     --nuke-color-bg-alpha-1: oklch(25% 0 var(--nuke-color-accent-hue) / 50%);
-    --nuke-color-bg-alpha-2: oklch(32% 0 var(--nuke-color-accent-hue) / 50%);
+    --nuke-color-bg-alpha-2: oklch(31% 0 var(--nuke-color-accent-hue) / 50%);
+    --nuke-color-bg-alpha-3: oklch(37% 0 var(--nuke-color-accent-hue) / 50%);
 
     --nuke-color-bg-alpha-accent-1: oklch(
       25% 0.03 var(--nuke-color-accent-hue) / 50%
     );
     --nuke-color-bg-alpha-accent-2: oklch(
-      32% 0.05 var(--nuke-color-accent-hue) / 50%
+      31% 0.05 var(--nuke-color-accent-hue) / 50%
+    );
+    --nuke-color-bg-alpha-accent-3: oklch(
+      37% 0.07 var(--nuke-color-accent-hue) / 50%
     );
 
     color: var(--nuke-color-fg-1);

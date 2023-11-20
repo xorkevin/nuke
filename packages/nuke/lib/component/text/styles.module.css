@@ -99,11 +99,19 @@
     background-color: var(--nuke-color-bg-alpha-2);
   }
 
+  .a3 {
+    background-color: var(--nuke-color-bg-alpha-3);
+  }
+
   .aa1 {
     background-color: var(--nuke-color-bg-alpha-accent-1);
   }
 
   .aa2 {
     background-color: var(--nuke-color-bg-alpha-accent-2);
+  }
+
+  .aa3 {
+    background-color: var(--nuke-color-bg-alpha-accent-3);
   }
 }

@@ -112,6 +112,12 @@ const Home: FC = () => {
           <Swatch fg={ColorFG.FA} bg={ColorBG.A2} />
         </SwatchRow>
         <SwatchRow>
+          <Swatch fg={ColorFG.F1} bg={ColorBG.A3} />
+          <Swatch fg={ColorFG.F2} bg={ColorBG.A3} />
+          <Swatch fg={ColorFG.F3} bg={ColorBG.A3} />
+          <Swatch fg={ColorFG.FA} bg={ColorBG.A3} />
+        </SwatchRow>
+        <SwatchRow>
           <Swatch fg={ColorFG.F1} bg={ColorBG.AA1} />
           <Swatch fg={ColorFG.F2} bg={ColorBG.AA1} />
           <Swatch fg={ColorFG.F3} bg={ColorBG.AA1} />
@@ -122,6 +128,12 @@ const Home: FC = () => {
           <Swatch fg={ColorFG.F2} bg={ColorBG.AA2} />
           <Swatch fg={ColorFG.F3} bg={ColorBG.AA2} />
           <Swatch fg={ColorFG.FA} bg={ColorBG.AA2} />
+        </SwatchRow>
+        <SwatchRow>
+          <Swatch fg={ColorFG.F1} bg={ColorBG.AA3} />
+          <Swatch fg={ColorFG.F2} bg={ColorBG.AA3} />
+          <Swatch fg={ColorFG.F3} bg={ColorBG.AA3} />
+          <Swatch fg={ColorFG.FA} bg={ColorBG.AA3} />
         </SwatchRow>
         <SwatchRow>
           <Swatch fg={ColorFG.FI} bg={ColorBG.BI} />
