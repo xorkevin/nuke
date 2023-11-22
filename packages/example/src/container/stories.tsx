@@ -7,7 +7,18 @@ import {type Route, Routes} from '@xorkevin/nuke/router';
 
 import styles from './stories.module.css';
 
-const storyNames = ['button', 'nav'];
+const stories = [
+  {
+    name: 'Button',
+    path: 'button',
+    component: lazy(async () => await import('./stories/button.js')),
+  },
+  {
+    name: 'Navigation',
+    path: 'nav',
+    component: lazy(async () => await import('./stories/nav.js')),
+  },
+];
 
 const fallbackView = <div>Loading</div>;
 
@@ -31,9 +42,9 @@ const routes: Route[] = [
     exact: true,
     component: StoriesHome,
   },
-  ...storyNames.map((v) => ({
-    path: `/${v}`,
-    component: lazy(async () => await import(`./stories/${v}`)),
+  ...stories.map((v) => ({
+    path: `/${v.path}`,
+    component: v.component,
   })),
 ];
 
@@ -43,9 +54,9 @@ const Stories: FC = () => {
       <div className={classNames(NavClasses.Sidebar, BoxClasses.PadSmall)}>
         <NavList matchesAriaCurrent="page" aria-label="Stories navigation">
           <NavList.Group heading="Components">
-            {storyNames.map((v) => (
-              <NavList.Link key={v} href={v}>
-                {v}
+            {stories.map((v) => (
+              <NavList.Link key={v.path} href={v.path}>
+                {v.name}
               </NavList.Link>
             ))}
           </NavList.Group>

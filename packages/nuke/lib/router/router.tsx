@@ -13,6 +13,7 @@ import {
   useEffect,
   useMemo,
   useState,
+  useTransition,
 } from 'react';
 
 import {
@@ -541,10 +542,14 @@ export const useNavLink = (
   return res;
 };
 
-export const AnchorMatchesClassName = 'nuke__nav-anchor-matches';
+export const NavLinkClasses = Object.freeze({
+  Matches: 'nuke__nav-link-matches',
+  Disabled: 'nuke__nav-link-disabled',
+} as const);
 
 export type NavLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
   readonly matchesClassName?: string | undefined;
+  readonly disabledClassName?: string | undefined;
   readonly matchesAriaCurrent?: AriaAttributes['aria-current'] | undefined;
   readonly matchesProps?: AnchorHTMLAttributes<HTMLAnchorElement> | undefined;
   readonly exact?: boolean | undefined;
@@ -556,7 +561,8 @@ export const NavLink = forwardRef<
 >(
   (
     {
-      matchesClassName = AnchorMatchesClassName,
+      matchesClassName = NavLinkClasses.Matches,
+      disabledClassName = NavLinkClasses.Disabled,
       matchesAriaCurrent = true,
       matchesProps,
       exact = false,
@@ -570,19 +576,26 @@ export const NavLink = forwardRef<
     ref,
   ) => {
     const {href: fullHref, matches, nav} = useNavLink(href, exact);
-    const c = classNames(className, {
-      [matchesClassName]: matches,
-    });
+    const [transitionPending, startTransition] = useTransition();
     const handleClick = useCallback<MouseEventHandler<HTMLAnchorElement>>(
       (e) => {
         e.preventDefault();
-        nav();
+        if (transitionPending) {
+          return;
+        }
+        startTransition(() => {
+          nav();
+        });
         if (onClick !== undefined) {
           onClick(e);
         }
       },
-      [nav, onClick],
+      [nav, onClick, transitionPending, startTransition],
     );
+    const c = classNames(className, {
+      [matchesClassName]: matches,
+      [disabledClassName]: transitionPending,
+    });
     return (
       <a
         ref={ref}
@@ -590,6 +603,7 @@ export const NavLink = forwardRef<
         {...(matches ? matchesProps : {})}
         className={c}
         href={fullHref}
+        aria-disabled={transitionPending}
         aria-current={matches ? matchesAriaCurrent : ariaCurrent}
         onClick={handleClick}
       >

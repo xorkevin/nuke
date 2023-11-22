@@ -12,7 +12,7 @@ export {
   useRouter,
   type NavLinkHook,
   useNavLink,
-  AnchorMatchesClassName,
+  NavLinkClasses,
   type NavLinkProps,
   NavLink,
 } from './router.js';

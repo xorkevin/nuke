@@ -61,7 +61,7 @@
             }
           }
 
-          &:global(.nuke__nav-anchor-matches) {
+          &:global(.nuke__nav-link-matches) {
             font-weight: var(--nuke-text-weight-semibold);
 
             &:after {
@@ -137,7 +137,7 @@
             background-color: var(--nuke-color-bg-alpha-accent-1);
           }
 
-          &:global(.nuke__nav-anchor-matches) {
+          &:global(.nuke__nav-link-matches) {
             background-color: var(--nuke-color-bg-alpha-accent-1);
 
             &:after {
@@ -220,7 +220,7 @@
               }
             }
 
-            &:has(:global(.nuke__nav-anchor-matches)) {
+            &:has(:global(.nuke__nav-link-matches)) {
               & > .nav-list-expand {
                 background-color: var(--nuke-color-bg-alpha-accent-1);
 

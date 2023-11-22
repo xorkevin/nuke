@@ -7,9 +7,9 @@ import {act, cleanup, render, screen} from '@testing-library/react';
 import {userEvent} from '@testing-library/user-event';
 
 import {
-  AnchorMatchesClassName,
   type HistoryAPI,
   NavLink,
+  NavLinkClasses,
   Router,
   Routes,
   useRoute,
@@ -109,7 +109,7 @@ await test('Router', async (t) => {
 
   assert.equal(
     screen.getByRole('link', {name: 'go to hello base'}).className,
-    AnchorMatchesClassName,
+    NavLinkClasses.Matches,
   );
   assert.equal(screen.getByRole('link', {name: 'go to hello'}).className, '');
   assert.equal(screen.getByRole('link', {name: 'go to comp 2'}).className, '');
@@ -124,7 +124,7 @@ await test('Router', async (t) => {
   );
   assert.equal(
     screen.getByRole('link', {name: 'go to hello'}).className,
-    AnchorMatchesClassName,
+    NavLinkClasses.Matches,
   );
   assert.equal(screen.getByRole('link', {name: 'go to comp 2'}).className, '');
 
