@@ -318,7 +318,7 @@ export const useColorScheme = (): {
     return () => {
       controller.abort();
     };
-  }, [manager]);
+  }, [manager, setSchemeState]);
 
   const isDark = useMemo(() => {
     switch (schemeState.scheme) {
@@ -334,8 +334,9 @@ export const useColorScheme = (): {
   const setColorScheme = useCallback(
     (scheme: ColorScheme) => {
       manager.setScheme(scheme);
+      setSchemeState(manager.getState());
     },
-    [manager],
+    [manager, setSchemeState],
   );
 
   const colorScheme = schemeState.scheme;
