@@ -7,5 +7,10 @@ export {
   ColorBGClasses,
   ColorScheme,
   ColorSchemeClasses,
-  useDarkMode,
+  type ColorSchemeState,
+  type ColorSchemeManager,
+  BrowserColorSchemeManager,
+  type ColorSchemeCtx,
+  ColorSchemeProvider,
+  useColorScheme,
 } from './base.js';

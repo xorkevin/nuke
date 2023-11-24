@@ -16,7 +16,7 @@ import {
   FlexJustifyContent,
 } from '@xorkevin/nuke/component/box';
 import {NavBar, NavClasses} from '@xorkevin/nuke/component/nav';
-import {ColorScheme, useDarkMode} from '@xorkevin/nuke/component/text';
+import {ColorScheme, useColorScheme} from '@xorkevin/nuke/component/text';
 import {classNames, strToEnum} from '@xorkevin/nuke/computil';
 import {type Route, Routes} from '@xorkevin/nuke/router';
 
@@ -37,12 +37,16 @@ const routes: Route[] = [
 ];
 
 const App: FC = () => {
-  const {isDark, colorScheme, setMode} = useDarkMode();
-  const onModeChange = useCallback<ChangeEventHandler<HTMLSelectElement>>(
+  const {isDark, colorScheme, setColorScheme} = useColorScheme();
+  const onColorSchemeChange = useCallback<
+    ChangeEventHandler<HTMLSelectElement>
+  >(
     (e) => {
-      setMode(strToEnum(ColorScheme, e.target.value) ?? ColorScheme.System);
+      setColorScheme(
+        strToEnum(ColorScheme, e.target.value) ?? ColorScheme.System,
+      );
     },
-    [setMode],
+    [setColorScheme],
   );
   const darkModeSelectorId = useId();
   return (
@@ -77,7 +81,7 @@ const App: FC = () => {
                   id={darkModeSelectorId}
                   name="scheme"
                   value={colorScheme}
-                  onChange={onModeChange}
+                  onChange={onColorSchemeChange}
                 >
                   <option value={ColorScheme.System}>System</option>
                   <option value={ColorScheme.Light}>Light</option>
