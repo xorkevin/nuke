@@ -32,7 +32,7 @@ export interface HistoryAPI {
   ) => void;
 }
 
-class BrowserHistory implements HistoryAPI {
+export class BrowserHistory implements HistoryAPI {
   public url(this: this): string {
     return window.location.href;
   }
@@ -49,7 +49,7 @@ class BrowserHistory implements HistoryAPI {
     this: this,
     handler: (u: string) => void,
     signal: AbortSignal,
-  ) {
+  ): void {
     window.addEventListener(
       'popstate',
       () => {

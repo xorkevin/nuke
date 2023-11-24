@@ -15,7 +15,7 @@ import {
 } from 'react';
 
 import {classNames, modClassNames} from '#internal/computil/index.js';
-import {NavLink, type NavLinkProps} from '#internal/router/router.js';
+import {NavLink, type NavLinkProps} from '#internal/router/index.js';
 
 import styles from './styles.module.css';
 
