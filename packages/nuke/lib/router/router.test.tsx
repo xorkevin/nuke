@@ -14,7 +14,7 @@ import {
   Routes,
   useRoute,
   useRouter,
-} from './index.js';
+} from './router.js';
 
 class TestHistory implements HistoryAPI {
   #location: URL;

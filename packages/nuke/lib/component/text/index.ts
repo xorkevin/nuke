@@ -5,6 +5,9 @@ export {
   ColorFGClasses,
   ColorBG,
   ColorBGClasses,
+} from './base.js';
+
+export {
   ColorScheme,
   ColorSchemeClasses,
   type ColorSchemeState,
@@ -13,4 +16,4 @@ export {
   type ColorSchemeCtx,
   ColorSchemeProvider,
   useColorScheme,
-} from './base.js';
+} from './colorscheme.js';
