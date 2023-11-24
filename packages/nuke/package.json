@@ -37,7 +37,7 @@
     "lint": "eslint ./lib && prettier --ignore-path ../../.prettierignore --check .",
     "format": "eslint --fix ./lib && prettier --ignore-path ../../.prettierignore --write .",
     "clean": "rm -rf dist .tsbuildinfo",
-    "test": "node --test ./dist/lib/**/*.test.js"
+    "test": "node --test './dist/lib/**/*.test.js'"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^2.1.2",
