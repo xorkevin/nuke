@@ -1,21 +1,20 @@
-import '#internal/testutil.js';
-
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
+import {useCallback} from 'react';
 import {cleanup, render, screen} from '@testing-library/react';
+
+import {MemBodyClassListManager, MemMediaMatcher} from '#internal/dom/index.js';
+import {MemStorage} from '#internal/storage/index.js';
 
 import {
   BrowserColorSchemeManager,
   ColorScheme,
   ColorSchemeClasses,
   useColorScheme,
-} from './colorscheme.js';
-import {MemBodyClassListManager, MemMediaMatcher} from '#internal/dom/index.js';
-import {MemStorage} from '#internal/storage/index.js';
-import {useCallback} from 'react';
+} from './index.js';
 
-await test('useColorScheme', async (t) => {
+await test('useColorScheme', (t) => {
   t.after(() => {
     cleanup();
   });

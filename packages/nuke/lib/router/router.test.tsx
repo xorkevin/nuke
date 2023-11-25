@@ -1,5 +1,3 @@
-import '#internal/testutil.js';
-
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
@@ -14,7 +12,7 @@ import {
   Routes,
   useRoute,
   useRouter,
-} from './router.js';
+} from './index.js';
 
 class TestHistory implements HistoryAPI {
   #location: URL;
