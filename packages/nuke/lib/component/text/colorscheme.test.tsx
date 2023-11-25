@@ -2,7 +2,8 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import {useCallback} from 'react';
-import {cleanup, render, screen} from '@testing-library/react';
+import {act, cleanup, render, screen} from '@testing-library/react';
+import {userEvent} from '@testing-library/user-event';
 
 import {MemBodyClassListManager, MemMediaMatcher} from '#internal/dom/index.js';
 import {MemStorage} from '#internal/storage/index.js';
@@ -11,10 +12,11 @@ import {
   BrowserColorSchemeManager,
   ColorScheme,
   ColorSchemeClasses,
+  ColorSchemeProvider,
   useColorScheme,
 } from './index.js';
 
-await test('useColorScheme', (t) => {
+await test('useColorScheme', async (t) => {
   t.after(() => {
     cleanup();
   });
@@ -29,15 +31,40 @@ await test('useColorScheme', (t) => {
     bodyClassList,
   );
 
-  bodyClassList.add(ColorSchemeClasses.Dark);
+  const assertManagerState = (scheme: ColorScheme, sysPrefDark: boolean) => {
+    assert.equal(manager.getState().scheme, scheme);
+    assert.equal(manager.getState().sysPrefDark, sysPrefDark);
+    assert.equal(
+      storage.getItem('nuke:colorscheme'),
+      scheme === ColorScheme.System ? null : scheme,
+    );
+    assert.equal(
+      mediaMatcher.matchMedia('(prefers-color-scheme: dark)'),
+      sysPrefDark,
+    );
+    assert.equal(
+      mediaMatcher.matchMedia('(prefers-color-scheme: dark)'),
+      sysPrefDark,
+    );
+    assert.equal(
+      bodyClassList.contains(ColorSchemeClasses.Light),
+      scheme === ColorScheme.Light,
+    );
+    assert.equal(
+      bodyClassList.contains(ColorSchemeClasses.Dark),
+      scheme === ColorScheme.Dark,
+    );
+  };
+
+  assertManagerState(ColorScheme.System, false);
+
+  storage.setItem('nuke:colorscheme', ColorScheme.Dark);
+  bodyClassList.add(ColorSchemeClasses.Light);
 
   const controller = new AbortController();
   manager.init(controller.signal);
 
-  assert.equal(manager.getState().scheme, ColorScheme.System);
-  assert.equal(manager.getState().sysPrefDark, false);
-  assert.equal(bodyClassList.contains(ColorSchemeClasses.Light), false);
-  assert.equal(bodyClassList.contains(ColorSchemeClasses.Dark), false);
+  assertManagerState(ColorScheme.Dark, false);
 
   const Comp = () => {
     const {isDark, colorScheme, setColorScheme} = useColorScheme();
@@ -62,7 +89,42 @@ await test('useColorScheme', (t) => {
     );
   };
 
-  render(<Comp />);
+  render(
+    <ColorSchemeProvider value={manager}>
+      <Comp />
+    </ColorSchemeProvider>,
+  );
 
+  screen.getByText(`dark ${ColorScheme.Dark}`);
+  assertManagerState(ColorScheme.Dark, false);
+
+  await userEvent.click(screen.getByRole('button', {name: 'set sys'}));
   screen.getByText(`light ${ColorScheme.System}`);
+  assertManagerState(ColorScheme.System, false);
+
+  act(() => {
+    mediaMatcher.setMediaQueryMatch('(prefers-color-scheme: dark)', true);
+  });
+  await screen.findByText(`dark ${ColorScheme.System}`);
+  assertManagerState(ColorScheme.System, true);
+
+  await userEvent.click(screen.getByRole('button', {name: 'set light'}));
+  screen.getByText(`light ${ColorScheme.Light}`);
+  assertManagerState(ColorScheme.Light, true);
+
+  await userEvent.click(screen.getByRole('button', {name: 'set dark'}));
+  screen.getByText(`dark ${ColorScheme.Dark}`);
+  assertManagerState(ColorScheme.Dark, true);
+
+  act(() => {
+    storage.extSetItem('nuke:colorscheme', ColorScheme.Light);
+  });
+  await screen.findByText(`light ${ColorScheme.Light}`);
+  assertManagerState(ColorScheme.Light, true);
+
+  act(() => {
+    storage.extClear();
+  });
+  await screen.findByText(`dark ${ColorScheme.System}`);
+  assertManagerState(ColorScheme.System, true);
 });

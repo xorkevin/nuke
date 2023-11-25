@@ -118,7 +118,7 @@ export class MemStorage implements StorageAPI {
     oldValue: string | null,
   ): void {
     this.#emitter.dispatchEvent(
-      new StorageEvent(StorageEventType, {
+      Object.assign(new Event(StorageEventType), {
         key,
         newValue,
         oldValue,

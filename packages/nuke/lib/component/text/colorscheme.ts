@@ -194,21 +194,13 @@ export class BrowserColorSchemeManager implements ColorSchemeManager {
   }
 }
 
-export type ColorSchemeCtx = {
-  readonly manager: ColorSchemeManager;
-};
-
 const defaultColorSchemeManager = new BrowserColorSchemeManager(
   new BrowserLocalStorage(),
   new BrowserMediaMatcher(),
   new BrowserBodyClassListManager(),
 );
 
-const ColorSchemeContext = createContext<ColorSchemeCtx>(
-  Object.freeze({
-    manager: defaultColorSchemeManager,
-  }),
-);
+const ColorSchemeContext = createContext(defaultColorSchemeManager);
 
 export const ColorSchemeProvider = ColorSchemeContext.Provider;
 
@@ -217,7 +209,7 @@ export const useColorScheme = (): {
   colorScheme: ColorScheme;
   setColorScheme: (scheme: ColorScheme) => void;
 } => {
-  const {manager} = useContext(ColorSchemeContext);
+  const manager = useContext(ColorSchemeContext);
 
   const [schemeState, setSchemeState] = useState(() => manager.getState());
 

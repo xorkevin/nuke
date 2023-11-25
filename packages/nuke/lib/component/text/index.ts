@@ -13,7 +13,6 @@ export {
   type ColorSchemeState,
   type ColorSchemeManager,
   BrowserColorSchemeManager,
-  type ColorSchemeCtx,
   ColorSchemeProvider,
   useColorScheme,
 } from './colorscheme.js';

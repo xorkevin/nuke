@@ -26,15 +26,11 @@ const browserColorSchemeManager = new BrowserColorSchemeManager(
 const controller = new AbortController();
 browserColorSchemeManager.init(controller.signal);
 
-const colorSchemeCtxValue = Object.freeze({
-  manager: browserColorSchemeManager,
-});
-
 const appelement = document.getElementById('app');
 if (appelement) {
   const root = createRoot(appelement);
   root.render(
-    <ColorSchemeProvider value={colorSchemeCtxValue}>
+    <ColorSchemeProvider value={browserColorSchemeManager}>
       <Router>
         <App />
       </Router>

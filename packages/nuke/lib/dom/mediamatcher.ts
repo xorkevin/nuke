@@ -7,10 +7,6 @@ export interface MediaMatcherAPI {
 
 const MediaQueryChangeEventType = 'change';
 
-const isMediaQueryChangeEvent = (e: Event): e is MediaQueryListEvent => {
-  return e.type === MediaQueryChangeEventType;
-};
-
 export class BrowserMediaMatcher implements MediaMatcherAPI {
   public matchMedia(
     this: this,
@@ -31,6 +27,17 @@ export class BrowserMediaMatcher implements MediaMatcherAPI {
   }
 }
 
+type CustomMediaQueryListEvent = {
+  matches: boolean;
+  media: string;
+};
+
+const isCustomMediaQueryChangeEvent = (
+  e: Event,
+): e is CustomEvent<CustomMediaQueryListEvent> => {
+  return e.type === MediaQueryChangeEventType;
+};
+
 export class MemMediaMatcher implements MediaMatcherAPI {
   readonly #matches: Set<string>;
   readonly #emitter: EventTarget;
@@ -49,13 +56,13 @@ export class MemMediaMatcher implements MediaMatcherAPI {
       this.#emitter.addEventListener(
         MediaQueryChangeEventType,
         (e) => {
-          if (!isMediaQueryChangeEvent(e)) {
+          if (!isCustomMediaQueryChangeEvent(e)) {
             return;
           }
-          if (e.media !== mediaQuery) {
+          if (e.detail.media !== mediaQuery) {
             return;
           }
-          listener.handler(e.matches);
+          listener.handler(e.detail.matches);
         },
         {signal: listener.signal},
       );
@@ -70,9 +77,11 @@ export class MemMediaMatcher implements MediaMatcherAPI {
       this.#matches.delete(mediaQuery);
     }
     this.#emitter.dispatchEvent(
-      new MediaQueryListEvent(MediaQueryChangeEventType, {
-        matches,
-        media: mediaQuery,
+      new CustomEvent<CustomMediaQueryListEvent>(MediaQueryChangeEventType, {
+        detail: {
+          matches,
+          media: mediaQuery,
+        },
       }),
     );
   }
