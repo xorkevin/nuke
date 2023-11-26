@@ -1,4 +1,4 @@
-import {Fragment, type FC} from 'react';
+import {type FC, Fragment} from 'react';
 import {BoxClasses, Flex, FlexAlignItems} from '@xorkevin/nuke/component/box';
 import {NavBar, NavClasses, NavList} from '@xorkevin/nuke/component/nav';
 import {classNames} from '@xorkevin/nuke/computil';
