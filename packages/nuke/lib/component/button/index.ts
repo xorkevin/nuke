@@ -1,1 +1,8 @@
-export {type ButtonProps, ButtonVariant, ButtonRank, Button} from './base.js';
+export {
+  type ButtonProps,
+  ButtonVariant,
+  ButtonRank,
+  Button,
+  type ButtonGroupProps,
+  ButtonGroup,
+} from './base.js';

@@ -49,3 +49,24 @@ export const Button = forwardRef<
     );
   },
 );
+
+export type ButtonGroupProps = ButtonHTMLAttributes<HTMLDivElement> & {
+  gap?: boolean | undefined;
+};
+
+export const ButtonGroup = forwardRef<
+  HTMLDivElement,
+  PropsWithChildren<ButtonGroupProps>
+>(({gap, className, children, ...props}, ref) => {
+  const c = classNames(
+    modClassNames(styles, 'button-group', {
+      gap: gap ?? false,
+    }),
+    className,
+  );
+  return (
+    <div ref={ref} {...props} className={c}>
+      {children}
+    </div>
+  );
+});
