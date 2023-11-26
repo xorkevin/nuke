@@ -1,10 +1,10 @@
 import {
   type AriaAttributes,
+  type ForwardedRef,
   type HTMLAttributes,
   type LiHTMLAttributes,
   type PropsWithChildren,
   type ReactNode,
-  type Ref,
   type RefObject,
   createContext,
   forwardRef,
@@ -70,21 +70,22 @@ const useIsNavItemVisible = (ref: RefObject<HTMLElement>): boolean => {
       return;
     }
     setVisible(idx < breakpoint);
-  }, [ref, breakpoint, visible]);
+  }, [ref, breakpoint, setVisible]);
 
   return visible;
 };
 
 export type NavBarProps = HTMLAttributes<HTMLElement> & {
+  readonly collapsible?: boolean | undefined;
   readonly matchesAriaCurrent?: AriaAttributes['aria-current'];
-  readonly listRef?: Ref<HTMLUListElement> | undefined;
+  readonly listRef?: ForwardedRef<HTMLUListElement> | undefined;
   readonly listProps?: HTMLAttributes<HTMLUListElement> | undefined;
 };
 
 export type NavBarLinkProps = LiHTMLAttributes<HTMLLIElement> & {
   readonly href?: string | undefined;
   readonly exact?: boolean | undefined;
-  readonly navLinkRef?: Ref<HTMLAnchorElement> | undefined;
+  readonly navLinkRef?: ForwardedRef<HTMLAnchorElement> | undefined;
   readonly navLinkProps?: NavLinkProps | undefined;
 };
 
@@ -95,6 +96,7 @@ export const NavBar = Object.freeze(
     forwardRef<HTMLElement, PropsWithChildren<NavBarProps>>(
       (
         {
+          collapsible,
           matchesAriaCurrent = true,
           listRef,
           listProps,
@@ -113,6 +115,11 @@ export const NavBar = Object.freeze(
         const [breakpoint, setBreakpoint] = useState(-1);
 
         useLayoutEffect(() => {
+          if (collapsible === undefined || !collapsible) {
+            setBreakpoint(-1);
+            return;
+          }
+
           if (localRef.current === null) {
             return;
           }
@@ -121,11 +128,11 @@ export const NavBar = Object.freeze(
             if (localRef.current === null) {
               return;
             }
-            const limitWidth = localRef.current.getBoundingClientRect().width;
+            const {width: limitWidth, left: start} =
+              localRef.current.getBoundingClientRect();
             let idx = 0;
             for (const child of localRef.current.children) {
-              const rect = child.getBoundingClientRect();
-              if (rect.right > limitWidth) {
+              if (child.getBoundingClientRect().right - start > limitWidth) {
                 break;
               }
               idx++;
@@ -141,7 +148,7 @@ export const NavBar = Object.freeze(
           return () => {
             observer.disconnect();
           };
-        }, [localRef, setBreakpoint]);
+        }, [collapsible, localRef, setBreakpoint]);
 
         const navCtx = useMemo(
           () =>
@@ -244,20 +251,20 @@ export const NavBar = Object.freeze(
 
 export type NavListProps = HTMLAttributes<HTMLElement> & {
   readonly matchesAriaCurrent?: AriaAttributes['aria-current'];
-  readonly listRef?: Ref<HTMLUListElement> | undefined;
+  readonly listRef?: ForwardedRef<HTMLUListElement> | undefined;
   readonly listProps?: HTMLAttributes<HTMLUListElement> | undefined;
 };
 
 export type NavListLinkProps = LiHTMLAttributes<HTMLLIElement> & {
   readonly href?: string | undefined;
   readonly exact?: boolean | undefined;
-  readonly navLinkRef?: Ref<HTMLAnchorElement> | undefined;
+  readonly navLinkRef?: ForwardedRef<HTMLAnchorElement> | undefined;
   readonly navLinkProps?: NavLinkProps | undefined;
 };
 
 export type NavListGroupProps = LiHTMLAttributes<HTMLLIElement> & {
   readonly heading: ReactNode;
-  readonly listRef?: Ref<HTMLUListElement> | undefined;
+  readonly listRef?: ForwardedRef<HTMLUListElement> | undefined;
   readonly listProps?: HTMLAttributes<HTMLUListElement> | undefined;
 };
 
@@ -265,7 +272,7 @@ export type NavListDividerProps = LiHTMLAttributes<HTMLLIElement>;
 
 export type NavListSubNavProps = LiHTMLAttributes<HTMLLIElement> & {
   readonly heading: ReactNode;
-  readonly listRef?: Ref<HTMLUListElement> | undefined;
+  readonly listRef?: ForwardedRef<HTMLUListElement> | undefined;
   readonly listProps?: HTMLAttributes<HTMLUListElement> | undefined;
 };
 

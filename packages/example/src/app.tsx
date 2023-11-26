@@ -67,7 +67,11 @@ const App: FC = () => {
               BoxClasses.PadLR,
             )}
           >
-            <NavBar matchesAriaCurrent="page" aria-label="Site navigation">
+            <NavBar
+              collapsible
+              matchesAriaCurrent="page"
+              aria-label="Site navigation"
+            >
               <NavBar.Link href="" exact>
                 Home
               </NavBar.Link>
