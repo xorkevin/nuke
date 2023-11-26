@@ -1,3 +1,5 @@
+import type {ForwardedRef, RefCallback} from 'react';
+
 export type Mutable<T> = {
   -readonly [P in keyof T]: T[P];
 };
@@ -84,4 +86,18 @@ export const modClassNames = (
     return undefined;
   }
   return classes.join(' ');
+};
+
+export const mergeRefs = <T>(
+  ...refs: (ForwardedRef<T> | undefined)[]
+): RefCallback<T> => {
+  return (e) => {
+    for (const v of refs) {
+      if (typeof v === 'function') {
+        v(e);
+      } else if (v !== null && v !== undefined) {
+        v.current = e;
+      }
+    }
+  };
 };

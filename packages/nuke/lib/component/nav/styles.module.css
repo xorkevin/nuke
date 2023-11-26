@@ -18,16 +18,21 @@
   }
 
   .nav-bar {
+    width: 100%;
+    max-width: 100%;
     display: flex;
     align-items: stretch;
 
     & > ul {
+      width: 100%;
+      max-width: 100%;
       list-style: none;
       display: flex;
       align-items: stretch;
       gap: 8px;
 
       & > li {
+        flex-shrink: 0;
         position: relative;
         display: flex;
         align-items: center;
@@ -79,9 +84,12 @@
         &.nav-bar-divider {
           height: 2rem;
           width: 1px;
-          margin: 0 8px;
           align-self: center;
           background-color: var(--nuke-color-bg-3);
+        }
+
+        &.nav-bar-item-hide {
+          visibility: hidden;
         }
       }
     }
@@ -89,6 +97,7 @@
 
   .nav-sidebar {
     width: var(--nuke-nav-sidebar-width);
+    max-width: 100%;
   }
 
   .nav-list {

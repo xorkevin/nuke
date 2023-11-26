@@ -1,5 +1,11 @@
 import {type FC, Suspense, lazy} from 'react';
-import {Box, BoxClasses, BoxSize, Flex} from '@xorkevin/nuke/component/box';
+import {
+  Box,
+  BoxClasses,
+  BoxSize,
+  Flex,
+  FlexWrap,
+} from '@xorkevin/nuke/component/box';
 import {NavClasses, NavList} from '@xorkevin/nuke/component/nav';
 import {TextClasses} from '@xorkevin/nuke/component/text';
 import {classNames} from '@xorkevin/nuke/computil';
@@ -50,7 +56,7 @@ const routes: Route[] = [
 
 const Stories: FC = () => {
   return (
-    <Flex>
+    <Flex wrap={FlexWrap.Wrap}>
       <div className={classNames(NavClasses.Sidebar, BoxClasses.PadSmall)}>
         <NavList matchesAriaCurrent="page" aria-label="Stories navigation">
           <NavList.Group heading="Components">

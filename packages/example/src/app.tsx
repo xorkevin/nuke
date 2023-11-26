@@ -71,7 +71,6 @@ const App: FC = () => {
               <NavBar.Link href="" exact>
                 Home
               </NavBar.Link>
-              <NavBar.Divider />
               <NavBar.Link href="stories">Stories</NavBar.Link>
             </NavBar>
             <Flex alignItems={FlexAlignItems.Center}>
