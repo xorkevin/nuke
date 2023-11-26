@@ -9,7 +9,7 @@
     padding: 8px 16px;
     color: var(--nuke-button-color, var(--nuke-color-fg-1));
     font-weight: var(--nuke-text-weight-semibold);
-    border: 1px solid var(--nuke-color-bg-3);
+    border: 1px solid transparent;
     border-radius: 4px;
     background-color: transparent;
     transition: background-color 125ms ease;
@@ -54,6 +54,7 @@
         --nuke-button-bg-color,
         var(--nuke-color-bg-alpha-1)
       );
+      border-color: var(--nuke-color-bg-alpha-3);
 
       &:hover {
         background-color: var(
