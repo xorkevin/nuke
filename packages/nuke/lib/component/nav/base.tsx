@@ -128,11 +128,14 @@ export const NavBar = Object.freeze(
             if (localRef.current === null) {
               return;
             }
-            const {width: limitWidth, left: start} =
+            const {width: navWidth, left: navLeft} =
               localRef.current.getBoundingClientRect();
+
+            // add an extra 0.25 pixels to account for floating point precision error
+            const limitWidth = navWidth + 0.25;
             let idx = 0;
             for (const child of localRef.current.children) {
-              if (child.getBoundingClientRect().right - start > limitWidth) {
+              if (child.getBoundingClientRect().right - navLeft > limitWidth) {
                 break;
               }
               idx++;
