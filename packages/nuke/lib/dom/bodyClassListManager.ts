@@ -8,13 +8,16 @@ export interface BodyClassListManager {
 export class BrowserBodyClassListManager implements BodyClassListManager {
   public add(this: this, ...tokens: string[]): void {
     document.body.classList.add(...tokens);
+    document.documentElement.classList.add(...tokens);
   }
 
   public replace(this: this, oldToken: string, newToken: string): boolean {
+    document.documentElement.classList.replace(oldToken, newToken);
     return document.body.classList.replace(oldToken, newToken);
   }
 
   public remove(this: this, ...tokens: string[]): void {
+    document.documentElement.classList.remove(...tokens);
     document.body.classList.remove(...tokens);
   }
 
