@@ -87,18 +87,6 @@
     background-color: var(--nuke-color-bg-3);
   }
 
-  .bi1 {
-    background-color: var(--nuke-color-bg-invert-1);
-  }
-
-  .bi2 {
-    background-color: var(--nuke-color-bg-invert-2);
-  }
-
-  .bi3 {
-    background-color: var(--nuke-color-bg-invert-3);
-  }
-
   .ba1 {
     background-color: var(--nuke-color-bg-accent-1);
   }
@@ -109,18 +97,6 @@
 
   .ba3 {
     background-color: var(--nuke-color-bg-accent-3);
-  }
-
-  .a1 {
-    background-color: var(--nuke-color-bg-alpha-1);
-  }
-
-  .a2 {
-    background-color: var(--nuke-color-bg-alpha-2);
-  }
-
-  .a3 {
-    background-color: var(--nuke-color-bg-alpha-3);
   }
 
   .aa1 {

@@ -7,7 +7,15 @@ import {type Route, Routes} from '@xorkevin/nuke/router';
 
 import styles from './stories.module.css';
 
-const stories = [
+const foundationStories = [
+  {
+    name: 'Color',
+    path: 'color',
+    component: lazy(async () => await import('./stories/color.js')),
+  },
+];
+
+const componentStories = [
   {
     name: 'Button',
     path: 'button',
@@ -42,7 +50,7 @@ const routes: Route[] = [
     exact: true,
     component: StoriesHome,
   },
-  ...stories.map((v) => ({
+  ...foundationStories.concat(componentStories).map((v) => ({
     path: `/${v.path}`,
     component: v.component,
   })),
@@ -53,8 +61,16 @@ const Stories: FC = () => {
     <Flex>
       <div className={classNames(NavClasses.Sidebar, BoxClasses.PadSmall)}>
         <NavList matchesAriaCurrent="page" aria-label="Stories navigation">
+          <NavList.Group heading="Foundations">
+            {foundationStories.map((v) => (
+              <NavList.Link key={v.path} href={v.path}>
+                {v.name}
+              </NavList.Link>
+            ))}
+          </NavList.Group>
+          <NavList.Divider />
           <NavList.Group heading="Components">
-            {stories.map((v) => (
+            {componentStories.map((v) => (
               <NavList.Link key={v.path} href={v.path}>
                 {v.name}
               </NavList.Link>

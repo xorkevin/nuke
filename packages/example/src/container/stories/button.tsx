@@ -2,37 +2,31 @@ import {type FC, Fragment} from 'react';
 import {
   Button,
   ButtonGroup,
-  ButtonRank,
   ButtonVariant,
 } from '@xorkevin/nuke/component/button';
+
+import {DemoWell} from './demoutil.js';
 
 const Story: FC = () => {
   return (
     <Fragment>
-      <ButtonGroup>
-        <Button>Default Tertiary</Button>
-        <Button variant={ButtonVariant.Accent}>Accent Tertiary</Button>
-        <Button rank={ButtonRank.Secondary}>Default Secondary</Button>
-        <Button variant={ButtonVariant.Accent} rank={ButtonRank.Secondary}>
-          Accent Secondary
-        </Button>
-        <Button rank={ButtonRank.Primary}>Default Primary</Button>
-        <Button variant={ButtonVariant.Accent} rank={ButtonRank.Primary}>
-          Accent Primary
-        </Button>
-      </ButtonGroup>
-      <ButtonGroup gap>
-        <Button>Default Tertiary</Button>
-        <Button variant={ButtonVariant.Accent}>Accent Tertiary</Button>
-        <Button rank={ButtonRank.Secondary}>Default Secondary</Button>
-        <Button variant={ButtonVariant.Accent} rank={ButtonRank.Secondary}>
-          Accent Secondary
-        </Button>
-        <Button rank={ButtonRank.Primary}>Default Primary</Button>
-        <Button variant={ButtonVariant.Accent} rank={ButtonRank.Primary}>
-          Accent Primary
-        </Button>
-      </ButtonGroup>
+      <h1>Buttons</h1>
+      <h2>Variants</h2>
+      <DemoWell>
+        <ButtonGroup gap>
+          <Button>Default</Button>
+          <Button variant={ButtonVariant.Subtle}>Subtle</Button>
+          <Button variant={ButtonVariant.Primary}>Primary</Button>
+        </ButtonGroup>
+      </DemoWell>
+      <h2>Button group</h2>
+      <DemoWell>
+        <ButtonGroup>
+          <Button>Default</Button>
+          <Button variant={ButtonVariant.Subtle}>Subtle</Button>
+          <Button variant={ButtonVariant.Primary}>Primary</Button>
+        </ButtonGroup>
+      </DemoWell>
     </Fragment>
   );
 };

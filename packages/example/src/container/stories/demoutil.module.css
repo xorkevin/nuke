@@ -1,0 +1,5 @@
+@layer app {
+  .demo-well {
+    border: 1px solid var(--nuke-color-bg-3);
+  }
+}

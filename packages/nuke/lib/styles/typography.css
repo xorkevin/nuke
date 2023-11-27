@@ -27,17 +27,9 @@
     --nuke-color-bg-2: oklch(97% 0.01 var(--nuke-color-accent-hue));
     --nuke-color-bg-3: oklch(94% 0.01 var(--nuke-color-accent-hue));
 
-    --nuke-color-bg-invert-1: oklch(17% 0 var(--nuke-color-accent-hue));
-    --nuke-color-bg-invert-2: oklch(25% 0 var(--nuke-color-accent-hue));
-    --nuke-color-bg-invert-3: oklch(33% 0 var(--nuke-color-accent-hue));
-
     --nuke-color-bg-accent-1: oklch(53% 0.24 262);
     --nuke-color-bg-accent-2: oklch(59% 0.22 262);
     --nuke-color-bg-accent-3: oklch(65% 0.18 262);
-
-    --nuke-color-bg-alpha-1: oklch(94% 0 var(--nuke-color-accent-hue) / 50%);
-    --nuke-color-bg-alpha-2: oklch(88% 0 var(--nuke-color-accent-hue) / 50%);
-    --nuke-color-bg-alpha-3: oklch(82% 0 var(--nuke-color-accent-hue) / 50%);
 
     --nuke-color-bg-alpha-accent-1: oklch(
       94% 0.02 var(--nuke-color-accent-hue) / 50%
