@@ -59,10 +59,6 @@
 
           &:hover {
             background-color: var(--nuke-color-bg-alpha-accent-1);
-
-            &:after {
-              background-color: var(--nuke-color-bg-alpha-accent-1);
-            }
           }
 
           &:global(.nuke__nav-link-matches) {
@@ -70,12 +66,6 @@
 
             &:after {
               background-color: var(--nuke-color-fg-accent);
-            }
-
-            &:hover {
-              &:after {
-                background-color: var(--nuke-color-fg-accent);
-              }
             }
           }
         }
@@ -142,7 +132,7 @@
           }
 
           &:global(.nuke__nav-link-matches) {
-            background-color: var(--nuke-color-bg-alpha-accent-1);
+            font-weight: var(--nuke-text-weight-semibold);
 
             &:after {
               background-color: var(--nuke-color-fg-accent);
