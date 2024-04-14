@@ -34,11 +34,7 @@ const Story: FC = () => {
       <h2>Nav bar</h2>
       <DemoWell>
         <Flex alignItems={FlexAlignItems.Stretch} style={{height: '56px'}}>
-          <NavBar
-            collapsible
-            matchesAriaCurrent="page"
-            aria-label="Test navigation"
-          >
+          <NavBar matchesAriaCurrent="page" aria-label="Test navigation">
             <NavBar.Link href="one">One</NavBar.Link>
             <NavBar.Link href="two">Two</NavBar.Link>
             <NavBar.Divider />
