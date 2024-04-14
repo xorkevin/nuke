@@ -42,7 +42,7 @@ async function filesEqual(fname1, fname2) {
     }
   }
 
-  const bufSize = 1024 * 16;
+  const bufSize = 1024 * 1024;
   let f1, f2;
   try {
     f1 = await fs.open(fname1);

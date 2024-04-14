@@ -27,7 +27,7 @@ export class BrowserBodyClassListManager implements BodyClassListManager {
 }
 
 export class MemBodyClassListManager implements BodyClassListManager {
-  #classlist: Set<string>;
+  readonly #classlist: Set<string>;
 
   public constructor() {
     this.#classlist = new Set();

@@ -21,16 +21,19 @@ import {
   classNames,
   mergeRefs,
   modClassNames,
+  modClassNamesObj,
 } from '#internal/computil/index.js';
 import {NavLink, type NavLinkProps} from '#internal/router/index.js';
 
 import styles from './styles.module.css';
 
-export const NavClasses = Object.freeze({
-  Banner: `${styles['nav-banner']}`,
-  BannerItem: `${styles['nav-banner-item']}`,
-  Sidebar: `${styles['nav-sidebar']}`,
-} as const);
+export const NavClasses = Object.freeze(
+  modClassNamesObj(styles, {
+    Banner: 'nav-banner',
+    BannerItem: 'nav-banner-item',
+    Sidebar: 'nav-sidebar',
+  } as const),
+);
 
 export type NavCtx = {
   readonly matchesAriaCurrent: AriaAttributes['aria-current'];

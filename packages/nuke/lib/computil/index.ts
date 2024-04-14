@@ -88,6 +88,20 @@ export const modClassNames = (
   return classes.join(' ');
 };
 
+type Entries<T> = {
+  [K in keyof T]: [K, T[K]];
+}[keyof T][];
+
+export const modClassNamesObj = <T extends Record<string, ConditionalClass>>(
+  styleMod: {[key: string]: string},
+  obj: T,
+): {[key in keyof T]: string} => {
+  const entries = Object.entries(obj) as Entries<T>;
+  return Object.fromEntries(
+    entries.map(([k, v]) => [k, modClassNames(styleMod, v) ?? '']),
+  ) as {[key in keyof T]: string};
+};
+
 export const mergeRefs = <T>(
   ...refs: (ForwardedRef<T> | undefined)[]
 ): RefCallback<T> => {

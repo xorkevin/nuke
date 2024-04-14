@@ -3,19 +3,22 @@ import {type HTMLAttributes, type PropsWithChildren, forwardRef} from 'react';
 import {
   classNames,
   modClassNames,
+  modClassNamesObj,
   strToEnum,
 } from '#internal/computil/index.js';
 
 import styles from './styles.module.css';
 
-export const BoxClasses = Object.freeze({
-  PadSmall: `${styles['pad']} ${styles['pad-small']}`,
-  PadMedium: `${styles['pad']} ${styles['pad-medium']}`,
-  PadLarge: `${styles['pad']} ${styles['pad-large']}`,
-  PadLR: `${styles['pad-lr']}`,
-  PadTB: `${styles['pad-tb']}`,
-  BorderRound: `${styles['border-round']}`,
-} as const);
+export const BoxClasses = Object.freeze(
+  modClassNamesObj(styles, {
+    PadSmall: ['pad', 'pad-small'],
+    PadMedium: ['pad', 'pad-medium'],
+    PadLarge: ['pad', 'pad-large'],
+    PadLR: 'pad-lr',
+    PadTB: 'pad-tb',
+    BorderRound: 'border-round',
+  } as const),
+);
 
 export enum BoxSize {
   S1 = 's1',
@@ -67,39 +70,41 @@ export const Box = forwardRef<HTMLDivElement, PropsWithChildren<BoxProps>>(
   },
 );
 
-export const FlexClasses = Object.freeze({
-  Flex: `${styles['flex']}`,
-  DirRow: `${styles['dir-row']}`,
-  DirRowRev: `${styles['dir-row-rev']}`,
-  DirCol: `${styles['dir-col']}`,
-  DirColRev: `${styles['dir-col-rev']}`,
-  Wrap: `${styles['wrap']}`,
-  WrapRev: `${styles['wrap-rev']}`,
-  NoWrap: `${styles['no-wrap']}`,
-  AlignItemsStart: `${styles['align-items-start']}`,
-  AlignItemsEnd: `${styles['align-items-end']}`,
-  AlignItemsCenter: `${styles['align-items-center']}`,
-  AlignItemsStretch: `${styles['align-items-stretch']}`,
-  AlignContentStart: `${styles['align-content-start']}`,
-  AlignContentEnd: `${styles['align-content-end']}`,
-  AlignContentCenter: `${styles['align-content-center']}`,
-  AlignContentSpaceBetween: `${styles['align-content-space-between']}`,
-  AlignContentSpaceAround: `${styles['align-content-space-around']}`,
-  AlignContentSpaceEvenly: `${styles['align-content-space-evenly']}`,
-  AlignContentStretch: `${styles['align-content-stretch']}`,
-  JustifyContentStart: `${styles['justify-content-start']}`,
-  JustifyContentEnd: `${styles['justify-content-end']}`,
-  JustifyContentCenter: `${styles['justify-content-center']}`,
-  JustifyContentSpaceBetween: `${styles['justify-content-space-between']}`,
-  JustifyContentSpaceAround: `${styles['justify-content-space-around']}`,
-  JustifyContentSpaceEvenly: `${styles['justify-content-space-evenly']}`,
-  JustifyContentStretch: `${styles['justify-content-stretch']}`,
-  Grow: `${styles['grow']}`,
-  Grow0: `${styles['grow-0']}`,
-  Shrink: `${styles['shrink']}`,
-  Shrink0: `${styles['shrink-0']}`,
-  Basis0: `${styles['basis-0']}`,
-} as const);
+export const FlexClasses = Object.freeze(
+  modClassNamesObj(styles, {
+    Flex: 'flex',
+    DirRow: 'dir-row',
+    DirRowRev: 'dir-row-rev',
+    DirCol: 'dir-col',
+    DirColRev: 'dir-col-rev',
+    Wrap: 'wrap',
+    WrapRev: 'wrap-rev',
+    NoWrap: 'no-wrap',
+    AlignItemsStart: 'align-items-start',
+    AlignItemsEnd: 'align-items-end',
+    AlignItemsCenter: 'align-items-center',
+    AlignItemsStretch: 'align-items-stretch',
+    AlignContentStart: 'align-content-start',
+    AlignContentEnd: 'align-content-end',
+    AlignContentCenter: 'align-content-center',
+    AlignContentSpaceBetween: 'align-content-space-between',
+    AlignContentSpaceAround: 'align-content-space-around',
+    AlignContentSpaceEvenly: 'align-content-space-evenly',
+    AlignContentStretch: 'align-content-stretch',
+    JustifyContentStart: 'justify-content-start',
+    JustifyContentEnd: 'justify-content-end',
+    JustifyContentCenter: 'justify-content-center',
+    JustifyContentSpaceBetween: 'justify-content-space-between',
+    JustifyContentSpaceAround: 'justify-content-space-around',
+    JustifyContentSpaceEvenly: 'justify-content-space-evenly',
+    JustifyContentStretch: 'justify-content-stretch',
+    Grow: 'grow',
+    Grow0: 'grow-0',
+    Shrink: 'shrink',
+    Shrink0: 'shrink-0',
+    Basis0: 'basis-0',
+  } as const),
+);
 
 export enum FlexDir {
   Row = 'dir-row',

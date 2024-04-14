@@ -3,25 +3,25 @@
 all: build
 
 build:
-	npm run --workspaces --if-present build
+	yarn workspaces foreach -Apt run build
 
 buildlib:
-	npm run -w @xorkevin/nuke build
+	yarn workspaces foreach -Rpt --from '@xorkevin/nuke' run build
 
 dev: buildlib
-	npm run -w @xorkevin/nuke-example build:dev
+	yarn workspace @xorkevin/nuke-example run build-dev
 
 lint:
-	npm run --workspaces --if-present lint
+	yarn workspaces foreach -Apt run lint
 
 format:
-	npm run --workspaces --if-present format
+	yarn workspaces foreach -Apt run format
 
 clean:
-	npm run --workspaces --if-present clean
+	yarn workspaces foreach -Apt run clean
 
-test: build
-	npm run --workspaces --if-present test
+test:
+	yarn workspaces foreach -Apt run test
 
 devserve:
 	fsserve serve --config ./packages/example/fsserve.json --base ./packages/example/dist

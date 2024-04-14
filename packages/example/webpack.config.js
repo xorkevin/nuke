@@ -65,6 +65,8 @@ export default (env, argv) => {
               options: {
                 modules: {
                   auto: true,
+                  namedExport: false,
+                  exportLocalsConvention: 'as-is',
                   mode: 'local',
                   localIdentName:
                     argv.mode === 'development' ? '[local]__[hash]' : '[hash]',
