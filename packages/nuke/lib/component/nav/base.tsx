@@ -5,13 +5,11 @@ import {
   type LiHTMLAttributes,
   type PropsWithChildren,
   type ReactNode,
-  type RefObject,
   createContext,
   forwardRef,
   useCallback,
   useContext,
   useId,
-  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -38,48 +36,16 @@ export const NavClasses = Object.freeze(
 export type NavCtx = {
   readonly matchesAriaCurrent: AriaAttributes['aria-current'];
   readonly level: number;
-  readonly breakpoint: number;
 };
 
 const NavContext = createContext<NavCtx>(
   Object.freeze({
     matchesAriaCurrent: true,
     level: 0,
-    breakpoint: -1,
   }),
 );
 
-const useIsNavItemVisible = (ref: RefObject<HTMLElement>): boolean => {
-  const {breakpoint} = useContext(NavContext);
-  const [visible, setVisible] = useState(true);
-
-  useLayoutEffect(() => {
-    if (breakpoint < 0) {
-      setVisible(true);
-      return;
-    }
-    if (ref.current === null) {
-      setVisible(true);
-      return;
-    }
-    const parent = ref.current.parentElement;
-    if (parent === null) {
-      setVisible(true);
-      return;
-    }
-    const idx = Array.from(parent.children).indexOf(ref.current);
-    if (idx < 0) {
-      setVisible(true);
-      return;
-    }
-    setVisible(idx < breakpoint);
-  }, [ref, breakpoint, setVisible]);
-
-  return visible;
-};
-
 export type NavBarProps = HTMLAttributes<HTMLElement> & {
-  readonly collapsible?: boolean | undefined;
   readonly matchesAriaCurrent?: AriaAttributes['aria-current'];
   readonly listRef?: ForwardedRef<HTMLUListElement> | undefined;
   readonly listProps?: HTMLAttributes<HTMLUListElement> | undefined;
@@ -99,7 +65,6 @@ export const NavBar = Object.freeze(
     forwardRef<HTMLElement, PropsWithChildren<NavBarProps>>(
       (
         {
-          collapsible,
           matchesAriaCurrent = true,
           listRef,
           listProps,
@@ -115,55 +80,13 @@ export const NavBar = Object.freeze(
           [listRef, localRef],
         );
 
-        const [breakpoint, setBreakpoint] = useState(-1);
-
-        useLayoutEffect(() => {
-          if (collapsible === undefined || !collapsible) {
-            setBreakpoint(-1);
-            return;
-          }
-
-          if (localRef.current === null) {
-            return;
-          }
-
-          const handler = () => {
-            if (localRef.current === null) {
-              return;
-            }
-            const {width: navWidth, left: navLeft} =
-              localRef.current.getBoundingClientRect();
-
-            // add an extra 0.25 pixels to account for floating point precision error
-            const limitWidth = navWidth + 0.25;
-            let idx = 0;
-            for (const child of localRef.current.children) {
-              if (child.getBoundingClientRect().right - navLeft > limitWidth) {
-                break;
-              }
-              idx++;
-            }
-            setBreakpoint(idx);
-          };
-
-          const observer = new ResizeObserver(handler);
-          observer.observe(localRef.current);
-
-          handler();
-
-          return () => {
-            observer.disconnect();
-          };
-        }, [collapsible, localRef, setBreakpoint]);
-
         const navCtx = useMemo(
           () =>
             Object.freeze({
               matchesAriaCurrent,
               level: 0,
-              breakpoint,
             }),
-          [matchesAriaCurrent, breakpoint],
+          [matchesAriaCurrent],
         );
 
         const c = classNames(modClassNames(styles, 'nav-bar'), className);
@@ -181,32 +104,14 @@ export const NavBar = Object.freeze(
     ),
     {
       Link: forwardRef<HTMLLIElement, PropsWithChildren<NavBarLinkProps>>(
-        (
-          {
-            href,
-            exact,
-            navLinkRef,
-            navLinkProps,
-            className,
-            children,
-            ...props
-          },
-          ref,
-        ) => {
+        ({href, exact, navLinkRef, navLinkProps, children, ...props}, ref) => {
           const localRef = useRef<HTMLLIElement>(null);
           const mergedRef = useMemo(
             () => mergeRefs(ref, localRef),
             [ref, localRef],
           );
 
-          const visible = useIsNavItemVisible(localRef);
-
           const {matchesAriaCurrent} = useContext(NavContext);
-
-          const c = classNames(
-            modClassNames(styles, {'nav-bar-item-hide': !visible}),
-            className,
-          );
 
           const lc = classNames(
             modClassNames(styles, 'nav-bar-item'),
@@ -214,7 +119,7 @@ export const NavBar = Object.freeze(
           );
 
           return (
-            <li ref={mergedRef} {...props} className={c}>
+            <li ref={mergedRef} {...props}>
               <NavLink
                 ref={navLinkRef}
                 {...navLinkProps}
@@ -237,12 +142,8 @@ export const NavBar = Object.freeze(
             [ref, localRef],
           );
 
-          const visible = useIsNavItemVisible(localRef);
-
           const c = classNames(
-            modClassNames(styles, 'nav-bar-divider', {
-              'nav-bar-item-hide': !visible,
-            }),
+            modClassNames(styles, 'nav-bar-divider'),
             className,
           );
 
@@ -318,7 +219,6 @@ export const NavList = Object.freeze(
             Object.freeze({
               matchesAriaCurrent,
               level: 0,
-              breakpoint: -1,
             }),
           [matchesAriaCurrent],
         );
