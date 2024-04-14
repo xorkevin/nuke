@@ -1,6 +1,9 @@
-.PHONY: all build buildlib dev lint format clean test devserve
+.PHONY: all setup build buildlib dev lint format clean test devserve
 
 all: build
+
+setup:
+	yarn dlx @yarnpkg/sdks base
 
 build:
 	yarn workspaces foreach -Apt run build
