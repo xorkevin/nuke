@@ -18,8 +18,8 @@
   "scripts": {
     "build": "webpack --mode production --progress --color",
     "build-dev": "webpack serve --mode development --progress --color",
-    "lint": "eslint ./src && prettier --ignore-path ../../.prettierignore --check .",
-    "format": "eslint --fix ./src && prettier --ignore-path ../../.prettierignore --write .",
+    "lint": "eslint --cache ./src && prettier --cache --ignore-path ../../.prettierignore --check .",
+    "format": "eslint --cache --fix ./src && prettier --cache --ignore-path ../../.prettierignore --write .",
     "clean": "rm -rf dist .tsbuildinfo node_modules/.cache/webpack"
   },
   "dependencies": {
