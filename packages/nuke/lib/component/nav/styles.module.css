@@ -27,7 +27,7 @@
       list-style: none;
       display: flex;
       align-items: stretch;
-      gap: 8px;
+      gap: 0.5rem;
       overflow-x: scroll;
 
       & > li {
@@ -38,8 +38,8 @@
 
         & > .nav-bar-item {
           text-decoration: none;
-          padding: 8px;
-          border-radius: 8px;
+          padding: 0.5rem;
+          border-radius: 0.5rem;
           color: var(--nuke-color-fg-1);
           background-color: transparent;
           transition: background-color 125ms ease;
@@ -104,10 +104,12 @@
         & > .nav-list-item {
           text-decoration: none;
           position: relative;
-          padding: 8px;
-          padding-left: calc(8px + var(--nuke-nav-list-nest-level, 0) * 16px);
+          padding: 0.5rem;
+          padding-left: calc(
+            0.5rem + var(--nuke-nav-list-nest-level, 0) * 1rem
+          );
           margin-left: 8px;
-          border-radius: 8px;
+          border-radius: 0.5rem;
           color: var(--nuke-color-fg-1);
           background-color: transparent;
           transition: background-color 125ms ease;
@@ -145,15 +147,17 @@
             font-size: 0.93rem;
             font-weight: var(--nuke-text-weight-semibold);
             color: var(--nuke-color-fg-2);
-            padding: 8px;
-            padding-left: calc(8px + var(--nuke-nav-list-nest-level, 0) * 16px);
+            padding: 0.5rem;
+            padding-left: calc(
+              0.5rem + var(--nuke-nav-list-nest-level, 0) * 1rem
+            );
             margin-left: 8px;
           }
         }
 
         &.nav-list-divider {
           height: 1px;
-          margin: 8px 0 8px 8px;
+          margin: 0.5rem 0 0.5rem 8px;
           background-color: var(--nuke-color-bg-3);
         }
 
@@ -166,17 +170,19 @@
             border: unset;
             cursor: pointer;
             position: relative;
-            padding: 8px;
-            padding-left: calc(8px + var(--nuke-nav-list-nest-level, 0) * 16px);
+            padding: 0.5rem;
+            padding-left: calc(
+              0.5rem + var(--nuke-nav-list-nest-level, 0) * 1rem
+            );
             margin-left: 8px;
-            border-radius: 8px;
+            border-radius: 0.5rem;
             background-color: transparent;
             transition: background-color 125ms ease;
 
             & > .nav-list-chevron-icon {
               position: absolute;
               top: 50%;
-              right: 8px;
+              right: 0.5rem;
               translate: 0 -50%;
               color: var(--nuke-color-fg-2);
               transition: rotate 125ms ease;
