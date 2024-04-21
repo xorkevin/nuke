@@ -53,7 +53,7 @@
         );
 
         --nuke-color-bg-1: oklch(0% 0 var(--nuke-color-accent-hue));
-        --nuke-color-bg-2: oklch(17% 0 var(--nuke-color-accent-hue));
+        --nuke-color-bg-2: oklch(20% 0 var(--nuke-color-accent-hue));
         --nuke-color-bg-3: oklch(25% 0.01 var(--nuke-color-accent-hue));
 
         --nuke-color-bg-invert-1: oklch(97% 0 var(--nuke-color-accent-hue));

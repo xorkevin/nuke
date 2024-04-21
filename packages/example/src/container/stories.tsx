@@ -22,6 +22,11 @@ const foundationStories = [
 
 const componentStories = [
   {
+    name: 'Badge',
+    path: 'badge',
+    component: lazy(async () => await import('./stories/badge.js')),
+  },
+  {
     name: 'Button',
     path: 'button',
     component: lazy(async () => await import('./stories/button.js')),

@@ -1,0 +1,28 @@
+@layer xorkevin.nuke {
+  :root {
+    --nuke-badge-size: 0.85rem;
+    --nuke-badge-lineheight: 1rem;
+    --nuke-badge-weight: var(--nuke-text-weight-semibold);
+    --nuke-badge-bg-color: var(--nuke-color-bg-2);
+    --nuke-badge-bg-color-hover: var(--nuke-color-bg-3);
+    --nuke-badge-bg-color-active: var(--nuke-color-bg-3);
+  }
+
+  .badge {
+    padding: 0.25rem 0.85rem;
+    font-size: var(--nuke-badge-size);
+    line-height: var(--nuke-badge-lineheight);
+    font-weight: var(--nuke-badge-weight);
+    border-radius: 0.25rem;
+    background-color: var(--nuke-badge-bg-color);
+    transition: background-color 125ms ease;
+
+    &:hover {
+      background-color: var(--nuke-badge-bg-color-hover);
+    }
+
+    &:active {
+      background-color: var(--nuke-badge-bg-color-active);
+    }
+  }
+}
