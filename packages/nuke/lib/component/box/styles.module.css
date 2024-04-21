@@ -1,7 +1,7 @@
 @layer xorkevin.nuke {
   :root {
     --nuke-box-unit: 256px;
-    --nuke-box-padding-unit: 32px;
+    --nuke-box-padding-unit: 16px;
     --nuke-card-border-radius: 8px;
   }
 
@@ -16,6 +16,10 @@
 
     &.padded {
       padding: var(--nuke-box-padding-unit);
+
+      @media (min-width: 768px) {
+        padding: calc(var(--nuke-box-padding-unit) * 2);
+      }
 
       &.padded-lr {
         padding-top: 0;

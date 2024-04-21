@@ -1,4 +1,9 @@
-import {type HTMLAttributes, type PropsWithChildren, forwardRef} from 'react';
+import {
+  type HTMLAttributes,
+  type PropsWithChildren,
+  forwardRef,
+  useMemo,
+} from 'react';
 
 import {
   classNames,
@@ -125,6 +130,7 @@ export type FlexProps = HTMLAttributes<HTMLDivElement> & {
   readonly alignItems?: FlexAlignItems | undefined;
   readonly alignContent?: FlexAlignContent | undefined;
   readonly justifyContent?: FlexJustifyContent | undefined;
+  readonly gap?: number | undefined;
 };
 
 export const Flex = forwardRef<HTMLDivElement, PropsWithChildren<FlexProps>>(
@@ -135,7 +141,9 @@ export const Flex = forwardRef<HTMLDivElement, PropsWithChildren<FlexProps>>(
       alignItems,
       alignContent,
       justifyContent,
+      gap,
       className,
+      style,
       children,
       ...props
     },
@@ -153,8 +161,14 @@ export const Flex = forwardRef<HTMLDivElement, PropsWithChildren<FlexProps>>(
       ),
       className,
     );
+    const s = useMemo(() => {
+      if (gap === undefined) {
+        return style;
+      }
+      return Object.assign({gap}, style);
+    }, [style, gap]);
     return (
-      <div ref={ref} {...props} className={c}>
+      <div ref={ref} style={s} {...props} className={c}>
         {children}
       </div>
     );
