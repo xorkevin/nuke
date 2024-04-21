@@ -7,20 +7,15 @@ import styles from './home.module.css';
 
 const Home: FC = () => {
   return (
-    <Box size={BoxSize.S5} padded center>
-      <Box padded>
-        <hgroup>
-          <h1
-            className={classNames(
-              TextClasses.Display,
-              styles['heading-display'],
-            )}
-          >
-            Nuke
-          </h1>
-          <p className={TextClasses.Subtitle}>a reactive frontend toolkit</p>
-        </hgroup>
-      </Box>
+    <Box size={BoxSize.S6} padded center>
+      <hgroup>
+        <h1
+          className={classNames(TextClasses.Display, styles['heading-display'])}
+        >
+          Nuke
+        </h1>
+        <p className={TextClasses.Subtitle}>a reactive frontend toolkit</p>
+      </hgroup>
     </Box>
   );
 };

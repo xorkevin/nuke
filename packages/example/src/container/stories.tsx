@@ -1,8 +1,9 @@
 import {type FC, Suspense, lazy} from 'react';
-import {Box, BoxSize, Flex} from '@xorkevin/nuke/component/box';
+import {Box, BoxSize, Flex, FlexClasses} from '@xorkevin/nuke/component/box';
 import {NavClasses, NavList} from '@xorkevin/nuke/component/nav';
 import {TextClasses} from '@xorkevin/nuke/component/text';
 import {type Route, Routes} from '@xorkevin/nuke/router';
+import {classNames} from '@xorkevin/nuke/computil';
 
 const foundationStories = [
   {
@@ -56,7 +57,7 @@ const routes: Route[] = [
 
 const Stories: FC = () => {
   return (
-    <Box size={BoxSize.S5} center>
+    <Box size={BoxSize.S6} center>
       <Flex>
         <div className={NavClasses.Sidebar}>
           <Box padded>
@@ -79,7 +80,11 @@ const Stories: FC = () => {
             </NavList>
           </Box>
         </div>
-        <Box padded center>
+        <Box
+          padded
+          center
+          className={classNames(FlexClasses.Basis0, FlexClasses.Grow)}
+        >
           <Suspense fallback={fallbackView}>
             <Routes routes={routes} />
           </Suspense>

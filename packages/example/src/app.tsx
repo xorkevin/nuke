@@ -52,7 +52,7 @@ const App: FC = () => {
     <div className={styles['mainapp']}>
       <header className={NavClasses.Banner}>
         <Box
-          size={BoxSize.S5}
+          size={BoxSize.S6}
           padded={BoxPadded.LR}
           center
           className={NavClasses.BannerItem}
