@@ -3,13 +3,13 @@ import {BoxClasses, Flex, FlexAlignItems} from '@xorkevin/nuke/component/box';
 import {NavBar, NavClasses, NavList} from '@xorkevin/nuke/component/nav';
 import {classNames} from '@xorkevin/nuke/computil';
 
-import {DemoWell} from './demoutil.js';
+import {DemoSection, DemoTitle, DemoWell} from './demoutil.js';
 
 const Story: FC = () => {
   return (
     <Fragment>
-      <h1>Navigation</h1>
-      <h2>Nav list</h2>
+      <DemoTitle>Navigation</DemoTitle>
+      <DemoSection>Nav list</DemoSection>
       <DemoWell>
         <div className={classNames(NavClasses.Sidebar, BoxClasses.PadSmall)}>
           <NavList matchesAriaCurrent="page" aria-label="Test navigation">
@@ -31,7 +31,7 @@ const Story: FC = () => {
           </NavList>
         </div>
       </DemoWell>
-      <h2>Nav bar</h2>
+      <DemoSection>Nav bar</DemoSection>
       <DemoWell>
         <Flex alignItems={FlexAlignItems.Stretch} style={{height: '56px'}}>
           <NavBar matchesAriaCurrent="page" aria-label="Test navigation">

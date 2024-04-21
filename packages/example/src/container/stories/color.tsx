@@ -10,7 +10,7 @@ import {
 import {classNames, modClassNames} from '@xorkevin/nuke/computil';
 
 import styles from './color.module.css';
-import {DemoWell} from './demoutil.js';
+import {DemoSection, DemoTitle, DemoWell} from './demoutil.js';
 
 type SwatchProps = {
   fg: ColorFG;
@@ -58,7 +58,8 @@ const Swatches: FC<PropsWithChildren> = ({children}) => {
 const Story: FC = () => {
   return (
     <Fragment>
-      <h1>Colors</h1>
+      <DemoTitle>Colors</DemoTitle>
+      <DemoSection>Swatches</DemoSection>
       <DemoWell>
         <Swatches>
           <SwatchRow>

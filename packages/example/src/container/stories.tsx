@@ -12,8 +12,6 @@ import {TextClasses} from '@xorkevin/nuke/component/text';
 import {classNames} from '@xorkevin/nuke/computil';
 import {type Route, Routes} from '@xorkevin/nuke/router';
 
-import styles from './stories.module.css';
-
 const foundationStories = [
   {
     name: 'Color',
@@ -41,11 +39,7 @@ const StoriesHome: FC = () => {
   return (
     <Box padded>
       <hgroup>
-        <h2
-          className={classNames(TextClasses.Display, styles['story-display'])}
-        >
-          Stories
-        </h2>
+        <h1 className={TextClasses.Display}>Stories</h1>
       </hgroup>
     </Box>
   );

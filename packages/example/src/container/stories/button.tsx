@@ -5,13 +5,13 @@ import {
   ButtonVariant,
 } from '@xorkevin/nuke/component/button';
 
-import {DemoWell} from './demoutil.js';
+import {DemoSection, DemoTitle, DemoWell} from './demoutil.js';
 
 const Story: FC = () => {
   return (
     <Fragment>
-      <h1>Buttons</h1>
-      <h2>Variants</h2>
+      <DemoTitle>Buttons</DemoTitle>
+      <DemoSection>Variants</DemoSection>
       <DemoWell>
         <ButtonGroup gap>
           <Button>Default</Button>
@@ -19,7 +19,7 @@ const Story: FC = () => {
           <Button variant={ButtonVariant.Primary}>Primary</Button>
         </ButtonGroup>
       </DemoWell>
-      <h2>Button group</h2>
+      <DemoSection>Button group</DemoSection>
       <DemoWell>
         <ButtonGroup>
           <Button>Default</Button>
