@@ -1,7 +1,7 @@
 @layer xorkevin.nuke {
   :root {
     --nuke-box-unit: 256px;
-    --nuke-box-padding-unit: 16px;
+    --nuke-box-padding-unit: 32px;
     --nuke-card-border-radius: 8px;
   }
 
@@ -25,44 +25,6 @@
       &.padded-tb {
         padding-left: 0;
         padding-right: 0;
-      }
-
-      @media (min-width: 768px) {
-        &.s2,
-        &.s3,
-        &.s4,
-        &.s5,
-        &.s6 {
-          padding: calc(var(--nuke-box-padding-unit) * 2);
-
-          &.padded-lr {
-            padding-top: 0;
-            padding-bottom: 0;
-          }
-
-          &.padded-tb {
-            padding-left: 0;
-            padding-right: 0;
-          }
-        }
-      }
-
-      @media (min-width: calc(768px * 2)) {
-        &.s4,
-        &.s5,
-        &.s6 {
-          padding: calc(var(--nuke-box-padding-unit) * 3);
-
-          &.padded-lr {
-            padding-top: 0;
-            padding-bottom: 0;
-          }
-
-          &.padded-tb {
-            padding-left: 0;
-            padding-right: 0;
-          }
-        }
       }
     }
 

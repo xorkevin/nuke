@@ -7,7 +7,7 @@ import styles from './home.module.css';
 
 const Home: FC = () => {
   return (
-    <Box size={BoxSize.S4} padded center>
+    <Box size={BoxSize.S5} padded center>
       <Box padded>
         <hgroup>
           <h1
