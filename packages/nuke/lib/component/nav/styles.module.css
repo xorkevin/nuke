@@ -1,7 +1,7 @@
 @layer xorkevin.nuke {
   :root {
     --nuke-nav-banner-height: 56px;
-    --nuke-nav-sidebar-width: 384px;
+    --nuke-nav-sidebar-width: 320px;
   }
 
   .nav-banner {
