@@ -1,5 +1,4 @@
 export {
-  BoxClasses,
   BoxSize,
   BoxPadded,
   type BoxProps,
@@ -10,9 +9,6 @@ export {
   FlexAlignItems,
   FlexAlignContent,
   FlexJustifyContent,
-  FlexGrow,
-  FlexShrink,
-  FlexBasis,
   type FlexProps,
   Flex,
 } from './base.js';

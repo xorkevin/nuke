@@ -9,17 +9,6 @@ import {
 
 import styles from './styles.module.css';
 
-export const BoxClasses = Object.freeze(
-  modClassNamesObj(styles, {
-    PadSmall: ['pad', 'pad-small'],
-    PadMedium: ['pad', 'pad-medium'],
-    PadLarge: ['pad', 'pad-large'],
-    PadLR: 'pad-lr',
-    PadTB: 'pad-tb',
-    BorderRound: 'border-round',
-  } as const),
-);
-
 export enum BoxSize {
   S1 = 's1',
   S2 = 's2',
@@ -38,11 +27,20 @@ export type BoxProps = HTMLAttributes<HTMLDivElement> & {
   readonly size?: BoxSize | undefined;
   readonly padded?: BoxPadded | boolean | undefined;
   readonly center?: boolean | undefined;
+  readonly card?: boolean | undefined;
 };
 
 export const Box = forwardRef<HTMLDivElement, PropsWithChildren<BoxProps>>(
   (
-    {size, padded = false, center = false, className, children, ...props},
+    {
+      size,
+      padded = false,
+      center = false,
+      card = false,
+      className,
+      children,
+      ...props
+    },
     ref,
   ) => {
     const c = classNames(
@@ -56,6 +54,7 @@ export const Box = forwardRef<HTMLDivElement, PropsWithChildren<BoxProps>>(
               strToEnum(BoxPadded, padded) !== undefined),
           'padded-lr': padded === BoxPadded.LR,
           'padded-tb': padded === BoxPadded.TB,
+          card,
           center,
         },
         size,
@@ -72,32 +71,6 @@ export const Box = forwardRef<HTMLDivElement, PropsWithChildren<BoxProps>>(
 
 export const FlexClasses = Object.freeze(
   modClassNamesObj(styles, {
-    Flex: 'flex',
-    DirRow: 'dir-row',
-    DirRowRev: 'dir-row-rev',
-    DirCol: 'dir-col',
-    DirColRev: 'dir-col-rev',
-    Wrap: 'wrap',
-    WrapRev: 'wrap-rev',
-    NoWrap: 'no-wrap',
-    AlignItemsStart: 'align-items-start',
-    AlignItemsEnd: 'align-items-end',
-    AlignItemsCenter: 'align-items-center',
-    AlignItemsStretch: 'align-items-stretch',
-    AlignContentStart: 'align-content-start',
-    AlignContentEnd: 'align-content-end',
-    AlignContentCenter: 'align-content-center',
-    AlignContentSpaceBetween: 'align-content-space-between',
-    AlignContentSpaceAround: 'align-content-space-around',
-    AlignContentSpaceEvenly: 'align-content-space-evenly',
-    AlignContentStretch: 'align-content-stretch',
-    JustifyContentStart: 'justify-content-start',
-    JustifyContentEnd: 'justify-content-end',
-    JustifyContentCenter: 'justify-content-center',
-    JustifyContentSpaceBetween: 'justify-content-space-between',
-    JustifyContentSpaceAround: 'justify-content-space-around',
-    JustifyContentSpaceEvenly: 'justify-content-space-evenly',
-    JustifyContentStretch: 'justify-content-stretch',
     Grow: 'grow',
     Grow0: 'grow-0',
     Shrink: 'shrink',
@@ -146,29 +119,12 @@ export enum FlexJustifyContent {
   Stretch = 'justify-content-stretch',
 }
 
-export enum FlexGrow {
-  Grow = 'grow',
-  Grow0 = 'grow-0',
-}
-
-export enum FlexShrink {
-  Shrink = 'shrink',
-  Shrink0 = 'shrink-0',
-}
-
-export enum FlexBasis {
-  Basis0 = 'basis-0',
-}
-
 export type FlexProps = HTMLAttributes<HTMLDivElement> & {
   readonly dir?: FlexDir | undefined;
   readonly wrap?: FlexWrap | undefined;
   readonly alignItems?: FlexAlignItems | undefined;
   readonly alignContent?: FlexAlignContent | undefined;
   readonly justifyContent?: FlexJustifyContent | undefined;
-  readonly grow?: FlexGrow | undefined;
-  readonly shrink?: FlexShrink | undefined;
-  readonly basis?: FlexBasis | undefined;
 };
 
 export const Flex = forwardRef<HTMLDivElement, PropsWithChildren<FlexProps>>(
@@ -179,9 +135,6 @@ export const Flex = forwardRef<HTMLDivElement, PropsWithChildren<FlexProps>>(
       alignItems,
       alignContent,
       justifyContent,
-      grow,
-      shrink,
-      basis,
       className,
       children,
       ...props
@@ -197,9 +150,6 @@ export const Flex = forwardRef<HTMLDivElement, PropsWithChildren<FlexProps>>(
         alignItems,
         alignContent,
         justifyContent,
-        grow,
-        shrink,
-        basis,
       ),
       className,
     );

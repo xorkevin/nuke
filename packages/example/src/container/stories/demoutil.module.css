@@ -5,8 +5,4 @@
     margin-bottom: 16px;
     border-bottom: 1px solid var(--nuke-color-bg-3);
   }
-
-  .demo-well {
-    border: 1px solid var(--nuke-color-bg-3);
-  }
 }

@@ -2,72 +2,7 @@
   :root {
     --nuke-box-unit: 256px;
     --nuke-box-padding-unit: 16px;
-    --nuke-box-border-radius: 8px;
-  }
-
-  .pad {
-    padding: var(--nuke-box-padding-unit);
-
-    &.pad-lr {
-      padding-top: 0;
-      padding-bottom: 0;
-    }
-
-    &.pad-tb {
-      padding-left: 0;
-      padding-right: 0;
-    }
-
-    &.pad-small {
-      padding: var(--nuke-box-padding-unit);
-
-      &.pad-lr {
-        padding-top: 0;
-        padding-bottom: 0;
-      }
-
-      &.pad-tb {
-        padding-left: 0;
-        padding-right: 0;
-      }
-    }
-
-    @media (min-width: 768px) {
-      &.pad-medium,
-      &.pad-large {
-        padding: calc(var(--nuke-box-padding-unit) * 2);
-
-        &.pad-lr {
-          padding-top: 0;
-          padding-bottom: 0;
-        }
-
-        &.pad-tb {
-          padding-left: 0;
-          padding-right: 0;
-        }
-      }
-    }
-
-    @media (min-width: calc(768px * 2)) {
-      &.pad-large {
-        padding: calc(var(--nuke-box-padding-unit) * 3);
-
-        &.pad-lr {
-          padding-top: 0;
-          padding-bottom: 0;
-        }
-
-        &.pad-tb {
-          padding-left: 0;
-          padding-right: 0;
-        }
-      }
-    }
-  }
-
-  .border-round {
-    border-radius: var(--nuke-box-border-radius);
+    --nuke-card-border-radius: 8px;
   }
 
   .box {
@@ -132,27 +67,32 @@
     }
 
     &.s1 {
-      max-width: var(--nuke-box-unit);
+      width: var(--nuke-box-unit);
     }
 
     &.s2 {
-      max-width: calc(var(--nuke-box-unit) * 2);
+      width: calc(var(--nuke-box-unit) * 2);
     }
 
     &.s3 {
-      max-width: calc(var(--nuke-box-unit) * 3);
+      width: calc(var(--nuke-box-unit) * 3);
     }
 
     &.s4 {
-      max-width: calc(var(--nuke-box-unit) * 4);
+      width: calc(var(--nuke-box-unit) * 4);
     }
 
     &.s5 {
-      max-width: calc(var(--nuke-box-unit) * 5);
+      width: calc(var(--nuke-box-unit) * 5);
     }
 
     &.s6 {
-      max-width: calc(var(--nuke-box-unit) * 6);
+      width: calc(var(--nuke-box-unit) * 6);
+    }
+
+    .card {
+      border-radius: var(--nuke-card-border-radius);
+      border: 1px solid var(--nuke-color-bg-3);
     }
   }
 

@@ -8,7 +8,6 @@ import {
 } from 'react';
 import {
   Box,
-  BoxClasses,
   BoxPadded,
   BoxSize,
   Flex,
@@ -61,11 +60,7 @@ const App: FC = () => {
           <Flex
             justifyContent={FlexJustifyContent.SpaceBetween}
             alignItems={FlexAlignItems.Stretch}
-            className={classNames(
-              NavClasses.BannerItem,
-              BoxClasses.PadSmall,
-              BoxClasses.PadLR,
-            )}
+            className={classNames(NavClasses.BannerItem)}
           >
             <NavBar matchesAriaCurrent="page" aria-label="Site navigation">
               <NavBar.Link href="" exact>

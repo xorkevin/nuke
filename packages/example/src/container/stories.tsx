@@ -1,15 +1,7 @@
 import {type FC, Suspense, lazy} from 'react';
-import {
-  Box,
-  BoxClasses,
-  BoxSize,
-  Flex,
-  FlexClasses,
-  FlexWrap,
-} from '@xorkevin/nuke/component/box';
+import {Box, BoxSize, Flex, FlexWrap} from '@xorkevin/nuke/component/box';
 import {NavClasses, NavList} from '@xorkevin/nuke/component/nav';
 import {TextClasses} from '@xorkevin/nuke/component/text';
-import {classNames} from '@xorkevin/nuke/computil';
 import {type Route, Routes} from '@xorkevin/nuke/router';
 
 const foundationStories = [
@@ -65,32 +57,32 @@ const routes: Route[] = [
 const Stories: FC = () => {
   return (
     <Flex wrap={FlexWrap.Wrap}>
-      <div className={classNames(NavClasses.Sidebar, BoxClasses.PadSmall)}>
-        <NavList matchesAriaCurrent="page" aria-label="Stories navigation">
-          <NavList.Group heading="Foundations">
-            {foundationStories.map((v) => (
-              <NavList.Link key={v.path} href={v.path}>
-                {v.name}
-              </NavList.Link>
-            ))}
-          </NavList.Group>
-          <NavList.Divider />
-          <NavList.Group heading="Components">
-            {componentStories.map((v) => (
-              <NavList.Link key={v.path} href={v.path}>
-                {v.name}
-              </NavList.Link>
-            ))}
-          </NavList.Group>
-        </NavList>
-      </div>
-      <div className={classNames(FlexClasses.Grow)}>
-        <Box size={BoxSize.S4} padded center>
-          <Suspense fallback={fallbackView}>
-            <Routes routes={routes} />
-          </Suspense>
+      <div className={NavClasses.Sidebar}>
+        <Box padded>
+          <NavList matchesAriaCurrent="page" aria-label="Stories navigation">
+            <NavList.Group heading="Foundations">
+              {foundationStories.map((v) => (
+                <NavList.Link key={v.path} href={v.path}>
+                  {v.name}
+                </NavList.Link>
+              ))}
+            </NavList.Group>
+            <NavList.Divider />
+            <NavList.Group heading="Components">
+              {componentStories.map((v) => (
+                <NavList.Link key={v.path} href={v.path}>
+                  {v.name}
+                </NavList.Link>
+              ))}
+            </NavList.Group>
+          </NavList>
         </Box>
       </div>
+      <Box size={BoxSize.S4} padded center>
+        <Suspense fallback={fallbackView}>
+          <Routes routes={routes} />
+        </Suspense>
+      </Box>
     </Flex>
   );
 };
