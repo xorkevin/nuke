@@ -15,6 +15,7 @@ import styles from './styles.module.css';
 
 export enum BoxSize {
   S1 = 's1',
+  S1_5 = 's1-5',
   S2 = 's2',
   S3 = 's3',
   S4 = 's4',

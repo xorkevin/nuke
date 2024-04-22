@@ -20,7 +20,7 @@ const Story: FC = () => {
     <Fragment>
       <DemoTitle>Card</DemoTitle>
       <DemoWell>
-        <Box size={BoxSize.S2} padded paddedSmall center card>
+        <Box size={BoxSize.S1_5} padded paddedSmall center card>
           <hgroup>
             <h3 className={TextClasses.TitleMedium}>Card</h3>
             <p>A test card</p>
