@@ -11,7 +11,7 @@ import {
   ButtonGroup,
   ButtonVariant,
 } from '@xorkevin/nuke/component/button';
-import {TextClasses} from '@xorkevin/nuke/component/text';
+import {ColorClasses, TextClasses} from '@xorkevin/nuke/component/text';
 
 import {DemoTitle, DemoWell} from './demoutil.js';
 
@@ -23,7 +23,7 @@ const Story: FC = () => {
         <Box size={BoxSize.S1_5} padded paddedSmall center card>
           <hgroup>
             <h3 className={TextClasses.TitleMedium}>Card</h3>
-            <p>A test card</p>
+            <p className={ColorClasses.F2}>A test card</p>
           </hgroup>
           <Box padded={BoxPadded.TB} paddedSmall>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vel
