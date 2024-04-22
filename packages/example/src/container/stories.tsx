@@ -2,8 +2,8 @@ import {type FC, Suspense, lazy} from 'react';
 import {Box, BoxSize, Flex, FlexClasses} from '@xorkevin/nuke/component/box';
 import {NavClasses, NavList} from '@xorkevin/nuke/component/nav';
 import {TextClasses} from '@xorkevin/nuke/component/text';
-import {type Route, Routes} from '@xorkevin/nuke/router';
 import {classNames} from '@xorkevin/nuke/computil';
+import {type Route, Routes} from '@xorkevin/nuke/router';
 
 const foundationStories = [
   {
@@ -23,6 +23,11 @@ const componentStories = [
     name: 'Button',
     path: 'button',
     component: lazy(async () => await import('./stories/button.js')),
+  },
+  {
+    name: 'Card',
+    path: 'card',
+    component: lazy(async () => await import('./stories/card.js')),
   },
   {
     name: 'Navigation',

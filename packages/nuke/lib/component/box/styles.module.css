@@ -16,19 +16,33 @@
 
     &.padded {
       padding: var(--nuke-box-padding-unit);
+    }
 
+    &.padded-lr {
+      padding-left: var(--nuke-box-padding-unit);
+      padding-right: var(--nuke-box-padding-unit);
+    }
+
+    &.padded-tb {
+      padding-top: var(--nuke-box-padding-unit);
+      padding-bottom: var(--nuke-box-padding-unit);
+    }
+
+    &:not(.padded-small) {
       @media (min-width: 768px) {
-        padding: calc(var(--nuke-box-padding-unit) * 2);
-      }
+        &.padded {
+          padding: calc(var(--nuke-box-padding-unit) * 2);
+        }
 
-      &.padded-lr {
-        padding-top: 0;
-        padding-bottom: 0;
-      }
+        &.padded-lr {
+          padding-left: calc(var(--nuke-box-padding-unit) * 2);
+          padding-right: calc(var(--nuke-box-padding-unit) * 2);
+        }
 
-      &.padded-tb {
-        padding-left: 0;
-        padding-right: 0;
+        &.padded-tb {
+          padding-top: calc(var(--nuke-box-padding-unit) * 2);
+          padding-bottom: calc(var(--nuke-box-padding-unit) * 2);
+        }
       }
     }
 

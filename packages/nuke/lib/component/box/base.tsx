@@ -9,7 +9,6 @@ import {
   classNames,
   modClassNames,
   modClassNamesObj,
-  strToEnum,
 } from '#internal/computil/index.js';
 
 import styles from './styles.module.css';
@@ -31,6 +30,7 @@ export enum BoxPadded {
 export type BoxProps = HTMLAttributes<HTMLDivElement> & {
   readonly size?: BoxSize | undefined;
   readonly padded?: BoxPadded | boolean | undefined;
+  readonly paddedSmall?: boolean | undefined;
   readonly center?: boolean | undefined;
   readonly card?: boolean | undefined;
 };
@@ -40,6 +40,7 @@ export const Box = forwardRef<HTMLDivElement, PropsWithChildren<BoxProps>>(
     {
       size,
       padded = false,
+      paddedSmall = false,
       center = false,
       card = false,
       className,
@@ -53,12 +54,10 @@ export const Box = forwardRef<HTMLDivElement, PropsWithChildren<BoxProps>>(
         styles,
         'box',
         {
-          padded:
-            padded === true ||
-            (typeof padded === 'string' &&
-              strToEnum(BoxPadded, padded) !== undefined),
+          padded: padded === true,
           'padded-lr': padded === BoxPadded.LR,
           'padded-tb': padded === BoxPadded.TB,
+          'padded-small': paddedSmall,
           card,
           center,
         },
