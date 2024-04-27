@@ -18,10 +18,11 @@
   "packageManager": "yarn@4.1.1",
   "devDependencies": {
     "@eslint/eslintrc": "^3.0.2",
-    "@eslint/js": "^9.0.0",
-    "@typescript-eslint/parser": "^7.6.0",
+    "@eslint/js": "^9.1.1",
+    "@typescript-eslint/parser": "^7.7.1",
     "eslint": "^8.57.0",
     "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-react": "^7.34.1",
     "typescript": "^5.4.5",
     "typescript-language-server": "^4.3.3",
