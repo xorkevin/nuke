@@ -1,7 +1,9 @@
 import {
   type ChangeEvent,
   type Dispatch,
+  type FormEvent,
   type FormHTMLAttributes,
+  type HTMLInputTypeAttribute,
   type InputHTMLAttributes,
   type LabelHTMLAttributes,
   type PropsWithChildren,
@@ -15,13 +17,14 @@ import {
   useState,
 } from 'react';
 
-import {isNonNil} from '#internal/computil/index.js';
+import {isNil, isNonNil} from '#internal/computil/index.js';
 
 export type FormValue = number | string | readonly string[] | undefined;
 export type FormState = Record<string, FormValue>;
 
 export interface FormCtx {
   readonly state: FormState;
+  readonly reset: () => void;
   readonly change: (name: string, val: FormValue) => void;
   readonly inputIDPrefix: string;
 }
@@ -30,9 +33,11 @@ const FormContext = createContext<FormCtx | undefined>(undefined);
 
 export type FormHookCtx<T extends FormState> = {
   readonly state: T;
+  readonly initState: T;
   readonly setState: Dispatch<SetStateAction<T>>;
   readonly update: <K extends keyof T>(name: K, val: T[K]) => void;
   readonly assign: (vals: Partial<T>) => void;
+  readonly reset: () => void;
   readonly change: (name: string, val: FormValue) => void;
   readonly inputIDPrefix: string;
 };
@@ -52,6 +57,9 @@ export const useForm = <T extends FormState>(initState: T): FormHookCtx<T> => {
     },
     [setState],
   );
+  const reset = useCallback(() => {
+    setState(initState);
+  }, [setState, initState]);
   const change = useCallback(
     (name: string, val: FormValue) => {
       setState((prev) => Object.assign({}, prev, {[name]: val}));
@@ -61,13 +69,15 @@ export const useForm = <T extends FormState>(initState: T): FormHookCtx<T> => {
   const form = useMemo(
     () => ({
       state,
+      initState,
       setState,
       update,
       assign,
+      reset,
       change,
       inputIDPrefix,
     }),
-    [state, setState, update, assign, change, inputIDPrefix],
+    [state, initState, setState, update, assign, reset, change, inputIDPrefix],
   );
   return form;
 };
@@ -77,10 +87,35 @@ export type FormProps = FormHTMLAttributes<HTMLFormElement> & {
 };
 
 export const Form = forwardRef<HTMLFormElement, PropsWithChildren<FormProps>>(
-  ({form, children, ...props}, ref) => {
+  ({form, onSubmit, onReset, children, ...props}, ref) => {
+    const handleSubmit = useCallback(
+      (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (isNonNil(onSubmit)) {
+          onSubmit(e);
+        }
+      },
+      [onSubmit],
+    );
+    const formReset = form.reset;
+    const handleReset = useCallback(
+      (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (isNonNil(onReset)) {
+          onReset(e);
+        }
+        formReset();
+      },
+      [formReset, onReset],
+    );
     return (
       <FormContext.Provider value={form}>
-        <form ref={ref} {...props}>
+        <form
+          ref={ref}
+          onSubmit={handleSubmit}
+          onReset={handleReset}
+          {...props}
+        >
           {children}
         </form>
       </FormContext.Provider>
@@ -88,11 +123,44 @@ export const Form = forwardRef<HTMLFormElement, PropsWithChildren<FormProps>>(
   },
 );
 
+const calcInputID = (
+  id: string | undefined,
+  form: FormCtx | undefined,
+  inputType: HTMLInputTypeAttribute | undefined,
+  name: string | undefined,
+  value: FormValue,
+) => {
+  if (isNonNil(id)) {
+    return id;
+  }
+
+  if (isNil(form) || isNil(name)) {
+    return undefined;
+  }
+
+  const isRadio = inputType === 'radio';
+
+  if (isRadio) {
+    if (typeof value === 'string') {
+      return `${form.inputIDPrefix}-${name}-${value}`;
+    }
+    return undefined;
+  }
+
+  return `${form.inputIDPrefix}-${name}`;
+};
+
 export type InputProps = InputHTMLAttributes<HTMLInputElement>;
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({name, value, onChange, id, ...props}, ref) => {
+  ({type: inputType, name, value, checked, onChange, id, ...props}, ref) => {
     const form = useContext(FormContext);
+
+    const isCheckbox = inputType === 'checkbox';
+    const isRadio = inputType === 'radio';
+    const isFile = inputType === 'file';
+    const isOther = !isCheckbox && !isRadio && !isFile;
+
     const formChange = form?.change;
     const handleChange = useCallback(
       (e: ChangeEvent<HTMLInputElement>) => {
@@ -105,17 +173,21 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       },
       [name, formChange, onChange],
     );
-    const v = value ?? (isNonNil(name) ? form?.state[name] : undefined);
-    const idProp =
-      id ??
-      (isNonNil(form) && isNonNil(name)
-        ? `${form.inputIDPrefix}-${name}`
-        : undefined);
+
+    const formValue = isNonNil(name) ? form?.state[name] : undefined;
+    const valueProp = value ?? (isOther ? formValue : undefined);
+    const checkedProp =
+      checked ?? (isRadio && isNonNil(value) ? value === formValue : undefined);
+
+    const idProp = calcInputID(id, form, inputType, name, value);
+
     return (
       <input
         ref={ref}
+        type={inputType}
         name={name}
-        value={v}
+        value={valueProp}
+        checked={checkedProp}
         onChange={handleChange}
         id={idProp}
         {...props}
@@ -125,19 +197,23 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 );
 
 export type LabelProps = LabelHTMLAttributes<HTMLLabelElement> & {
+  readonly inputType?: HTMLInputTypeAttribute | undefined;
   readonly inputName?: string | undefined;
+  readonly inputValue?: FormValue;
 };
 
 export const Label = forwardRef<
   HTMLLabelElement,
   PropsWithChildren<LabelProps>
->(({inputName, htmlFor, children, ...props}, ref) => {
+>(({inputType, inputName, inputValue, htmlFor, children, ...props}, ref) => {
   const form = useContext(FormContext);
-  const htmlForProp =
-    htmlFor ??
-    (isNonNil(form) && isNonNil(inputName)
-      ? `${form.inputIDPrefix}-${inputName}`
-      : undefined);
+  const htmlForProp = calcInputID(
+    htmlFor,
+    form,
+    inputType,
+    inputName,
+    inputValue,
+  );
   return (
     <label ref={ref} htmlFor={htmlForProp} {...props}>
       {children}
