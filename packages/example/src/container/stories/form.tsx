@@ -11,21 +11,27 @@ import {
   ButtonGroup,
   ButtonVariant,
 } from '@xorkevin/nuke/component/button';
-import {Form, Input, Label, useForm} from '@xorkevin/nuke/component/form';
+import {
+  Field,
+  Form,
+  Input,
+  Label,
+  useForm,
+} from '@xorkevin/nuke/component/form';
 import {ColorClasses, TextClasses} from '@xorkevin/nuke/component/text';
 
 import {DemoTitle, DemoWell} from './demoutil.js';
 
+const formInitState = () => ({username: '', password: ''});
+const form2InitState = () => ({plain: '', radio: 'go'});
+
 const Story: FC = () => {
-  const form = useForm({username: '', password: ''});
-  const form2 = useForm({plain: '', radio: 'go'});
+  const form = useForm(formInitState);
+  const form2 = useForm(form2InitState);
   const handleSubmit = useCallback((e: FormEvent<HTMLFormElement>) => {
-    const submitter =
-      'submitter' in e.nativeEvent &&
-      e.nativeEvent.submitter instanceof HTMLElement
-        ? e.nativeEvent.submitter
-        : undefined;
-    console.log(new FormData(e.currentTarget, submitter));
+    if (e.nativeEvent instanceof SubmitEvent) {
+      console.log(new FormData(e.currentTarget, e.nativeEvent.submitter));
+    }
   }, []);
   return (
     <Fragment>
@@ -38,10 +44,14 @@ const Story: FC = () => {
           </hgroup>
           <Form form={form} onSubmit={handleSubmit}>
             <Box padded={BoxPadded.TB} paddedSmall>
-              <Label inputName="username">Username</Label>
-              <Input name="username" />
-              <Label inputName="password">Password</Label>
-              <Input type="password" name="password" />
+              <Field>
+                <Label>Username</Label>
+                <Input name="username" />
+              </Field>
+              <Field>
+                <Label>Password</Label>
+                <Input type="password" name="password" />
+              </Field>
             </Box>
             <Flex justifyContent={FlexJustifyContent.End}>
               <ButtonGroup gap>
@@ -51,7 +61,7 @@ const Story: FC = () => {
                   variant={ButtonVariant.Primary}
                   type="submit"
                   name="submit"
-                  value="true"
+                  value="submit"
                 >
                   Submit
                 </Button>
@@ -66,27 +76,29 @@ const Story: FC = () => {
       <DemoWell>
         <Box padded={BoxPadded.TB}>
           <Form form={form2} onSubmit={handleSubmit}>
-            <Label inputName="plain">Plain input</Label>
-            <Input name="plain" />
-            <Input type="radio" name="radio" value="go" />
-            <Label inputType="radio" inputName="radio" inputValue="go">
-              Go
-            </Label>
-            <Input type="radio" name="radio" value="rust" />
-            <Label inputType="radio" inputName="radio" inputValue="rust">
-              Rust
-            </Label>
-            <Input type="radio" name="radio" value="typescript" />
-            <Label inputType="radio" inputName="radio" inputValue="typescript">
-              Typescript
-            </Label>
+            <Field>
+              <Label>Plain input</Label>
+              <Input name="plain" />
+            </Field>
+            <Field>
+              <Input type="radio" name="radio" value="go" />
+              <Label>Go</Label>
+            </Field>
+            <Field>
+              <Input type="radio" name="radio" value="rust" />
+              <Label>Rust</Label>
+            </Field>
+            <Field>
+              <Input type="radio" name="radio" value="typescript" />
+              <Label>Typescript</Label>
+            </Field>
             <ButtonGroup gap>
               <Button type="reset">Reset</Button>
               <Button
                 variant={ButtonVariant.Primary}
                 type="submit"
                 name="submit"
-                value="true"
+                value="submit"
               >
                 Submit
               </Button>

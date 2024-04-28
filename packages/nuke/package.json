@@ -34,8 +34,8 @@
   },
   "scripts": {
     "build": "tsc --build --verbose && node scripts/build.js",
-    "lint": "eslint --cache ./lib && prettier --cache --ignore-path ../../.prettierignore --check .",
-    "format": "eslint --cache --fix ./lib && prettier --cache --ignore-path ../../.prettierignore --write .",
+    "lint": "eslint --cache --cache-strategy metadata ./lib && prettier --cache --cache-strategy metadata --ignore-path ../../.prettierignore --check .",
+    "format": "eslint --cache --cache-strategy metadata --fix ./lib && prettier --cache --cache-strategy metadata --ignore-path ../../.prettierignore --write .",
     "clean": "rm -rf dist .tsbuildinfo",
     "test": "$npm_execpath run build && node --test --import 'global-jsdom/register' --import './scripts/cssimportregister.js' './dist/lib/**/*.test.js'",
     "prepack": "$npm_execpath run build",
