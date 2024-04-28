@@ -30,6 +30,11 @@ const componentStories = [
     component: lazy(async () => await import('./stories/card.js')),
   },
   {
+    name: 'Form',
+    path: 'form',
+    component: lazy(async () => await import('./stories/form.js')),
+  },
+  {
     name: 'Navigation',
     path: 'nav',
     component: lazy(async () => await import('./stories/nav.js')),

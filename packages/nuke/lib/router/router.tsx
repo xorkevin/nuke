@@ -16,11 +16,7 @@ import {
   useTransition,
 } from 'react';
 
-import {
-  type Mutable,
-  classNames,
-  isNonNullable,
-} from '#internal/computil/index.js';
+import {type Mutable, classNames, isNonNil} from '#internal/computil/index.js';
 
 export interface HistoryAPI {
   readonly url: () => string;
@@ -384,7 +380,7 @@ export const Routes: FC<RoutesProps> = ({routes, fallbackRedir, fallback}) => {
   const {prefix, params, rest, navigate} = useContext(RouteContext);
 
   const compiledRoutes = useMemo(
-    () => routes.map(compileRoute).filter(isNonNullable),
+    () => routes.map(compileRoute).filter(isNonNil),
     [routes],
   );
 

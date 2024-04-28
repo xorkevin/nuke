@@ -4,9 +4,10 @@ export type Mutable<T> = {
   -readonly [P in keyof T]: T[P];
 };
 
-export const isNonNullable = <T>(v: T): v is NonNullable<T> => {
-  return v !== null && v !== undefined;
-};
+export const isNil = (v: unknown): v is null | undefined =>
+  v === null || v === undefined;
+
+export const isNonNil = <T>(v: T): v is NonNullable<T> => !isNil(v);
 
 export const isStrEnum = <T extends {[key: string]: string}>(
   e: T,
