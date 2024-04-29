@@ -34,7 +34,7 @@ export type ConditionalClass =
   | ConditionalClass[]
   | string
   | {
-      [key: string]: boolean;
+      [key: string]: boolean | undefined;
     }
   | undefined;
 
@@ -63,7 +63,7 @@ const classNamesRec = (
     return;
   }
   for (const [k, v] of Object.entries(arg)) {
-    if (k !== '' && v) {
+    if (k !== '' && isNonNil(v) && v) {
       const c = m(k);
       if (c !== undefined && c !== '') {
         classes.push(c);

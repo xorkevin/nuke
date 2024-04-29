@@ -4,6 +4,8 @@ import {
   BoxPadded,
   BoxSize,
   Flex,
+  FlexAlignItems,
+  FlexDir,
   FlexJustifyContent,
 } from '@xorkevin/nuke/component/box';
 import {
@@ -23,7 +25,7 @@ import {ColorClasses, TextClasses} from '@xorkevin/nuke/component/text';
 import {DemoTitle, DemoWell} from './demoutil.js';
 
 const formInitState = () => ({username: '', password: ''});
-const form2InitState = () => ({plain: '', radio: 'go'});
+const form2InitState = () => ({plain: '', radio: 'go', checkbox: []});
 
 const Story: FC = () => {
   const form = useForm(formInitState);
@@ -44,14 +46,20 @@ const Story: FC = () => {
           </hgroup>
           <Form form={form} onSubmit={handleSubmit}>
             <Box padded={BoxPadded.TB} paddedSmall>
-              <Field>
-                <Label>Username</Label>
-                <Input name="username" />
-              </Field>
-              <Field>
-                <Label>Password</Label>
-                <Input type="password" name="password" />
-              </Field>
+              <Flex dir={FlexDir.Col}>
+                <Field>
+                  <Flex dir={FlexDir.Col}>
+                    <Label>Username</Label>
+                    <Input name="username" />
+                  </Flex>
+                </Field>
+                <Field>
+                  <Flex dir={FlexDir.Col}>
+                    <Label>Password</Label>
+                    <Input type="password" name="password" />
+                  </Flex>
+                </Field>
+              </Flex>
             </Box>
             <Flex justifyContent={FlexJustifyContent.End}>
               <ButtonGroup gap>
@@ -76,22 +84,46 @@ const Story: FC = () => {
       <DemoWell>
         <Box padded={BoxPadded.TB}>
           <Form form={form2} onSubmit={handleSubmit}>
-            <Field>
-              <Label>Plain input</Label>
-              <Input name="plain" />
-            </Field>
-            <Field>
-              <Input type="radio" name="radio" value="go" />
-              <Label>Go</Label>
-            </Field>
-            <Field>
-              <Input type="radio" name="radio" value="rust" />
-              <Label>Rust</Label>
-            </Field>
-            <Field>
-              <Input type="radio" name="radio" value="typescript" />
-              <Label>Typescript</Label>
-            </Field>
+            <Box padded={BoxPadded.TB} paddedSmall>
+              <Flex dir={FlexDir.Col} alignItems={FlexAlignItems.Start}>
+                <Field>
+                  <Flex dir={FlexDir.Col}>
+                    <Label>Plain input</Label>
+                    <Input name="plain" fullWidth />
+                  </Flex>
+                </Field>
+                <Field>
+                  <Flex>
+                    <Input type="radio" name="radio" value="go" />
+                    <Label>Go</Label>
+                  </Flex>
+                </Field>
+                <Field>
+                  <Flex>
+                    <Input type="radio" name="radio" value="rust" />
+                    <Label>Rust</Label>
+                  </Flex>
+                </Field>
+                <Field>
+                  <Flex>
+                    <Input type="radio" name="radio" value="typescript" />
+                    <Label>Typescript</Label>
+                  </Flex>
+                </Field>
+                <Field>
+                  <Flex>
+                    <Input type="checkbox" name="checkbox" value="vim" />
+                    <Label>Vim</Label>
+                  </Flex>
+                </Field>
+                <Field>
+                  <Flex>
+                    <Input type="checkbox" name="checkbox" value="emacs" />
+                    <Label>Emacs</Label>
+                  </Flex>
+                </Field>
+              </Flex>
+            </Box>
             <ButtonGroup gap>
               <Button type="reset">Reset</Button>
               <Button

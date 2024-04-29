@@ -130,7 +130,7 @@ export type FlexProps = HTMLAttributes<HTMLDivElement> & {
   readonly alignItems?: FlexAlignItems | undefined;
   readonly alignContent?: FlexAlignContent | undefined;
   readonly justifyContent?: FlexJustifyContent | undefined;
-  readonly gap?: number | undefined;
+  readonly gap?: number | string | undefined;
 };
 
 export const Flex = forwardRef<HTMLDivElement, PropsWithChildren<FlexProps>>(

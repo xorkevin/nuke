@@ -40,7 +40,7 @@ export const ButtonGroup = forwardRef<
 >(({gap, className, children, ...props}, ref) => {
   const c = classNames(
     modClassNames(styles, 'button-group', {
-      gap: gap ?? false,
+      gap,
     }),
     className,
   );

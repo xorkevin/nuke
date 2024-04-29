@@ -1,0 +1,29 @@
+input.input:not(input[type='checkbox']):not(input[type='radio']):not(
+    input[type='file']
+  ) {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: transparent;
+  color: unset;
+  outline: 2px solid transparent;
+  border: 1px solid var(--nuke-color-bg-3);
+  border-radius: 4px;
+  font-size: unset;
+  font-family: unset;
+  line-height: 1.5;
+  padding: 0.5rem;
+  cursor: text;
+
+  &:focus-visible {
+    outline-color: var(--nuke-color-fg-1);
+  }
+
+  &.full-width {
+    width: 100%;
+  }
+}
+
+.label {
+  padding: 0.5rem;
+}
