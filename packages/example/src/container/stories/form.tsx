@@ -32,6 +32,8 @@ const form2InitState = () => ({
   checkbox: false,
   switch: false,
   multiswitch: [],
+  file: undefined,
+  multifile: [],
 });
 
 const Story: FC = () => {
@@ -163,6 +165,23 @@ const Story: FC = () => {
                     <Label>Email reminders</Label>
                   </Flex>
                 </Field>
+                <Field>
+                  <Flex dir={FlexDir.Col}>
+                    <Label>Profile picture</Label>
+                    <Input type="file" name="file" accept="image/*" />
+                  </Flex>
+                </Field>
+                <Field>
+                  <Flex dir={FlexDir.Col}>
+                    <Label>Documents</Label>
+                    <Input
+                      type="file"
+                      name="multifile"
+                      multiple
+                      accept="application/pdf"
+                    />
+                  </Flex>
+                </Field>
               </Flex>
             </Box>
             <ButtonGroup gap>
@@ -180,7 +199,18 @@ const Story: FC = () => {
         </Box>
       </DemoWell>
       <DemoWell>
-        <pre>{JSON.stringify(form2.state, undefined, '  ')}</pre>
+        <pre>
+          {JSON.stringify(
+            form2.state,
+            (_key, value) => {
+              if (value instanceof File) {
+                return `File ${value.name}; ${value.type}; ${value.size} bytes`;
+              }
+              return value;
+            },
+            '  ',
+          )}
+        </pre>
       </DemoWell>
     </Fragment>
   );

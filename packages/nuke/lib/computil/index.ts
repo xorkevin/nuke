@@ -9,9 +9,8 @@ export const isNil = (v: unknown): v is null | undefined =>
 
 export const isNonNil = <T>(v: T): v is NonNullable<T> => !isNil(v);
 
-export const isArray = <T, A>(
-  v: A[] | T | readonly A[],
-): v is A[] | readonly A[] => Array.isArray(v);
+export const isArray = (v: unknown): v is unknown[] | readonly unknown[] =>
+  Array.isArray(v);
 
 export const isStrEnum = <T extends {[key: string]: string}>(
   e: T,
@@ -56,7 +55,7 @@ const classNamesRec = (
     }
     return;
   }
-  if (Array.isArray(arg)) {
+  if (isArray(arg)) {
     for (const a of arg) {
       classNamesRec(classes, m, a);
     }

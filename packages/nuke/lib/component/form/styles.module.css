@@ -1,4 +1,4 @@
-input.input:not([type='file']) {
+input.input {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -118,6 +118,23 @@ input.input:not([type='file']) {
       &:after {
         background-color: var(--nuke-color-fg-1);
       }
+    }
+  }
+
+  &[type='file'] {
+    font-size: 0.85rem;
+    color: unset;
+    cursor: pointer;
+
+    &::file-selector-button {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      background: transparent;
+      border: none;
+      color: unset;
+      font: unset;
+      font-weight: var(--nuke-text-weight-medium);
     }
   }
 }

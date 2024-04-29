@@ -13,24 +13,30 @@ import {
   forwardRef,
   useCallback,
   useContext,
+  useEffect,
   useId,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 
 import {
   classNames,
+  isArray,
   isNil,
   isNonNil,
+  mergeRefs,
   modClassNames,
 } from '#internal/computil/index.js';
 
 import styles from './styles.module.css';
 
 export type FormValue =
+  | File
   | boolean
   | number
   | string
+  | readonly File[]
   | readonly string[]
   | undefined;
 export type FormState = Record<string, FormValue>;
@@ -134,7 +140,7 @@ export const Form = forwardRef(
                 formUpdate(name, target.checked as T[typeof name]);
               } else {
                 formUpdate(name, (prev: T[typeof name]): T[typeof name] => {
-                  const s = new Set(Array.isArray(prev) ? prev : []);
+                  const s = new Set(isArray(prev) ? prev : []);
                   if (target.checked) {
                     s.add(target.value);
                   } else {
@@ -142,6 +148,17 @@ export const Form = forwardRef(
                   }
                   return Array.from(s) as unknown as T[typeof name];
                 });
+              }
+            } else if (target.type === 'file') {
+              const files = Array.from(target.files ?? new FileList());
+              if (target.multiple) {
+                formUpdate(name, files as unknown as T[typeof name]);
+              } else {
+                if (files.length === 0) {
+                  formUpdate(name, undefined as T[typeof name]);
+                } else {
+                  formUpdate(name, files[0] as T[typeof name]);
+                }
               }
             } else {
               formUpdate(name, target.value as T[typeof name]);
@@ -207,6 +224,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     },
     ref,
   ) => {
+    const localRef = useRef<HTMLInputElement>(null);
+    const mergedInputRef = useMemo(
+      () => mergeRefs(ref, localRef),
+      [ref, localRef],
+    );
+
     const form = useContext(FormContext);
     const field = useContext(FieldContext);
 
@@ -218,9 +241,18 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const isOther = !isCheckbox && !isRadio && !isFile;
 
     const formValue = isNonNil(name) ? form?.state[name] : undefined;
-    const valueProp =
-      value ??
-      (isOther && typeof formValue !== 'boolean' ? formValue : undefined);
+    const valueProp = (() => {
+      if (isNonNil(value)) {
+        return value;
+      }
+      if (isOther) {
+        if (typeof formValue === 'boolean' || typeof formValue === 'object') {
+          return undefined;
+        }
+        return formValue;
+      }
+      return undefined;
+    })();
     const checkedProp = (() => {
       if (isNonNil(checked)) {
         return checked;
@@ -235,7 +267,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         if (isNil(value) || value === '') {
           return formValue === true;
         }
-        return Array.isArray(formValue) && formValue.includes(value);
+        return isArray(formValue) && formValue.some((v) => v === value);
       }
       return undefined;
     })();
@@ -249,6 +281,44 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       [onChange],
     );
 
+    useEffect(() => {
+      if (!isFile) {
+        return;
+      }
+      if (isNil(localRef.current)) {
+        return;
+      }
+      const controller = new AbortController();
+      localRef.current.addEventListener(
+        'cancel',
+        (e) => {
+          if (e.currentTarget instanceof HTMLInputElement) {
+            // clear file input when canceled
+            e.currentTarget.value = '';
+            e.currentTarget.dispatchEvent(new Event('change', {bubbles: true}));
+          }
+        },
+        {signal: controller.signal},
+      );
+      return () => {
+        controller.abort();
+      };
+    }, [isFile, localRef]);
+
+    const fileValueIsEmpty =
+      isFile &&
+      (isNil(formValue) || (isArray(formValue) && formValue.length === 0));
+    useEffect(() => {
+      if (!fileValueIsEmpty) {
+        return;
+      }
+      if (isNil(localRef.current)) {
+        return;
+      }
+      // clear file input when form value is empty
+      localRef.current.value = '';
+    }, [localRef, fileValueIsEmpty]);
+
     const c = classNames(
       modClassNames(styles, {
         input: true,
@@ -260,7 +330,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
     return (
       <input
-        ref={ref}
+        ref={mergedInputRef}
         id={idProp}
         type={inputType}
         name={name}

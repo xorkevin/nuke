@@ -1,7 +1,6 @@
 @layer xorkevin.nuke {
   .button {
     font: unset;
-    color: unset;
     text-align: unset;
     appearance: unset;
     cursor: pointer;
