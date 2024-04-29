@@ -93,31 +93,31 @@ const Story: FC = () => {
                   </Flex>
                 </Field>
                 <Field>
-                  <Flex>
+                  <Flex alignItems={FlexAlignItems.Center}>
                     <Input type="radio" name="radio" value="go" />
                     <Label>Go</Label>
                   </Flex>
                 </Field>
                 <Field>
-                  <Flex>
+                  <Flex alignItems={FlexAlignItems.Center}>
                     <Input type="radio" name="radio" value="rust" />
                     <Label>Rust</Label>
                   </Flex>
                 </Field>
                 <Field>
-                  <Flex>
+                  <Flex alignItems={FlexAlignItems.Center}>
                     <Input type="radio" name="radio" value="typescript" />
                     <Label>Typescript</Label>
                   </Flex>
                 </Field>
                 <Field>
-                  <Flex>
+                  <Flex alignItems={FlexAlignItems.Center}>
                     <Input type="checkbox" name="checkbox" value="vim" />
                     <Label>Vim</Label>
                   </Flex>
                 </Field>
                 <Field>
-                  <Flex>
+                  <Flex alignItems={FlexAlignItems.Center}>
                     <Input type="checkbox" name="checkbox" value="emacs" />
                     <Label>Emacs</Label>
                   </Flex>
