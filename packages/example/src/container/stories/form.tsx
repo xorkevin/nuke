@@ -28,8 +28,10 @@ const formInitState = () => ({username: '', password: ''});
 const form2InitState = () => ({
   plain: '',
   radio: 'go',
-  checkbox: [],
-  switch: [],
+  multicheckbox: [],
+  checkbox: false,
+  switch: false,
+  multiswitch: [],
 });
 
 const Story: FC = () => {
@@ -117,25 +119,48 @@ const Story: FC = () => {
                 </Field>
                 <Field>
                   <Flex alignItems={FlexAlignItems.Center}>
-                    <Input type="checkbox" name="checkbox" value="vim" />
+                    <Input type="checkbox" name="multicheckbox" value="vim" />
                     <Label>Vim</Label>
                   </Flex>
                 </Field>
                 <Field>
                   <Flex alignItems={FlexAlignItems.Center}>
-                    <Input type="checkbox" name="checkbox" value="emacs" />
+                    <Input type="checkbox" name="multicheckbox" value="emacs" />
                     <Label>Emacs</Label>
+                  </Flex>
+                </Field>
+                <Field>
+                  <Flex alignItems={FlexAlignItems.Center}>
+                    <Input type="checkbox" name="checkbox" />
+                    <Label>Linux</Label>
+                  </Flex>
+                </Field>
+                <Field>
+                  <Flex alignItems={FlexAlignItems.Center}>
+                    <Input type="checkbox" name="switch" toggleSwitch />
+                    <Label>Airplane mode</Label>
                   </Flex>
                 </Field>
                 <Field>
                   <Flex alignItems={FlexAlignItems.Center}>
                     <Input
                       type="checkbox"
-                      name="switch"
-                      value="switch"
+                      name="multiswitch"
+                      value="pushnotifs"
                       toggleSwitch
                     />
-                    <Label>Airplane mode</Label>
+                    <Label>Push notifications</Label>
+                  </Flex>
+                </Field>
+                <Field>
+                  <Flex alignItems={FlexAlignItems.Center}>
+                    <Input
+                      type="checkbox"
+                      name="multiswitch"
+                      value="emailremind"
+                      toggleSwitch
+                    />
+                    <Label>Email reminders</Label>
                   </Flex>
                 </Field>
               </Flex>

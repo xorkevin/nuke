@@ -27,7 +27,12 @@ import {
 
 import styles from './styles.module.css';
 
-export type FormValue = number | string | readonly string[] | undefined;
+export type FormValue =
+  | boolean
+  | number
+  | string
+  | readonly string[]
+  | undefined;
 export type FormState = Record<string, FormValue>;
 
 export interface FormCtx {
@@ -125,15 +130,19 @@ export const Form = forwardRef(
           const name = target.name;
           if (isNonNil(name) && name !== '') {
             if (target.type === 'checkbox') {
-              formUpdate(name, (prev: T[typeof name]): T[typeof name] => {
-                const s = new Set(Array.isArray(prev) ? prev : []);
-                if (target.checked) {
-                  s.add(target.value);
-                } else {
-                  s.delete(target.value);
-                }
-                return Array.from(s) as unknown as T[typeof name];
-              });
+              if (isNil(target.value) || target.value === '') {
+                formUpdate(name, target.checked as T[typeof name]);
+              } else {
+                formUpdate(name, (prev: T[typeof name]): T[typeof name] => {
+                  const s = new Set(Array.isArray(prev) ? prev : []);
+                  if (target.checked) {
+                    s.add(target.value);
+                  } else {
+                    s.delete(target.value);
+                  }
+                  return Array.from(s) as unknown as T[typeof name];
+                });
+              }
             } else {
               formUpdate(name, target.value as T[typeof name]);
             }
@@ -209,18 +218,23 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const isOther = !isCheckbox && !isRadio && !isFile;
 
     const formValue = isNonNil(name) ? form?.state[name] : undefined;
-    const valueProp = value ?? (isOther ? formValue : undefined);
+    const valueProp =
+      value ??
+      (isOther && typeof formValue !== 'boolean' ? formValue : undefined);
     const checkedProp = (() => {
       if (isNonNil(checked)) {
         return checked;
       }
-      if (isNil(value)) {
-        return undefined;
-      }
       if (isRadio) {
+        if (isNil(value)) {
+          return undefined;
+        }
         return value === formValue;
       }
       if (isCheckbox) {
+        if (isNil(value) || value === '') {
+          return formValue === true;
+        }
         return Array.isArray(formValue) && formValue.includes(value);
       }
       return undefined;
