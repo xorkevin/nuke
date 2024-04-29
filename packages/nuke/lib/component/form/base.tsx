@@ -178,12 +178,14 @@ export const Field: FC<PropsWithChildren> = ({children}) => {
 };
 
 export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
+  toggleSwitch?: boolean | undefined;
   fullWidth?: boolean | undefined;
 };
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   (
     {
+      toggleSwitch,
       fullWidth,
       id,
       type: inputType,
@@ -236,6 +238,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const c = classNames(
       modClassNames(styles, {
         input: true,
+        'toggle-switch': toggleSwitch,
         'full-width': fullWidth,
       }),
       className,

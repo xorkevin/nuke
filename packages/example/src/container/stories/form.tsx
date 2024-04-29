@@ -25,7 +25,12 @@ import {ColorClasses, TextClasses} from '@xorkevin/nuke/component/text';
 import {DemoTitle, DemoWell} from './demoutil.js';
 
 const formInitState = () => ({username: '', password: ''});
-const form2InitState = () => ({plain: '', radio: 'go', checkbox: []});
+const form2InitState = () => ({
+  plain: '',
+  radio: 'go',
+  checkbox: [],
+  switch: [],
+});
 
 const Story: FC = () => {
   const form = useForm(formInitState);
@@ -120,6 +125,17 @@ const Story: FC = () => {
                   <Flex alignItems={FlexAlignItems.Center}>
                     <Input type="checkbox" name="checkbox" value="emacs" />
                     <Label>Emacs</Label>
+                  </Flex>
+                </Field>
+                <Field>
+                  <Flex alignItems={FlexAlignItems.Center}>
+                    <Input
+                      type="checkbox"
+                      name="switch"
+                      value="switch"
+                      toggleSwitch
+                    />
+                    <Label>Airplane mode</Label>
                   </Flex>
                 </Field>
               </Flex>
