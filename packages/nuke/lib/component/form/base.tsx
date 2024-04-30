@@ -150,7 +150,7 @@ export const Form = forwardRef(
                 });
               }
             } else if (target.type === 'file') {
-              const files = Array.from(target.files ?? new FileList());
+              const files = Array.from(target.files ?? []);
               if (target.multiple) {
                 formUpdate(name, files as unknown as T[typeof name]);
               } else {

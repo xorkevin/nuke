@@ -31,11 +31,7 @@ input.input {
     position: relative;
 
     &:after {
-      content: '\2713';
-      font-weight: var(--nuke-text-weight-medium);
-      line-height: 1.15rem;
-      text-align: center;
-      color: transparent;
+      content: '';
       display: block;
       height: 100%;
       width: 100%;
@@ -43,6 +39,11 @@ input.input {
       top: 0;
       left: 0;
       border-radius: 4px;
+      color: transparent;
+      background-image: url("data:image/svg+xml, %3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' stroke='currentColor' stroke-width='3' stroke-linecap='square' stroke-linejoin='miter' fill='none' %3E%3Cpolyline points='5 12 10 17 20 7' /%3E%3C/svg%3E%0A");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
     }
 
     &:checked {

@@ -189,14 +189,14 @@ const ChevronDown = () => (
     aria-hidden={true}
     width="16"
     height="16"
-    stroke="currentColor"
     viewBox="0 0 24 24"
+    stroke="currentColor"
     strokeWidth="2"
-    fill="none"
     strokeLinecap="square"
     strokeLinejoin="miter"
+    fill="none"
   >
-    <polyline points="6 9 12 15 18 9"></polyline>
+    <polyline points="6 9 12 15 18 9" />
   </svg>
 );
 
