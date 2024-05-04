@@ -8,7 +8,9 @@ import {
   type InputHTMLAttributes,
   type LabelHTMLAttributes,
   type PropsWithChildren,
+  type SelectHTMLAttributes,
   type SetStateAction,
+  type TextareaHTMLAttributes,
   createContext,
   forwardRef,
   useCallback,
@@ -162,6 +164,27 @@ export const Form = forwardRef(
               }
             } else {
               formUpdate(name, target.value as T[typeof name]);
+            }
+          }
+        } else if (target instanceof HTMLTextAreaElement) {
+          const name = target.name;
+          if (isNonNil(name) && name !== '') {
+            formUpdate(name, target.value as T[typeof name]);
+          }
+        } else if (target instanceof HTMLSelectElement) {
+          const name = target.name;
+          if (isNonNil(name) && name !== '') {
+            const selected = Array.from(target.selectedOptions).map(
+              (v) => v.value,
+            );
+            if (target.multiple) {
+              formUpdate(name, selected as unknown as T[typeof name]);
+            } else {
+              if (selected.length === 0) {
+                formUpdate(name, undefined as T[typeof name]);
+              } else {
+                formUpdate(name, selected[0] as T[typeof name]);
+              }
             }
           }
         }
@@ -340,6 +363,153 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         className={c}
         {...props}
       />
+    );
+  },
+);
+
+export enum TextareaResize {
+  Vertical = 'vertical',
+  Horizontal = 'horizontal',
+}
+
+export type TextareaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
+  fullWidth?: boolean | undefined;
+  resize?: TextareaResize | boolean | undefined;
+  monospace?: boolean | undefined;
+};
+
+export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
+  (
+    {
+      fullWidth,
+      resize,
+      monospace,
+      id,
+      name,
+      value,
+      onChange,
+      className,
+      ...props
+    },
+    ref,
+  ) => {
+    const form = useContext(FormContext);
+    const field = useContext(FieldContext);
+
+    const idProp = id ?? field?.id;
+
+    const formValue = isNonNil(name) ? form?.state[name] : undefined;
+    const valueProp = (() => {
+      if (isNonNil(value)) {
+        return value;
+      }
+      if (typeof formValue === 'boolean' || typeof formValue === 'object') {
+        return undefined;
+      }
+      return formValue;
+    })();
+
+    const handleChange = useCallback(
+      (e: ChangeEvent<HTMLTextAreaElement>) => {
+        if (isNonNil(onChange)) {
+          onChange(e);
+        }
+      },
+      [onChange],
+    );
+
+    const c = classNames(
+      modClassNames(styles, {
+        textarea: true,
+        'full-width': fullWidth,
+        'resize-vertical': resize === TextareaResize.Vertical,
+        'resize-horizontal': resize === TextareaResize.Horizontal,
+        'resize-none': resize === false,
+        monospace,
+      }),
+      className,
+    );
+
+    return (
+      <textarea
+        ref={ref}
+        id={idProp}
+        name={name}
+        value={valueProp}
+        onChange={handleChange}
+        className={c}
+        {...props}
+      />
+    );
+  },
+);
+
+export type SelectProps = SelectHTMLAttributes<HTMLSelectElement> & {
+  fullWidth?: boolean | undefined;
+};
+
+export const Select = forwardRef<
+  HTMLSelectElement,
+  PropsWithChildren<SelectProps>
+>(
+  (
+    {fullWidth, id, name, value, onChange, className, children, ...props},
+    ref,
+  ) => {
+    const form = useContext(FormContext);
+    const field = useContext(FieldContext);
+
+    const idProp = id ?? field?.id;
+
+    const formValue = isNonNil(name) ? form?.state[name] : undefined;
+    const valueProp = (() => {
+      if (isNonNil(value)) {
+        return value;
+      }
+      if (typeof formValue === 'boolean') {
+        return undefined;
+      }
+      if (isArray(formValue)) {
+        if (formValue.every((v): v is string => typeof v === 'string')) {
+          return formValue;
+        }
+        return undefined;
+      }
+      if (typeof formValue === 'object') {
+        return undefined;
+      }
+      return formValue;
+    })();
+
+    const handleChange = useCallback(
+      (e: ChangeEvent<HTMLSelectElement>) => {
+        if (isNonNil(onChange)) {
+          onChange(e);
+        }
+      },
+      [onChange],
+    );
+
+    const c = classNames(
+      modClassNames(styles, {
+        select: true,
+        'full-width': fullWidth,
+      }),
+      className,
+    );
+
+    return (
+      <select
+        ref={ref}
+        id={idProp}
+        name={name}
+        value={valueProp}
+        onChange={handleChange}
+        className={c}
+        {...props}
+      >
+        {children}
+      </select>
     );
   },
 );

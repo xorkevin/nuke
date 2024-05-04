@@ -12,4 +12,9 @@ export {
   type InputProps,
   type LabelProps,
   Label,
+  Select,
+  type SelectProps,
+  Textarea,
+  type TextareaProps,
+  TextareaResize,
 } from './base.js';

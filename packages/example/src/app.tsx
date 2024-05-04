@@ -4,7 +4,6 @@ import {
   Suspense,
   lazy,
   useCallback,
-  useId,
 } from 'react';
 import {
   Box,
@@ -20,6 +19,7 @@ import {classNames, strToEnum} from '@xorkevin/nuke/computil';
 import {type Route, Routes} from '@xorkevin/nuke/router';
 
 import styles from './app.module.css';
+import {Field, Label, Select} from '@xorkevin/nuke/component/form';
 
 const fallbackView = <div>Loading</div>;
 
@@ -36,7 +36,7 @@ const routes: Route[] = [
 ];
 
 const App: FC = () => {
-  const {isDark, colorScheme, setColorScheme} = useColorScheme();
+  const {colorScheme, setColorScheme} = useColorScheme();
   const onColorSchemeChange = useCallback<
     ChangeEventHandler<HTMLSelectElement>
   >(
@@ -47,7 +47,6 @@ const App: FC = () => {
     },
     [setColorScheme],
   );
-  const darkModeSelectorId = useId();
   return (
     <div className={styles['mainapp']}>
       <header className={NavClasses.Banner}>
@@ -68,11 +67,10 @@ const App: FC = () => {
               </NavBar.Link>
               <NavBar.Link href="stories">Stories</NavBar.Link>
             </NavBar>
-            <Flex alignItems={FlexAlignItems.Center}>
-              <form>
-                <label htmlFor={darkModeSelectorId}>color scheme</label>
-                <select
-                  id={darkModeSelectorId}
+            <Field>
+              <Flex alignItems={FlexAlignItems.Center}>
+                <Label>color scheme</Label>
+                <Select
                   name="scheme"
                   value={colorScheme}
                   onChange={onColorSchemeChange}
@@ -80,12 +78,9 @@ const App: FC = () => {
                   <option value={ColorScheme.System}>System</option>
                   <option value={ColorScheme.Light}>Light</option>
                   <option value={ColorScheme.Dark}>Dark</option>
-                </select>
-                <output name="isDark" htmlFor={darkModeSelectorId}>
-                  {isDark ? 'dark' : 'light'}
-                </output>
-              </form>
-            </Flex>
+                </Select>
+              </Flex>
+            </Field>
           </Flex>
         </Box>
       </header>

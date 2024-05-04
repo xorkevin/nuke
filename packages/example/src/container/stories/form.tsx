@@ -18,6 +18,9 @@ import {
   Form,
   Input,
   Label,
+  Select,
+  Textarea,
+  TextareaResize,
   useForm,
 } from '@xorkevin/nuke/component/form';
 import {ColorClasses, TextClasses} from '@xorkevin/nuke/component/text';
@@ -34,6 +37,9 @@ const form2InitState = () => ({
   multiswitch: [],
   file: undefined,
   multifile: [],
+  textarea: '',
+  select: '',
+  multiselect: [],
 });
 
 const Story: FC = () => {
@@ -182,6 +188,36 @@ const Story: FC = () => {
                     />
                   </Flex>
                 </Field>
+                <Field>
+                  <Flex dir={FlexDir.Col}>
+                    <Label>Textarea</Label>
+                    <Textarea
+                      name="textarea"
+                      resize={TextareaResize.Vertical}
+                      cols={80}
+                    />
+                  </Flex>
+                </Field>
+                <Field>
+                  <Flex dir={FlexDir.Col}>
+                    <Label>Select</Label>
+                    <Select name="select">
+                      <option value="">None</option>
+                      <option value="abc">Abc</option>
+                      <option value="def">def</option>
+                    </Select>
+                  </Flex>
+                </Field>
+                <Field>
+                  <Flex dir={FlexDir.Col}>
+                    <Label>Multiselect</Label>
+                    <Select name="multiselect" multiple>
+                      <option value="">None</option>
+                      <option value="abc">Abc</option>
+                      <option value="def">def</option>
+                    </Select>
+                  </Flex>
+                </Field>
               </Flex>
             </Box>
             <ButtonGroup gap>
@@ -202,9 +238,9 @@ const Story: FC = () => {
         <pre>
           {JSON.stringify(
             form2.state,
-            (_key, value) => {
+            (_key: string, value: unknown) => {
               if (value instanceof File) {
-                return `File ${value.name}; ${value.type}; ${value.size} bytes`;
+                return `File ${value.name}; ${value.type}; ${value.size.toString()} bytes`;
               }
               return value;
             },
