@@ -13,13 +13,13 @@ import {
   FlexAlignItems,
   FlexJustifyContent,
 } from '@xorkevin/nuke/component/box';
+import {Field, Label, Select} from '@xorkevin/nuke/component/form';
 import {NavBar, NavClasses} from '@xorkevin/nuke/component/nav';
 import {ColorScheme, useColorScheme} from '@xorkevin/nuke/component/text';
 import {classNames, strToEnum} from '@xorkevin/nuke/computil';
 import {type Route, Routes} from '@xorkevin/nuke/router';
 
 import styles from './app.module.css';
-import {Field, Label, Select} from '@xorkevin/nuke/component/form';
 
 const fallbackView = <div>Loading</div>;
 

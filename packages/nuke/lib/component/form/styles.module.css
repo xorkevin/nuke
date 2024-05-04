@@ -192,6 +192,14 @@
     padding: 0.5rem;
     cursor: pointer;
 
+    &:focus-visible {
+      outline-color: var(--nuke-color-fg-1);
+    }
+
+    &.full-width {
+      width: 100%;
+    }
+
     & option {
       -webkit-appearance: none;
       -moz-appearance: none;
