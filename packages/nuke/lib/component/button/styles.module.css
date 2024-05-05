@@ -37,6 +37,15 @@
       );
     }
 
+    &:disabled {
+      cursor: default;
+      opacity: 0.5;
+    }
+
+    &.padded-small {
+      padding: 0.25rem;
+    }
+
     &.default {
       --nuke-button-color: var(--nuke-color-fg-1);
       --nuke-button-bg-color: var(--nuke-color-bg-1);
