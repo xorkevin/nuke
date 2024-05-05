@@ -9,6 +9,15 @@ export const isNil = (v: unknown): v is null | undefined =>
 
 export const isNonNil = <T>(v: T): v is NonNullable<T> => !isNil(v);
 
+export type ResultOk<T> = {value: T; err?: never};
+export type ResultErr<U> = {value?: never; err: U};
+export type Result<T, U> = NonNullable<ResultErr<U> | ResultOk<T>>;
+
+export const isResOk = <T, U>(v: Result<T, U>): v is ResultOk<T> =>
+  isNil(v.err);
+export const isResErr = <T, U>(v: Result<T, U>): v is ResultErr<U> =>
+  isNonNil(v.err);
+
 export const isArray = (v: unknown): v is unknown[] | readonly unknown[] =>
   Array.isArray(v);
 

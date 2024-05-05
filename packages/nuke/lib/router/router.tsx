@@ -21,7 +21,7 @@ import {type Mutable, classNames, isNonNil} from '#internal/computil/index.js';
 export interface HistoryAPI {
   readonly url: () => string;
   readonly origin: () => string;
-  readonly navigate: (u: string, redir?: boolean) => void;
+  readonly navigate: (u: string, replace?: boolean) => void;
   readonly onNavigate: (
     handler: (u: string) => void,
     signal: AbortSignal,
@@ -37,8 +37,8 @@ export class BrowserHistory implements HistoryAPI {
     return window.location.origin;
   }
 
-  public navigate(this: this, u: string, redir?: boolean): void {
-    if (redir === true) {
+  public navigate(this: this, u: string, replace?: boolean): void {
+    if (replace === true) {
       window.history.replaceState({}, '', u);
     } else {
       window.history.pushState({}, '', u);
@@ -144,7 +144,7 @@ export type RouteCtx = {
   readonly params: RouteParams;
   readonly rest: string;
   readonly join: (url: string) => string;
-  readonly navigate: (url: string, redir?: boolean) => void;
+  readonly navigate: (url: string, replace?: boolean) => void;
 };
 
 const RouteContext = createContext<RouteCtx>(
@@ -188,9 +188,9 @@ export const Router: FC<PropsWithChildren<RouterProps>> = ({
   );
 
   const navigate = useCallback(
-    (url: string, redir?: boolean) => {
+    (url: string, replace?: boolean) => {
       const u = stripSlash(history.origin()) + join(url);
-      history.navigate(u, redir);
+      history.navigate(u, replace);
       setHref(u);
     },
     [history, join, setHref],
