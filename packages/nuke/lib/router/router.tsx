@@ -21,7 +21,7 @@ import {type Mutable, classNames, isNonNil} from '#internal/computil/index.js';
 export interface HistoryAPI {
   readonly url: () => string;
   readonly origin: () => string;
-  readonly navigate: (u: string) => void;
+  readonly navigate: (u: string, redir?: boolean) => void;
   readonly onNavigate: (
     handler: (u: string) => void,
     signal: AbortSignal,
@@ -37,8 +37,12 @@ export class BrowserHistory implements HistoryAPI {
     return window.location.origin;
   }
 
-  public navigate(this: this, u: string): void {
-    window.history.pushState({}, '', u);
+  public navigate(this: this, u: string, redir?: boolean): void {
+    if (redir === true) {
+      window.history.replaceState({}, '', u);
+    } else {
+      window.history.pushState({}, '', u);
+    }
   }
 
   public onNavigate(
@@ -140,7 +144,7 @@ export type RouteCtx = {
   readonly params: RouteParams;
   readonly rest: string;
   readonly join: (url: string) => string;
-  readonly navigate: (url: string) => void;
+  readonly navigate: (url: string, redir?: boolean) => void;
 };
 
 const RouteContext = createContext<RouteCtx>(
@@ -184,9 +188,9 @@ export const Router: FC<PropsWithChildren<RouterProps>> = ({
   );
 
   const navigate = useCallback(
-    (url: string) => {
+    (url: string, redir?: boolean) => {
       const u = stripSlash(history.origin()) + join(url);
-      history.navigate(u);
+      history.navigate(u, redir);
       setHref(u);
     },
     [history, join, setHref],
@@ -404,7 +408,7 @@ export const Routes: FC<RoutesProps> = ({routes, fallbackRedir, fallback}) => {
 
   useEffect(() => {
     if (routeNotFound && fallbackRedir !== undefined) {
-      navigate(fallbackRedir);
+      navigate(fallbackRedir, true);
     }
   }, [routeNotFound, fallbackRedir, navigate]);
 
