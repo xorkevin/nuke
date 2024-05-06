@@ -131,3 +131,32 @@ export const mergeRefs = <T>(
 
 // isSignalAborted is used to avoid type narrowing
 export const isSignalAborted = (s: AbortSignal): boolean => s.aborted;
+
+export const sleep = async (
+  ms?: number,
+  opts?: {signal?: AbortSignal},
+): Promise<void> => {
+  await new Promise<void>((resolve) => {
+    const controller = new AbortController();
+    controller.signal.addEventListener('abort', () => {
+      resolve();
+    });
+    let t: number | undefined;
+    if (isNonNil(opts?.signal)) {
+      opts.signal.addEventListener(
+        'abort',
+        () => {
+          if (isNonNil(t)) {
+            clearTimeout(t);
+            controller.abort();
+          }
+        },
+        {signal: controller.signal},
+      );
+    }
+    t = setTimeout(() => {
+      t = undefined;
+      controller.abort();
+    }, ms) as unknown as number;
+  });
+};
