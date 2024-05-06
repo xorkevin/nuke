@@ -79,6 +79,7 @@
         left: 0;
         translate: 0;
         border-radius: 50%;
+        background-image: unset;
         background-color: var(--nuke-color-bg-1);
         transition: translate 62.5ms ease;
       }
