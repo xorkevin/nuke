@@ -39,18 +39,18 @@
         top: 0;
         left: 0;
         border-radius: 4px;
-        color: transparent;
-        background-image: url("data:image/svg+xml, %3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' stroke='currentColor' stroke-width='3' stroke-linecap='square' stroke-linejoin='miter' fill='none' %3E%3Cpolyline points='5 12 10 17 20 7' /%3E%3C/svg%3E%0A");
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
+        background-color: transparent;
+        mask-image: url("data:image/svg+xml, %3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' stroke='currentColor' stroke-width='3' stroke-linecap='square' stroke-linejoin='miter' fill='none' %3E%3Cpolyline points='5 12 10 17 20 7' /%3E%3C/svg%3E%0A");
+        mask-size: contain;
+        mask-repeat: no-repeat;
+        mask-position: center;
       }
 
       &:checked {
         background-color: var(--nuke-color-fg-1);
 
         &:after {
-          color: var(--nuke-color-bg-1);
+          background-color: var(--nuke-color-bg-1);
         }
       }
     }
@@ -79,7 +79,7 @@
         left: 0;
         translate: 0;
         border-radius: 50%;
-        background-image: unset;
+        mask-image: unset;
         background-color: var(--nuke-color-bg-1);
         transition: translate 62.5ms ease;
       }
