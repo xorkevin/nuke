@@ -128,3 +128,6 @@ export const mergeRefs = <T>(
     }
   };
 };
+
+// isSignalAborted is used to avoid type narrowing
+export const isSignalAborted = (s: AbortSignal): boolean => s.aborted;
