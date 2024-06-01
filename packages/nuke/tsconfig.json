@@ -6,7 +6,8 @@
       "#internal/*": ["./lib/*"]
     },
     "outDir": "dist",
-    "tsBuildInfoFile": ".tsbuildinfo"
+    "tsBuildInfoFile": ".tsbuildinfo",
+    "sourceMap": true
   },
   "include": [
     "lib/**/*.ts",

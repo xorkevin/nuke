@@ -37,7 +37,7 @@
     "lint": "eslint --cache --cache-strategy metadata ./lib && prettier --cache --cache-strategy metadata --ignore-path ../../.prettierignore --check .",
     "format": "eslint --cache --cache-strategy metadata --fix ./lib && prettier --cache --cache-strategy metadata --ignore-path ../../.prettierignore --write .",
     "clean": "rm -rf dist .tsbuildinfo",
-    "test": "$npm_execpath run build && $npm_node_execpath --test --import 'global-jsdom/register' --import './scripts/cssimportregister.js' './dist/lib/**/*.test.js'",
+    "test": "$npm_execpath run build && $npm_node_execpath --test --experimental-test-coverage --test-reporter=spec --enable-source-maps --import 'global-jsdom/register' --import './scripts/cssimportregister.js' './dist/lib/**/*.test.js'",
     "prepack": "$npm_execpath run build",
     "prepublish": "$npm_execpath run lint"
   },
