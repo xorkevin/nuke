@@ -36,7 +36,7 @@ module.exports = {
           ],
           [
             'Run the build script on several packages and all their dependencies, building dependencies first',
-            `yarn workspaces foreachrun -R --from '{workspace-a,workspace-b}' build`,
+            `yarn workspaces foreachrun -R --from 'workspace-a,workspace-b' build`,
           ],
         ],
       });
@@ -192,12 +192,12 @@ module.exports = {
           const workspace = popWorkspace();
           if (workspace === null) {
             const cycle = Array.from(needsProcessing.values())
-              .map((workspace) => {
-                return structUtils.prettyLocator(
+              .map((workspace) =>
+                structUtils.prettyLocator(
                   configuration,
                   workspace.anchoredLocator,
-                );
-              })
+                ),
+              )
               .join(', ');
 
             log(`Dependency cycle detected (${cycle})`);
