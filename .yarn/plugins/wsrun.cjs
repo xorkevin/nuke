@@ -16,8 +16,8 @@ module.exports = {
       static paths = [['workspaces', 'foreachrun']];
 
       static usage = Command.Usage({
-        category: `Workspace-related commands`,
-        description: `run a script on all workspaces`,
+        category: 'Workspace-related commands',
+        description: 'run a script on all workspaces',
         details: `
       This command will run a given script on current and all its descendant workspaces. Various flags can alter the exact behavior of the command:
 
@@ -31,11 +31,11 @@ module.exports = {
     `,
         examples: [
           [
-            `Run the build script on all descendant packages`,
-            `yarn workspaces foreachrun -A build`,
+            'Run the build script on all descendant packages',
+            'yarn workspaces foreachrun -A build',
           ],
           [
-            `Run the build script on several packages and all their dependencies, building dependencies first`,
+            'Run the build script on several packages and all their dependencies, building dependencies first',
             `yarn workspaces foreachrun -R --from '{workspace-a,workspace-b}' build`,
           ],
         ],
@@ -43,7 +43,7 @@ module.exports = {
 
       static schema = [
         t.hasKeyRelationship(
-          `all`,
+          'all',
           t.KeyRelationship.Forbids,
           ['from', 'recursive'],
           {missingIf: 'undefined'},
@@ -53,20 +53,23 @@ module.exports = {
         }),
       ];
 
-      from = Option.Array(`--from`, {
-        description: `An array of glob pattern idents or paths from which to base any recursion`,
+      from = Option.Array('--from', {
+        description:
+          'An array of glob pattern idents or paths from which to base any recursion',
       });
 
-      all = Option.Boolean(`-A,--all`, {
-        description: `Run the command on all workspaces of a project`,
+      all = Option.Boolean('-A,--all', {
+        description: 'Run the script on all workspaces of a project',
       });
 
-      recursive = Option.Boolean(`-R,--recursive`, {
-        description: `Run the command on the current workspace and all of its recursive dependencies`,
+      recursive = Option.Boolean('-R,--recursive', {
+        description:
+          'Run the script on the current workspace and all of its recursive dependencies',
       });
 
-      dryRun = Option.Boolean(`-n,--dry-run`, {
-        description: `Print the commands that would be run, without actually running them`,
+      dryRun = Option.Boolean('-n,--dry-run', {
+        description:
+          'Print the scripts that would be run, without actually running them',
       });
 
       scriptName = Option.String();
