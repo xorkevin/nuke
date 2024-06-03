@@ -31,17 +31,14 @@ await test('useColorScheme', async (t) => {
     bodyClassList,
   );
 
-  const assertManagerState = (scheme: ColorScheme, sysPrefDark: boolean) => {
+  const assertManagerState = (
+    scheme: ColorScheme,
+    storageVal: string | null,
+    sysPrefDark: boolean,
+  ) => {
     assert.equal(manager.getState().scheme, scheme);
     assert.equal(manager.getState().sysPrefDark, sysPrefDark);
-    assert.equal(
-      storage.getItem('nuke:colorscheme'),
-      scheme === ColorScheme.System ? null : scheme,
-    );
-    assert.equal(
-      mediaMatcher.matchMedia('(prefers-color-scheme: dark)'),
-      sysPrefDark,
-    );
+    assert.equal(storage.getItem('nuke:colorscheme'), storageVal);
     assert.equal(
       mediaMatcher.matchMedia('(prefers-color-scheme: dark)'),
       sysPrefDark,
@@ -56,7 +53,7 @@ await test('useColorScheme', async (t) => {
     );
   };
 
-  assertManagerState(ColorScheme.System, false);
+  assertManagerState(ColorScheme.System, null, false);
 
   storage.setItem('nuke:colorscheme', ColorScheme.Dark);
   bodyClassList.add(ColorSchemeClasses.Light);
@@ -64,7 +61,11 @@ await test('useColorScheme', async (t) => {
   const controller = new AbortController();
   manager.init(controller.signal);
 
-  assertManagerState(ColorScheme.Dark, false);
+  assert.throws(() => {
+    manager.init(controller.signal);
+  });
+
+  assertManagerState(ColorScheme.Dark, ColorScheme.Dark, false);
 
   const Comp = () => {
     const {isDark, colorScheme, setColorScheme} = useColorScheme();
@@ -96,35 +97,51 @@ await test('useColorScheme', async (t) => {
   );
 
   screen.getByText(`dark ${ColorScheme.Dark}`);
-  assertManagerState(ColorScheme.Dark, false);
+  assertManagerState(ColorScheme.Dark, ColorScheme.Dark, false);
 
   await userEvent.click(screen.getByRole('button', {name: 'set sys'}));
   screen.getByText(`light ${ColorScheme.System}`);
-  assertManagerState(ColorScheme.System, false);
+  assertManagerState(ColorScheme.System, null, false);
 
   act(() => {
     mediaMatcher.setMediaQueryMatch('(prefers-color-scheme: dark)', true);
   });
   await screen.findByText(`dark ${ColorScheme.System}`);
-  assertManagerState(ColorScheme.System, true);
+  assertManagerState(ColorScheme.System, null, true);
+
+  act(() => {
+    mediaMatcher.setMediaQueryMatch('(prefers-color-scheme: dark)', true);
+  });
+  await screen.findByText(`dark ${ColorScheme.System}`);
+  assertManagerState(ColorScheme.System, null, true);
 
   await userEvent.click(screen.getByRole('button', {name: 'set light'}));
   screen.getByText(`light ${ColorScheme.Light}`);
-  assertManagerState(ColorScheme.Light, true);
+  assertManagerState(ColorScheme.Light, ColorScheme.Light, true);
+
+  await userEvent.click(screen.getByRole('button', {name: 'set light'}));
+  screen.getByText(`light ${ColorScheme.Light}`);
+  assertManagerState(ColorScheme.Light, ColorScheme.Light, true);
 
   await userEvent.click(screen.getByRole('button', {name: 'set dark'}));
   screen.getByText(`dark ${ColorScheme.Dark}`);
-  assertManagerState(ColorScheme.Dark, true);
+  assertManagerState(ColorScheme.Dark, ColorScheme.Dark, true);
 
   act(() => {
     storage.extSetItem('nuke:colorscheme', ColorScheme.Light);
   });
   await screen.findByText(`light ${ColorScheme.Light}`);
-  assertManagerState(ColorScheme.Light, true);
+  assertManagerState(ColorScheme.Light, ColorScheme.Light, true);
 
   act(() => {
     storage.extClear();
   });
   await screen.findByText(`dark ${ColorScheme.System}`);
-  assertManagerState(ColorScheme.System, true);
+  assertManagerState(ColorScheme.System, null, true);
+
+  act(() => {
+    storage.extSetItem('nuke:colorscheme', 'bogus');
+  });
+  await screen.findByText(`dark ${ColorScheme.System}`);
+  assertManagerState(ColorScheme.System, 'bogus', true);
 });
