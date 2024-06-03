@@ -11,8 +11,8 @@ build:
 buildlib:
 	yarn workspaces foreachrun -R --from '@xorkevin/nuke' build
 
-dev: buildlib
-	yarn workspace @xorkevin/nuke-example run build-dev
+dev:
+	yarn workspaces foreachrun -R --from '@xorkevin/nuke-example' build-dev
 
 lint:
 	yarn workspaces foreachrun -A lint

@@ -34,6 +34,7 @@
   },
   "scripts": {
     "build": "tsc --build --verbose && $npm_node_execpath scripts/build.js",
+    "build-dev": "$npm_execpath run build",
     "lint": "eslint --cache --cache-strategy metadata ./lib && prettier --cache --cache-strategy metadata --ignore-path ../../.prettierignore --check .",
     "format": "eslint --cache --cache-strategy metadata --fix ./lib && prettier --cache --cache-strategy metadata --ignore-path ../../.prettierignore --write .",
     "clean": "rm -rf dist .tsbuildinfo",
