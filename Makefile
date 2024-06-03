@@ -26,5 +26,8 @@ clean:
 test:
 	yarn workspaces foreachrun -A test
 
+cover: test
+	yarn workspaces foreachrun -A cover
+
 devserve:
 	fsserve serve --config ./packages/example/fsserve.json --base ./packages/example/dist

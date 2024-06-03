@@ -6,6 +6,7 @@ node_modules/
 !.yarn/releases
 !.yarn/versions
 *.tgz
+packages/*/coverage/
 packages/*/dist/
 packages/*/.tsbuildinfo
 .eslintcache
