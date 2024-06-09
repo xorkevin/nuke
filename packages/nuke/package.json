@@ -38,8 +38,8 @@
     "lint": "eslint --cache --cache-strategy metadata ./lib && prettier --cache --cache-strategy metadata --ignore-path ../../.prettierignore --check .",
     "format": "eslint --cache --cache-strategy metadata --fix ./lib && prettier --cache --cache-strategy metadata --ignore-path ../../.prettierignore --write .",
     "clean": "rm -rf dist .tsbuildinfo coverage",
-    "test": "$npm_execpath run build && NODE_V8_COVERAGE='./coverage' $npm_node_execpath --test --experimental-test-coverage --enable-source-maps --test-reporter='./scripts/testreporter.js' --test-reporter-destination=stdout --import 'global-jsdom/register' --import './scripts/cssimportregister.js' './dist/lib/**/*.test.js'",
-    "cover": "NODE_V8_COVERAGE='./coverage' c8 report --all --src './lib' --reporter html -o './coverage/report'",
+    "test": "$npm_execpath run build && NODE_V8_COVERAGE='./coverage' $npm_node_execpath --test --experimental-test-coverage --test-reporter='./scripts/testreporter.js' --test-reporter-destination=stdout --import 'global-jsdom/register' --import './scripts/cssimportregister.js' './dist/lib/**/*.test.js'",
+    "cover": "NODE_V8_COVERAGE='./coverage' c8 report --all --src './dist' --reporter html -o './coverage/report'",
     "prepack": "$npm_execpath run build",
     "prepublish": "$npm_execpath run lint"
   },
