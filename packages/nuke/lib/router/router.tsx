@@ -455,7 +455,10 @@ export const useNavLink = (
   const {url: fullURL} = useRouter();
   const {join, navigate} = useRoute();
 
-  const href = useMemo(() => (isNil(url) ? undefined : join(url)), [url, join]);
+  const href = useMemo(
+    () => (isNonNil(url) ? join(url) : undefined),
+    [url, join],
+  );
 
   const urlpathname = fullURL.pathname;
   const matches = useMemo(() => {

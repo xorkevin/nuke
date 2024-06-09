@@ -4,6 +4,8 @@ import test from 'node:test';
 import {act, cleanup, render, screen} from '@testing-library/react';
 import {userEvent} from '@testing-library/user-event';
 
+import {isNil} from '#internal/computil/index.js';
+
 import {
   type HistoryAPI,
   NavLink,
@@ -61,19 +63,33 @@ await test('Router', async (t) => {
   });
 
   const testHistory = new TestHistory();
-  testHistory.setLocation('http://localhost:3000/comp1/hello');
+  testHistory.setLocation('http://localhost:3000/base');
 
-  const Comp1 = () => {
-    const {base} = useRouter();
-    const {params, rest} = useRoute();
+  const Comp0 = () => {
     return (
       <div>
-        Component 1 {params['id'] ?? 'not exist'} {rest}
-        <NavLink href={base + '/comp1/hello'} exact>
+        <div>Component 0</div>
+        <NavLink href={'comp1/hello'}>comp1</NavLink>
+      </div>
+    );
+  };
+  const Comp1 = () => {
+    const {base, join: rootJoin} = useRouter();
+    const {params, rest, join: subJoin} = useRoute();
+    return (
+      <div>
+        <div>
+          Component 1 {params['id'] ?? 'not exist'} {rest}
+        </div>
+        <NavLink href={'../hello'} exact>
           go to hello base
         </NavLink>
-        <NavLink href={base + '/comp2/bye'}>go to comp 2</NavLink>
+        <NavLink href={'../../comp2/subcomp/bye'}>go to comp 2</NavLink>
         <NavLink href="remainder">go to hello</NavLink>
+        <div>base: {base}</div>
+        <div>{rootJoin('root-test')}</div>
+        <div>{subJoin('sub-test')}</div>
+        <div>{subJoin('/sub-abs-test')}</div>
       </div>
     );
   };
@@ -84,11 +100,16 @@ await test('Router', async (t) => {
 
   const routes = [
     {
+      path: '',
+      component: Comp0,
+      exact: true,
+    },
+    {
       path: '/comp1/{id}',
       component: Comp1,
     },
     {
-      path: '/comp2/{c2}',
+      path: '/comp2/subcomp/{c2}',
       component: Comp2,
     },
   ];
@@ -98,41 +119,85 @@ await test('Router', async (t) => {
   const user = userEvent.setup();
 
   render(
-    <Router history={testHistory}>
+    <Router history={testHistory} base="base">
+      <div>Router base</div>
       <Routes routes={routes} fallback={fallback} />
     </Router>,
   );
 
-  assert.ok(screen.getByText('Component 1 hello'));
-
-  assert.equal(
-    screen.getByRole('link', {name: 'go to hello base'}).className,
-    NavLinkClasses.Matches,
-  );
-  assert.equal(screen.getByRole('link', {name: 'go to hello'}).className, '');
-  assert.equal(screen.getByRole('link', {name: 'go to comp 2'}).className, '');
-
-  await user.click(screen.getByRole('link', {name: 'go to hello'}));
-
-  assert.ok(await screen.findByText('Component 1 hello /remainder'));
-
-  assert.equal(
-    screen.getByRole('link', {name: 'go to hello base'}).className,
-    '',
-  );
-  assert.equal(
-    screen.getByRole('link', {name: 'go to hello'}).className,
-    NavLinkClasses.Matches,
-  );
-  assert.equal(screen.getByRole('link', {name: 'go to comp 2'}).className, '');
-
-  await user.click(screen.getByRole('link', {name: 'go to comp 2'}));
-
-  assert.ok(await screen.findByText('Component 2 bye'));
-
-  act(() => {
-    testHistory.setLocation('http://localhost:3000/comp1/again');
+  await t.test('renders when path matches base', () => {
+    assert.ok(screen.getByText('Router base'));
+    assert.ok(screen.getByText('Component 0'));
   });
 
-  assert.ok(await screen.findByText('Component 1 again'));
+  await t.test('renders route when path matches', async () => {
+    await user.click(screen.getByRole('link', {name: 'comp1'}));
+
+    assert.ok(screen.getByText('Component 1 hello'));
+    assert.ok(screen.getByText('base: /base'));
+    assert.ok(screen.getByText('/base/root-test'));
+    assert.ok(screen.getByText('/base/comp1/hello/sub-test'));
+    assert.ok(screen.getByText('/sub-abs-test'));
+  });
+
+  await t.test('nav link matches current route', () => {
+    assert.equal(
+      screen.getByRole('link', {name: 'go to hello base'}).className,
+      NavLinkClasses.Matches,
+    );
+    assert.equal(screen.getByRole('link', {name: 'go to hello'}).className, '');
+    assert.equal(
+      screen.getByRole('link', {name: 'go to comp 2'}).className,
+      '',
+    );
+  });
+
+  await t.test('nav link exact only matches full path', async () => {
+    await user.click(screen.getByRole('link', {name: 'go to hello'}));
+
+    assert.ok(screen.getByText('Component 1 hello /remainder'));
+
+    assert.equal(
+      screen.getByRole('link', {name: 'go to hello base'}).className,
+      '',
+    );
+    assert.equal(
+      screen.getByRole('link', {name: 'go to hello'}).className,
+      NavLinkClasses.Matches,
+    );
+    assert.equal(
+      screen.getByRole('link', {name: 'go to comp 2'}).className,
+      '',
+    );
+  });
+
+  await t.test('routes are checked in order', async () => {
+    await user.click(screen.getByRole('link', {name: 'go to comp 2'}));
+
+    assert.ok(screen.getByText('Component 2 bye'));
+  });
+
+  await t.test('responds to history api events', () => {
+    act(() => {
+      testHistory.setLocation('http://localhost:3000/base/comp1/again');
+    });
+
+    assert.ok(screen.getByText('Component 1 again'));
+  });
+
+  await t.test('renders fallback when no routes match', () => {
+    act(() => {
+      testHistory.setLocation('http://localhost:3000/base/comp1');
+    });
+
+    assert.ok(screen.getByText('404 Not found'));
+  });
+
+  await t.test('does not render when path does not match base', () => {
+    act(() => {
+      testHistory.setLocation('http://localhost:3000/');
+    });
+
+    assert.ok(isNil(screen.queryByText('Router base')));
+  });
 });
