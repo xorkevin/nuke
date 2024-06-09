@@ -100,11 +100,16 @@ const joinPaths = (...parts: string[]): string => cleanPath(parts.join('/'));
 const isPathPrefix = (path: string, prefix: string): boolean =>
   prefix === '' || path === prefix || path.startsWith(prefix + '/');
 
+export const NavLinkClasses = Object.freeze({
+  Matches: 'nuke__nav-link-matches',
+} as const);
+
 export type RouterCtx = {
   readonly url: URL;
   readonly base: string;
   readonly join: (url: string) => string;
   readonly navigate: (url: string, replace?: boolean) => void;
+  readonly navLinkMatchesClassName: string;
 };
 
 const RouterContext = createContext<RouterCtx>(
@@ -116,6 +121,7 @@ const RouterContext = createContext<RouterCtx>(
     base: '',
     join: (url: string) => toAbsolutePath(url),
     navigate: () => {},
+    navLinkMatchesClassName: NavLinkClasses.Matches,
   }),
 );
 
@@ -144,6 +150,7 @@ const RouteContext = createContext<RouteCtx>(
 export type RouterProps = {
   readonly base?: string | undefined;
   readonly history?: HistoryAPI | undefined;
+  readonly navLinkMatchesClassName?: string | undefined;
 };
 
 export const useRouter = (): RouterCtx => useContext(RouterContext);
@@ -155,6 +162,7 @@ const defaultHistory = new BrowserHistory();
 export const Router: FC<PropsWithChildren<RouterProps>> = ({
   base = '',
   history = defaultHistory,
+  navLinkMatchesClassName = NavLinkClasses.Matches,
   children,
 }) => {
   base = useMemo(() => toPathPrefix(base), [base]);
@@ -211,8 +219,9 @@ export const Router: FC<PropsWithChildren<RouterProps>> = ({
         base,
         join,
         navigate,
+        navLinkMatchesClassName,
       }),
-    [url, base, join, navigate],
+    [url, base, join, navigate, navLinkMatchesClassName],
   );
 
   const routeCtx = useMemo(
@@ -483,10 +492,6 @@ export const useNavLink = (
   return res;
 };
 
-export const NavLinkClasses = Object.freeze({
-  Matches: 'nuke__nav-link-matches',
-} as const);
-
 export type NavLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
   readonly matchesClassName?: string | undefined;
   readonly disabledClassName?: string | undefined;
@@ -501,7 +506,7 @@ export const NavLink = forwardRef<
 >(
   (
     {
-      matchesClassName = NavLinkClasses.Matches,
+      matchesClassName,
       matchesAriaCurrent = true,
       matchesProps,
       exact = false,
@@ -514,6 +519,7 @@ export const NavLink = forwardRef<
     },
     ref,
   ) => {
+    const {navLinkMatchesClassName} = useRouter();
     const {href: fullHref, matches, nav} = useNavLink(href, exact);
     const handleClick = useCallback<MouseEventHandler<HTMLAnchorElement>>(
       (e) => {
@@ -525,8 +531,9 @@ export const NavLink = forwardRef<
       },
       [nav, onClick],
     );
+    const mc = matchesClassName ?? navLinkMatchesClassName;
     const c = classNames(className, {
-      [matchesClassName]: matches,
+      [mc]: matches,
     });
     return (
       <a
