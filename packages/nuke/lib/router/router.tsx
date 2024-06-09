@@ -8,15 +8,20 @@ import {
   type PropsWithChildren,
   createContext,
   forwardRef,
+  startTransition,
   useCallback,
   useContext,
   useEffect,
   useMemo,
   useState,
-  useTransition,
 } from 'react';
 
-import {type Mutable, classNames, isNonNil} from '#internal/computil/index.js';
+import {
+  type Mutable,
+  classNames,
+  isNil,
+  isNonNil,
+} from '#internal/computil/index.js';
 
 export interface HistoryAPI {
   readonly url: () => string;
@@ -60,77 +65,56 @@ export class BrowserHistory implements HistoryAPI {
   }
 }
 
-const MULTI_SLASH_REGEX = /\/+/;
-
-const stripSlash = (path: string): string => {
-  if (path === '' || path === '/') {
-    return '';
-  }
-  if (path.endsWith('/')) {
-    return path.slice(0, -1);
-  }
-  return path;
-};
+const isPathAbsolute = (path: string): boolean => path.startsWith('/');
 
 const cleanPath = (path: string): string => {
-  if (path === '' || path === '/') {
-    return '';
+  const segments: string[] = [];
+  for (const seg of path.split('/')) {
+    switch (seg) {
+      // ignore empty and current segments
+      case '':
+      case '.':
+        break;
+      // handle parent dir
+      case '..':
+        segments.pop();
+        break;
+      default:
+        segments.push(seg);
+        break;
+    }
   }
-  path = path.replaceAll(RegExp(MULTI_SLASH_REGEX, 'g'), '/');
-  return stripSlash(path);
+
+  return segments.join('/');
 };
 
-const isPathAbsolute = (path: string) => path.startsWith('/');
-
-const toAbsolutePath = (path: string) => {
+const toPathPrefix = (path: string): string => {
   path = cleanPath(path);
-  if (path === '') {
-    return '';
-  }
-  if (isPathAbsolute(path)) {
-    return path;
-  }
-  return '/' + path;
+  return path === '' ? '' : '/' + path;
 };
 
-const isPathPrefix = (path: string, prefix: string) =>
+const toAbsolutePath = (path: string): string => '/' + cleanPath(path);
+
+const joinPaths = (...parts: string[]): string => cleanPath(parts.join('/'));
+
+const isPathPrefix = (path: string, prefix: string): boolean =>
   prefix === '' || path === prefix || path.startsWith(prefix + '/');
-
-const joinPaths = (head: string, ...tail: string[]): string => {
-  head = cleanPath(head);
-  for (let s of tail) {
-    s = cleanPath(s);
-    if (s === '') {
-      continue;
-    }
-    if (s.startsWith('/')) {
-      head += s;
-    } else {
-      head += '/' + s;
-    }
-  }
-  return head;
-};
 
 export type RouterCtx = {
   readonly url: URL;
-  readonly href: string;
   readonly base: string;
-  readonly pathname: string;
   readonly join: (url: string) => string;
-  readonly navigate: (url: string) => void;
+  readonly navigate: (url: string, replace?: boolean) => void;
 };
 
 const RouterContext = createContext<RouterCtx>(
   Object.freeze({
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    url: new URL(window?.location?.href ?? 'http://localhost:8080'),
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    href: window?.location?.href ?? 'http://localhost:8080',
+    url: Object.freeze(
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      new URL(window?.location?.href ?? 'http://localhost:8080'),
+    ),
     base: '',
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    pathname: toAbsolutePath(window?.location?.pathname ?? ''),
-    join: (url: string) => url,
+    join: (url: string) => toAbsolutePath(url),
     navigate: () => {},
   }),
 );
@@ -150,7 +134,7 @@ export type RouteCtx = {
 const RouteContext = createContext<RouteCtx>(
   Object.freeze({
     prefix: '',
-    params: {},
+    params: Object.freeze({}),
     rest: '',
     join: (url: string) => url,
     navigate: () => {},
@@ -162,6 +146,10 @@ export type RouterProps = {
   readonly history?: HistoryAPI | undefined;
 };
 
+export const useRouter = (): RouterCtx => useContext(RouterContext);
+
+export const useRoute = (): RouteCtx => useContext(RouteContext);
+
 const defaultHistory = new BrowserHistory();
 
 export const Router: FC<PropsWithChildren<RouterProps>> = ({
@@ -169,29 +157,28 @@ export const Router: FC<PropsWithChildren<RouterProps>> = ({
   history = defaultHistory,
   children,
 }) => {
-  base = toAbsolutePath(base);
+  base = useMemo(() => toPathPrefix(base), [base]);
+
   const [href, setHref] = useState(() => history.url());
-  const url = useMemo(() => new URL(href), [href]);
+  const url = useMemo(() => Object.freeze(new URL(href)), [href]);
 
   const join = useCallback(
     (url: string): string => {
       if (isPathAbsolute(url)) {
-        url = cleanPath(url);
-        if (url === '') {
-          return '/';
-        }
-        return url;
+        return toAbsolutePath(url);
       }
-      return joinPaths(base, url);
+      return '/' + joinPaths(base, url);
     },
     [base],
   );
 
   const navigate = useCallback(
     (url: string, replace?: boolean) => {
-      const u = stripSlash(history.origin()) + join(url);
+      const u = history.origin() + join(url);
       history.navigate(u, replace);
-      setHref(u);
+      startTransition(() => {
+        setHref(u);
+      });
     },
     [history, join, setHref],
   );
@@ -199,50 +186,48 @@ export const Router: FC<PropsWithChildren<RouterProps>> = ({
   useEffect(() => {
     const controller = new AbortController();
     history.onNavigate((u) => {
-      setHref(u);
+      startTransition(() => {
+        setHref(u);
+      });
     }, controller.signal);
     return () => {
       controller.abort();
     };
   }, [setHref, history]);
 
-  const pathname = useMemo(() => {
-    const pathname = toAbsolutePath(url.pathname);
-    if (base === '') {
-      return pathname;
-    }
+  const urlpathname = url.pathname;
+  const rest = useMemo(() => {
+    const pathname = toPathPrefix(urlpathname);
     if (isPathPrefix(pathname, base)) {
       return pathname.slice(base.length);
     }
     return undefined;
-  }, [base, url.pathname]);
+  }, [base, urlpathname]);
 
   const routerCtx = useMemo(
     () =>
       Object.freeze({
         url,
-        href,
         base,
-        pathname: pathname ?? '',
         join,
         navigate,
       }),
-    [href, url, base, pathname, join, navigate],
+    [url, base, join, navigate],
   );
 
   const routeCtx = useMemo(
     () =>
       Object.freeze({
         prefix: base,
-        params: {},
-        rest: pathname ?? '',
+        params: Object.freeze({}),
+        rest: rest ?? '',
         join,
         navigate,
       }),
-    [base, pathname, join, navigate],
+    [base, rest, join, navigate],
   );
 
-  if (pathname === undefined) {
+  if (isNil(rest)) {
     return undefined;
   }
 
@@ -269,12 +254,10 @@ type CompiledPatternSegment =
       match: string;
     };
 
-const SEGMENT_PATTERN_REGEX = /^{(?<key>[^}]*)}$/;
+const SEGMENT_PATTERN_REGEX = /^{(?<key>.*)}$/;
 
-const compilePattern = (
-  pattern: string,
-): CompiledPatternSegment[] | undefined => {
-  pattern = toAbsolutePath(pattern);
+const compilePattern = (pattern: string): CompiledPatternSegment[] => {
+  pattern = toPathPrefix(pattern);
   if (pattern === '') {
     return [];
   }
@@ -282,7 +265,7 @@ const compilePattern = (
   return segments.reduce<CompiledPatternSegment[]>((acc, v) => {
     const match = SEGMENT_PATTERN_REGEX.exec(v);
     const key = match?.groups?.['key'];
-    if (key === undefined) {
+    if (isNil(key)) {
       const last = acc.at(-1);
       if (last?.kind === 'str') {
         last.match += '/' + v;
@@ -312,13 +295,9 @@ const compileRoute = ({
   path,
   exact = false,
   component,
-}: Route): CompiledRoute | undefined => {
-  const match = compilePattern(path);
-  if (match === undefined) {
-    return undefined;
-  }
+}: Route): CompiledRoute => {
   return {
-    match,
+    match: compilePattern(path),
     exact,
     component,
   };
@@ -380,18 +359,15 @@ export type RoutesProps = {
 };
 
 export const Routes: FC<RoutesProps> = ({routes, fallbackRedir, fallback}) => {
-  const {navigate: rootNavigate} = useContext(RouterContext);
-  const {prefix, params, rest, navigate} = useContext(RouteContext);
+  const {navigate: rootNavigate} = useRouter();
+  const {prefix, params, rest, navigate} = useRoute();
 
-  const compiledRoutes = useMemo(
-    () => routes.map(compileRoute).filter(isNonNil),
-    [routes],
-  );
+  const compiledRoutes = useMemo(() => routes.map(compileRoute), [routes]);
 
   const match = useMemo(() => {
     for (const route of compiledRoutes) {
       const match = matchRoute(rest, route.match, route.exact);
-      if (match === undefined) {
+      if (isNil(match)) {
         continue;
       }
       return {
@@ -404,26 +380,26 @@ export const Routes: FC<RoutesProps> = ({routes, fallbackRedir, fallback}) => {
     return undefined;
   }, [compiledRoutes, rest]);
 
-  const routeNotFound = match === undefined;
+  const routeNotFound = isNil(match);
 
   useEffect(() => {
-    if (routeNotFound && fallbackRedir !== undefined) {
+    if (routeNotFound && isNonNil(fallbackRedir)) {
       navigate(fallbackRedir, true);
     }
   }, [routeNotFound, fallbackRedir, navigate]);
 
-  const subPrefix = joinPaths(prefix, match?.prefix ?? '');
+  const matchPrefix = match?.prefix;
+  const subPrefix = useMemo(
+    () => (isNonNil(matchPrefix) ? prefix + matchPrefix : ''),
+    [prefix, matchPrefix],
+  );
 
   const subJoin = useCallback(
     (url: string): string => {
       if (isPathAbsolute(url)) {
-        url = cleanPath(url);
-        if (url === '') {
-          return '/';
-        }
-        return url;
+        return toAbsolutePath(url);
       }
-      return joinPaths(subPrefix, url);
+      return '/' + joinPaths(subPrefix, url);
     },
     [subPrefix],
   );
@@ -466,46 +442,6 @@ export const Routes: FC<RoutesProps> = ({routes, fallbackRedir, fallback}) => {
   );
 };
 
-export const useRouter = (): RouterCtx => {
-  return useContext(RouterContext);
-};
-
-export const useRoute = (): RouteCtx => {
-  return useContext(RouteContext);
-};
-
-const matchURL = (
-  fullpath: string,
-  pathname: string,
-  match: string,
-  exact: boolean,
-): boolean => {
-  if (match !== '') {
-    if (isPathAbsolute(match)) {
-      if (!isPathPrefix(fullpath, match)) {
-        return false;
-      }
-      fullpath = fullpath.slice(match.length);
-      if (exact) {
-        return pathname === '';
-      }
-      return true;
-    }
-    if (!pathname.startsWith('/')) {
-      return false;
-    }
-    pathname = pathname.slice(1);
-    if (!isPathPrefix(pathname, match)) {
-      return false;
-    }
-    pathname = pathname.slice(match.length);
-  }
-  if (exact) {
-    return pathname === '';
-  }
-  return true;
-};
-
 export type NavLinkHook = {
   readonly href: string | undefined;
   readonly matches: boolean;
@@ -517,26 +453,28 @@ export const useNavLink = (
   exact: boolean,
 ): NavLinkHook => {
   const {url: fullURL} = useRouter();
-  const {rest, join, navigate} = useRoute();
+  const {join, navigate} = useRoute();
 
-  const fullpath = fullURL.pathname;
+  const href = useMemo(() => (isNil(url) ? undefined : join(url)), [url, join]);
 
-  const href = useMemo(
-    () => (url === undefined ? undefined : join(url)),
-    [url, join],
-  );
+  const urlpathname = fullURL.pathname;
+  const matches = useMemo(() => {
+    if (isNil(href)) {
+      return false;
+    }
+    const pathname = toAbsolutePath(urlpathname);
+    if (exact) {
+      return pathname === href;
+    }
+    return isPathPrefix(pathname, href);
+  }, [href, urlpathname, exact]);
 
   const nav = useCallback(() => {
-    if (url === undefined) {
+    if (isNil(url)) {
       return;
     }
     navigate(url);
   }, [url, navigate]);
-
-  const matches = useMemo(
-    () => (url === undefined ? false : matchURL(fullpath, rest, url, exact)),
-    [fullpath, rest, url, exact],
-  );
 
   const res = useMemo(() => ({href, matches, nav}), [href, matches, nav]);
   return res;
@@ -544,7 +482,6 @@ export const useNavLink = (
 
 export const NavLinkClasses = Object.freeze({
   Matches: 'nuke__nav-link-matches',
-  Disabled: 'nuke__nav-link-disabled',
 } as const);
 
 export type NavLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
@@ -562,7 +499,6 @@ export const NavLink = forwardRef<
   (
     {
       matchesClassName = NavLinkClasses.Matches,
-      disabledClassName = NavLinkClasses.Disabled,
       matchesAriaCurrent = true,
       matchesProps,
       exact = false,
@@ -576,25 +512,18 @@ export const NavLink = forwardRef<
     ref,
   ) => {
     const {href: fullHref, matches, nav} = useNavLink(href, exact);
-    const [transitionPending, startTransition] = useTransition();
     const handleClick = useCallback<MouseEventHandler<HTMLAnchorElement>>(
       (e) => {
         e.preventDefault();
-        if (transitionPending) {
-          return;
-        }
-        startTransition(() => {
-          nav();
-        });
-        if (onClick !== undefined) {
+        nav();
+        if (isNonNil(onClick)) {
           onClick(e);
         }
       },
-      [nav, onClick, transitionPending, startTransition],
+      [nav, onClick],
     );
     const c = classNames(className, {
       [matchesClassName]: matches,
-      [disabledClassName]: transitionPending,
     });
     return (
       <a
@@ -603,7 +532,6 @@ export const NavLink = forwardRef<
         {...(matches ? matchesProps : {})}
         className={c}
         href={fullHref}
-        aria-disabled={transitionPending}
         aria-current={matches ? matchesAriaCurrent : ariaCurrent}
         onClick={handleClick}
       >
