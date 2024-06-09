@@ -160,3 +160,14 @@ export const sleep = async (
     }, ms) as unknown as number;
   });
 };
+
+export const parseURL = (
+  u: URL | string,
+  base?: URL | string | undefined,
+): URL | undefined => {
+  try {
+    return new URL(u, base);
+  } catch (err) {
+    return undefined;
+  }
+};

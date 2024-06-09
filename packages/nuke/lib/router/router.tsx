@@ -21,12 +21,23 @@ import {
   classNames,
   isNil,
   isNonNil,
+  parseURL,
 } from '#internal/computil/index.js';
+
+export type NavTarget = {
+  pathname: string;
+  search?: string | undefined;
+  hash?: string | undefined;
+};
+
+export type NavOptions = {
+  replace?: boolean;
+};
 
 export interface HistoryAPI {
   readonly url: () => string;
   readonly origin: () => string;
-  readonly navigate: (u: string, replace?: boolean) => void;
+  readonly navigate: (u: string, opts?: NavOptions) => void;
   readonly onNavigate: (
     handler: (u: string) => void,
     signal: AbortSignal,
@@ -42,8 +53,8 @@ export class BrowserHistory implements HistoryAPI {
     return window.location.origin;
   }
 
-  public navigate(this: this, u: string, replace?: boolean): void {
-    if (replace === true) {
+  public navigate(this: this, u: string, opts?: NavOptions): void {
+    if (opts?.replace === true) {
       window.history.replaceState({}, '', u);
     } else {
       window.history.pushState({}, '', u);
@@ -100,6 +111,52 @@ const joinPaths = (...parts: string[]): string => cleanPath(parts.join('/'));
 const isPathPrefix = (path: string, prefix: string): boolean =>
   prefix === '' || path === prefix || path.startsWith(prefix + '/');
 
+const pathToNavTarget = (pathname: string): NavTarget => {
+  let hash: string | undefined = undefined;
+  const hashIndex = pathname.indexOf('#');
+  if (hashIndex >= 0) {
+    hash = pathname.slice(hashIndex + 1);
+    pathname = pathname.slice(0, hashIndex);
+  }
+
+  let search: string | undefined = undefined;
+  const searchIndex = pathname.indexOf('?');
+  if (searchIndex >= 0) {
+    const params = new URLSearchParams(pathname.slice(searchIndex + 1));
+    params.sort();
+    search = params.toString();
+    pathname = pathname.slice(0, searchIndex);
+  }
+
+  return {
+    pathname,
+    search,
+    hash,
+  };
+};
+
+const resolvePath = (path: NavTarget | string, base?: string): string => {
+  const u = typeof path === 'string' ? pathToNavTarget(path) : path;
+  let s = '';
+  if (isNil(base) || isPathAbsolute(u.pathname)) {
+    s = toAbsolutePath(u.pathname);
+  } else {
+    s = '/' + joinPaths(base, u.pathname);
+  }
+  if (isNonNil(u.search) && u.search !== '') {
+    s += '?' + u.search;
+  }
+  if (isNonNil(u.hash) && u.hash !== '') {
+    s += '#' + u.hash;
+  }
+  return s;
+};
+
+const originURL = Object.freeze(
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  parseURL(window?.location?.origin) ?? new URL('http://localhost:8080'),
+);
+
 export const NavLinkClasses = Object.freeze({
   Matches: 'nuke__nav-link-matches',
 } as const);
@@ -107,19 +164,16 @@ export const NavLinkClasses = Object.freeze({
 export type RouterCtx = {
   readonly url: URL;
   readonly base: string;
-  readonly join: (url: string) => string;
-  readonly navigate: (url: string, replace?: boolean) => void;
+  readonly resolve: (path: NavTarget | string) => string;
+  readonly navigate: (path: NavTarget | string, opts?: NavOptions) => void;
   readonly navLinkMatchesClassName: string;
 };
 
 const RouterContext = createContext<RouterCtx>(
   Object.freeze({
-    url: Object.freeze(
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      new URL(window?.location?.href ?? 'http://localhost:8080'),
-    ),
+    url: originURL,
     base: '',
-    join: (url: string) => toAbsolutePath(url),
+    resolve: (path: NavTarget | string) => resolvePath(path),
     navigate: () => {},
     navLinkMatchesClassName: NavLinkClasses.Matches,
   }),
@@ -133,8 +187,8 @@ export type RouteCtx = {
   readonly prefix: string;
   readonly params: RouteParams;
   readonly rest: string;
-  readonly join: (url: string) => string;
-  readonly navigate: (url: string, replace?: boolean) => void;
+  readonly resolve: (path: NavTarget | string) => string;
+  readonly navigate: (path: NavTarget | string, opts?: NavOptions) => void;
 };
 
 const RouteContext = createContext<RouteCtx>(
@@ -142,7 +196,7 @@ const RouteContext = createContext<RouteCtx>(
     prefix: '',
     params: Object.freeze({}),
     rest: '',
-    join: (url: string) => url,
+    resolve: (path: NavTarget | string) => resolvePath(path),
     navigate: () => {},
   }),
 );
@@ -168,27 +222,32 @@ export const Router: FC<PropsWithChildren<RouterProps>> = ({
   base = useMemo(() => toPathPrefix(base), [base]);
 
   const [href, setHref] = useState(() => history.url());
-  const url = useMemo(() => Object.freeze(new URL(href)), [href]);
+  const url = useMemo(() => {
+    const u = parseURL(href);
+    if (isNil(u)) {
+      console.error(new Error(`Invalid router href: ${href}`));
+      return originURL;
+    }
+    return Object.freeze(u);
+  }, [href]);
 
-  const join = useCallback(
-    (url: string): string => {
-      if (isPathAbsolute(url)) {
-        return toAbsolutePath(url);
-      }
-      return '/' + joinPaths(base, url);
-    },
+  const resolve = useCallback(
+    (path: NavTarget | string): string => resolvePath(path, base),
     [base],
   );
 
   const navigate = useCallback(
-    (url: string, replace?: boolean) => {
-      const u = history.origin() + join(url);
-      history.navigate(u, replace);
+    (path: NavTarget | string, opts?: NavOptions) => {
+      const u = parseURL(resolve(path), history.origin());
+      if (isNil(u)) {
+        return;
+      }
+      history.navigate(u.href, opts);
       startTransition(() => {
-        setHref(u);
+        setHref(u.href);
       });
     },
-    [history, join, setHref],
+    [history, resolve, setHref],
   );
 
   useEffect(() => {
@@ -217,11 +276,11 @@ export const Router: FC<PropsWithChildren<RouterProps>> = ({
       Object.freeze({
         url,
         base,
-        join,
+        resolve,
         navigate,
         navLinkMatchesClassName,
       }),
-    [url, base, join, navigate, navLinkMatchesClassName],
+    [url, base, resolve, navigate, navLinkMatchesClassName],
   );
 
   const routeCtx = useMemo(
@@ -230,10 +289,10 @@ export const Router: FC<PropsWithChildren<RouterProps>> = ({
         prefix: base,
         params: Object.freeze({}),
         rest: rest ?? '',
-        join,
+        resolve,
         navigate,
       }),
-    [base, rest, join, navigate],
+    [base, rest, resolve, navigate],
   );
 
   if (isNil(rest)) {
@@ -393,7 +452,7 @@ export const Routes: FC<RoutesProps> = ({routes, fallbackRedir, fallback}) => {
 
   useEffect(() => {
     if (routeNotFound && isNonNil(fallbackRedir)) {
-      navigate(fallbackRedir, true);
+      navigate(fallbackRedir, {replace: true});
     }
   }, [routeNotFound, fallbackRedir, navigate]);
 
@@ -403,21 +462,16 @@ export const Routes: FC<RoutesProps> = ({routes, fallbackRedir, fallback}) => {
     [prefix, matchPrefix],
   );
 
-  const subJoin = useCallback(
-    (url: string): string => {
-      if (isPathAbsolute(url)) {
-        return toAbsolutePath(url);
-      }
-      return '/' + joinPaths(subPrefix, url);
-    },
+  const subResolve = useCallback(
+    (path: NavTarget | string): string => resolvePath(path, subPrefix),
     [subPrefix],
   );
 
   const subNavigate = useCallback(
-    (url: string) => {
-      rootNavigate(subJoin(url));
+    (path: NavTarget | string) => {
+      rootNavigate(subResolve(path));
     },
-    [subJoin, rootNavigate],
+    [subResolve, rootNavigate],
   );
 
   const subRouteCtx = useMemo(
@@ -429,10 +483,10 @@ export const Routes: FC<RoutesProps> = ({routes, fallbackRedir, fallback}) => {
             ? Object.freeze(Object.assign({}, params, match?.params))
             : params,
         rest: match?.rest ?? '',
-        join: subJoin,
+        resolve: subResolve,
         navigate: subNavigate,
       }),
-    [subPrefix, params, match, subJoin, subNavigate],
+    [subPrefix, params, match, subResolve, subNavigate],
   );
 
   if (routeNotFound) {
@@ -458,35 +512,42 @@ export type NavLinkHook = {
 };
 
 export const useNavLink = (
-  url: string | undefined,
+  path: NavTarget | string | undefined,
   exact: boolean,
 ): NavLinkHook => {
-  const {url: fullURL} = useRouter();
-  const {join, navigate} = useRoute();
+  const {url} = useRouter();
+  const {resolve, navigate} = useRoute();
 
   const href = useMemo(
-    () => (isNonNil(url) ? join(url) : undefined),
-    [url, join],
+    () => (isNonNil(path) ? resolve(path) : undefined),
+    [path, resolve],
   );
 
-  const urlpathname = fullURL.pathname;
   const matches = useMemo(() => {
     if (isNil(href)) {
       return false;
     }
-    const pathname = toAbsolutePath(urlpathname);
     if (exact) {
+      let search = url.search;
+      if (search !== '') {
+        const params = new URLSearchParams(url.search);
+        params.sort();
+        search = '?' + params.toString();
+      }
+      const pathname = toAbsolutePath(url.pathname) + search + url.hash;
       return pathname === href;
     }
-    return isPathPrefix(pathname, href);
-  }, [href, urlpathname, exact]);
+    const u = pathToNavTarget(href);
+    const pathname = toAbsolutePath(url.pathname);
+    return isPathPrefix(pathname, u.pathname);
+  }, [href, url, exact]);
 
   const nav = useCallback(() => {
-    if (isNil(url)) {
+    if (isNil(path)) {
       return;
     }
-    navigate(url);
-  }, [url, navigate]);
+    navigate(path);
+  }, [path, navigate]);
 
   const res = useMemo(() => ({href, matches, nav}), [href, matches, nav]);
   return res;

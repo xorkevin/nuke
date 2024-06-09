@@ -74,8 +74,8 @@ await test('Router', async (t) => {
     );
   };
   const Comp1 = () => {
-    const {base, join: rootJoin} = useRouter();
-    const {params, rest, join: subJoin} = useRoute();
+    const {base, resolve: rootResolve} = useRouter();
+    const {params, rest, resolve: subResolve} = useRoute();
     return (
       <div>
         <div>
@@ -87,9 +87,9 @@ await test('Router', async (t) => {
         <NavLink href={'../../comp2/subcomp/bye'}>go to comp 2</NavLink>
         <NavLink href="remainder">go to hello</NavLink>
         <div>base: {base}</div>
-        <div>{rootJoin('root-test')}</div>
-        <div>{subJoin('sub-test')}</div>
-        <div>{subJoin('/sub-abs-test')}</div>
+        <div>{rootResolve('root-test')}</div>
+        <div>{subResolve('sub-test')}</div>
+        <div>{subResolve('/sub-abs-test')}</div>
       </div>
     );
   };

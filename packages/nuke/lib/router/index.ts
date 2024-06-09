@@ -1,6 +1,8 @@
 export {
   type HistoryAPI,
   BrowserHistory,
+  type NavTarget,
+  type NavOptions,
   type RouterCtx,
   type RouteParams,
   type RouteCtx,
