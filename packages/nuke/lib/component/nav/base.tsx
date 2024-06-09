@@ -21,7 +21,11 @@ import {
   modClassNames,
   modClassNamesObj,
 } from '#internal/computil/index.js';
-import {NavLink, NavTarget, type NavLinkProps} from '#internal/router/index.js';
+import {
+  NavLink,
+  type NavLinkProps,
+  type NavTarget,
+} from '#internal/router/index.js';
 
 import styles from './styles.module.css';
 
