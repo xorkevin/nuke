@@ -553,7 +553,11 @@ export const useNavLink = (
   return res;
 };
 
-export type NavLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
+export type NavLinkProps = Omit<
+  AnchorHTMLAttributes<HTMLAnchorElement>,
+  'href'
+> & {
+  readonly href?: NavTarget | string | undefined;
   readonly matchesClassName?: string | undefined;
   readonly disabledClassName?: string | undefined;
   readonly matchesAriaCurrent?: AriaAttributes['aria-current'] | undefined;

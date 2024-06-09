@@ -21,7 +21,7 @@ import {
   modClassNames,
   modClassNamesObj,
 } from '#internal/computil/index.js';
-import {NavLink, type NavLinkProps} from '#internal/router/index.js';
+import {NavLink, NavTarget, type NavLinkProps} from '#internal/router/index.js';
 
 import styles from './styles.module.css';
 
@@ -51,8 +51,8 @@ export type NavBarProps = HTMLAttributes<HTMLElement> & {
   readonly listProps?: HTMLAttributes<HTMLUListElement> | undefined;
 };
 
-export type NavBarLinkProps = LiHTMLAttributes<HTMLLIElement> & {
-  readonly href?: string | undefined;
+export type NavBarLinkProps = Omit<LiHTMLAttributes<HTMLLIElement>, 'href'> & {
+  readonly href?: NavTarget | string | undefined;
   readonly exact?: boolean | undefined;
   readonly navLinkRef?: ForwardedRef<HTMLAnchorElement> | undefined;
   readonly navLinkProps?: NavLinkProps | undefined;
@@ -162,8 +162,8 @@ export type NavListProps = HTMLAttributes<HTMLElement> & {
   readonly listProps?: HTMLAttributes<HTMLUListElement> | undefined;
 };
 
-export type NavListLinkProps = LiHTMLAttributes<HTMLLIElement> & {
-  readonly href?: string | undefined;
+export type NavListLinkProps = Omit<LiHTMLAttributes<HTMLLIElement>, 'href'> & {
+  readonly href?: NavTarget | string | undefined;
   readonly exact?: boolean | undefined;
   readonly navLinkRef?: ForwardedRef<HTMLAnchorElement> | undefined;
   readonly navLinkProps?: NavLinkProps | undefined;
