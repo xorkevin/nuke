@@ -74,22 +74,24 @@ await test('Router', async (t) => {
     );
   };
   const Comp1 = () => {
-    const {base, resolve: rootResolve} = useRouter();
+    const {url, base, resolve: rootResolve} = useRouter();
     const {params, rest, resolve: subResolve} = useRoute();
     return (
       <div>
         <div>
           Component 1 {params['id'] ?? 'not exist'} {rest}
         </div>
-        <NavLink href={'../hello'} exact>
+        <NavLink href={'../hello?q=v'} exact>
           go to hello base
         </NavLink>
         <NavLink href={'../../comp2/subcomp/bye'}>go to comp 2</NavLink>
-        <NavLink href="remainder">go to hello</NavLink>
+        <NavLink href={'remainder?b=y&a=x#xyz'}>go to hello</NavLink>
         <div>base: {base}</div>
         <div>{rootResolve('root-test')}</div>
         <div>{subResolve('sub-test')}</div>
         <div>{subResolve('/sub-abs-test')}</div>
+        <div>query: {url.search}</div>
+        <div>hash: {url.hash}</div>
       </div>
     );
   };
@@ -138,6 +140,8 @@ await test('Router', async (t) => {
     assert.ok(screen.getByText('/base/root-test'));
     assert.ok(screen.getByText('/base/comp1/hello/sub-test'));
     assert.ok(screen.getByText('/sub-abs-test'));
+    assert.ok(screen.getByText('query:'));
+    assert.ok(screen.getByText('hash:'));
   });
 
   await t.test('nav link matches current route', () => {
@@ -169,6 +173,11 @@ await test('Router', async (t) => {
       screen.getByRole('link', {name: 'go to comp 2'}).className,
       '',
     );
+  });
+
+  await t.test('query and hash are correctly parsed', () => {
+    assert.ok(screen.getByText('query: ?a=x&b=y'));
+    assert.ok(screen.getByText('hash: #xyz'));
   });
 
   await t.test('routes are checked in order', async () => {

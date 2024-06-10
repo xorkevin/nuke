@@ -527,18 +527,11 @@ export const useNavLink = (
     if (isNil(href)) {
       return false;
     }
-    if (exact) {
-      let search = url.search;
-      if (search !== '') {
-        const params = new URLSearchParams(url.search);
-        params.sort();
-        search = '?' + params.toString();
-      }
-      const pathname = toAbsolutePath(url.pathname) + search + url.hash;
-      return pathname === href;
-    }
-    const u = pathToNavTarget(href);
     const pathname = toAbsolutePath(url.pathname);
+    const u = pathToNavTarget(href);
+    if (exact) {
+      return pathname === u.pathname;
+    }
     return isPathPrefix(pathname, u.pathname);
   }, [href, url, exact]);
 
