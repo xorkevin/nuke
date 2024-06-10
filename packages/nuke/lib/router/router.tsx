@@ -25,7 +25,7 @@ import {
 } from '#internal/computil/index.js';
 
 export type NavTarget = {
-  pathname: string;
+  pathname?: string | undefined;
   search?: string | undefined;
   hash?: string | undefined;
 };
@@ -138,10 +138,11 @@ const pathToNavTarget = (pathname: string): NavTarget => {
 const resolvePath = (path: NavTarget | string, base?: string): string => {
   const u = typeof path === 'string' ? pathToNavTarget(path) : path;
   let s = '';
-  if (isNil(base) || isPathAbsolute(u.pathname)) {
-    s = toAbsolutePath(u.pathname);
+  const pathname = u.pathname ?? '';
+  if (isNil(base) || isPathAbsolute(pathname)) {
+    s = toAbsolutePath(pathname);
   } else {
-    s = '/' + joinPaths(base, u.pathname);
+    s = '/' + joinPaths(base, pathname);
   }
   if (isNonNil(u.search) && u.search !== '') {
     s += '?' + u.search;
@@ -530,9 +531,9 @@ export const useNavLink = (
     const pathname = toAbsolutePath(url.pathname);
     const u = pathToNavTarget(href);
     if (exact) {
-      return pathname === u.pathname;
+      return pathname === u.pathname ?? '';
     }
-    return isPathPrefix(pathname, u.pathname);
+    return isPathPrefix(pathname, u.pathname ?? '');
   }, [href, url, exact]);
 
   const nav = useCallback(() => {
