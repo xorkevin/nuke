@@ -530,10 +530,11 @@ export const useNavLink = (
     }
     const pathname = toAbsolutePath(url.pathname);
     const u = pathToNavTarget(href);
+    const upathname = u.pathname ?? '';
     if (exact) {
-      return pathname === u.pathname ?? '';
+      return pathname === upathname;
     }
-    return isPathPrefix(pathname, u.pathname ?? '');
+    return isPathPrefix(pathname, upathname);
   }, [href, url, exact]);
 
   const nav = useCallback(() => {
