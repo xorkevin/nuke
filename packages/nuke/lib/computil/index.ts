@@ -21,6 +21,32 @@ export const isResErr = <T, U>(v: Result<T, U>): v is ResultErr<U> =>
 export const isArray = (v: unknown): v is unknown[] | readonly unknown[] =>
   Array.isArray(v);
 
+export type Entry<T> = {
+  [K in keyof T]: [K, T[K]];
+}[keyof T];
+
+export type Entries<T> = Entry<T>[];
+
+export const objEntries = <T extends {}>(o: T): Entries<T> =>
+  Object.entries(o) as Entries<T>;
+
+type EntryMapFn<T> = {
+  [K in keyof T]: (k: K, v: T[K]) => unknown;
+}[keyof T];
+
+type MapObjEntries<T, F extends EntryMapFn<T>> = {
+  [K in keyof T]: F extends (k: K, v: T[K]) => infer R ? R : never;
+};
+
+export const mapObjEntries = <T extends {}, F extends EntryMapFn<T>>(
+  o: T,
+  f: F,
+): MapObjEntries<T, F> => {
+  return Object.fromEntries(
+    objEntries(o).map(([k, v]) => [k, f(k, v)] as const),
+  ) as MapObjEntries<T, F>;
+};
+
 export const isStrEnum = <T extends {[key: string]: string}>(
   e: T,
   val: string,
@@ -101,18 +127,11 @@ export const modClassNames = (
   return classes.join(' ');
 };
 
-type Entries<T> = {
-  [K in keyof T]: [K, T[K]];
-}[keyof T][];
-
 export const modClassNamesObj = <T extends Record<string, ConditionalClass>>(
   styleMod: {[key: string]: string},
   obj: T,
 ): {[key in keyof T]: string} => {
-  const entries = Object.entries(obj) as Entries<T>;
-  return Object.fromEntries(
-    entries.map(([k, v]) => [k, modClassNames(styleMod, v) ?? '']),
-  ) as {[key in keyof T]: string};
+  return mapObjEntries(obj, (_k, v) => modClassNames(styleMod, v) ?? '');
 };
 
 export const mergeRefs = <T>(
