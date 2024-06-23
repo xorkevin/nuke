@@ -30,21 +30,19 @@ export type Entries<T> = Entry<T>[];
 export const objEntries = <T extends {}>(o: T): Entries<T> =>
   Object.entries(o) as Entries<T>;
 
-type EntryMapFn<T> = {
-  [K in keyof T]: (k: K, v: T[K]) => unknown;
-}[keyof T];
+type EntryMapFn<T, R> = (entry: Entry<T>) => R;
 
-type MapObjEntries<T, F extends EntryMapFn<T>> = {
-  [K in keyof T]: F extends (k: K, v: T[K]) => infer R ? R : never;
+type MappedObjEntries<T, F extends EntryMapFn<T, unknown>> = {
+  [K in keyof T]: F extends (entry: [K, T[K]]) => infer R ? R : never;
 };
 
-export const mapObjEntries = <T extends {}, F extends EntryMapFn<T>>(
+export const mapObjEntries = <T extends {}, F extends EntryMapFn<T, unknown>>(
   o: T,
   f: F,
-): MapObjEntries<T, F> => {
+): MappedObjEntries<T, F> => {
   return Object.fromEntries(
-    objEntries(o).map(([k, v]) => [k, f(k, v)] as const),
-  ) as MapObjEntries<T, F>;
+    objEntries(o).map(([k, v]) => [k, f([k, v])] as const),
+  ) as MappedObjEntries<T, F>;
 };
 
 export const isStrEnum = <T extends {[key: string]: string}>(
@@ -131,7 +129,7 @@ export const modClassNamesObj = <T extends Record<string, ConditionalClass>>(
   styleMod: {[key: string]: string},
   obj: T,
 ): {[key in keyof T]: string} => {
-  return mapObjEntries(obj, (_k, v) => modClassNames(styleMod, v) ?? '');
+  return mapObjEntries(obj, ([_k, v]) => modClassNames(styleMod, v) ?? '');
 };
 
 export const mergeRefs = <T>(
