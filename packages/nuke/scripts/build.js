@@ -15,7 +15,7 @@ async function* walk(dir) {
 
 async function statFile(name) {
   try {
-    const s = await fs.stat(name);
+    const s = await fs.stat(name, {bigint: true});
     return [s, undefined];
   } catch (err) {
     if (err.code === 'ENOENT') {
@@ -39,6 +39,10 @@ async function filesEqual(fname1, fname2) {
     }
     if (s1.size !== s2.size) {
       return false;
+    }
+    if (s1.mtimeNs < s2.mtimeNs) {
+      console.log(`${fname1} is older than output ${fname2}; skipping`);
+      return true;
     }
   }
 
@@ -67,6 +71,7 @@ async function filesEqual(fname1, fname2) {
         break;
       }
     }
+    console.log(`${fname1} matches output ${fname2}; skipping`);
     return true;
   } finally {
     if (f1) {
@@ -84,7 +89,6 @@ for await (const p of walk('lib')) {
     const dest = path.join('dist', p);
     const destIsEqual = await filesEqual(p, dest);
     if (destIsEqual) {
-      console.log(`${p} matches ${dest}; skipping`);
       continue;
     }
     console.log(`copying ${p} to ${dest}`);
