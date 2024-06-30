@@ -178,6 +178,9 @@ export const sleep = async (
   });
 };
 
+export const expBackoff = (ms: number, factor: number, max: number): number =>
+  Math.min(ms * factor, max);
+
 export const parseURL = (
   u: URL | string,
   base?: URL | string | undefined,

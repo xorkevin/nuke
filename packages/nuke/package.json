@@ -26,6 +26,7 @@
     "./router": "./dist/lib/router/index.js",
     "./storage": "./dist/lib/storage/index.js",
     "./dom": "./dist/lib/dom/index.js",
+    "./net": "./dist/lib/net/index.js",
     "./computil": "./dist/lib/computil/index.js",
     "./styles/*.css": "./dist/lib/styles/*.css"
   },
