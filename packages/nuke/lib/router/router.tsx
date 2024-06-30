@@ -160,7 +160,7 @@ const originURL = Object.freeze(
 
 export const NavLinkClasses = Object.freeze({
   Matches: 'nuke__nav-link-matches',
-} as const);
+});
 
 export type RouterCtx = {
   readonly url: URL;

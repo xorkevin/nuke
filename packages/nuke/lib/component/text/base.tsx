@@ -9,7 +9,7 @@ export const TextClasses = Object.freeze(
     TitleLarge: ['title', 'title-large'],
     Subtitle: 'subtitle',
     Display: 'display',
-  } as const),
+  }),
 );
 
 export const ColorClasses = Object.freeze(
@@ -29,7 +29,7 @@ export const ColorClasses = Object.freeze(
     AA1: 'aa1',
     AA2: 'aa2',
     AA3: 'aa3',
-  } as const),
+  }),
 );
 
 export enum ColorFG {
@@ -48,7 +48,7 @@ export const ColorFGClasses = Object.freeze({
   [ColorFG.FI]: ColorClasses.FI,
   [ColorFG.FA]: ColorClasses.FA,
   [ColorFG.FAI]: ColorClasses.FAI,
-} as const);
+});
 
 export enum ColorBG {
   B1 = 'b1',
@@ -72,4 +72,4 @@ export const ColorBGClasses = Object.freeze({
   [ColorBG.AA1]: ColorClasses.AA1,
   [ColorBG.AA2]: ColorClasses.AA2,
   [ColorBG.AA3]: ColorClasses.AA3,
-} as const);
+});

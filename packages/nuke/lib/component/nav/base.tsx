@@ -34,7 +34,7 @@ export const NavClasses = Object.freeze(
     Banner: 'nav-banner',
     BannerItem: 'nav-banner-item',
     Sidebar: 'nav-sidebar',
-  } as const),
+  }),
 );
 
 export type NavCtx = {

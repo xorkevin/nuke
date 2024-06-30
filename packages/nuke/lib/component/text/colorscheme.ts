@@ -25,7 +25,7 @@ export enum ColorScheme {
 export const ColorSchemeClasses = Object.freeze({
   Light: 'nuke__color-scheme-light',
   Dark: 'nuke__color-scheme-dark',
-} as const);
+});
 
 const ColorSchemeChangeEventType = 'colorschemechange';
 

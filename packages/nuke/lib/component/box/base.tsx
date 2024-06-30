@@ -81,7 +81,7 @@ export const FlexClasses = Object.freeze(
     Shrink: 'shrink',
     Shrink0: 'shrink-0',
     Basis0: 'basis-0',
-  } as const),
+  }),
 );
 
 export enum FlexDir {
