@@ -1,4 +1,9 @@
-import {expBackoff, isSignalAborted, sleep} from '#internal/computil/index.js';
+import {
+  expBackoff,
+  isNonNil,
+  isSignalAborted,
+  sleep,
+} from '#internal/computil/index.js';
 
 const WS_STATUS = Object.freeze({
   CLOSED: 0,
@@ -58,7 +63,9 @@ export class WS {
           return;
         }
 
+        let openedAt: number | undefined;
         ws.addEventListener('open', () => {
+          openedAt = performance.now();
           Atomics.store(state, 0, WS_STATUS.OPEN);
           Atomics.notify(state, 0);
         });
@@ -84,12 +91,16 @@ export class WS {
           if (s === WS_STATUS.CLOSED) {
             break;
           }
-          const r = Atomics.waitAsync(state, 0, s, 30000);
+          const r = Atomics.waitAsync(state, 0, s, 15000);
           if (r.async) {
-            const v = await r.value;
-            if (v === 'timed-out') {
-              backoff = 250;
-            }
+            await r.value;
+          }
+          if (
+            ws.readyState === WebSocket.OPEN &&
+            isNonNil(openedAt) &&
+            performance.now() - openedAt > 10000
+          ) {
+            backoff = 250;
           }
         }
         ctrl.abort();
