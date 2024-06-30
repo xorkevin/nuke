@@ -194,3 +194,39 @@ export const parseURL = (
     return undefined;
   }
 };
+
+export class TypedEventTarget<T extends {[key in keyof T]: Event}> {
+  readonly #eventTarget: EventTarget;
+
+  public constructor() {
+    this.#eventTarget = new EventTarget();
+  }
+
+  public dispatchEvent<K extends keyof T>(this: this, ev: T[K]): boolean {
+    return this.#eventTarget.dispatchEvent(ev);
+  }
+
+  public addEventListener<K extends string & keyof T>(
+    this: this,
+    kind: K,
+    listener:
+      | ((ev: T[K]) => unknown)
+      | {handleEvent: (ev: T[K]) => unknown}
+      | null,
+    opts?: AddEventListenerOptions | boolean,
+  ): void {
+    this.#eventTarget.addEventListener(
+      kind,
+      listener as EventListenerOrEventListenerObject | null,
+      opts,
+    );
+  }
+
+  public removeEventListener(
+    kind: string,
+    listener: EventListenerOrEventListenerObject | null,
+    opts?: EventListenerOptions | boolean,
+  ): void {
+    this.#eventTarget.removeEventListener(kind, listener, opts);
+  }
+}

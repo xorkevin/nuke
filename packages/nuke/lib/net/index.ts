@@ -1,4 +1,5 @@
 import {
+  TypedEventTarget,
   expBackoff,
   isNonNil,
   isSignalAborted,
@@ -15,6 +16,7 @@ export class WS {
   readonly #url: string;
   readonly #protocols: readonly string[];
   readonly #binaryType: BinaryType;
+  readonly #eventTarget: TypedEventTarget<WebSocketEventMap>;
   #connecting: boolean;
 
   public constructor(
@@ -25,6 +27,7 @@ export class WS {
     this.#url = url;
     this.#protocols = protocols;
     this.#binaryType = binaryType;
+    this.#eventTarget = new TypedEventTarget();
     this.#connecting = false;
   }
 
@@ -64,17 +67,22 @@ export class WS {
         }
 
         let openedAt: number | undefined;
-        ws.addEventListener('open', () => {
+        ws.addEventListener('open', (ev: Event) => {
           openedAt = performance.now();
           Atomics.store(state, 0, WS_STATUS.OPEN);
           Atomics.notify(state, 0);
+          this.#eventTarget.dispatchEvent(ev);
         });
-        ws.addEventListener('close', () => {
+        ws.addEventListener('close', (ev: CloseEvent) => {
           Atomics.store(state, 0, WS_STATUS.CLOSED);
           Atomics.notify(state, 0);
+          this.#eventTarget.dispatchEvent(ev);
         });
         ws.addEventListener('message', (ev: MessageEvent<unknown>) => {
-          ev.data;
+          this.#eventTarget.dispatchEvent(ev);
+        });
+        ws.addEventListener('error', (ev: Event) => {
+          this.#eventTarget.dispatchEvent(ev);
         });
 
         const ctrl = new AbortController();
@@ -98,7 +106,7 @@ export class WS {
           if (
             ws.readyState === WebSocket.OPEN &&
             isNonNil(openedAt) &&
-            performance.now() - openedAt > 10000
+            performance.now() - openedAt > 14000
           ) {
             backoff = 250;
           }
@@ -113,5 +121,21 @@ export class WS {
         backoff = expBackoff(backoff, 2, 30000);
       }
     })();
+  }
+
+  public addEventListener<K extends keyof WebSocketEventMap>(
+    kind: K,
+    listener: (ev: WebSocketEventMap[K]) => unknown,
+    opts?: AddEventListenerOptions,
+  ): void {
+    this.#eventTarget.addEventListener(kind, listener, opts);
+  }
+
+  public removeEventListener(
+    kind: string,
+    listener: EventListenerOrEventListenerObject | null,
+    opts?: EventListenerOptions | boolean,
+  ): void {
+    this.#eventTarget.removeEventListener(kind, listener, opts);
   }
 }
