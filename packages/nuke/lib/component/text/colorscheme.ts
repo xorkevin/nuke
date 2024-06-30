@@ -7,7 +7,7 @@ import {
   useState,
 } from 'react';
 
-import {strToEnum} from '#internal/computil/index.js';
+import {valToEnum} from '#internal/computil/index.js';
 import {
   type BodyClassListManager,
   BrowserBodyClassListManager,
@@ -50,7 +50,7 @@ export interface ColorSchemeManager {
 }
 
 const colorSchemeStrToEnum = (v: string | null | undefined): ColorScheme =>
-  strToEnum(ColorScheme, v ?? ColorScheme.System) ?? ColorScheme.System;
+  valToEnum(ColorScheme, v ?? ColorScheme.System) ?? ColorScheme.System;
 
 export class BrowserColorSchemeManager implements ColorSchemeManager {
   readonly #localStorageKey: string;

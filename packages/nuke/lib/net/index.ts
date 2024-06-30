@@ -4,13 +4,14 @@ import {
   isNonNil,
   isSignalAborted,
   sleep,
+  valToEnum,
 } from '#internal/computil/index.js';
 
-const WS_STATUS = Object.freeze({
-  CLOSED: 0,
-  CONNECTING: 1,
-  OPEN: 2,
-});
+export enum WS_STATUS {
+  CLOSED = 0,
+  CONNECTING = 1,
+  OPEN = 2,
+}
 
 export class WS {
   readonly #url: string;
@@ -18,6 +19,8 @@ export class WS {
   readonly #binaryType: BinaryType;
   readonly #eventTarget: TypedEventTarget<WebSocketEventMap>;
   #connecting: boolean;
+  #wsStatus: WS_STATUS;
+  readonly #state: Int32Array;
 
   public constructor(
     url: string,
@@ -29,6 +32,10 @@ export class WS {
     this.#binaryType = binaryType;
     this.#eventTarget = new TypedEventTarget();
     this.#connecting = false;
+    this.#state = new Int32Array(
+      new SharedArrayBuffer(Int32Array.BYTES_PER_ELEMENT),
+    );
+    this.#wsStatus = WS_STATUS.CLOSED;
   }
 
   public connect(signal: AbortSignal): void {
@@ -36,9 +43,6 @@ export class WS {
       return;
     }
     const controller = new AbortController();
-    controller.signal.addEventListener('abort', () => {
-      this.#connecting = false;
-    });
     signal.addEventListener(
       'abort',
       () => {
@@ -47,14 +51,14 @@ export class WS {
       {signal: controller.signal},
     );
     this.#connecting = true;
+    this.#wsStatus = WS_STATUS.CONNECTING;
+    Atomics.store(this.#state, 0, WS_STATUS.CONNECTING);
 
     void (async () => {
       let backoff = 250;
       while (!isSignalAborted(controller.signal)) {
-        const state = new Int32Array(
-          new SharedArrayBuffer(Int32Array.BYTES_PER_ELEMENT),
-        );
-        Atomics.store(state, 0, WS_STATUS.CONNECTING);
+        this.#wsStatus = WS_STATUS.CONNECTING;
+        Atomics.store(this.#state, 0, WS_STATUS.CONNECTING);
 
         let ws: WebSocket;
         try {
@@ -63,19 +67,19 @@ export class WS {
         } catch (err) {
           console.error('Failed to construct websocket', err);
           controller.abort();
-          return;
+          continue;
         }
 
         let openedAt: number | undefined;
         ws.addEventListener('open', (ev: Event) => {
           openedAt = performance.now();
-          Atomics.store(state, 0, WS_STATUS.OPEN);
-          Atomics.notify(state, 0);
+          this.#wsStatus = WS_STATUS.OPEN;
           this.#eventTarget.dispatchEvent(ev);
         });
         ws.addEventListener('close', (ev: CloseEvent) => {
-          Atomics.store(state, 0, WS_STATUS.CLOSED);
-          Atomics.notify(state, 0);
+          this.#wsStatus = WS_STATUS.CLOSED;
+          Atomics.store(this.#state, 0, WS_STATUS.CLOSED);
+          Atomics.notify(this.#state, 0);
           this.#eventTarget.dispatchEvent(ev);
         });
         ws.addEventListener('message', (ev: MessageEvent<unknown>) => {
@@ -95,11 +99,13 @@ export class WS {
         );
 
         while (true) {
-          const s = Atomics.load(state, 0);
+          const s =
+            valToEnum(WS_STATUS, Atomics.load(this.#state, 0)) ??
+            WS_STATUS.CLOSED;
           if (s === WS_STATUS.CLOSED) {
             break;
           }
-          const r = Atomics.waitAsync(state, 0, s, 15000);
+          const r = Atomics.waitAsync(this.#state, 0, s, 15000);
           if (r.async) {
             await r.value;
           }
@@ -114,13 +120,19 @@ export class WS {
         ctrl.abort();
 
         if (isSignalAborted(controller.signal)) {
-          return;
+          continue;
         }
 
         await sleep(backoff, {signal: controller.signal});
         backoff = expBackoff(backoff, 2, 30000);
       }
+
+      this.#connecting = false;
     })();
+  }
+
+  public getStatus(this: this): WS_STATUS {
+    return this.#wsStatus;
   }
 
   public addEventListener<K extends keyof WebSocketEventMap>(

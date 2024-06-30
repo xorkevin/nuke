@@ -48,18 +48,18 @@ export const mapObjEntries = <
   ) as MappedObjEntries<T, F>;
 };
 
-export const isStrEnum = <T extends {[key: string]: string}>(
+export const isValEnum = <T extends {[key: string]: number | string}>(
   e: T,
-  val: string,
+  val: number | string,
 ): val is T[keyof T] => {
   return Object.values(e).includes(val);
 };
 
-export const strToEnum = <T extends {[key: string]: string}>(
+export const valToEnum = <T extends {[key: string]: number | string}>(
   e: T,
-  val: string,
+  val: number | string,
 ): T[keyof T] | undefined => {
-  if (isStrEnum(e, val)) {
+  if (isValEnum(e, val)) {
     return val;
   }
   return undefined;
