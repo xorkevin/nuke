@@ -1,4 +1,4 @@
-import {expBackoff, sleep} from '#internal/computil/index.js';
+import {expBackoff, isSignalAborted, sleep} from '#internal/computil/index.js';
 
 const WS_STATUS = Object.freeze({
   CLOSED: 0,
@@ -7,12 +7,12 @@ const WS_STATUS = Object.freeze({
 });
 
 export class WS {
-  #url: string;
-  #protocols: readonly string[];
-  #binaryType: BinaryType;
+  readonly #url: string;
+  readonly #protocols: readonly string[];
+  readonly #binaryType: BinaryType;
   #connecting: boolean;
 
-  constructor(
+  public constructor(
     url: string,
     protocols: readonly string[] = [],
     binaryType: BinaryType = 'blob',
@@ -23,7 +23,7 @@ export class WS {
     this.#connecting = false;
   }
 
-  public connect(signal: AbortSignal) {
+  public connect(signal: AbortSignal): void {
     if (this.#connecting) {
       return;
     }
@@ -40,10 +40,10 @@ export class WS {
     );
     this.#connecting = true;
 
-    (async () => {
+    void (async () => {
       let backoff = 250;
-      while (!controller.signal.aborted) {
-        let state = new Int32Array(
+      while (!isSignalAborted(controller.signal)) {
+        const state = new Int32Array(
           new SharedArrayBuffer(Int32Array.BYTES_PER_ELEMENT),
         );
         Atomics.store(state, 0, WS_STATUS.CONNECTING);
@@ -94,7 +94,7 @@ export class WS {
         }
         ctrl.abort();
 
-        if (controller.signal.aborted) {
+        if (isSignalAborted(controller.signal)) {
           return;
         }
 

@@ -27,7 +27,7 @@ export type Entry<T> = {
 
 export type Entries<T> = Entry<T>[];
 
-export const objEntries = <T extends {}>(o: T): Entries<T> =>
+export const objEntries = <T extends object>(o: T): Entries<T> =>
   Object.entries(o) as Entries<T>;
 
 type EntryMapFn<T, R> = (entry: Entry<T>) => R;
@@ -36,7 +36,10 @@ type MappedObjEntries<T, F extends EntryMapFn<T, unknown>> = {
   [K in keyof T]: F extends (entry: [K, T[K]]) => infer R ? R : never;
 };
 
-export const mapObjEntries = <T extends {}, F extends EntryMapFn<T, unknown>>(
+export const mapObjEntries = <
+  T extends object,
+  F extends EntryMapFn<T, unknown>,
+>(
   o: T,
   f: F,
 ): MappedObjEntries<T, F> => {
@@ -129,7 +132,7 @@ export const modClassNamesObj = <T extends Record<string, ConditionalClass>>(
   styleMod: {[key: string]: string},
   obj: T,
 ): {[key in keyof T]: string} => {
-  return mapObjEntries(obj, ([_k, v]) => modClassNames(styleMod, v) ?? '');
+  return mapObjEntries(obj, ([, v]) => modClassNames(styleMod, v) ?? '');
 };
 
 export const mergeRefs = <T>(

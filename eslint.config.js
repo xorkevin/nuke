@@ -185,6 +185,10 @@ export default [
       // override recommended
       '@typescript-eslint/consistent-type-definitions': 'off',
       '@typescript-eslint/no-empty-function': 'off',
+      '@typescript-eslint/no-unnecessary-condition': [
+        'error',
+        {allowConstantLoopConditions: true},
+      ],
       '@typescript-eslint/consistent-indexed-object-style': 'off',
       'react/prop-types': 'off',
       'react/display-name': 'off',
