@@ -10,6 +10,7 @@ import {
 } from '#internal/computil/index.js';
 
 export class WS {
+  readonly #id: string;
   readonly #url: string;
   readonly #protocols: readonly string[];
   readonly #binaryType: BinaryType;
@@ -28,6 +29,7 @@ export class WS {
     protocols: readonly string[] = [],
     binaryType: BinaryType = 'blob',
   ) {
+    this.#id = crypto.randomUUID();
     this.#url = url;
     this.#protocols = protocols;
     this.#binaryType = binaryType;
@@ -85,6 +87,24 @@ export class WS {
     }
   }
 
+  private log(this: this, message: string, ...params: unknown[]) {
+    console.info(message, ...params, {
+      id: this.#id,
+      url: this.#url,
+      protocols: this.#protocols,
+      binaryType: this.#binaryType,
+    });
+  }
+
+  private logError(this: this, message: string, ...params: unknown[]) {
+    console.error(message, ...params, {
+      id: this.#id,
+      url: this.#url,
+      protocols: this.#protocols,
+      binaryType: this.#binaryType,
+    });
+  }
+
   public connect(signal: AbortSignal): void {
     if (this.isConnecting()) {
       throw new Error('Already connecting');
@@ -102,12 +122,13 @@ export class WS {
     void (async () => {
       let backoff = 250;
       while (!isSignalAborted(controller.signal)) {
+        this.log('Connecting WS');
         let ws: WebSocket;
         try {
           ws = new WebSocket(this.#url, this.#protocols.slice());
           ws.binaryType = this.#binaryType;
         } catch (err) {
-          console.error('Failed to construct websocket', err);
+          this.logError('Failed to construct websocket', err);
           controller.abort();
           continue;
         }
@@ -116,11 +137,16 @@ export class WS {
         let openedAt: number | undefined;
         ws.addEventListener('open', (ev: Event) => {
           openedAt = performance.now();
+          this.log('WS open');
           this.setWSOpen(true);
           this.#eventTarget.dispatchEvent(new Event(ev.type, ev));
           this.transmitSendQueue(ws);
         });
         ws.addEventListener('close', (ev: CloseEvent) => {
+          this.log('WS close');
+          if (isNonNil(openedAt) && performance.now() - openedAt > 7500) {
+            backoff = 250;
+          }
           this.setWSOpen(false);
           this.#eventTarget.dispatchEvent(new CloseEvent(ev.type, ev));
         });
@@ -147,9 +173,6 @@ export class WS {
         while (this.#wsconnecting || this.#wsopen) {
           await this.#condWSStatus.wait();
           if (ws.readyState === WebSocket.OPEN) {
-            if (isNonNil(openedAt) && performance.now() - openedAt > 7500) {
-              backoff = 250;
-            }
             this.transmitSendQueue(ws);
           }
         }
