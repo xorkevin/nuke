@@ -143,18 +143,23 @@ export class WS {
         ws.addEventListener('open', (ev: Event) => {
           openedAt = performance.now();
           this.setStatus(true);
-          this.#eventTarget.dispatchEvent(ev);
+          this.#eventTarget.dispatchEvent(new Event(ev.type, ev));
           this.transmitSendQueue(ws);
         });
         ws.addEventListener('close', (ev: CloseEvent) => {
           this.setStatus(false);
-          this.#eventTarget.dispatchEvent(ev);
+          this.#eventTarget.dispatchEvent(new CloseEvent(ev.type, ev));
         });
         ws.addEventListener('message', (ev: MessageEvent<unknown>) => {
-          this.#eventTarget.dispatchEvent(ev);
+          this.#eventTarget.dispatchEvent(
+            new MessageEvent(
+              ev.type,
+              ev as unknown as MessageEventInit<unknown>,
+            ),
+          );
         });
         ws.addEventListener('error', (ev: Event) => {
-          this.#eventTarget.dispatchEvent(ev);
+          this.#eventTarget.dispatchEvent(new Event(ev.type, ev));
         });
 
         const ctrl = new AbortController();
