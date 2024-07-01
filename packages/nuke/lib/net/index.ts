@@ -1,16 +1,22 @@
 import {
+  RingBuf,
   TypedEventTarget,
   expBackoff,
+  isNil,
   isNonNil,
   isSignalAborted,
   sleep,
   valToEnum,
 } from '#internal/computil/index.js';
 
-export enum WS_STATUS {
+enum WS_STATUS {
+  CLOSED = 0,
+  OPEN = 1,
+}
+
+enum CONN_STATUS {
   CLOSED = 0,
   CONNECTING = 1,
-  OPEN = 2,
 }
 
 const STATE_IDX = Object.freeze({
@@ -24,8 +30,11 @@ export class WS {
   readonly #binaryType: BinaryType;
   readonly #eventTarget: TypedEventTarget<WebSocketEventMap>;
   #connecting: boolean;
-  #wsStatus: WS_STATUS;
+  #wsopen: boolean;
   readonly #state: Int32Array;
+  readonly #sendQueue: RingBuf<
+    ArrayBufferLike | ArrayBufferView | Blob | string
+  >;
 
   public constructor(
     url: string,
@@ -37,10 +46,11 @@ export class WS {
     this.#binaryType = binaryType;
     this.#eventTarget = new TypedEventTarget();
     this.#connecting = false;
+    this.#wsopen = false;
     this.#state = new Int32Array(
       new SharedArrayBuffer(2 * Int32Array.BYTES_PER_ELEMENT),
     );
-    this.#wsStatus = WS_STATUS.CLOSED;
+    this.#sendQueue = new RingBuf();
   }
 
   public isConnecting(this: this): boolean {
@@ -52,7 +62,7 @@ export class WS {
     Atomics.store(
       this.#state,
       STATE_IDX.CONNECTING,
-      status ? WS_STATUS.CONNECTING : WS_STATUS.CLOSED,
+      status ? CONN_STATUS.CONNECTING : CONN_STATUS.CLOSED,
     );
     Atomics.notify(this.#state, STATE_IDX.CONNECTING);
   }
@@ -60,9 +70,11 @@ export class WS {
   public async waitDisconnected(): Promise<void> {
     while (true) {
       const s =
-        valToEnum(WS_STATUS, Atomics.load(this.#state, STATE_IDX.CONNECTING)) ??
-        WS_STATUS.CLOSED;
-      if (s === WS_STATUS.CLOSED) {
+        valToEnum(
+          CONN_STATUS,
+          Atomics.load(this.#state, STATE_IDX.CONNECTING),
+        ) ?? CONN_STATUS.CLOSED;
+      if (s === CONN_STATUS.CLOSED) {
         break;
       }
       const r = Atomics.waitAsync(this.#state, STATE_IDX.CONNECTING, s, 15000);
@@ -72,14 +84,32 @@ export class WS {
     }
   }
 
-  public getStatus(this: this): WS_STATUS {
-    return this.#wsStatus;
+  public isOpen(this: this): boolean {
+    return this.#wsopen;
   }
 
-  private setStatus(this: this, status: WS_STATUS) {
-    this.#wsStatus = status;
-    Atomics.store(this.#state, STATE_IDX.STATUS, status);
+  private setStatus(this: this, status: boolean) {
+    this.#wsopen = status;
+    Atomics.store(
+      this.#state,
+      STATE_IDX.STATUS,
+      status ? WS_STATUS.OPEN : WS_STATUS.CLOSED,
+    );
     Atomics.notify(this.#state, STATE_IDX.STATUS);
+  }
+
+  private pokeStatus(this: this) {
+    Atomics.notify(this.#state, STATE_IDX.STATUS);
+  }
+
+  private transmitSendQueue(this: this, ws: WebSocket) {
+    while (ws.readyState === WebSocket.OPEN) {
+      const m = this.#sendQueue.read();
+      if (isNil(m)) {
+        break;
+      }
+      ws.send(m);
+    }
   }
 
   public connect(signal: AbortSignal): void {
@@ -95,13 +125,10 @@ export class WS {
       {signal: controller.signal},
     );
     this.setConnecting(true);
-    this.setStatus(WS_STATUS.CONNECTING);
 
     void (async () => {
       let backoff = 250;
       while (!isSignalAborted(controller.signal)) {
-        this.setStatus(WS_STATUS.CONNECTING);
-
         let ws: WebSocket;
         try {
           ws = new WebSocket(this.#url, this.#protocols.slice());
@@ -115,11 +142,12 @@ export class WS {
         let openedAt: number | undefined;
         ws.addEventListener('open', (ev: Event) => {
           openedAt = performance.now();
-          this.setStatus(WS_STATUS.OPEN);
+          this.setStatus(true);
           this.#eventTarget.dispatchEvent(ev);
+          this.transmitSendQueue(ws);
         });
         ws.addEventListener('close', (ev: CloseEvent) => {
-          this.setStatus(WS_STATUS.CLOSED);
+          this.setStatus(false);
           this.#eventTarget.dispatchEvent(ev);
         });
         ws.addEventListener('message', (ev: MessageEvent<unknown>) => {
@@ -137,7 +165,6 @@ export class WS {
           },
           {signal: ctrl.signal},
         );
-
         while (true) {
           const s =
             valToEnum(WS_STATUS, Atomics.load(this.#state, STATE_IDX.STATUS)) ??
@@ -156,6 +183,7 @@ export class WS {
           ) {
             backoff = 250;
           }
+          this.transmitSendQueue(ws);
         }
         ctrl.abort();
 
@@ -169,6 +197,11 @@ export class WS {
 
       this.setConnecting(false);
     })();
+  }
+
+  public send(data: string): void {
+    this.#sendQueue.write(data);
+    this.pokeStatus();
   }
 
   public addEventListener<K extends keyof WebSocketEventMap>(

@@ -230,3 +230,64 @@ export class TypedEventTarget<T extends {[key in keyof T]: Event}> {
     this.#eventTarget.removeEventListener(kind, listener, opts);
   }
 }
+
+export class RingBuf<T> {
+  #buf: T[];
+  #r: number;
+  #w: number;
+
+  public constructor() {
+    this.#buf = new Array<T>(2);
+    this.#r = 0;
+    this.#w = 0;
+  }
+
+  private resize(this: this) {
+    const target = this.#buf.length * 2;
+    let next: T[];
+    if (this.#r <= this.#w) {
+      next = this.#buf.slice(this.#r, this.#w);
+    } else {
+      next = this.#buf.slice(this.#r);
+      if (this.#w > 0) {
+        next = next.concat(this.#buf.slice(0, this.#w));
+      }
+    }
+    this.#w = next.length;
+    const delta = target - next.length;
+    if (delta > 0) {
+      next = next.concat(new Array(delta));
+    }
+    this.#buf = next;
+    this.#r = 0;
+  }
+
+  public write(this: this, m: T): void {
+    const next = (this.#w + 1) % this.#buf.length;
+    if (next === this.#r) {
+      this.resize();
+      this.write(m);
+      return;
+    }
+    this.#buf[this.#w] = m;
+    this.#w = next;
+  }
+
+  public read(this: this): T | undefined {
+    if (this.#r === this.#w) {
+      return undefined;
+    }
+    const next = (this.#r + 1) % this.#buf.length;
+    const m = this.#buf[this.#r];
+    this.#r = next;
+    return m;
+  }
+
+  public peek(this: this): T | undefined {
+    if (this.#r === this.#w) {
+      return undefined;
+    }
+    const m = this.#buf[this.#r];
+    return m;
+  }
+}
