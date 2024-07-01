@@ -21,6 +21,9 @@ export const isResErr = <T, U>(v: Result<T, U>): v is ResultErr<U> =>
 export const isArray = (v: unknown): v is unknown[] | readonly unknown[] =>
   Array.isArray(v);
 
+export const isObject = (v: unknown): v is object =>
+  typeof v === 'object' && isNonNil(v);
+
 export type Entry<T> = {
   [K in keyof T]: [K, T[K]];
 }[keyof T];
@@ -183,6 +186,14 @@ export const sleep = async (
 
 export const expBackoff = (ms: number, factor: number, max: number): number =>
   Math.min(ms * factor, max);
+
+export const parseJSON = (v: string): unknown => {
+  try {
+    return JSON.parse(v);
+  } catch (err) {
+    return undefined;
+  }
+};
 
 export const parseURL = (
   u: URL | string,
