@@ -291,3 +291,49 @@ export class RingBuf<T> {
     return m;
   }
 }
+
+type CondVarEventMap = {
+  notify: CustomEvent<void>;
+};
+
+export class CondVar {
+  readonly #eventTarget: TypedEventTarget<CondVarEventMap>;
+
+  public constructor() {
+    this.#eventTarget = new TypedEventTarget();
+  }
+
+  public notify(): void {
+    this.#eventTarget.dispatchEvent(
+      new CustomEvent('notify', {detail: undefined}),
+    );
+  }
+
+  public async wait(opts?: {signal?: AbortSignal}): Promise<void> {
+    if (isNonNil(opts?.signal) && isSignalAborted(opts.signal)) {
+      return;
+    }
+    await new Promise<void>((resolve) => {
+      const controller = new AbortController();
+      controller.signal.addEventListener('abort', () => {
+        resolve();
+      });
+      if (isNonNil(opts?.signal)) {
+        opts.signal.addEventListener(
+          'abort',
+          () => {
+            controller.abort();
+          },
+          {signal: controller.signal},
+        );
+      }
+      this.#eventTarget.addEventListener(
+        'notify',
+        () => {
+          controller.abort();
+        },
+        {signal: controller.signal},
+      );
+    });
+  }
+}
