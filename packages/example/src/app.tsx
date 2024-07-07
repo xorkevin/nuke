@@ -16,7 +16,7 @@ import {
 import {Field, Label, Select} from '@xorkevin/nuke/component/form';
 import {NavBar, NavClasses} from '@xorkevin/nuke/component/nav';
 import {ColorScheme, useColorScheme} from '@xorkevin/nuke/component/text';
-import {classNames, strToEnum} from '@xorkevin/nuke/computil';
+import {classNames, valToEnum} from '@xorkevin/nuke/computil';
 import {type Route, Routes} from '@xorkevin/nuke/router';
 
 import styles from './app.module.css';
@@ -42,7 +42,7 @@ const App: FC = () => {
   >(
     (e) => {
       setColorScheme(
-        strToEnum(ColorScheme, e.target.value) ?? ColorScheme.System,
+        valToEnum(ColorScheme, e.target.value) ?? ColorScheme.System,
       );
     },
     [setColorScheme],
