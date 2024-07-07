@@ -23,7 +23,7 @@
     "clean": "rm -rf dist .tsbuildinfo node_modules/.cache/webpack"
   },
   "dependencies": {
-    "@fontsource-variable/inter": "^5.0.18",
+    "@fontsource-variable/inter": "^5.0.19",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@xorkevin/nuke": "workspace:^",
@@ -31,10 +31,10 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^7.13.1",
-    "@typescript-eslint/parser": "^7.13.1",
+    "@typescript-eslint/eslint-plugin": "^7.15.0",
+    "@typescript-eslint/parser": "^7.15.0",
     "css-loader": "^7.1.2",
-    "eslint": "^9.5.0",
+    "eslint": "^9.6.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-react-hooks": "^4.6.2",
@@ -42,7 +42,7 @@
     "mini-css-extract-plugin": "^2.9.0",
     "prettier": "^3.3.2",
     "ts-loader": "^9.5.1",
-    "typescript": "^5.5.2",
+    "typescript": "^5.5.3",
     "webpack": "^5.92.1",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.4"

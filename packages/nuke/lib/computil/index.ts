@@ -1,4 +1,10 @@
-import type {ForwardedRef, RefCallback} from 'react';
+import {
+  type ForwardedRef,
+  type RefCallback,
+  useCallback,
+  useEffect,
+  useRef,
+} from 'react';
 
 export type Mutable<T> = {
   -readonly [P in keyof T]: T[P];
@@ -182,6 +188,72 @@ export const sleep = async (
       controller.abort();
     }, ms) as unknown as number;
   });
+};
+
+export const useDebounceCallback = (
+  f: (signal: AbortSignal) => Promise<void> | void,
+  ms?: number,
+): ((opts?: {signal?: AbortSignal}) => void) => {
+  const unmounted = useRef<AbortSignal | undefined>();
+  useEffect(() => {
+    const controller = new AbortController();
+    unmounted.current = controller.signal;
+    return () => {
+      controller.abort();
+    };
+  }, [unmounted]);
+
+  const lastCall = useRef<AbortController | undefined>();
+  const fn = useCallback(
+    (opts?: {signal?: AbortSignal}) => {
+      if (isNonNil(lastCall.current)) {
+        lastCall.current.abort();
+        lastCall.current = undefined;
+      }
+      const unmountSignal = unmounted.current;
+      if (isNil(unmountSignal)) {
+        return;
+      }
+
+      const controller = new AbortController();
+      lastCall.current = controller;
+      unmountSignal.addEventListener(
+        'abort',
+        () => {
+          controller.abort();
+        },
+        {signal: controller.signal},
+      );
+      if (isNonNil(opts?.signal)) {
+        opts.signal.addEventListener(
+          'abort',
+          () => {
+            controller.abort();
+          },
+          {signal: controller.signal},
+        );
+      }
+
+      void (async () => {
+        if (isNonNil(ms)) {
+          await sleep(ms, {signal: controller.signal});
+        }
+        if (isSignalAborted(controller.signal)) {
+          return;
+        }
+        try {
+          await f(controller.signal);
+          if (isSignalAborted(controller.signal)) {
+            return;
+          }
+        } finally {
+          controller.abort();
+        }
+      })();
+    },
+    [lastCall, unmounted, ms, f],
+  );
+  return fn;
 };
 
 export const expBackoff = (ms: number, factor: number, max: number): number =>
