@@ -190,10 +190,20 @@ export const sleep = async (
   });
 };
 
-export const useDebounceCallback = (
-  f: (signal: AbortSignal) => Promise<void> | void,
+export type ParametersWithoutSignal<
+  F extends (signal: AbortSignal, ...args: unknown[]) => unknown,
+> = F extends (signal: AbortSignal, ...args: infer A) => unknown ? A : never;
+
+export const useDebounceCallback = <
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  F extends (signal: AbortSignal, ...args: any[]) => unknown,
+>(
+  f: F,
   ms?: number,
-): ((opts?: {signal?: AbortSignal}) => void) => {
+): ((
+  opts?: {signal?: AbortSignal} | undefined,
+  ...args: ParametersWithoutSignal<F>
+) => void) => {
   const unmounted = useRef<AbortSignal | undefined>();
   useEffect(() => {
     const controller = new AbortController();
@@ -205,7 +215,10 @@ export const useDebounceCallback = (
 
   const lastCall = useRef<AbortController | undefined>();
   const fn = useCallback(
-    (opts?: {signal?: AbortSignal}) => {
+    (
+      opts?: {signal?: AbortSignal} | undefined,
+      ...args: ParametersWithoutSignal<F>
+    ) => {
       if (isNonNil(lastCall.current)) {
         lastCall.current.abort();
         lastCall.current = undefined;
@@ -242,7 +255,7 @@ export const useDebounceCallback = (
           return;
         }
         try {
-          await f(controller.signal);
+          await f(controller.signal, ...args);
           if (isSignalAborted(controller.signal)) {
             return;
           }
