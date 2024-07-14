@@ -469,8 +469,8 @@ export const Routes: FC<RoutesProps> = ({routes, fallbackRedir, fallback}) => {
   );
 
   const subNavigate = useCallback(
-    (path: NavTarget | string) => {
-      rootNavigate(subResolve(path));
+    (path: NavTarget | string, opts?: NavOptions) => {
+      rootNavigate(subResolve(path), opts);
     },
     [subResolve, rootNavigate],
   );
