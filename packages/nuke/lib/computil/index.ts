@@ -78,7 +78,7 @@ export const randomHexID = (numBytes = 16) => {
   const arr = crypto.getRandomValues(new Uint8Array(numBytes));
   const idarr: string[] = [];
   for (const i of arr) {
-    idarr.push(i.toString(16));
+    idarr.push(i.toString(16).padStart(2, '0'));
   }
   return idarr.join('');
 };
