@@ -6,6 +6,7 @@ import {
   isNil,
   isNonNil,
   isSignalAborted,
+  randomHexID,
   sleep,
 } from '#internal/computil/index.js';
 
@@ -29,7 +30,7 @@ export class WS {
     protocols: readonly string[] = [],
     binaryType: BinaryType = 'blob',
   ) {
-    this.#id = crypto.randomUUID();
+    this.#id = randomHexID();
     this.#url = url;
     this.#protocols = protocols;
     this.#binaryType = binaryType;
