@@ -1,43 +1,52 @@
-import {type FC, Suspense, lazy} from 'react';
+import {type FC, Suspense, createElement, lazy} from 'react';
 import {Box, BoxSize, Flex, FlexClasses} from '@xorkevin/nuke/component/box';
 import {NavClasses, NavList} from '@xorkevin/nuke/component/nav';
 import {TextClasses} from '@xorkevin/nuke/component/text';
 import {classNames} from '@xorkevin/nuke/computil';
 import {type Route, Routes} from '@xorkevin/nuke/router';
 
-const foundationStories = [
+const stories = [
   {
     name: 'Color',
     path: 'color',
-    component: lazy(async () => await import('./stories/color.js')),
+    element: createElement(
+      lazy(async () => await import('./stories/color.js')),
+    ),
+    kind: 'foundation',
   },
-];
-
-const componentStories = [
   {
     name: 'Badge',
     path: 'badge',
-    component: lazy(async () => await import('./stories/badge.js')),
+    element: createElement(
+      lazy(async () => await import('./stories/badge.js')),
+    ),
+    kind: 'component',
   },
   {
     name: 'Button',
     path: 'button',
-    component: lazy(async () => await import('./stories/button.js')),
+    element: createElement(
+      lazy(async () => await import('./stories/button.js')),
+    ),
+    kind: 'component',
   },
   {
     name: 'Card',
     path: 'card',
-    component: lazy(async () => await import('./stories/card.js')),
+    element: createElement(lazy(async () => await import('./stories/card.js'))),
+    kind: 'component',
   },
   {
     name: 'Form',
     path: 'form',
-    component: lazy(async () => await import('./stories/form.js')),
+    element: createElement(lazy(async () => await import('./stories/form.js'))),
+    kind: 'component',
   },
   {
     name: 'Navigation',
     path: 'nav',
-    component: lazy(async () => await import('./stories/nav.js')),
+    element: createElement(lazy(async () => await import('./stories/nav.js'))),
+    kind: 'component',
   },
 ];
 
@@ -57,13 +66,16 @@ const routes: Route[] = [
   {
     path: '',
     exact: true,
-    component: StoriesHome,
+    element: <StoriesHome />,
   },
-  ...foundationStories.concat(componentStories).map((v) => ({
+  ...stories.map((v) => ({
     path: `/${v.path}`,
-    component: v.component,
+    element: v.element,
   })),
 ];
+
+const foundationStories = stories.filter((v) => v.kind === 'foundation');
+const componentStories = stories.filter((v) => v.kind === 'component');
 
 const Stories: FC = () => {
   return (

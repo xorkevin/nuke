@@ -1,11 +1,11 @@
 import {
   type AnchorHTMLAttributes,
   type AriaAttributes,
-  type ComponentType,
   type FC,
   type JSX,
   type MouseEventHandler,
   type PropsWithChildren,
+  type ReactNode,
   createContext,
   forwardRef,
   startTransition,
@@ -310,7 +310,7 @@ export const Router: FC<PropsWithChildren<RouterProps>> = ({
 export type Route = {
   readonly path: string;
   readonly exact?: boolean;
-  readonly component: ComponentType;
+  readonly element: ReactNode;
 };
 
 type CompiledPatternSegment =
@@ -357,18 +357,14 @@ const compilePattern = (pattern: string): CompiledPatternSegment[] => {
 type CompiledRoute = {
   exact: boolean;
   match: CompiledPatternSegment[];
-  component: ComponentType;
+  element: ReactNode;
 };
 
-const compileRoute = ({
-  path,
-  exact = false,
-  component,
-}: Route): CompiledRoute => {
+const compileRoute = ({path, exact = false, element}: Route): CompiledRoute => {
   return {
     match: compilePattern(path),
     exact,
-    component,
+    element,
   };
 };
 
@@ -440,7 +436,7 @@ export const Routes: FC<RoutesProps> = ({routes, fallbackRedir, fallback}) => {
         continue;
       }
       return {
-        component: route.component,
+        element: route.element,
         prefix: match.prefix,
         params: match.params,
         rest: match.rest,
@@ -497,11 +493,9 @@ export const Routes: FC<RoutesProps> = ({routes, fallbackRedir, fallback}) => {
     return undefined;
   }
 
-  const ChildComponent = match.component;
-
   return (
     <RouteContext.Provider value={subRouteCtx}>
-      <ChildComponent />
+      {match.element}
     </RouteContext.Provider>
   );
 };

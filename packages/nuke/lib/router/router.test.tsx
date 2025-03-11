@@ -103,16 +103,16 @@ await test('Router', async (t) => {
   const routes = [
     {
       path: '',
-      component: Comp0,
+      element: <Comp0 />,
       exact: true,
     },
     {
       path: '/comp1/{id}',
-      component: Comp1,
+      element: <Comp1 />,
     },
     {
       path: '/comp2/subcomp/{c2}',
-      component: Comp2,
+      element: <Comp2 />,
     },
   ];
 

@@ -74,7 +74,7 @@ export const valToEnum = <T extends {[key: string]: number | string}>(
   return undefined;
 };
 
-export const randomHexID = (numBytes = 16) => {
+export const randomHexID = (numBytes = 16): string => {
   const arr = crypto.getRandomValues(new Uint8Array(numBytes));
   const idarr: string[] = [];
   for (const i of arr) {
